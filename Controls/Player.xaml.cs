@@ -128,13 +128,12 @@ namespace MpFree4k.Controls
         {
             if (MediaPlayer != null)
             {
+                MediaPlayer.PlayStateChanged -= MediaPlayer_PlayStateChanged;
                 MediaPlayer.Stop();
+
                 if (MediaPlayer is CSCorePlugin cs)
-                {
                     SpectrumViewModel.Instance?.RemoveSpectrum();
-                    cs._control = null;
-                    cs.CreateSpectrum();
-                }
+
                 MediaPlayer.Dispose();
             }
 
@@ -143,9 +142,7 @@ namespace MpFree4k.Controls
             else
                 MediaPlayer = new CSCorePlugin();
 
-            MediaPlayer?.SetVolume((int)sldVolume.Value);
-
-            MediaPlayer.PlayStateChanged -= MediaPlayer_PlayStateChanged;
+            MediaPlayer.SetVolume((int)sldVolume.Value);
             MediaPlayer.PlayStateChanged += MediaPlayer_PlayStateChanged;
         }
 

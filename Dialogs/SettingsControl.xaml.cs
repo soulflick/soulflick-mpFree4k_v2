@@ -322,8 +322,6 @@ namespace MpFree4k.Dialogs
 
             WriteUserConfig();
 
-            MainWindow._singleton.Player.Rebuild();
-
             if (MessageBox.Show("Do you want to apply your settings now?", "Playback Plugin", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 MainWindow._singleton.Player.Rebuild();
