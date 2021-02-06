@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="MpFree4k.Controls.PlaylistStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="FontSize" Value="{DynamicResource FontSizeSmaller}"/>
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
+
+
+    </UserControl.Resources>
+
+    <Grid Margin="2" Background="{DynamicResource PlayListTipBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="22"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0">
+            <TextBlock Foreground="{DynamicResource PlayListTipForeground}"
+                               FontSize="{DynamicResource FontSizeSmaller}"
+                               VerticalAlignment="Center"
+                               Margin="6,0,4,0"
+                               TextTrimming="CharacterEllipsis">
+            <Run Text="Tracks: "/><Run Text="{Binding NumberOfTracks, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
+            </TextBlock>
+
+            <TextBlock FontSize="{DynamicResource FontSizeSmaller}" VerticalAlignment="Center"
+                   Foreground="{DynamicResource PlayListTipForeground}"
+                   Margin="0,0,4,0">
+            <Run Text="Duration: "/><Run Text="{Binding TotalDuration, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MenuDisabledTextBrush}"/>
+            </TextBlock>
+
+            <TextBlock FontSize="{DynamicResource FontSizeSmaller}" VerticalAlignment="Center"
+                   Foreground="{DynamicResource PlayListTipForeground}"
+                   Margin="0,0,4,0">
+            <Run Text="Remaining: "/><Run Text="{Binding Remaining, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MenuDisabledTextBrush}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <!--<Border Grid.Row="1" BorderBrush="{DynamicResource MenuDisabledTextBrush}" BorderThickness="0,0,0,1" Margin="6,0,0,0"/>-->
+    </Grid>
+</UserControl>

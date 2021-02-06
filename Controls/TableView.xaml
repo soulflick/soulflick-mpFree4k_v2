@@ -1,0 +1,434 @@
+﻿<UserControl x:Class="MpFree4k.Controls.TableView"
+        xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MpFree4k.Controls"
+             xmlns:enums="clr-namespace:MpFree4k.Enums;assembly=MpFree4k"
+             xmlns:controls="clr-namespace:MpFree4k.Controls"
+             mc:Ignorable="d" 
+             x:Name="_This"
+             Loaded="_This_Loaded"
+             Background="{DynamicResource FirstItemBackground}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource FirstItemBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="33*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource PlayerInactiveBrush}" Text="Artists" Margin="16,0,0,0"/>-->
+
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource PlayerInactiveBrush}" Margin="0,0,0,0"
+                      Tag="Artists"
+                      HorizontalAlignment="Stretch"
+                      BorderBrush="{DynamicResource MenuBrush}" 
+                      BorderThickness="0"
+                      Background="Transparent"
+                      MaxDropDownHeight="900"
+                      SelectedIndex="0">
+
+                <ComboBoxItem>
+                    <Grid Background="{DynamicResource ListViewItemBackground}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Order By" Margin="6,0,0,0"/>
+
+                            <Label Content="Artist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistOrderType.Artist}" MouseDown="ArtistOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistOrderType.Artist}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Year" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistOrderType.Year}" MouseDown="ArtistOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistOrderType.Year}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Most Content" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistOrderType.MostContent}" MouseDown="ArtistOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistOrderType.MostContent}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Change View" Margin="6,0,0,0"/>
+
+                            <Label Content="List" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistViewType.List}" MouseDown="ArtistViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistViewType.List}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Detail" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistViewType.AlbumTile}" MouseDown="ArtistViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistViewType.AlbumTile}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Plain" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:ArtistViewType.Plain}" MouseDown="ArtistViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=ArtistViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ArtistViewType.Plain}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                        </StackPanel>
+                    </Grid>
+                </ComboBoxItem>
+            </ComboBox>
+
+
+            <controls:ArtistView x:Name="ArtistView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="5" Background="{DynamicResource FirstItemBackground}" HorizontalAlignment="Stretch" BorderThickness="0" ResizeBehavior="PreviousAndNext"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+
+
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
+                      Tag="Albums"
+                      HorizontalAlignment="Stretch"
+                      BorderBrush="{DynamicResource MenuBrush}"
+                      BorderThickness="0"
+                      Background="Transparent"
+                       MaxDropDownHeight="900"
+                      SelectedIndex="0">
+
+
+                <ComboBoxItem>
+                    <Grid Background="{DynamicResource ListViewItemBackground}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Order By" Margin="6,0,0,0"/>
+
+                            <Label Content="Album" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumOrderType.Album}" MouseDown="AlbumOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumOrderType.Album}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label Content="Artist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumOrderType.Artist}" MouseDown="AlbumOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumOrderType.Artist}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Year" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumOrderType.Year}" MouseDown="AlbumOrderType_MouseDown">
+
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumOrderType.Year}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Genre" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumOrderType.Genre}" MouseDown="AlbumOrderType_MouseDown">
+
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumOrderType.Genre}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Most Content" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumOrderType.Tracks}" MouseDown="AlbumOrderType_MouseDown">
+
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumOrderType.Tracks}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Change View" Margin="6,0,0,0"/>
+
+                            <Label Content="List" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumViewType.List}" MouseDown="AlbumViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumViewType.List}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Detail" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumViewType.Detail}" MouseDown="AlbumViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumViewType.Detail}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Plain" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:AlbumViewType.Plain}" MouseDown="AlbumViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:AlbumViewType.Plain}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </StackPanel>
+                    </Grid>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <controls:AlbumView x:Name="AlbumView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
+        </Grid>
+
+        <GridSplitter Grid.Column="3" Width="5" Background="{DynamicResource FirstItemBackground}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+
+        <Grid Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+
+
+
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
+                      Tag="Tracks"
+                      HorizontalAlignment="Stretch"
+                      BorderBrush="{DynamicResource MenuBrush}"
+                      BorderThickness="0"
+                      Background="Transparent"
+                      MaxDropDownHeight="900"
+                      SelectedIndex="0">
+
+
+                <ComboBoxItem>
+                    <!--<Grid>-->
+                    <!--<Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>-->
+
+                    <Grid Background="{DynamicResource ListViewItemBackground}">
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Order By" Margin="6,0,0,0"/>
+
+                            <Label Content="Standard" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.Standard}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.Standard}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label Content="Track Title" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.TrackName}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.TrackName}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label Content="Album" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.Album}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.Album}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Artist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.Artist}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.Artist}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Year" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.Year}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.Year}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label Content="Genre" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackOrderType.Genre}" MouseDown="TrackOrderType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackOrderType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackOrderType.Genre}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Change View" Margin="6,0,0,0"/>
+
+                            <Label Content="List" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackViewType.List}" MouseDown="TrackViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackViewType.List}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label Content="Detail" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackViewType.Details}" MouseDown="TrackViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackViewType.Details}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+
+                            <Label Content="Plain" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackViewType.Plain}" MouseDown="TrackViewType_MouseDown">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=_This, Path=TrackViewType, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:TrackViewType.Plain}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </StackPanel>
+                    </Grid>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <controls:TrackView x:Name="TrackView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,343 @@
+﻿<UserControl x:Class="MpFree4k.Controls.Favourites"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converter="clr-namespace:MpFree4k.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BitmapImage x:Key="icon_gridsplit_horiz">pack://application:,,,/MpFree4k;component/Images/gridsplitter_horizontal.png</BitmapImage>
+            <BitmapImage x:Key="icon_gridsplit_vert">pack://application:,,,/MpFree4k;component/Images/gridsplitter_vertical.png</BitmapImage>
+            
+            <converter:AddConverter x:Key="convAdd"/>
+
+            <Thickness x:Key="MarginResource" Left="{StaticResource TrackTableMargin}"
+                       Top="{StaticResource TrackTableMargin}" 
+                       Right="{StaticResource TrackTableMargin}" 
+                       Bottom="{StaticResource TrackTableMargin}" />
+
+
+            <ContextMenu x:Key="AlbumContextMenu">
+                <MenuItem x:Name="mnuCtxPlay" Header="play" Click="mnuAlbumCtxPlay_Click"/>
+                <MenuItem x:Name="mnuCtxInsert" Header="insert" Click="mnuAlbumCtxInsert_Click"/>
+                <MenuItem x:Name="mnuCtxAdd" Header="add" Click="mnuAlbumCtxAdd_Click"/>
+                <MenuItem x:Name="menuCtxEdit" Header="edit" Click="mnuAlbumCtxEdit_Click"/>
+            </ContextMenu>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource FirstItemBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Recent Albums" FontSize="{DynamicResource FontSizeBigger}" Padding="3" Foreground="{DynamicResource MenuDisabledTextBrush}" Margin="10,6,0,3"/>
+
+        <Border Grid.Row="1" BorderThickness="0,0,0,0.5" BorderBrush="{DynamicResource FirstColorLight}"/>
+
+        <ListView x:Name="ListAlbums" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Left"
+                  Grid.Row="2"
+                  Margin="5,5,0,5"
+                  Padding="0"
+                  SelectionMode="Single"
+                  Background="{DynamicResource FirstItemBackground}"
+                  PresentationTraceSources.TraceLevel="High"
+                  ItemsSource="{Binding FavouriteAlbums}"
+                  BorderThickness="0"
+                  PreviewMouseUp="ListAlbums_PreviewMouseUp"
+                  PreviewMouseDown="ListAlbums_PreviewMouseDown"
+                  PreviewMouseMove="ListAlbums_PreviewMouseMove"
+                  SelectionChanged="ListAlbums_SelectionChanged"
+                  KeyDown="ListAlbums_KeyDown"
+                  >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ContextMenu" Value="{StaticResource AlbumContextMenu}"/>
+                    <Setter Property="Background" Value="{DynamicResource ListViewItemBackground}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
+                    <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="2" Width="240">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
+                          Width="110" Height="110" Opacity="0.8"
+                          Grid.RowSpan="2">
+                            <Grid.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
+                            </Grid.OpacityMask>
+                            <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Width="110" Height="110"/>
+
+                        </Grid>
+
+
+                        <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="100*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding AlbumLabel}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"  FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" 
+                               FontFamily="Verdana" VerticalAlignment="Bottom"
+                               HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
+
+                            <TextBlock Text="Artist:" Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Artist}" Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+
+                            <TextBlock Text="Genre:" Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Genre}" Grid.Row="2" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+
+                            <TextBlock Text="Year:" Grid.Column="0" Grid.Row="3" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Year}" Grid.Row="3" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+
+                            <TextBlock Text="Tracks:" Grid.Column="0" Grid.Row="4" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding TrackCount}" Grid.Row="4" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel  
+                                Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth, Converter={StaticResource convAdd}, ConverterParameter=-24}"
+									Orientation="Horizontal" Margin="0"
+                        HorizontalAlignment="Left"
+                                />
+                    
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+        </ListView>
+
+        <Grid Grid.Row="3" Background="{DynamicResource FirstItemBackground}">
+            <Image Height="5" Source="{DynamicResource icon_gridsplit_horiz}" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.65"/>
+        </Grid>
+        <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent"/>
+
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Recent Tracks" Grid.Row="0" FontSize="{DynamicResource FontSizeBigger}" Padding="3" Foreground="{DynamicResource MenuDisabledTextBrush}" Margin="10,6,0,3"/>
+
+            <Border Grid.Row="1" BorderThickness="0,0,0,0.5" BorderBrush="{DynamicResource FirstColorLight}"/>
+
+            <DataGrid x:Name="TrackTable" 
+                  Grid.Row="2" HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" AutoGenerateColumns="False"
+                  EnableRowVirtualization="True"
+                  EnableColumnVirtualization="True"
+                  AlternationCount="2"
+                  BorderThickness="0"
+                  Background="Transparent"
+                  GridLinesVisibility="None"
+                  IsReadOnly="True" 
+                  ItemsSource="{Binding FavouriteTracks}"
+                  CanUserReorderColumns="True"
+                  RowHeaderWidth="0"
+                
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Standard"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                      
+                  SelectionChanged="TrackTable_SelectionChanged"
+                  PreviewMouseDown="TrackTable_PreviewMouseDown"
+                  PreviewMouseMove="TrackTable_PreviewMouseMove"
+                  PreviewMouseDoubleClick="TrackTable_PreviewMouseDoubleClick"
+                  PreviewMouseUp="TrackTable_PreviewMouseUp"
+                      
+                      >
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="mnuTrackCtxPlay" Header="play" Click="mnuTrackCtxPlay_Click"/>
+                        <MenuItem x:Name="mnuTrackCtxInsert" Header="insert" Click="mnuTrackCtxInsert_Click"/>
+                        <MenuItem x:Name="mnuTrackCtxAdd" Header="add" Click="mnuTrackCtxAdd_Click"/>
+                        <MenuItem x:Name="mnuTrackCtxEdit"  Header="edit" Click="mnuTrackCtxEdit_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Style.Setters>
+                            <Setter Property="Background" Value="{DynamicResource FirstItemBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource MenuDisabledTextBrush}"/>
+                            <Setter Property="Padding" Value="6"/>
+                            <Setter Property="FontSize" Value="{DynamicResource FontSizeBigger}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource FirstColorLight}"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,0.5"/>
+                        </Style.Setters>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+                        <Setter Property="FontStyle" Value="Normal"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ListItemForeground}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource GridSelectionBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource GridSelectionTextBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+                        <Setter Property="FontStyle" Value="Normal"/>
+                        <Setter Property="FontWeight" Value="Normal"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="3"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ListItemForeground}"/>
+                        <Style.Triggers>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter Property="Background" Value="{DynamicResource FirstItemBackground}"/>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                <Setter Property="Background" Value="{DynamicResource GridAlternateBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource GridSelectionBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsVisible" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="48">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  Margin="2" Opacity="0.8" Grid.RowSpan="2">
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
+                                    </Grid.OpacityMask>
+                                    <Border x:Name="ImgBorder" CornerRadius="1" Background="{DynamicResource ImageBackgroundBrush}" />
+                                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Image}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Width="{DynamicResource TrackTableImageSize}" Height="{DynamicResource TrackTableImageSize}"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Title" Width="20*" SortMemberPath="Title">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Artist" Width="20*" SortMemberPath="Mp3Fields.Artists">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Album" Width="20*" SortMemberPath="Mp3Fields.Album">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Album}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Track" Width="Auto" SortMemberPath="Mp3Fields.Track">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Track}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
+                                       HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Year" Width="Auto" SortMemberPath="Mp3Fields.Year">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Year}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
+                                       HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Genre" Width="Auto" SortMemberPath="Mp3Fields.Genres">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Genres}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Length" Width="Auto" SortMemberPath="Mp3Fields.DurationValue" MinWidth="68">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mp3Fields.Duration}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--<DataGridTemplateColumn Header="Last Played" Width="Auto" SortMemberPath="LastPlayed">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastPlayed}" Margin="5" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Played" Width="Auto" SortMemberPath="PlayCount">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PlayCount}" Margin="5" FontSize="{DynamicResource FontSizeNormal}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

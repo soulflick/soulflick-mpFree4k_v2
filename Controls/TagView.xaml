@@ -1,0 +1,261 @@
+﻿<UserControl x:Class="MpFree4k.Controls.TagView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Width="620"
+             Padding="5"
+             Background="Transparent"
+             Height="602">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="FieldTextBrush" Color="#444444"/>
+            <SolidColorBrush x:Key="FieldDisabledTextBrush" Color="#888888"/>
+
+            <Style x:Key="tbTrimm" TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <TextBlock Text="{TemplateBinding Text}"  TextTrimming="CharacterEllipsis" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+            </Style>
+
+            <Style TargetType="{x:Type GroupBox}">
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBigger}"/>
+                <Setter Property="Margin" Value="-5,1,5,7"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupBox}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <!-- #25A0DA-->
+                                <Border Grid.Row="0" BorderThickness="1"
+                                    BorderBrush="{DynamicResource FirstColorNormal}"
+                                    Background="{DynamicResource FirstColorNormal}">
+                                    <Label Foreground="White">
+                                        <ContentPresenter Margin="4"
+                          ContentSource="Header"
+                          RecognizesAccessKey="True" />
+                                    </Label>
+                                </Border>
+
+                                <Border Grid.Row="1"
+              BorderThickness="1,0,1,1"
+              BorderBrush="#25A0DA" Padding="4" Background="White">
+                                    <ContentPresenter/>
+                                </Border>
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock FontSize="{DynamicResource FontSizeBigger}" Foreground="LightGray" Text="Details" Margin="25,0,0,0"/>
+                <GroupBox Header="Audio File Header" Padding="4" Margin="20,4,20,15">
+                    <Grid Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="33*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="33*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="33*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Width="80" Height="80" Grid.RowSpan="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <TextBlock Text="no image" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Image x:Name="AlbumImage" Width="Auto" Height="Auto" MaxHeight="80" MaxWidth="80" HorizontalAlignment="Left" Margin="0,0,4,4" />
+                        </Grid>
+
+                        <Label Content="Channels" Grid.Column="1" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Column="2" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Column="3" Content="Bitrate" Margin="5,0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Column="4" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Column="5" Content="Sample Rate" Margin="5,0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Column="6" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Row="1" Grid.Column="1" Content="Bits per Sample" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Row="1" Grid.Column="3" Content="Duration" Margin="5,0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="1" Grid.Column="4" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Row="2" Grid.Column="1"  Content="Codecs" Margin="5,0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Label Grid.Row="3" Grid.Column="1" Content="Description" Margin="5,0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource FieldTextBrush}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FieldDisabledTextBrush}"/>
+
+                        <Grid Grid.Row="5" Grid.ColumnSpan="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnSaveImage" Content="Export image" Margin="0,2,4,2"  Click="btnSaveImage_Click" IsEnabled="False" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <Button x:Name="btnImportImage" Content="Import image" Margin="2,2,4,2"  Click="btnImportImage_Click" IsEnabled="False"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Button x:Name="btnRemoveImage" Content="Remove image" Margin="2,2,4,2"  Click="btnRemoveImage_Click" IsEnabled="False"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Button Visibility="Collapsed" x:Name="btnDeepDetail" Margin="2,2,4,2" Content="Edit all tag fields" Click="btnDeepDetail_Click" Width="120" Height="24" VerticalAlignment="Top" IsEnabled="False" HorizontalAlignment="Left" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Tag Fields" Padding="4" Margin="20,0,20,7">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Filename:" Width="85" HorizontalContentAlignment="Right" Foreground="{DynamicResource FieldTextBrush}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Row="0" Grid.Column="0" IsEnabled="False" Text="{Binding Path=FileName}" BorderThickness="0" Name="lblFileName"  VerticalContentAlignment="Center" Background="Transparent" 
+                                     Foreground="{DynamicResource FirstColorNormal}"
+                                     />
+                            <Button x:Name="btnGoTo" Grid.Column="1" Width="24" Height="24" Content="..." Click="btnGoTo_Click"/>
+                        </Grid>
+
+                        <Label Content="Title:" Grid.Row="2" HorizontalContentAlignment="Right" Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Title, Mode=TwoWay}" Name="tbTitle" Grid.Row="2" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="1" />
+
+                        <Label Content="Artists:" Grid.Row="3" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Artists, Mode=TwoWay}" Name="tbArtists" Grid.Row="3" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="2" />
+
+                        <Label Content="Album Artists:" Grid.Row="4" HorizontalContentAlignment="Right"    Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding AlbumArtists, Mode=TwoWay}" Name="tbAlbumArtist" Grid.Row="4" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="3" />
+
+                        <Label Content="Album Name:" Grid.Row="5" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Album, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Name="tbAlbum" IsEnabled="False" Opacity="0.9"   TabIndex="4" />
+                        <!--<local:AudioPropertiesView x:Name="FileProperties" Margin="114,42,0,0"   Width="435" Height="80"  />-->
+
+                        <Label Content="Year:" Grid.Row="6" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+
+                        <Label Content="Track:" Grid.Row="7" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+
+
+                        <Grid Grid.Row="6" Grid.Column="1" Grid.RowSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="14*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBox Text="{Binding Year, Mode=TwoWay}" Name="tbYear" Grid.Row="0" Grid.Column="0" IsEnabled="False" Opacity="0.9"   TabIndex="5" />
+
+                            <Label Content="Genres:" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"   Foreground="{DynamicResource FieldTextBrush}"/>
+                            <TextBox Text="{Binding Genres, Mode=TwoWay}" Name="tbGenres"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" IsEnabled="False" Opacity="0.9"   TabIndex="6" />
+
+
+                            <TextBox Text="{Binding Track, Mode=TwoWay}" Name="tbTrack" Grid.Row="1" IsEnabled="False" Opacity="0.9" TabIndex="7" />
+
+                            <Label Content="Track Count:"  Grid.Row="1" Grid.Column="1"  HorizontalContentAlignment="Right"  Foreground="{DynamicResource FieldTextBrush}"/>
+                            <TextBox Text="{Binding TrackCount, Mode=TwoWay}" Name="tbTrackCount" Grid.Row="1" Grid.Column="2" IsEnabled="False" Opacity="0.9"  TabIndex="8" />
+
+                            <Label Content="Disc:" HorizontalContentAlignment="Right"  Grid.Row="1" Grid.Column="3"  Foreground="{DynamicResource FieldTextBrush}"/>
+                            <TextBox Text="{Binding Disc, Mode=TwoWay}" Name="tbDisc" IsEnabled="False" Opacity="0.9" Grid.Row="1" Grid.Column="4"   TabIndex="9" />
+
+                            <Label Content="Disc Count:" Width="80" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="5"   Foreground="{DynamicResource FieldTextBrush}"/>
+                            <TextBox Text="{Binding DiscCount, Mode=TwoWay}" Name="tbDiscCount" IsEnabled="False" Grid.Row="1" Grid.Column="6" Opacity="0.9"   TabIndex="10" />
+
+                        </Grid>
+
+
+                        <Label Content="Performers:" Grid.Row="8" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Performers, Mode=TwoWay}" Name="tbPerformers" Grid.Row="8" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="11" />
+
+                        <Label Content="Composers:" Grid.Row="9" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Composers, Mode=TwoWay}" Name="tbComposers" Grid.Row="9" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="12" />
+
+                        <Label Content="Copyright:" Grid.Row="10" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Copyright, Mode=TwoWay}" Name="tbCopyright" Grid.Row="10" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="13" />
+
+                        <Label Content="Comment:" Grid.Row="11" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <TextBox Text="{Binding Comment, Mode=TwoWay}" Name="tbComment" Grid.Row="11" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="14" />
+
+
+
+                    </Grid>
+                </GroupBox>
+
+                <Button x:Name="btnSaveMp3View" Content="Save Tag" Click="btnSaveMp3View_Click" Width="80" Height="26" Margin="0,0,20,8" IsEnabled="False" HorizontalAlignment="Right" OverridesDefaultStyle="False" TabIndex="15" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

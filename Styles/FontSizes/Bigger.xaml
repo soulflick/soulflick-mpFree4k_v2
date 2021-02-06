@@ -1,0 +1,21 @@
+﻿<ResourceDictionary 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" >
+
+
+    <FontFamily x:Key="BaseFontFamily">Calibri</FontFamily>
+    <sys:Double x:Key="FontSizeLarge">22.7</sys:Double>
+    <sys:Double x:Key="FontSizeBiggest">21.2</sys:Double>
+    <sys:Double x:Key="FontSizeBigger">19.8</sys:Double>
+    <sys:Double x:Key="FontSizeBig">18.4</sys:Double>
+    <sys:Double x:Key="FontSizeNormal">17.1</sys:Double>
+    <sys:Double x:Key="FontSizeSmall">15.5</sys:Double>
+    <sys:Double x:Key="FontSizeSmaller">14.2</sys:Double>
+    <sys:Double x:Key="FontSizeSmallest">12.8</sys:Double>
+    <sys:Double x:Key="TrackTableImageSize">30</sys:Double>
+    <sys:Double x:Key="TrackTableMargin">11</sys:Double>
+</ResourceDictionary>
+    

@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="MpFree4k.Controls.Playlist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MpFree4k.Controls"
+             xmlns:converter="clr-namespace:MpFree4k.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Background="{DynamicResource PrimaryBackground}"
+             x:Name="_This">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <converter:AddConverter x:Key="convadd"/>
+
+            <Style TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#D0D0D0" Background="Transparent">
+                                <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="30,5,5,0" Width="{TemplateBinding Width}" TextAlignment="Left" Foreground="Gray"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="Padding" Value="28"/>
+            </Style>
+
+            <Style TargetType="{x:Type ListViewItem}">
+                <Setter Property="OverridesDefaultStyle" Value="false"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border BorderBrush="Transparent"  BorderThickness="0" Name="Bd">
+                                <GridViewRowPresenter  
+ 	                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="Transparent"/>
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <DataTemplate x:Key="PlaylistItemList">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34"/>
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="{Binding TrackNumber}" Grid.Column="0" Foreground="LightGray" 
+                               FontFamily="Verdana" FontSize="{DynamicResource FontSizeNormal}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPlaying}" Value="False">
+                                        <Setter Property="FontStyle" Value="Normal"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                        <Setter Property="FontStyle" Value="Oblique"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Title}" 
+                               Margin="0,2,0,2"
+                               Grid.Column="1" FontSize="{DynamicResource FontSizeNormal}"
+                               Foreground="{DynamicResource ListItemForeground}" 
+                               FontFamily="Verdana" VerticalAlignment="Center"
+                               HorizontalAlignment="Stretch"
+                               TextTrimming="CharacterEllipsis">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPlaying}" Value="False">
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Duration}" Grid.Column="2" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Right"/>
+                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
+                          Margin="0,1,0,2">
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmallest}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource FirstColorNormal}"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <TextBlock HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"><Run Text="{Binding Artists}"/><Run Text=" - "/><Run Text="{Binding Album}"/><Run
+                            Text=" - "/><Run Text="{Binding Track}"/><Run Text=" ["/><Run Text="{Binding Year}"/><Run Text="]"/></TextBlock>
+                    </Grid>
+
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ItemTile">
+                <Border Margin="4" BorderBrush="WhiteSmoke" BorderThickness="1" HorizontalAlignment="Stretch">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Image Grid.RowSpan="3" Source="{Binding FirstAlbum}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Width="110" Height="110"/>
+
+                        <TextBlock Text="{Binding Artists}" Grid.Column="1" FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource FirstColorNormal}" FontFamily="Verdana"/>
+
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource PlaylistBackground}" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+
+        <local:PlaylistStatus x:Name="PlaylistStatus" DataContext="{Binding Path=StatusVM}"/>
+
+        <ListView x:Name="PlaylistView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  Grid.Row="1"
+                  PresentationTraceSources.TraceLevel="High"
+                  ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                  BorderThickness="0"
+                  Margin="0"
+                  Padding="0"
+                  BorderBrush="{DynamicResource PlaylistBackground}"
+                  Background="{DynamicResource PlaylistBackground}"
+                  PreviewMouseMove="PlaylistView_PreviewMouseMove"
+                  SelectionChanged="PlaylistView_SelectionChanged"
+                  PreviewKeyDown="PlaylistView_PreviewKeyDown"
+                  PreviewMouseDown="PlaylistView_PreviewMouseDown"
+                  MouseUp="PlaylistView_MouseUp"
+                  DragOver="PlaylistView_DragOver"
+                  DragEnter="PlaylistView_DragEnter"
+                  DragLeave="PlaylistView_DragLeave"
+                  Drop="PlaylistView_Drop"
+                  AllowDrop="True"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.ScrollChanged="PlaylistView_ScrollChanged"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="PreviewMouseDoubleClick" Handler="TrackClick"/>
+                    <Setter Property="Width" Value="{Binding ElementName=_This, Path=AvailableWidth}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Background" Value="{DynamicResource PlaylistItemBackground}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
+                    <Setter Property="ContentTemplate" Value="{StaticResource PlaylistItemList}"/>
+                    <Setter Property="BorderThickness" Value="0,2,0,0"/>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource PlaylistBackground}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DragOver}" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource GridSelectionBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DragOver}" Value="False">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource InactiveSelectionBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel  Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}, Path=ActualHeight}"
+									Orientation="Vertical" Margin="0,0,0,0" Background="{DynamicResource PlaylistBackground}"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+        </ListView>
+    </Grid>
+</UserControl>

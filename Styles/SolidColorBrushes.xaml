@@ -1,0 +1,65 @@
+﻿<ResourceDictionary 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <SolidColorBrush x:Key="PlayerButtonBorderBrush" Color="{DynamicResource PlayerButtonBorderColor}"/>
+    <SolidColorBrush x:Key="PlayerButtonBorderDarkBrush" Color="{DynamicResource PlayerButtonBorderDark}"/>
+    <SolidColorBrush x:Key="PlayerButtonGradientStartBrush" Color="{DynamicResource PlayerButtonGradientStart}"/>
+    <SolidColorBrush x:Key="PlayerButtonMouseOverBorderBrush" Color="{DynamicResource PlayerButtonMouseOverBorderColor}"/>
+    <SolidColorBrush x:Key="PlayerButtonMouseOverBackgroundBrush" Color="{DynamicResource PlayerButtonMouseOverBackground}"/>
+
+    <SolidColorBrush x:Key="ListItemForeground" Color="{DynamicResource DefaultItemForeground}"/>
+    <SolidColorBrush x:Key="MenuTextBrush" Color="{DynamicResource MenuTextColor}"/>
+    <SolidColorBrush x:Key="MenuDisabledTextBrush" Color="{DynamicResource MenuDisabledTextForeGround}"/>
+    <SolidColorBrush x:Key="FirstColorNormal" Color="{DynamicResource FirstColorBrush}"/>
+    <SolidColorBrush x:Key="FirstColorLight" Color="{DynamicResource FirstColorLightBrush}"/>
+    <SolidColorBrush x:Key="PrimaryBackground" Color="{DynamicResource PrimaryBackgroundBrush}"/>
+    <SolidColorBrush x:Key="SecondBackground" Color="{DynamicResource SecondBackgroundBrush}"/>
+    <SolidColorBrush x:Key="StandardTextColor" Color="{DynamicResource StandardTextForeground}"/>
+    <SolidColorBrush x:Key="ListViewItemBackground" Color="{DynamicResource ListViewItemBackgroundBrush}"/>
+    <SolidColorBrush x:Key="ListViewItemForeground" Color="{DynamicResource ListViewItemForegroundBrush}"/>
+    <SolidColorBrush x:Key="FirstItemBackground" Color="{DynamicResource FirstBackgroundBrush}"/>
+    <SolidColorBrush x:Key="PlaylistBackground" Color="{DynamicResource PlaylistBackgroundBrush}"/>
+    <SolidColorBrush x:Key="PlaylistItemBackground" Color="{DynamicResource PlaylistItemBackgroundBrush}"/>
+
+
+    <SolidColorBrush x:Key="ImageBackgroundBrush" Color="{DynamicResource ImageBackgroundColor}"/>
+    <SolidColorBrush x:Key="MenuBrush" Color="{DynamicResource MenuColor}"/>
+    <!--<SolidColorBrush x:Key="MenuTextBrush" Color="{DynamicResource MenuTextColor}"/>-->
+    <SolidColorBrush x:Key="GridAlternateBrush" Color="{DynamicResource GridAlternateColor}"/>
+    <SolidColorBrush x:Key="GridSelectionBrush" Color="{DynamicResource GridSelectionColor}"/>
+    <SolidColorBrush x:Key="GridSelectionTextBrush" Color="{DynamicResource GridSelectionTextColor}"/>
+    <SolidColorBrush x:Key="InactiveSelectionBrush" Color="{DynamicResource InactiveSelectionColor}"/>
+    <SolidColorBrush x:Key="MenuHoverBrush" Color="{DynamicResource MenuHoverColor}"/>
+    <SolidColorBrush x:Key="MenuSelectionBrush" Color="{DynamicResource MenuSelectionColor}"/>
+    <SolidColorBrush x:Key="MenuHighlightBrush" Color="{DynamicResource MenuHighlightColor}"/>
+
+    <SolidColorBrush x:Key="PlayerInactiveBrush" Color="{DynamicResource PlayerInactiveColor}"/>
+    <SolidColorBrush x:Key="PlayerActiveBrush" Color="{DynamicResource PlayerActiveColor}"/>
+
+    <SolidColorBrush x:Key="PlayerStartGradient" Color="{DynamicResource PlayerStartColor}"/>
+    <SolidColorBrush x:Key="PlayerEndGradient" Color="{DynamicResource PlayerEndColor}"/>
+    <SolidColorBrush x:Key="SpectrumBackground" Color="{DynamicResource SpectrumColor}"/>
+
+    <SolidColorBrush x:Key="SpectrumStartBrush" Color="{DynamicResource SpectrumStartColor}"/>
+    <SolidColorBrush x:Key="SpectrumEndBrush" Color="{DynamicResource SpectrumEndColor}"/>
+    <SolidColorBrush x:Key="SpectrumLineBrush" Color="{DynamicResource SpectrumLineColor}"/>
+
+    <SolidColorBrush x:Key="PlayListTipBackground" Color="{DynamicResource PlayListTipColor}"/>
+    <SolidColorBrush x:Key="PlayListTipForeground" Color="{DynamicResource PlayListTipTextColor}"/>
+
+    <sys:Double x:Key="FontSizeLarge">11</sys:Double>
+    <sys:Double x:Key="FontSizeBiggest">11</sys:Double>
+    <sys:Double x:Key="FontSizeBigger">11</sys:Double>
+    <sys:Double x:Key="FontSizeBig">10</sys:Double>
+    <sys:Double x:Key="FontSizeNormal">10</sys:Double>
+    <sys:Double x:Key="FontSizeSmall">9</sys:Double>
+    <sys:Double x:Key="FontSizeSmaller">8</sys:Double>
+    <sys:Double x:Key="FontSizeSmallest">7</sys:Double>
+
+</ResourceDictionary>
+    
+    

@@ -1,0 +1,186 @@
+﻿<Window x:Class="MpFree4k.Dialogs.LibrarySelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MpFree4k.Dialogs"
+             mc:Ignorable="d" 
+             Background="White"
+             BorderBrush="Gray"
+             BorderThickness="1"
+             d:DesignHeight="350" d:DesignWidth="650"
+             Width="420"
+             MaxWidth="1024"
+             Height="Auto"
+             x:Name="_This"
+        Topmost="True"
+        Title="Library Selection - soulflick"
+        WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="icon_browse">pack://application:,,,/MpFree4k;component/Images/browse_32x.png</BitmapImage>
+            <BitmapImage x:Key="icon_plus">pack://application:,,,/MpFree4k;component/Images/plus_icon_32x.png</BitmapImage>
+
+            <DataTemplate x:Key="LibraryItemList">
+                <Grid Margin="2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="12"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding Name}" Grid.Row="0" FontSize="{DynamicResource FontSizeSmall}" Foreground="Black" FontFamily="Verdana" VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=AutoSelect}" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=AutoSelect}" Value="False">
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Path}" FontStyle="Italic"  Foreground="SteelBlue" Grid.Row="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="38"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="100*"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="WhiteSmoke">
+            <TextBlock Margin="8" FontSize="{DynamicResource FontSizeBigger}"><Run Text="Mp" FontStyle="Normal"/><Run Text="Free" FontStyle="Italic"/><Run Foreground="SteelBlue" Text="4k"/></TextBlock>
+        </Grid>
+
+        <Grid Grid.Row="1" Height="1" Background="Gray"/>
+
+        <Grid Grid.Row="2">
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontStyle="Oblique" Text="Free MP3 Player for any Screen.&#10;Freeware&#10;2021 by soulflick.com" Margin="10,12,10,10"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Height="1" Background="#DDDDDD"/>
+
+        <Grid Grid.Row="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Specify your library" Grid.ColumnSpan="2" FontSize="{DynamicResource FontSizeNormal}" VerticalAlignment="Stretch" Margin="10,7,10,5"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" MaxWidth="600"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="tbLibraryName" Text="{Binding ElementName=_This, Path=CurrentDefinition.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,3,0,3" BorderBrush="#D0D0D0"/>
+                    <Button x:Name="btnBrowse" Grid.Column="1" Width="32" Margin="-1,3,0,3"
+                            HorizontalAlignment="Left"
+                            BorderBrush="#D0D0D0"
+                            Background="WhiteSmoke" BorderThickness="1"
+                            ToolTip="Specify a local folder as a media root"
+                            Click="btnBrowse_Click">
+                        <Image Source="{StaticResource icon_browse}"/>
+                    </Button>
+
+                    <Button x:Name="btnAddLib" Grid.Column="2" Width="32" Margin="-1,3,10,3"
+                            HorizontalAlignment="Left"
+                            BorderBrush="#D0D0D0"
+                            Background="WhiteSmoke" BorderThickness="1"
+                            ToolTip="Save your current library definition"
+                            Click="btnAdd_Click">
+                        <Image Source="{StaticResource icon_plus}"/>
+                    </Button>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Margin="10,0,10,0"><Run Text="Path: "/><Run Text="{Binding ElementName=_This, Path=CurrentDefinition.Path}" Foreground="SteelBlue"/></TextBlock>
+                </Grid>
+
+                <Grid Grid.Row="4" Background="#D0D0D0" Height="1"/>
+
+                <Grid Grid.Row="5" Grid.ColumnSpan="2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontSize="{DynamicResource FontSizeBig}" Text="Your Libraries:" Margin="10,10,0,6" FontWeight="Bold" VerticalAlignment="Bottom"/>
+                    <CheckBox x:Name="cbDefault" Content="use current as your default library" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                          Margin="10,0,10,6"
+                              IsChecked="{Binding ElementName=_This, Path=SelectedLib.AutoSelect, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              Click="cbDefault_Click"/>
+                </Grid>
+
+                <ListView Grid.Row="6" BorderThickness="0,0,0,0" Grid.ColumnSpan="3" ItemsSource="{Binding ElementName=_This, Path=LibDefs, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                        x:Name="ListLibraries" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        PresentationTraceSources.TraceLevel="High"
+                        BorderBrush="#D0D0D0"
+                        Margin="10,0,10,0"
+                        SelectionMode="Single"
+                        SelectionChanged="ListLibraries_SelectionChanged"
+                        PreviewMouseDoubleClick="ListLibraries_PreviewMouseDoubleClick"
+                        PreviewKeyDown="ListLibraries_PreviewKeyDown">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="ContentTemplate" Value="{StaticResource LibraryItemList}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel  Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}, Path=ActualHeight}"
+									Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                </ListView>
+            </Grid>
+        </Grid>
+
+        <!--<Grid Grid.Row="5">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource FirstColorLight}" Opacity="0.4"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="2">
+                --><!--<Button x:Name="btnCancel" Content="Cancel" Width="120" Background="#F0F0F0" Margin="0,0,4,4"/>--><!--
+                <Button x:Name="btnOK" Content="Close" Width="120" Margin="2" Background="White"/>
+            </StackPanel>
+        </Grid>-->
+    </Grid>
+</Window>
