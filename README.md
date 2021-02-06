@@ -11,7 +11,7 @@ Website: www.soulflick.com
 
 -----------------------------------------------------------------------------
 
-(https://github.com/soulflick/soulflick-mpFree4k_v2/Screenshots/mpfree4k_favourites_page.png?raw=true)
+![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/mpfree4k_favourites_page.png?raw=true)
 
 -----------------------------------------------------------------------------
 
