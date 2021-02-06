@@ -11,6 +11,10 @@ Website: www.soulflick.com
 
 -----------------------------------------------------------------------------
 
+![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/Screenshots/mpfree4k_favourites_page.png?raw=true)
+
+-----------------------------------------------------------------------------
+
 - Manage any music library by defining root folders, which contain your media.
 - Manage your playlists
 - Export playlist to drive location
