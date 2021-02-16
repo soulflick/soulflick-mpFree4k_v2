@@ -30,11 +30,12 @@ namespace MpFree4k.Dialogs
 
             InitializeComponent();
 
+            readConfig();
+
             autoSavePlaylist.IsChecked = UserConfig.AutoSavePlaylist;
             showAlbumArtists.IsChecked = UserConfig.ShowFullAlbum;
             rememberSelected.IsChecked = UserConfig.RememberSelectedAlbums;
-
-            readConfig();
+            showTouchButtons.IsChecked = UserConfig.ShowTouchButtons;
         }
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
@@ -73,10 +74,10 @@ namespace MpFree4k.Dialogs
 
             FontSize size = (FontSize)ci.Tag;
             UserConfig.FontSize = size;
-            if (MainWindow._singleton.TableView.ArtistView != null)
-                SkinAdaptor.ApplyFontSize(MainWindow._singleton, size);
+            if (MainWindow.Instance.TableView.ArtistView != null)
+                SkinAdaptor.ApplyFontSize(MainWindow.Instance, size);
 
-            MainWindow._singleton.Player.NotifyPropertyChanged("ButtonSize");
+            MainWindow.Instance.Player.NotifyPropertyChanged("ButtonSize");
 
         }
 
@@ -176,6 +177,13 @@ namespace MpFree4k.Dialogs
                         UserConfig.AutoSavePlaylist = _true;
                 }
 
+                else if (key_str == "showtouchbuttons")
+                {
+                    bool _true = false;
+                    if (bool.TryParse(key_val, out _true))
+                        UserConfig.ShowTouchButtons = _true;
+                }
+
                 else if (key_str == "showfullalbum")
                 {
                     bool _true = false;
@@ -247,8 +255,8 @@ namespace MpFree4k.Dialogs
 
             SkinColors selected_Color = (SkinColors)ci.Tag;
 
-            if (MainWindow._singleton.TableView.ArtistView != null)
-                SkinAdaptor.ApplySkin(MainWindow._singleton, selected_Color, UserConfig.FontSize);
+            if (MainWindow.Instance.TableView.ArtistView != null)
+                SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
 
             UserConfig.Skin = selected_Color;
         }
@@ -258,6 +266,9 @@ namespace MpFree4k.Dialogs
             UserConfig.ShowFullAlbum = showAlbumArtists.IsChecked == true;
             UserConfig.AutoSavePlaylist = autoSavePlaylist.IsChecked == true;
             UserConfig.RememberSelectedAlbums = rememberSelected.IsChecked == true;
+            UserConfig.ShowTouchButtons = showTouchButtons.IsChecked == true;
+            MainWindow.Instance.Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
+
             WriteUserConfig();
         }
 
@@ -276,6 +287,7 @@ namespace MpFree4k.Dialogs
             doc += "\t\t<setting name=\"rememberalbums\" value=\"" + (bool)UserConfig.RememberSelectedAlbums + "\"/>\n";
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
+            doc += "\t\t<setting name=\"showtouchbuttons\" value=\"" + UserConfig.ShowTouchButtons + "\"/>\n";
             doc += "\t</settings>\n</xml>";
 
             File.WriteAllText(settingsFile, doc);
@@ -291,7 +303,7 @@ namespace MpFree4k.Dialogs
             ComboBoxItem itm = (sender as ComboBox).SelectedItem as ComboBoxItem;
             ControlSize csize = (ControlSize)itm.Tag;
             UserConfig.ControlSize = csize;
-            MainWindow._singleton.Player.NotifyPropertyChanged("ButtonSize");
+            MainWindow.Instance.Player.NotifyPropertyChanged("ButtonSize");
         }
 
         private void tbNumAlbums_TextChanged(object sender, TextChangedEventArgs e)
@@ -324,8 +336,24 @@ namespace MpFree4k.Dialogs
 
             if (MessageBox.Show("Do you want to apply your settings now?", "Playback Plugin", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow._singleton.Player.Rebuild();
+                MainWindow.Instance.Player.Rebuild();
             }
+        }
+
+        private void showTouchButtons_Checked(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.Instance.Player == null)
+                return;
+
+            MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void showTouchButtons_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.Instance.Player == null)
+                return;
+
+            MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

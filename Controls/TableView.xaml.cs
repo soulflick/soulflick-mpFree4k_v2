@@ -110,8 +110,8 @@ namespace MpFree4k.Controls
 
         private void _This_Loaded(object sender, RoutedEventArgs e)
         {
-            if (MainWindow._singleton.ViewMode == ViewMode.Table)
-                MainWindow._singleton.Library.Current.QueryMe(ViewMode.Details);
+            if (MainWindow.Instance.ViewMode == ViewMode.Table)
+                MainWindow.Instance.Library.Current.QueryMe(ViewMode.Details);
         }
     }
 }

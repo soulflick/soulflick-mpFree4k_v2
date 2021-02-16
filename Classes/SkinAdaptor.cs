@@ -12,39 +12,39 @@ namespace MpFree4k.Classes
         public static void ClearStyles()
         {
             System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.TableView.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.TableView.ArtistView.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.TableView.AlbumView.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.TableView.TrackView.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Playlist.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Player.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.setctrl.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.TrackTable.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Favourites.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.AlbumDetails.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Playlist.PlaylistStatus.Resources.MergedDictionaries.Clear();
-            MainWindow._singleton.Player.Spectrum.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.TableView.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.TableView.ArtistView.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.TableView.AlbumView.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.TableView.TrackView.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Playlist.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Player.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.setctrl.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.TrackTable.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Favourites.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Clear();
 
         }
 
         public static void AddSkin(System.Windows.ResourceDictionary resDict)
         {
             System.Windows.Application.Current.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.TableView.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.TableView.ArtistView.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.TableView.AlbumView.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.TableView.TrackView.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Playlist.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Player.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.setctrl.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.TrackTable.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Favourites.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.AlbumDetails.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Playlist.PlaylistStatus.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Player.Spectrum.Resources.MergedDictionaries.Add(resDict);
-            MainWindow._singleton.Player.OnThemeChanged();
+            MainWindow.Instance.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.TableView.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.TableView.ArtistView.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.TableView.AlbumView.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.TableView.TrackView.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Playlist.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Player.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.setctrl.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.TrackTable.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Favourites.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.Player.OnThemeChanged();
         }
 
         public static string GetSkinURI(SkinColors skin)
@@ -115,9 +115,9 @@ namespace MpFree4k.Classes
         public static void ApplyFontSize(MainWindow main, FontSize size)
         {
             ApplySkin(main, UserConfig.Skin, size);
-            MainWindow._singleton.UpdateHeaderSize();
-            MainWindow._singleton.TrackTable.UpdateMargín(size);
-            MainWindow._singleton.Favourites.UpdateMargín(size);
+            MainWindow.Instance.UpdateHeaderSize();
+            MainWindow.Instance.TrackTable.UpdateMargín(size);
+            MainWindow.Instance.Favourites.UpdateMargín(size);
         }
 
         public static void ApplySkin(MainWindow main, SkinColors skin, FontSize size)

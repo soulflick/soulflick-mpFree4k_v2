@@ -48,7 +48,7 @@ namespace ViewModels
         {
             double duration = MediaLibrary.Files.Where(f => Albums.Any(a => a.IsVisible && a.Tracks.Contains(f.Path))).Sum(f => f.Mp3Fields.DurationValue);
             TimeSpan span = TimeSpan.FromSeconds(duration);
-            MainWindow._singleton.SetAmounts(Albums.Count(a => a.IsVisible), span);
+            MainWindow.Instance.SetAmounts(Albums.Count(a => a.IsVisible), span);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

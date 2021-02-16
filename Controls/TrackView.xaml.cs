@@ -224,7 +224,7 @@ namespace MpFree4k.Controls
             FileViewInfo f_Sel = ListTracks.SelectedItem as FileViewInfo;
             PlaylistItem p_i = new PlaylistItem();
             PlaylistHelpers.CreateFromMediaItem(p_i, f_Sel);
-            PlaylistViewModel VM = (MainWindow._singleton).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int playpos = VM.CurrentPlayPosition;
 
             if (VM.Tracks.Count > 0)
@@ -247,7 +247,7 @@ namespace MpFree4k.Controls
             PlaylistItem cloned = VM.Tracks[playpos];
             VM.enumerate(playpos);
             VM.CurrentPlayPosition = cloned._position - 1;
-            (MainWindow._singleton.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
+            (MainWindow.Instance.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
         }
 
         private bool mousedown = false;

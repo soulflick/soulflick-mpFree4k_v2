@@ -479,7 +479,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Background="{DynamicResource PlayerEndGradient}" Grid.Row="1" Grid.ColumnSpan="4"/>
-            
+
             <Grid Grid.Column="0" Grid.ColumnSpan="4">
                 <Rectangle>
                     <Rectangle.Fill>
@@ -541,6 +541,18 @@
                         Name="btnNext" ToolTip="Play next track" Click="btnNext_Click" Style="{StaticResource PlayerButtonRightStyle}">
                                 <Image Source="/MpFree4k;component/Images/next.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
+
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=_This, Path=TouchButtonsVisibility}">
+                                <Button Name="btnPlayNow" ToolTip="Play selected tracks" Click="btnPlayNow_Click"  Style="{StaticResource PlayerButtonLeftStyle}" Margin="32,0,0,0">
+                                    <Image Source="/MpFree4k;component/Images/playnow.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
+                                </Button>
+                                <Button  Margin="1,0,0,0" Name="btnInsert" ToolTip="Insert selected tracks" Click="btnInsert_Click"  Style="{StaticResource PlayerButtonStyle}">
+                                    <Image Source="/MpFree4k;component/Images/insert.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
+                                </Button>
+                                <Button Margin="1,0,5,0" Name="btnAdd" ToolTip="Add selected tracks" Click="btnAdd_Click" Style="{StaticResource PlayerButtonRightStyle}">
+                                    <Image Source="/MpFree4k;component/Images/next.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -613,6 +625,7 @@
                                      BarStartBrush="{DynamicResource SpectrumStartBrush}"
                                      BarEndBrush="{DynamicResource SpectrumEndBrush}"
                                      LineBrush="{DynamicResource SpectrumLineBrush}"
+                                     FillBrush="{DynamicResource SpectrumFillBrush}"
                                      BarSegment="4"
                                      BarGap="1"
                                      GraphType="Bar"

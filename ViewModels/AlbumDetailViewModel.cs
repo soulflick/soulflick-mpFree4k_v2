@@ -106,7 +106,7 @@ namespace MpFree4k.ViewModels
 
         void getGroups(AlbumDetailsOrderType type = AlbumDetailsOrderType.Album)
         {
-            if (MainWindow._singleton.ViewMode != ViewMode.Albums)
+            if (MainWindow.Instance.ViewMode != ViewMode.Albums)
                 return;
 
             AlbumGroups.Clear();
@@ -196,7 +196,7 @@ namespace MpFree4k.ViewModels
 
         public void OrderBy(AlbumDetailsOrderType ot)
         {
-            if (MainWindow._singleton.ViewMode != ViewMode.Albums)
+            if (MainWindow.Instance.ViewMode != ViewMode.Albums)
                 return;
 
             switch (ot)

@@ -83,6 +83,13 @@ namespace MpFree4k.Classes
                 "[" + itm.Path + "]";
         }
 
+        public static PlaylistItem CreateFromMediaItem(FileViewInfo infoItm)
+        {
+            PlaylistItem itm = new PlaylistItem();
+            CreateFromMediaItem(itm, infoItm);
+            return itm;
+        }
+
         public static void CreateFromMediaItem(PlaylistItem itm, FileViewInfo infoItm)
         {
             if (infoItm == null)

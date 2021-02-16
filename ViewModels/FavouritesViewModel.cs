@@ -90,7 +90,7 @@ namespace MpFree4k.ViewModels
                 MainWindow.SetProgress(0);
 
                 TimeSpan span = TimeSpan.FromSeconds(_tsx.Sum(t => t.Mp3Fields.DurationValue));
-                MainWindow._singleton.SetAmounts(_tsx.Count, span);
+                MainWindow.Instance.SetAmounts(_tsx.Count, span);
 
             });
 
@@ -116,7 +116,7 @@ namespace MpFree4k.ViewModels
                     percent = (100 / max) * num;
 
                     MainWindow.SetProgress(percent);
-                    //MainWindow.mainDispatcher.BeginInvoke(MainWindow._singleton.delegateUpdateProgress, new object[] { percent });
+                    //MainWindow.mainDispatcher.BeginInvoke(MainWindow.Instance.delegateUpdateProgress, new object[] { percent });
 
                     uint.TryParse(i.Item2, out y);
                     SimpleAlbumItem aitm = new SimpleAlbumItem() { AlbumLabel = i.Item1, Year = y };
@@ -128,7 +128,7 @@ namespace MpFree4k.ViewModels
                     //aitm.TrackCount = count;
 
                     string[] tracks = Library._singleton.connector.GetAlbumTracks(id);
-                    aitm.Tracks = tracks.ToList();
+                    aitm.Tracks = tracks;
 
                     int workingtrackscount = tracks.Count(t => File.Exists(t));
                     aitm.TrackCount = workingtrackscount;

@@ -15,7 +15,7 @@
              Height="560"
              x:Name="_This"
         Title="Player Settings- soulflick"
-        Topmost="True"
+        Topmost="False"
         Closing="_This_Closing"
         WindowStartupLocation="CenterOwner">
 
@@ -52,6 +52,7 @@
         <Grid Grid.Row="4">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -117,15 +118,17 @@
                     <ComboBoxItem Content="Black" Tag="{x:Static enums:SkinColors.Black_Smooth}"/>
                 </ComboBox>
 
-                <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" IsChecked="True" Grid.Row="8" Margin="3,8,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Grid.Row="8" Margin="3,8,0,0" FontSize="{DynamicResource FontSizeBig}"/>
 
-                <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" IsChecked="True" Grid.Row="9" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" Grid.Row="9" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
 
-                <CheckBox x:Name="rememberSelected" Content="Keep album selection on filter" IsChecked="True" Grid.Row="10" Margin="3,6,0,6" FontSize="{DynamicResource FontSizeBig}"/>
+                <CheckBox x:Name="rememberSelected" Content="Keep album selection on filter" Grid.Row="10" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
 
-                <Grid Grid.Row="11" Height="1" Background="LightGray"/>
+                <CheckBox x:Name="showTouchButtons" Content="Show Touch Buttons" Grid.Row="11" Margin="3,6,0,6" FontSize="{DynamicResource FontSizeBig}" Checked="showTouchButtons_Checked" Unchecked="showTouchButtons_Unchecked"/>
+
+                <Grid Grid.Row="12" Height="1" Background="LightGray"/>
                 
-                <Grid Grid.Row="12" Margin="0,4,0,0">
+                <Grid Grid.Row="13" Margin="0,4,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

@@ -4,6 +4,19 @@ namespace MpFree4k.Classes
 {
     public static class UserConfig
     {
+        private static bool _showTouchButtons = true;
+        public static bool ShowTouchButtons
+        {
+            get
+            {
+                return _showTouchButtons;
+            }
+            set
+            {
+                _showTouchButtons = value;
+            }
+        }
+
         private static bool _showFullAlbum = true;
         public static bool ShowFullAlbum { get
             {

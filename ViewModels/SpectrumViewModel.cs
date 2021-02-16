@@ -46,6 +46,7 @@ namespace WPFEqualizer
         public Color BarStartBrush = Color.SteelBlue;
         public Color BarEndBrush = Color.Yellow;
         public Color LineBrush = Color.LightGray;
+        public Color FillBrush = Color.Gray;
 
         public double Spacing = 1;
         public static SpectrumViewModel Instance;
@@ -141,7 +142,10 @@ namespace WPFEqualizer
         public void RemoveSpectrum()
         {
             if (ViewPort.Width == 0 || ViewPort.Height == 0)
+            {
+                _control = null;
                 return;
+            }
 
             var bitmap = new Bitmap(ViewPort.Width, ViewPort.Height);
 
@@ -150,7 +154,10 @@ namespace WPFEqualizer
                 graphics.Clear(Background);
             }
 
-            if (_control != null) _control.ImageSpectrum.Source = BMP.BitmapToImageSource(bitmap);
+            if (_control != null) 
+                _control.ImageSpectrum.Source = BMP.BitmapToImageSource(bitmap);
+
+            _control = null;
         }
 
         public void GenerateLineSpectrum()
@@ -161,7 +168,7 @@ namespace WPFEqualizer
             if (_lineSpectrum == null)
                 CreateSpectrum();
 
-            Bitmap image = _lineSpectrum?.CreateSpectrumLine(ViewPort, BarStartBrush, BarEndBrush, Background, LineBrush, true);
+            Bitmap image = _lineSpectrum?.CreateSpectrumLine(ViewPort, BarStartBrush, BarEndBrush, Background, LineBrush, FillBrush, true);
 
             if (image == null)
                 return;

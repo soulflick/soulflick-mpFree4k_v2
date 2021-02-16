@@ -52,13 +52,13 @@ namespace MpFree4k.Controls
 
             TableMargin = new Thickness(3);
 
-            MainWindow._singleton.Library.Current.PropertyChanged -= Current_PropertyChanged;
-            MainWindow._singleton.Library.Current.PropertyChanged += Current_PropertyChanged;
+            MainWindow.Instance.Library.Current.PropertyChanged -= Current_PropertyChanged;
+            MainWindow.Instance.Library.Current.PropertyChanged += Current_PropertyChanged;
 
             loaded = true;
             Config.MediaHasChanged = false;
 
-            //TrackTable.ItemsSource = MainWindow._singleton.Library.Current.Files;
+            //TrackTable.ItemsSource = MainWindow.Instance.Library.Current.Files;
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -150,7 +150,7 @@ namespace MpFree4k.Controls
 
         private void _This_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow._singleton.Library.Current.QueryMe(ViewMode.Table);
+            MainWindow.Instance.Library.Current.QueryMe(ViewMode.Table);
         }
 
         Point mousepos = new Point(0, 0);
@@ -176,29 +176,76 @@ namespace MpFree4k.Controls
             playSelected();
         }
 
-        private void mnuCtxAdd_Click(object sender, RoutedEventArgs e)
+        public List<PlaylistItem> GetSelected()
         {
             if (TrackTable.SelectedItem == null)
-                return;
+                return null;
 
             List<PlaylistItem> plItems = new List<PlaylistItem>();
             List<FileViewInfo> items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToList();
             items.ForEach(item => plItems.Add(PlaylistHelpers.CreateFromFileViewInfo(item)));
 
-            PlaylistViewModel.Add(plItems.ToArray());
+            return plItems;
+        }
+
+        private FileViewInfo GetFirstSelected()
+        {
+            if (TrackTable.SelectedItem == null)
+                return null;
+
+            return TrackTable.SelectedItems[0] as FileViewInfo;
+        }
+
+        private void mnuCtxAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var items = GetSelected();
+            if (items == null)
+                return;
+
+            PlaylistViewModel.Add(items.ToArray());
         }
 
         private void mnuCtxInsert_Click(object sender, RoutedEventArgs e)
         {
-            if (TrackTable.SelectedItem == null)
+            var items = GetSelected();
+            if (items == null)
                 return;
 
-            List<PlaylistItem> plItems = new List<PlaylistItem>();
-            List<FileViewInfo> items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToList();
-            items.ForEach(item => plItems.Add(PlaylistHelpers.CreateFromFileViewInfo(item)));
+            PlaylistViewModel.Insert(items.ToArray());
 
-            PlaylistViewModel.Insert(plItems.ToArray());
+        }
 
+        private void mnuCtxAddAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            var item = GetFirstSelected();
+            if (item == null)
+                return;
+
+            var vm = this.DataContext as TrackTableViewModel;
+            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.Tracks);
+            PlaylistViewModel.Instance.Add(albumItems);
+        }
+
+        private void mnuCtxInsertAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            var item = GetFirstSelected();
+            if (item == null)
+                return;
+
+            var vm = this.DataContext as TrackTableViewModel;
+            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.Tracks);
+            PlaylistViewModel.Insert(albumItems);
+        }
+
+        private void mnuCtxPlayAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            var item = GetFirstSelected();
+            if (item == null)
+                return;
+
+            var vm = this.DataContext as TrackTableViewModel;
+            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.Tracks);
+            PlaylistViewModel.Play(albumItems);
         }
     }
 }

@@ -150,6 +150,21 @@ namespace MpFree4k.Layers
             string album = getValue(tokens, "album");
             string artist = getValue(tokens, "artist");
 
+            if (string.IsNullOrEmpty(title))
+                title = getValue(tokens, "t");
+            if (string.IsNullOrEmpty(title))
+                title = getValue(tokens, "ti");
+
+            if (string.IsNullOrEmpty(album))
+                album = getValue(tokens, "al");
+            if (string.IsNullOrEmpty(album))
+                album = getValue(tokens, "alb");
+
+            if (string.IsNullOrEmpty(artist))
+                artist = getValue(tokens, "ar");
+            if (string.IsNullOrEmpty(artist))
+                artist = getValue(tokens, "art");
+
             Int64 year = -999;
             Int64 track = -999;
             if (hasKey(tokens, "track"))
@@ -282,11 +297,11 @@ namespace MpFree4k.Layers
 
             double len = 0;
 
-            ViewMode viewmode = MainWindow._singleton.ViewMode;
+            ViewMode viewmode = MainWindow.Instance.ViewMode;
             if (viewmode == ViewMode.Albums)
                 len = Albums.Where(a => a.IsVisible).Sum(a => a.Tracks.Sum(t => t.Length));
             else if (viewmode == ViewMode.Favourites)
-                len = (MainWindow._singleton.Favourites.DataContext as ViewModels.FavouritesViewModel).FavouriteTracks.Where(f => f.IsVisible).Sum(t => t.Mp3Fields.DurationValue);
+                len = (MainWindow.Instance.Favourites.DataContext as ViewModels.FavouritesViewModel).FavouriteTracks.Where(f => f.IsVisible).Sum(t => t.Mp3Fields.DurationValue);
             else
                 len = Files.Where(f => f.IsVisible).Sum(f => f.Mp3Fields.DurationValue);
             TimeSpan span = new TimeSpan(0);
@@ -300,7 +315,7 @@ namespace MpFree4k.Layers
             if (Files == null)
                 return 0;
 
-            ViewMode viewmode = MainWindow._singleton.ViewMode;
+            ViewMode viewmode = MainWindow.Instance.ViewMode;
             if (viewmode == ViewMode.Table)
                 return Files.Count(f => f.IsVisible);
             else if (viewmode == ViewMode.Albums)
@@ -308,7 +323,7 @@ namespace MpFree4k.Layers
             else if (viewmode == ViewMode.Details)
                 return Files.Count(f => f.IsVisible);
             else if (viewmode == ViewMode.Favourites)
-                return (MainWindow._singleton.Favourites.DataContext as ViewModels.FavouritesViewModel).FavouriteTracks.Count(t => t.IsVisible);
+                return (MainWindow.Instance.Favourites.DataContext as ViewModels.FavouritesViewModel).FavouriteTracks.Count(t => t.IsVisible);
             else
                 return Files.Count(f => f.IsVisible);
         }
@@ -516,7 +531,7 @@ namespace MpFree4k.Layers
             if (numfiles <= 0)
                 return;
 
-            MainWindow._singleton.IsEnabled = false;
+            MainWindow.Instance.IsEnabled = false;
 
             _filesCount = 0;
             double percent = 0;

@@ -225,6 +225,17 @@ namespace MpFree4k.Controls
 
         }
 
+        private Visibility _touchButtonsVisibility = Visibility.Visible;
+        public Visibility TouchButtonsVisibility
+        {
+            get => _touchButtonsVisibility;
+            set
+            {
+                _touchButtonsVisibility = value;
+                NotifyPropertyChanged(nameof(TouchButtonsVisibility));
+            }
+        }
+
         void SetTrackInfo(PlaylistItem itm)
         {
             lblTrack.Content = "";
@@ -719,5 +730,25 @@ System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
             Spectrum.Redraw();
         }
 
+        private void btnPlayNow_Click(object sender, RoutedEventArgs e)
+        {
+            var tracks = MainWindow.Instance.GetSelectedTracks();
+            if (tracks != null && tracks.Any())
+                PlaylistViewModel.Play(tracks);
+        }
+
+        private void btnInsert_Click(object sender, RoutedEventArgs e)
+        {
+            var tracks = MainWindow.Instance.GetSelectedTracks();
+            if (tracks != null && tracks.Any())
+                PlaylistViewModel.Insert(tracks);
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var tracks = MainWindow.Instance.GetSelectedTracks();
+            if (tracks != null && tracks.Any())
+                PlaylistViewModel.Add(tracks);
+        }
     }
 }

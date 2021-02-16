@@ -99,7 +99,8 @@ namespace WPFEqualizer.Visualization
             }
         }
 
-        public Bitmap CreateSpectrumLine(Size size, Brush brush, Color background, Color lineColor, Color fillColor, bool highQuality)
+//        public Bitmap CreateSpectrumLine(Size size, Brush brush, Color background, Color lineColor, Color fillColor, bool highQuality)
+          public Bitmap DrawSpectrumLine(Size size, Brush gradientBrush, Color background, Color lineColor, Color fillColor, bool highQuality)
         {
             if (!size.IsRealSize())
                 return null;
@@ -111,7 +112,7 @@ namespace WPFEqualizer.Visualization
             if (SpectrumProvider.GetFftData(fftBuffer, this))
             {
 
-                using (var pen = new Pen(brush, (float)_barWidth))
+                using (var pen = new Pen(gradientBrush, (float)_barWidth))
                 {
                     var bitmap = new Bitmap(size.Width, size.Height);
 
@@ -129,15 +130,15 @@ namespace WPFEqualizer.Visualization
             return null;
         }
 
-        public Bitmap CreateSpectrumLine(Size size, Color color1, Color color2, Color background, Color lineColor, bool highQuality)
+        public Bitmap CreateSpectrumLine(Size size, Color gradientStartColor, Color gradientEndColor, Color background, Color lineColor, Color fillColor, bool highQuality)
         {
             UpdateFrequencyMappingIfNessesary(size);
 
             using (
-                Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), color2,
-                    color1, LinearGradientMode.Vertical))
+                Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), gradientEndColor,
+                    gradientStartColor, LinearGradientMode.Vertical))
             {
-                return CreateSpectrumLine(size, brush, background, lineColor, color1, highQuality);
+                return DrawSpectrumLine(size, brush, background, lineColor, fillColor, highQuality);
             }
         }
 
@@ -220,9 +221,9 @@ namespace WPFEqualizer.Visualization
 
             Pen pen = new Pen(lineColor, 1.95f);
             var brush = new SolidBrush(fillColor);
+
             graphics.DrawPolygon(pen, points.ToArray());
             graphics.FillPolygon(brush, points.ToArray());
-
         }
 
         List<SpectrumPointData[]> SpectrumLines = new List<SpectrumPointData[]>();
@@ -276,7 +277,7 @@ namespace WPFEqualizer.Visualization
         {
             if (GraphType == GraphType.Line)
             {
-                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, size);
+                CreateLineSpectrum(graphics, fftBuffer, background, fillColor, size);
                 return;
             }
             else if (GraphType == GraphType.Band)

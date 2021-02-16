@@ -18,7 +18,7 @@ namespace Classes
 
         public bool HasImage = false; 
 
-        public List<string> Tracks { get; set; }
+        public string[] Tracks { get; set; }
 
         private ImageSource _image = null;
 

@@ -270,6 +270,7 @@
                                     BorderThickness="0"
                                     PreviewMouseUp="ListAlbums_PreviewMouseUp"
                                     PreviewMouseDown="ListAlbums_PreviewMouseDown"
+                                    SelectionChanged="ListAlbums_SelectionChanged"
                                     PreviewMouseMove="ListAlbums_PreviewMouseMove"
                                     VirtualizingStackPanel.IsVirtualizing="True"
                                     VirtualizingStackPanel.VirtualizationMode="Standard"

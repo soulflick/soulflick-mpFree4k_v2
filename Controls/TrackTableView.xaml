@@ -68,6 +68,11 @@
                     <MenuItem x:Name="mnuCtxPlay" Header="play" Click="mnuCtxPlay_Click"/>
                     <MenuItem x:Name="mnuCtxInsert" Header="insert" Click="mnuCtxInsert_Click"/>
                     <MenuItem x:Name="mnuCtxAdd" Header="add" Click="mnuCtxAdd_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="mnuCtxPlayAlbum" Header="play this album" Click="mnuCtxPlayAlbum_Click"/>
+                    <MenuItem x:Name="mnuCtxInsertAlbum" Header="insert this album" Click="mnuCtxInsertAlbum_Click"/>
+                    <MenuItem x:Name="mnuCtxAddAlbum" Header="add this album" Click="mnuCtxAddAlbum_Click"/>
+                    <Separator/>
                     <MenuItem x:Name="mnuCtxEdit"  Header="edit" Click="mnuCtxEdit_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
@@ -100,14 +105,9 @@
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="Padding" Value="3"/>
                     <Setter Property="Foreground" Value="{DynamicResource ListItemForeground}"/>
-                    <!--<Setter Property="Background" Value="{DynamicResource FirstItemBackground}"/>-->
+
                     <Style.Triggers>
-                        <!--<DataTrigger Binding="{Binding Number}" Value="1">
-                            <Setter Property="Background" Value="{DynamicResource FirstItemBackground}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Number}" Value="0">
-                            <Setter Property="Background" Value="{DynamicResource GridAlternateBrush}"/>
-                        </DataTrigger>-->
+
                         <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                             <Setter Property="Background" Value="{DynamicResource FirstItemBackground}"/>
                         </Trigger>
@@ -121,10 +121,6 @@
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
 
-                        <!--then override with my own colour-->
-                        <!--<DataTrigger Binding="{Binding InvoiceSet}" Value="True">
-                            <Setter Property="Background" Value="Green"></Setter>
-                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>

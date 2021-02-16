@@ -1,4 +1,5 @@
-﻿using MpFree4k.Classes;
+﻿using Classes;
+using MpFree4k.Classes;
 using MpFree4k.Enums;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,14 @@ namespace MpFree4k.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
 
+        public static PlaylistViewModel Instance = null;
+
         public StatusViewModel StatusVM { get; set; }
         public PlaylistViewModel()
         {
             StatusVM = new StatusViewModel();
             StatusVM.Set(this);
+            Instance = this;
         }
 
         private List<PlaylistItem> _tracks = new List<PlaylistItem>();
@@ -50,15 +54,30 @@ namespace MpFree4k.ViewModels
             OnPropertyChanged("Tracks");
         }
 
+        public void Add(FileViewInfo[] infos)
+        {
+            if (infos == null || infos.Length == 0)
+                return;
+
+            var pList = Utilies.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToList();
+            this.Add(pList);
+        }
+
         public static void Add(PlaylistItem[] items)
         {
-            PlaylistViewModel VM = (MainWindow._singleton).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             VM.Add(items.ToList());
+        }
+
+        public static void Insert(FileViewInfo[] infos)
+        {
+            var pItems = Utilies.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToArray();
+            Insert(pItems);
         }
 
         public static void Insert(PlaylistItem[] items)
         {
-            PlaylistViewModel VM = (MainWindow._singleton).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int idx = VM.CurrentPlayPosition;
 
             foreach (var p_i in items)
@@ -68,9 +87,16 @@ namespace MpFree4k.ViewModels
             }
         }
 
+        public static void Play(FileViewInfo[] items)
+        {
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
+            var pItems = Utilies.LibraryUtils.GetItems(items.Select(s => s.Path).ToArray()).ToArray();
+            Play(pItems);
+        }
+
         public static void Play(PlaylistItem[] items)
         {
-            PlaylistViewModel VM = (MainWindow._singleton).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int playpos = VM.CurrentPlayPosition;
             int currentplaypos = -1;
             bool first = true;

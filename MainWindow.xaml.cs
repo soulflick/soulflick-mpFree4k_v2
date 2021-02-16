@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MpFree4k
 {
@@ -48,13 +49,13 @@ namespace MpFree4k
             }
         }
 
-        public static MainWindow _singleton = null;
+        public static MainWindow Instance = null;
         public static void SetProgress(double percent)
         {
-            if (_singleton == null)
+            if (Instance == null)
                 return;
 
-            mainDispatcher.BeginInvoke(_singleton.delegateUpdateProgress, new object[] { percent });
+            mainDispatcher.BeginInvoke(Instance.delegateUpdateProgress, new object[] { percent });
         }
 
         public delegate void updateProgress(double percent);
@@ -127,7 +128,8 @@ namespace MpFree4k
 
         public MainWindow()
         {
-            _singleton = this;
+            Instance = this;
+
             setctrl = new SettingControl();
 
             ViewMode = ViewMode.Table;
@@ -154,6 +156,7 @@ namespace MpFree4k
             this.TableView.TrackView.SetMediaLibrary(Library.Current);
             this.TrackTable.SetMediaLibrary(Library.Current);
             this.Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
+            this.Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             delegateUpdateProgress = new updateProgress(updateProgressFunc);
 
@@ -274,6 +277,18 @@ namespace MpFree4k
             PlaylistSelector selector = new PlaylistSelector(Playlist.DataContext as PlaylistViewModel);
             selector.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             selector.ShowDialog();
+        }
+
+        public PlaylistItem[] GetSelectedTracks()
+        {
+            switch (MainViews.SelectedIndex)
+            {
+                case 0: return null;
+                case 1: return AlbumDetails.GetSelectedTracks();
+                case 2: return TrackTable.GetSelected().ToArray();
+                case 3: return Favourites.GetSelected();
+                default: return null;
+            }
         }
 
         private string getCountString(int count)

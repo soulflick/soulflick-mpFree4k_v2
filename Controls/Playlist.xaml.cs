@@ -36,8 +36,8 @@ namespace MpFree4k.Controls
             vm = new PlaylistViewModel();
             this.DataContext = vm;
             vm.PropertyChanged += Playlist_PropertyChanged;
-            MainWindow._singleton.Player.PropertyChanged += Player_PropertyChanged;
-            MainWindow._singleton.Player.ValueChanged += Player_ValueChanged;
+            MainWindow.Instance.Player.PropertyChanged += Player_PropertyChanged;
+            MainWindow.Instance.Player.ValueChanged += Player_ValueChanged;
             this.Loaded += Playlist_Loaded;
             SizeChanged += Playlist_SizeChanged;
             InitializeComponent();
@@ -276,8 +276,7 @@ namespace MpFree4k.Controls
 
                 foreach (var it in info)
                 {
-                    PlaylistItem pli = new PlaylistItem();
-                    PlaylistHelpers.CreateFromMediaItem(pli, it);
+                    PlaylistItem pli = PlaylistHelpers.CreateFromMediaItem(it);
                     playlistItems.Add(pli);
                 }
 

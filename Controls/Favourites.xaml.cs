@@ -14,6 +14,13 @@ using System.Windows.Input;
 
 namespace MpFree4k.Controls
 {
+    public enum SelectedControl
+    {
+        None, 
+        Albums,
+        Tracks
+    }
+
     public partial class Favourites : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
@@ -48,7 +55,7 @@ namespace MpFree4k.Controls
                 OnPropertyChanged("TableMargin");
             }
 
-            if (MainWindow._singleton.MainViews.SelectedIndex == (int)TabOrder.Favourites)
+            if (MainWindow.Instance.MainViews.SelectedIndex == (int)TabOrder.Favourites)
                 VM.Load();
         }
 
@@ -71,9 +78,13 @@ namespace MpFree4k.Controls
 
             foreach (FileViewInfo infoItm in TrackTable.SelectedItems)
             {
-                if (!infoItm.IsVisible)
+                if (!infoItm.IsVisible || infoItm == null)
+                {
+                    SelectedControl = SelectedControl.None;
                     continue;
+                }
 
+                SelectedControl = SelectedControl.Tracks;
                 dragItems_tracks.Add(infoItm);
             }
         }
@@ -132,7 +143,7 @@ namespace MpFree4k.Controls
             FileViewInfo f_Sel = TrackTable.SelectedItem as FileViewInfo;
             PlaylistItem p_i = new PlaylistItem();
             PlaylistHelpers.CreateFromMediaItem(p_i, f_Sel);
-            PlaylistViewModel VM = (MainWindow._singleton).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
 
             int playpos = VM.CurrentPlayPosition;
 
@@ -150,7 +161,7 @@ namespace MpFree4k.Controls
             PlaylistItem cloned = VM.Tracks[playpos];
             VM.enumerate(playpos);
             VM.CurrentPlayPosition = cloned._position - 1;
-            (MainWindow._singleton.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
+            (MainWindow.Instance.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
 
         }
 
@@ -190,14 +201,20 @@ namespace MpFree4k.Controls
             mousepos = new Point(0, 0);
         }
 
+        private SelectedControl SelectedControl = SelectedControl.None;
         private void ListAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             dragItems_albums.Clear();
 
             SimpleAlbumItem a = (sender as ListView).SelectedItem as SimpleAlbumItem;
             if (a == null || a.Tracks == null || !a.Tracks.Any())
+            {
+                SelectedControl = SelectedControl.None;
                 return;
+            }
 
+            SelectedControl = SelectedControl.Albums;
             dragItems_albums.Add(a);
 
         }
@@ -268,6 +285,37 @@ namespace MpFree4k.Controls
             PlaylistViewModel.Play(items.ToArray());
         }
 
+        public PlaylistItem[] GetSelected()
+        {
+            switch (SelectedControl)
+            {
+                case SelectedControl.None: return null;
+                case SelectedControl.Albums:
+                    {
+                        if (dragItems_albums == null || !dragItems_albums.Any())
+                            return null;
+
+                        return LibraryUtils.GetItems(dragItems_albums[0].Tracks.ToArray()).ToArray();
+                    }
+                case SelectedControl.Tracks:
+                    {
+                        if (dragItems_tracks.Count == 0)
+                            return null;
+
+                        List<PlaylistItem> items = new List<PlaylistItem>();
+                        foreach (var it in dragItems_tracks)
+                        {
+                            PlaylistItem pli = PlaylistHelpers.CreateFromMediaItem(it);
+                            items.Add(pli);
+                        }
+
+                        return items.ToArray();
+                    }
+                default: return null;
+
+            }
+        }
+        
         private void mnuTrackCtxInsert_Click(object sender, RoutedEventArgs e)
         {
             if (TrackTable.SelectedItem == null)

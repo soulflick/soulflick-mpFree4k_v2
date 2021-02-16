@@ -1,4 +1,5 @@
 ﻿using Classes;
+using MpFree4k.Classes;
 using MpFree4k.Dialogs;
 using MpFree4k.Enums;
 using MpFree4k.Utilies;
@@ -131,10 +132,10 @@ namespace MpFree4k.Controls
 
         private void Favourites_Loaded(object sender, RoutedEventArgs e)
         {
-            if (MainWindow._singleton.ViewMode != ViewMode.Albums)
+            if (MainWindow.Instance.ViewMode != ViewMode.Albums)
                 return;
 
-            if (MainWindow._singleton.MainViews.SelectedIndex == (int)TabOrder.Albums)
+            if (MainWindow.Instance.MainViews.SelectedIndex == (int)TabOrder.Albums)
                 VM.Reload();
 
             if (gridCharTip != null)
@@ -164,14 +165,8 @@ namespace MpFree4k.Controls
 
         private void ListAlbums_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            ListView v = sender as ListView;
-            Lists.Where(l => l != v && l.SelectedItems != null).ToList().ForEach(l => l.SelectedItem = null);
-
             mousedown_albums = true;
             mousepos = e.MouseDevice.GetPosition(this);
-
-            dragItems_albums.Clear();
-            dragItems_albums.AddRange(v.SelectedItems.Cast<AlbumItem>());
         }
 
         private void ListAlbums_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -239,6 +234,15 @@ namespace MpFree4k.Controls
             }
         }
 
+        public PlaylistItem[] GetSelectedTracks()
+        {
+            var album = dragItems_albums.FirstOrDefault();
+            if (album == null)
+                return null;
+
+            return LibraryUtils.GetTracks(album);
+        }
+
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollViewer = (ScrollViewer)sender;
@@ -287,6 +291,17 @@ namespace MpFree4k.Controls
             ListView v = sender as ListView;
             if (!Lists.Contains(v))
                 Lists.Add(v);
+        }
+
+        private void ListAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView v = sender as ListView;
+            Lists.Where(l => l != v && l.SelectedItems != null).ToList().ForEach(l => l.SelectedItem = null);
+
+            mousedown_albums = true;
+
+            dragItems_albums.Clear();
+            dragItems_albums.AddRange(v.SelectedItems.Cast<AlbumItem>());
         }
     }
 }

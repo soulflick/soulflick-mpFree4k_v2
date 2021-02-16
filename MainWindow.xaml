@@ -540,7 +540,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -604,7 +604,8 @@
 
         <GridSplitter Grid.Column="1" Grid.RowSpan="1" Grid.Row="2" Width="5" Background="{DynamicResource FirstItemBackground}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
 
-        <Grid Grid.Row="2" Grid.Column="2" Background="{DynamicResource PlaylistBackground}">
+        <Grid Grid.Row="2" Grid.Column="2" Background="{DynamicResource PlaylistBackground}" Margin="0">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="{Binding ElementName=cdTabControl, Path=Height}"/>
                 <RowDefinition Height="100*"/>
@@ -700,7 +701,8 @@
                     </Grid>
                 </ComboBoxItem>
             </ComboBox>
-            <controls:Playlist x:Name="Playlist" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
+            <controls:Playlist x:Name="Playlist" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                               Margin="-2" BorderThickness="2" BorderBrush="{DynamicResource PlaylistBackground}"/>
 
         </Grid>
 
@@ -727,8 +729,24 @@
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <TextBlock>
+                                    type any text to match any fields on the track
+                                    <LineBreak/>
+                                    type any combination of:
+                                    <LineBreak/>
+                                    ar|art|artist:name_to_search
+                                    <LineBreak/>
+                                    al|alb|album:album_to_seearch
+                                    <LineBreak/>
+                                    t|ti|title:title_to_search
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </TextBox.Resources>
+
             </TextBox>
         </Grid>
 
