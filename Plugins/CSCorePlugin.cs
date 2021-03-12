@@ -82,7 +82,7 @@ namespace MpFree4k.Plugins
             set
             {
                 _position = value;
-                TimeSpan pos = new TimeSpan(0, 0, 0, (int)value, (int)(value % 1) * 1000);
+                TimeSpan pos = new TimeSpan(0, 0, 0, Math.Max(0, (int)value), Math.Max(0, (int)(value % 1) * 1000));
                 sampleSource?.SetPosition(pos);
             }
         }
@@ -95,9 +95,9 @@ namespace MpFree4k.Plugins
         public double Volume { get; set; }
 
         private bool _songEnded = false;
-        public bool SongEnded 
-        { 
-            get => _songEnded; 
+        public bool SongEnded
+        {
+            get => _songEnded;
             set { _songEnded = value; }
         }
 

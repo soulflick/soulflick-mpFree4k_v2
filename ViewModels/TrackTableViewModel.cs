@@ -45,6 +45,9 @@ namespace MpFree4k.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public IEnumerable<FileViewInfo> LibraryTracks { get => MediaLibrary.Files; }
+
         private List<FileViewInfo> _tracks = new List<FileViewInfo>();
         public List<FileViewInfo> Tracks
         {
