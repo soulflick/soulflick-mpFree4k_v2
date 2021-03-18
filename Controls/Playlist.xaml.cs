@@ -27,7 +27,7 @@ namespace MpFree4k.Controls
 
         List<PlaylistItem> dragItems = new List<PlaylistItem>();
         private PlaylistViewModel vm = null;
-        
+
         System.Timers.Timer addCompleteTimer;
         Thread t_addFiles;
 
@@ -209,6 +209,8 @@ namespace MpFree4k.Controls
                 vm.Add(infoItms, pos);
                 vm.StatusVM.Update();
 
+                return;
+
             }
             else if (e.Data.GetDataPresent("PlaylistItemData"))
             {
@@ -232,6 +234,8 @@ namespace MpFree4k.Controls
                 dragItems.Clear();
                 vm.StatusVM.Update();
 
+                return;
+
             }
             else if (e.Data.GetDataPresent("MediaLibraryAlbumData"))
             {
@@ -250,13 +254,13 @@ namespace MpFree4k.Controls
                     MainWindow.SetProgress(3);
 
                     foreach (AlbumItem album in albums)
-                    foreach (PlaylistItem pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
-                    {
-                        progress += step;
-                        MainWindow.SetProgress(progress);
+                        foreach (PlaylistItem pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
+                        {
+                            progress += step;
+                            MainWindow.SetProgress(progress);
 
-                        vm.Add(pli, pos++);
-                    }
+                            vm.Add(pli, pos++);
+                        }
 
                     dragItems.Clear();
 
@@ -282,6 +286,8 @@ namespace MpFree4k.Controls
 
                 vm.Add(playlistItems, pos);
                 vm.StatusVM.Update();
+
+                return;
             }
             else if (e.Data.GetDataPresent("AlbumItemData"))
             {
@@ -290,13 +296,13 @@ namespace MpFree4k.Controls
                     return;
 
                 SimpleAlbumItem album = data[0] as SimpleAlbumItem;
-                
+
                 t_addFiles = new Thread(() =>
                 {
                     int firstpos = pos;
                     double step = 100.0 / (double)album.TrackCount;
                     double progress = 0;
-                    
+
                     MainWindow.SetProgress(3);
 
                     foreach (PlaylistItem pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
@@ -310,10 +316,27 @@ namespace MpFree4k.Controls
                     dragItems.Clear();
 
                 });
-
-                t_addFiles.Start();
-                addCompleteTimer.Start();
             }
+            else
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (files.Length == 0)
+                    return;
+
+                List<PlaylistItem> externalItems = new List<PlaylistItem>();
+
+                foreach (string file in files)
+                    externalItems.Add(PlaylistHelpers.CreateFromFileViewInfo(new FileViewInfo(file)));
+
+                vm.Add(externalItems, pos);
+                vm.StatusVM.Update();
+
+                return;
+            }
+
+            t_addFiles.Start();
+            addCompleteTimer.Start();
         }
 
         private bool mousedown = false;
