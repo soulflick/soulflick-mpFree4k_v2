@@ -48,21 +48,16 @@ namespace MpFree4k.ViewModels
     }
     public class AlbumDetailViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
         public bool loaded;
+
         private List<AlbumDetailGroup> _albumGroups = new List<AlbumDetailGroup>();
         public List<AlbumDetailGroup> AlbumGroups
         {
-            get
-            {
-                return _albumGroups;
-            }
+            get =>_albumGroups;
             set
             {
                 _albumGroups = value;
@@ -76,7 +71,7 @@ namespace MpFree4k.ViewModels
         List<AlbumItem> _albums = new List<AlbumItem>();
         public List<AlbumItem> Albums
         {
-            get { return _albums; }
+            get => _albums;
             set
             {
                 _albums = value;
@@ -86,7 +81,7 @@ namespace MpFree4k.ViewModels
 
         public AlbumDetailViewModel()
         {
-            Library._singleton.Current.PropertyChanged += Current_PropertyChanged;
+            Library.Instance.Current.PropertyChanged += Current_PropertyChanged;
         }
 
         private void Current_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -97,19 +92,14 @@ namespace MpFree4k.ViewModels
 
 
         private AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
-        public void Reload()
-        {
-            //Albums = Library._singleton.Current.Albums.Where(a => a.IsVisible).ToList();
-            OrderBy(ViewType);
-            //getGroups();
-        }
-
+        public void Reload() => OrderBy(ViewType);
+ 
         void getGroups(AlbumDetailsOrderType type = AlbumDetailsOrderType.Album)
         {
-            if (MainWindow.Instance.ViewMode != ViewMode.Albums)
-                return;
+            if (MainWindow.Instance.ViewMode != ViewMode.Albums) return;
 
             AlbumGroups.Clear();
+
             List<AlbumDetailGroup> _groups = new List<AlbumDetailGroup>();
 
             if (type == AlbumDetailsOrderType.Album)
@@ -132,8 +122,6 @@ namespace MpFree4k.ViewModels
                     };
                     g.Albums = group.OrderBy(c => c.Album).ToArray();
                     _groups.Add(g);
-
-                    //g.OnPropertyChanged("Albums");
                 }
             }
             else if (type == AlbumDetailsOrderType.Artist)
@@ -155,7 +143,6 @@ namespace MpFree4k.ViewModels
                     };
                     g.Albums = group.OrderBy(c => c.Artist).ToArray();
                     _groups.Add(g);
-                    //g.OnPropertyChanged("Albums");
                 }
             }
             else if (type == AlbumDetailsOrderType.Year)
@@ -176,7 +163,6 @@ namespace MpFree4k.ViewModels
                     };
                     g.Albums = group.OrderBy(c => c.Year).ToArray();
                     _groups.Add(g);
-                    //g.OnPropertyChanged("Albums");
                 }
             }
             else if (type == AlbumDetailsOrderType.All)
@@ -202,16 +188,16 @@ namespace MpFree4k.ViewModels
             switch (ot)
             {
                 case AlbumDetailsOrderType.Album:
-                    Albums = Library._singleton.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
+                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
                     break;
                 case AlbumDetailsOrderType.Artist:
-                    Albums = Library._singleton.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Artist).ToList();
+                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Artist).ToList();
                     break;
                 case AlbumDetailsOrderType.Year:
-                    Albums = Library._singleton.Current.Albums.Where(a => a.IsVisible).OrderByDescending(o => o.Year).ToList();
+                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderByDescending(o => o.Year).ToList();
                     break;
                 case AlbumDetailsOrderType.All:
-                    Albums = Library._singleton.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
+                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
                     break;
             }
 

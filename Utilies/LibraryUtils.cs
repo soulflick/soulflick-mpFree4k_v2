@@ -3,10 +3,8 @@ using MpFree4k.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MpFree4k.Utilies
+namespace MpFree4k.Utilities
 {
     public static class LibraryUtils
     {
@@ -22,7 +20,7 @@ namespace MpFree4k.Utilies
             }
         }
 
-        public static FileViewInfo[] GetAlbumItems(FileViewInfo info, List<FileViewInfo> collection)
+        public static FileViewInfo[] GetAlbumItems(FileViewInfo info, IEnumerable<FileViewInfo> collection)
         {
             var protoList = collection.Where(cItem => cItem.Mp3Fields.Artists == info.Mp3Fields.Artists && 
                                              cItem.Mp3Fields.Album  == info.Mp3Fields.Album);
@@ -87,6 +85,96 @@ namespace MpFree4k.Utilies
             }
 
             return items.ToArray();
+        }
+
+        public static double DurationStringToSeconds(string duration)
+        {
+            double secs = 0;
+            int idx = duration.IndexOf(':');
+
+            if (idx <= 0)
+            {
+                Double.TryParse(duration, out secs);
+                return secs;
+            }
+            int idx2;
+            string s_hrs, s_mins, s_secs;
+            if (duration.Count(x => x == ':') > 1)
+            {
+
+                idx2 = duration.LastIndexOf(':');
+                s_hrs = duration.Substring(0, idx);
+                s_mins = duration.Substring(idx + 1, idx2 - idx - 1);
+                s_secs = duration.Substring(idx2 + 1);
+            }
+            else
+            {
+                s_hrs = "0";
+                s_mins = duration.Substring(0, idx);
+                s_secs = duration.Substring(idx + 1);
+            }
+
+            if (string.IsNullOrEmpty(s_mins))
+                s_mins = "0";
+
+            if (string.IsNullOrEmpty(s_secs))
+                s_secs = "0";
+
+            double d_hrs = Convert.ToDouble(s_hrs) * 3600;
+            double d_mins = Convert.ToDouble(s_mins) * 60;
+            double d_secs = Convert.ToDouble(s_secs);
+
+            return d_hrs + d_mins + d_secs;
+        }
+
+        public static string GetDurationString(int duration)
+        {
+            int seconds, minutes, hours;
+            hours = duration / 3600;
+            minutes = (duration - (hours * 3600)) / 60;
+            seconds = duration - (hours * 3600) - minutes * 60;
+
+            string ret = "";
+            if (hours > 0) ret = hours.ToString() + ":";
+            if (minutes < 10) ret += "0";
+            ret += minutes.ToString() + ":";
+            if (seconds < 10) ret += "0";
+            ret += seconds.ToString();
+
+            return ret;
+        }
+
+        public static TimeSpan GetDuration(string durstr)
+        {
+            string[] tokens = durstr.Split(':');
+            if (tokens.Any(to => string.IsNullOrEmpty(to.Trim())))
+                return new TimeSpan();
+
+            List<int> t = tokens.Select(str => Convert.ToInt32(str)).ToList();
+
+            for (int i = t.Count; i < 4; i++)
+                t.Insert(0, 0);
+
+            return new TimeSpan(t[0], t[1], t[2], t[3]);
+        }
+
+        public static string SecondsToDuration(double secs)
+        {
+            double d_hrs = Math.Floor(secs / 3600);
+            double d_mins = Math.Floor((secs - (d_hrs * 3600)) / 60);
+            double d_seconds = Math.Floor(secs - (d_hrs * 3600) - (d_mins * 60));
+
+            string dur = "";
+            if (d_hrs > 0)
+                dur += d_hrs.ToString() + ":";
+            if (d_mins < 10)
+                dur += "0";
+            dur += d_mins.ToString() + ":";
+            if (d_seconds < 10)
+                dur += "0";
+            dur += d_seconds.ToString();
+
+            return dur;
         }
 
     }

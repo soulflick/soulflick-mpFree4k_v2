@@ -58,20 +58,15 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <!-- #25A0DA-->
                                 <Border Grid.Row="0" BorderThickness="1"
                                     BorderBrush="{DynamicResource FirstColorNormal}"
                                     Background="{DynamicResource FirstColorNormal}">
                                     <Label Foreground="White">
-                                        <ContentPresenter Margin="4"
-                          ContentSource="Header"
-                          RecognizesAccessKey="True" />
+                                        <ContentPresenter Margin="4" ContentSource="Header" RecognizesAccessKey="True" />
                                     </Label>
                                 </Border>
 
-                                <Border Grid.Row="1"
-              BorderThickness="1,0,1,1"
-              BorderBrush="#25A0DA" Padding="4" Background="White">
+                                <Border Grid.Row="1" BorderThickness="1,0,1,1" BorderBrush="#25A0DA" Padding="4" Background="White">
                                     <ContentPresenter/>
                                 </Border>
 
@@ -194,7 +189,6 @@
 
                         <Label Content="Album Name:" Grid.Row="5" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
                         <TextBox Text="{Binding Album, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Name="tbAlbum" IsEnabled="False" Opacity="0.9"   TabIndex="4" />
-                        <!--<local:AudioPropertiesView x:Name="FileProperties" Margin="114,42,0,0"   Width="435" Height="80"  />-->
 
                         <Label Content="Year:" Grid.Row="6" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
 
@@ -213,7 +207,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBox Text="{Binding Year, Mode=TwoWay}" Name="tbYear" Grid.Row="0" Grid.Column="0" IsEnabled="False" Opacity="0.9"   TabIndex="5" />

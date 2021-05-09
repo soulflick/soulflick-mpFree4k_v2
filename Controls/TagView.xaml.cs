@@ -121,9 +121,9 @@ namespace MpFree4k.Controls
 
             BitmapImage img = ImageConnector.GetImageFromFile(CurrentTag.Path);
             CurrentTag.Image = img;
-            this.AlbumImage.DataContext = CurrentTag.Image;
-            this.AlbumImage.Source = CurrentTag.Image;
-            this.SetInfo(CurrentTag);
+            AlbumImage.DataContext = CurrentTag.Image;
+            AlbumImage.Source = CurrentTag.Image;
+            SetInfo(CurrentTag);
         }
 
         private void btnDeepDetail_Click(object sender, RoutedEventArgs e)

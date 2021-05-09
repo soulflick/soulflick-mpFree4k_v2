@@ -1,6 +1,6 @@
 ﻿using Classes;
 using MpFree4k.Classes;
-using MpFree4k.Utilies;
+using MpFree4k.Utilities;
 using MpFree4k.ViewModels;
 using System;
 using System.Collections;

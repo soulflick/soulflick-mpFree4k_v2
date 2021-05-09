@@ -30,16 +30,16 @@ namespace MpFree4k.ViewModels
             TimeSpan span = new TimeSpan();
             foreach (PlaylistItem i in pvm.Tracks)
             {
-                TimeSpan p = getDuration(i.Duration);
+                TimeSpan p = Utilities.LibraryUtils.GetDuration(i.Duration);
                 span = span.Add(p);
             }
 
-            TotalDuration = Controls.Player.GetDurationString((int)span.TotalSeconds);
+            TotalDuration = Utilities.LibraryUtils.GetDurationString((int)span.TotalSeconds);
 
             span = new TimeSpan();
             for (int i = pvm.CurrentPlayPosition; i < pvm.Tracks.Count; i++)
             {
-                TimeSpan p = getDuration(pvm.Tracks[i].Duration);
+                TimeSpan p = Utilities.LibraryUtils.GetDuration(pvm.Tracks[i].Duration);
                 span = span.Add(p);
             }
 
@@ -50,7 +50,7 @@ namespace MpFree4k.ViewModels
             if (secs < 0)
                 secs = 0;
 
-            Remaining = Controls.Player.GetDurationString((int)secs);
+            Remaining = Utilities.LibraryUtils.GetDurationString((int)secs);
         }
 
         private ulong _numberOfTracks = 0;
@@ -108,18 +108,5 @@ namespace MpFree4k.ViewModels
             }
         }
 
-        TimeSpan getDuration(string durstr)
-        {
-            string[] tokens = durstr.Split(':');
-            if (tokens.Any(to => string.IsNullOrEmpty(to.Trim())))
-                return new TimeSpan();
-
-            List<int> t = tokens.Select(str => Convert.ToInt32(str)).ToList();
-
-            for (int i = t.Count; i < 4; i++)
-                t.Insert(0, 0);
-
-            return new TimeSpan(t[0], t[1], t[2], t[3]);            
-        }
     }
 }

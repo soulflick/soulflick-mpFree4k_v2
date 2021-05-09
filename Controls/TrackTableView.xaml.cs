@@ -2,7 +2,7 @@
 using MpFree4k.Classes;
 using MpFree4k.Dialogs;
 using MpFree4k.Enums;
-using MpFree4k.Utilies;
+using MpFree4k.Utilities;
 using MpFree4k.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -223,7 +223,7 @@ namespace MpFree4k.Controls
                 return;
 
             var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Instance.Add(albumItems);
         }
 
@@ -234,7 +234,7 @@ namespace MpFree4k.Controls
                 return;
 
             var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Insert(albumItems);
         }
 
@@ -245,7 +245,7 @@ namespace MpFree4k.Controls
                 return;
 
             var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilies.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Play(albumItems);
         }
 

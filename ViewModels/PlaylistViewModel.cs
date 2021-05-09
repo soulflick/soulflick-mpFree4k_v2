@@ -59,7 +59,7 @@ namespace MpFree4k.ViewModels
             if (infos == null || infos.Length == 0)
                 return;
 
-            var pList = Utilies.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToList();
+            var pList = Utilities.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToList();
             this.Add(pList);
         }
 
@@ -71,7 +71,7 @@ namespace MpFree4k.ViewModels
 
         public static void Insert(FileViewInfo[] infos)
         {
-            var pItems = Utilies.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToArray();
+            var pItems = Utilities.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToArray();
             Insert(pItems);
         }
 
@@ -90,7 +90,7 @@ namespace MpFree4k.ViewModels
         public static void Play(FileViewInfo[] items)
         {
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
-            var pItems = Utilies.LibraryUtils.GetItems(items.Select(s => s.Path).ToArray()).ToArray();
+            var pItems = Utilities.LibraryUtils.GetItems(items.Select(s => s.Path).ToArray()).ToArray();
             Play(pItems);
         }
 

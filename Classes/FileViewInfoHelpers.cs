@@ -158,7 +158,7 @@ namespace Classes
                 System.Windows.MessageBox.Show("Exception catched: " + exc.Message);
                 return;
             }
-            info.NotifyPropertyChanged("Image");
+            info.Raise("Image");
         }
 
 

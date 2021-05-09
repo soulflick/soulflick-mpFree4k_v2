@@ -103,16 +103,10 @@
                             <SolidColorBrush Color="Transparent" />
                         </TickBar.Fill>
                     </TickBar>
-                    <Border x:Name="TrackBackground"
-                    Margin="0,1,0,0"
-                    CornerRadius="1"
-                    Height="7"
-                    Grid.Row="1"
-                    BorderThickness="1"
-                    Opacity="0.8">
+                    <Border x:Name="TrackBackground" Margin="0,1,0,0" CornerRadius="1" Height="7"
+                        Grid.Row="1" BorderThickness="1" Opacity="0.8">
                         <Border.BorderBrush>
-                            <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="0,1">
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <LinearGradientBrush.GradientStops>
                                     <GradientStopCollection>
                                         <GradientStop Color="Gray" Offset="1.0" />
@@ -159,7 +153,6 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <!--Template when the orientation of the Slider is Vertical.-->
             <ControlTemplate x:Key="VerticalSlider"
                  TargetType="{x:Type Slider}">
                 <Grid>
@@ -168,68 +161,44 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TickBar x:Name="TopTick"
-             SnapsToDevicePixels="True"
-             Placement="Left"
-                         Margin="0,-2,0,0"
-             Width="4"
-             Visibility="Collapsed">
+                    <TickBar x:Name="TopTick" SnapsToDevicePixels="True" Placement="Left" Margin="0,-2,0,0" Width="4" Visibility="Collapsed">
                         <TickBar.Fill>
                             <SolidColorBrush Color="{DynamicResource GlyphColor}" />
                         </TickBar.Fill>
                     </TickBar>
 
-                    <Border x:Name="TrackBackground"
-            Margin="0"
-            CornerRadius="2"
-            Width="4"
-            Grid.Column="1"
-            BorderThickness="1">
+                    <Border x:Name="TrackBackground" Margin="0" CornerRadius="2" Width="4" Grid.Column="1" BorderThickness="1">
                         <Border.BorderBrush>
-                            <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="1,0">
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <LinearGradientBrush.GradientStops>
                                     <GradientStopCollection>
-                                        <GradientStop Color="{DynamicResource BorderLightColor}"
-                            Offset="0.0" />
-                                        <GradientStop Color="{DynamicResource BorderDarkColor}"
-                            Offset="1.0" />
+                                        <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1.0" />
                                     </GradientStopCollection>
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
 
                         </Border.BorderBrush>
                         <Border.Background>
-                            <LinearGradientBrush EndPoint="1,0"
-                             StartPoint="0.25,0">
-                                <GradientStop Color="{DynamicResource ControlLightColor}"
-                        Offset="0" />
-                                <GradientStop Color="{DynamicResource SliderTrackDarkColor}"
-                        Offset="1" />
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0.25,0">
+                                <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0" />
+                                <GradientStop Color="{DynamicResource SliderTrackDarkColor}" Offset="1" />
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <Track Grid.Column="1"
-           x:Name="PART_Track">
+                    <Track Grid.Column="1" x:Name="PART_Track">
                         <Track.DecreaseRepeatButton>
-                            <RepeatButton Style="{StaticResource SliderButtonStyle}"
-                      Command="Slider.DecreaseLarge" />
+                            <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.DecreaseLarge" />
                         </Track.DecreaseRepeatButton>
                         <Track.Thumb>
                             <Thumb Style="{StaticResource SliderThumbStyle}" />
                         </Track.Thumb>
                         <Track.IncreaseRepeatButton>
-                            <RepeatButton Style="{StaticResource SliderButtonStyle}"
-                      Command="Slider.IncreaseLarge" />
+                            <RepeatButton Style="{StaticResource SliderButtonStyle}" Command="Slider.IncreaseLarge" />
                         </Track.IncreaseRepeatButton>
                     </Track>
-                    <TickBar x:Name="BottomTick"
-             SnapsToDevicePixels="True"
-             Grid.Column="2"
-             Fill="{TemplateBinding Foreground}"
-             Placement="Right"
-             Width="4"
-             Visibility="Collapsed" />
+                    <TickBar x:Name="BottomTick" SnapsToDevicePixels="True" Grid.Column="2" Fill="{TemplateBinding Foreground}" Placement="Right"
+                        Width="4" Visibility="Collapsed" />
                 </Grid>
                 <ControlTemplate.Triggers>
                     <Trigger Property="TickPlacement" Value="TopLeft">
@@ -287,8 +256,7 @@
                                         </RadialGradientBrush>
                                     </Border.Background>
                                     <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          TextElement.FontWeight="Bold">
+                                          VerticalAlignment="Center" TextElement.FontWeight="Bold">
                                     </ContentPresenter>
                                 </Border>
 
@@ -647,7 +615,18 @@
 
 
             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" BorderThickness="0" HorizontalAlignment="Left" BorderBrush="WhiteSmoke">
-                <Image x:Name="TrackImage" Source="/MpFree4k;component/Images/no_album_cover.jpg" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                <Image x:Name="TrackImage" Source="/MpFree4k;component/Images/no_album_cover.jpg" 
+                       MouseDown="TrackImage_MouseDown"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
             </Border>
 
             <Grid Name="grdSlider" Style="{StaticResource sliderGridStyle}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Margin="0,0,0,0" HorizontalAlignment="Stretch">

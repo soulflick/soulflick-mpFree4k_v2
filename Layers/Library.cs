@@ -1,6 +1,5 @@
 ﻿using MpFree4k.Classes;
 using MpFree4k.Dialogs;
-using System;
 using System.ComponentModel;
 
 namespace MpFree4k.Layers
@@ -8,14 +7,10 @@ namespace MpFree4k.Layers
     public class Library : INotifyPropertyChanged
     {
         public SQLiteConnector connector = null;
-    
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private MediaLibrary _current = null;
         public MediaLibrary Current
@@ -28,10 +23,10 @@ namespace MpFree4k.Layers
             }
         }
 
-        public static Library _singleton = null;
+        public static Library Instance = null;
         public Library()
         {
-            _singleton = this;
+            Instance = this;
 
             connector = new SQLiteConnector();
             connector.init();
@@ -59,16 +54,15 @@ namespace MpFree4k.Layers
         public void Load()
         {
             if (!string.IsNullOrEmpty(Current.LibPath))
-            Current.Load();
+                Current.Load();
         }
 
         public static void LoadFrom(MediaLibraryDefinition def)
         {
-            //_singleton.Current = new MediaLibrary();
-            _singleton.Current.Reset();
-            _singleton.Current.Name = def.Name;
-            _singleton.Current.LibPath = def.Path;
-            _singleton.Load();
+            Instance.Current.Reset();
+            Instance.Current.Name = def.Name;
+            Instance.Current.LibPath = def.Path;
+            Instance.Load();
         }
     }
 }

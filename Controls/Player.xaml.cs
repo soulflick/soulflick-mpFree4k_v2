@@ -15,6 +15,7 @@ using System.Threading;
 using MpFree4k.Interfaces;
 using MpFree4k.Plugins;
 using WPFEqualizer;
+using MpFree4k.Dialogs;
 
 namespace MpFree4k.Controls
 {
@@ -255,67 +256,10 @@ namespace MpFree4k.Controls
             lblAlbum.Text = itm.Album;
             lblYear.Text = itm.Year;
 
-            trackLength = DurationStringToSeconds(itm.Duration);
+            trackLength = Utilities.LibraryUtils.DurationStringToSeconds(itm.Duration);
         }
 
-        double DurationStringToSeconds(string duration)
-        {
-            double secs = 0;
-            int idx = duration.IndexOf(':');
-
-            if (idx <= 0)
-            {
-                Double.TryParse(duration, out secs);
-                return secs;
-            }
-            int idx2;
-            string s_hrs, s_mins, s_secs;
-            if (duration.Count(x => x == ':') > 1)
-            {
-
-                idx2 = duration.LastIndexOf(':');
-                s_hrs = duration.Substring(0, idx);
-                s_mins = duration.Substring(idx + 1, idx2 - idx - 1);
-                s_secs = duration.Substring(idx2 + 1);
-            }
-            else
-            {
-                s_hrs = "0";
-                s_mins = duration.Substring(0, idx);
-                s_secs = duration.Substring(idx + 1);
-            }
-
-            if (string.IsNullOrEmpty(s_mins))
-                s_mins = "0";
-
-            if (string.IsNullOrEmpty(s_secs))
-                s_secs = "0";
-
-            double d_hrs = Convert.ToDouble(s_hrs) * 3600;
-            double d_mins = Convert.ToDouble(s_mins) * 60;
-            double d_secs = Convert.ToDouble(s_secs);
-
-            return d_hrs + d_mins + d_secs;
-        }
-
-        string secondsToDuration(double secs)
-        {
-            double d_hrs = Math.Floor(secs / 3600);
-            double d_mins = Math.Floor((secs - (d_hrs * 3600)) / 60);
-            double d_seconds = Math.Floor(secs - (d_hrs * 3600) - (d_mins * 60));
-
-            string dur = "";
-            if (d_hrs > 0)
-                dur += d_hrs.ToString() + ":";
-            if (d_mins < 10)
-                dur += "0";
-            dur += d_mins.ToString() + ":";
-            if (d_seconds < 10)
-                dur += "0";
-            dur += d_seconds.ToString();
-
-            return dur;
-        }
+       
 
         double trackLength = 0;
 
@@ -391,7 +335,7 @@ namespace MpFree4k.Controls
 
             double duration = (int)MediaPlayer.Duration;
             InitPositionMarker((int)duration);
-            lblTotalTrackDuration.Content = GetDurationString((int)duration);
+            lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
             setProgressSliderTicks(duration);
             ShowWindowTitleByFile(fileInfo);
 
@@ -433,7 +377,7 @@ namespace MpFree4k.Controls
 
                 duration = MediaPlayer.Duration;
                 InitPositionMarker((int)duration);
-                lblTotalTrackDuration.Content = GetDurationString((int)duration);
+                lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
                 setProgressSliderTicks(duration);
 
                 NotifyPropertyChanged("Play");
@@ -449,17 +393,17 @@ namespace MpFree4k.Controls
 
         void RememberTrack(PlaylistItem t)
         {
-            Library._singleton.connector.SetTrack(t.Path);
-            string[] tracks = Library._singleton.Current.Files.Where(f => f.Mp3Fields.Year.ToString() == t.Year && f.Mp3Fields.Album == t.Album).Select(y => y.Path).ToArray();
-            Library._singleton.connector.SetAlbum(t.Album, t.Year.ToString(), tracks);
+            Library.Instance.connector.SetTrack(t.Path);
+            string[] tracks = Library.Instance.Current.Files.Where(f => f.Mp3Fields.Year.ToString() == t.Year && f.Mp3Fields.Album == t.Album).Select(y => y.Path).ToArray();
+            Library.Instance.connector.SetAlbum(t.Album, t.Year.ToString(), tracks);
         }
 
         void CheckSong()
         {
             double progress = MediaPlayer.Position;
-            string posStr = GetDurationString((int)MediaPlayer.Position);
+            string posStr = Utilities.LibraryUtils.GetDurationString((int)MediaPlayer.Position);
 
-            string posStrRemaining = secondsToDuration(trackLength - progress);
+            string posStrRemaining = Utilities.LibraryUtils.SecondsToDuration(trackLength - progress);
             this.dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Send, (Action)(() =>
             {
                 lblProgress.Content = (String.IsNullOrEmpty(posStr)) ? "00:00" : (remainingMode == RemainingMode.Elapsed) ? posStr : posStrRemaining;
@@ -520,23 +464,7 @@ namespace MpFree4k.Controls
             }
         }
 
-        public static string GetDurationString(int duration)
-        {
-            int seconds, minutes, hours;
-            hours = duration / 3600;
-            minutes = (duration - (hours * 3600)) / 60;
-            seconds = duration - (hours * 3600) - minutes * 60;
-
-            string ret = "";
-            if (hours > 0) ret = hours.ToString() + ":";
-            if (minutes < 10) ret += "0";
-            ret += minutes.ToString() + ":";
-            if (seconds < 10) ret += "0";
-            ret += seconds.ToString();
-
-            return ret;
-        }
-
+       
         double pause_position = 0;
         public void Pause()
         {
@@ -749,6 +677,17 @@ System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
             var tracks = MainWindow.Instance.GetSelectedTracks();
             if (tracks != null && tracks.Any())
                 PlaylistViewModel.Add(tracks);
+        }
+
+        private void TrackImage_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var current = PlaylistViewModel.Instance.CurrentSong;
+            if (current == null)
+                return;
+
+            var _f = new FileViewInfo(current.Path);
+            var info = new TrackInfo(_f, Library.Instance.Current.Files);
+            info.ShowDialog();
         }
     }
 }

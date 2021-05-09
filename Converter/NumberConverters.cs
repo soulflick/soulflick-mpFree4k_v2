@@ -126,8 +126,7 @@ namespace MpFree4k.Converter
 
     public class GetSizeConverter : IValueConverter
     {
-        private childItem FindVisualChild<childItem>(DependencyObject obj)
-    where childItem : DependencyObject
+        private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {

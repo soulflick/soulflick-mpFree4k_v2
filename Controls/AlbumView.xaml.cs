@@ -3,7 +3,7 @@ using MpFree4k.Classes;
 using MpFree4k.Dialogs;
 using MpFree4k.Enums;
 using MpFree4k.Layers;
-using MpFree4k.Utilies;
+using MpFree4k.Utilities;
 using MpFree4k.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -209,7 +209,7 @@ namespace MpFree4k.Controls
             AlbumsViewModel VM = this.DataContext as AlbumsViewModel;
             AlbumItem itm = (sender as ListViewItem).DataContext as AlbumItem;
             string[] tracks = VM.MediaLibrary.Files.Where(f => f.Mp3Fields.Year == itm.Year && f.Mp3Fields.Album == itm.Album).Select(y => y.Path).ToArray();
-            Library._singleton.connector.SetAlbum(itm.Album, itm.Year.ToString(), tracks);
+            Library.Instance.connector.SetAlbum(itm.Album, itm.Year.ToString(), tracks);
         }
 
         private void ListAlbums_ScrollChanged(object sender, ScrollChangedEventArgs e)

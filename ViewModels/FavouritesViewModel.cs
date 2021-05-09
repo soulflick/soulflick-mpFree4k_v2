@@ -61,7 +61,7 @@ namespace MpFree4k.ViewModels
             Thread load_thread = new Thread(() =>
             {
                 List<FileViewInfo> _tsx = new List<FileViewInfo>();
-                List<Tuple<string, int, DateTime>> _tx = Library._singleton.connector.GetRecentTracksDetails(UserConfig.NumberRecentTracks);
+                List<Tuple<string, int, DateTime>> _tx = Library.Instance.connector.GetRecentTracksDetails(UserConfig.NumberRecentTracks);
 
                 MainWindow.SetProgress(0);
                 double step = 100 / (_tx.Count + 1);
@@ -101,7 +101,7 @@ namespace MpFree4k.ViewModels
         {
             Thread load_thread = new Thread(() =>
             {
-                List<Tuple<string, string, int>> _tx = Library._singleton.connector.GetRecentAlbums(UserConfig.NumberRecentAlbums);
+                List<Tuple<string, string, int>> _tx = Library.Instance.connector.GetRecentAlbums(UserConfig.NumberRecentAlbums);
                 List<SimpleAlbumItem> _ta = new List<SimpleAlbumItem>();
                 uint y = 0;
                 int id = 0;
@@ -116,7 +116,6 @@ namespace MpFree4k.ViewModels
                     percent = (100 / max) * num;
 
                     MainWindow.SetProgress(percent);
-                    //MainWindow.mainDispatcher.BeginInvoke(MainWindow.Instance.delegateUpdateProgress, new object[] { percent });
 
                     uint.TryParse(i.Item2, out y);
                     SimpleAlbumItem aitm = new SimpleAlbumItem() { AlbumLabel = i.Item1, Year = y };
@@ -124,10 +123,7 @@ namespace MpFree4k.ViewModels
                     id = i.Item3;
                     aitm.id = id;
 
-                    //int count = Library._singleton.connector.GetAlbumTrackCount(id);
-                    //aitm.TrackCount = count;
-
-                    string[] tracks = Library._singleton.connector.GetAlbumTracks(id);
+                    string[] tracks = Library.Instance.connector.GetAlbumTracks(id);
                     aitm.Tracks = tracks;
 
                     int workingtrackscount = tracks.Count(t => File.Exists(t));
@@ -184,7 +180,7 @@ namespace MpFree4k.ViewModels
         public void Remove(List<SimpleAlbumItem> ai)
         {
             foreach (SimpleAlbumItem sai in ai)
-                Library._singleton.connector.RemoveAlbum(sai.id);
+                Library.Instance.connector.RemoveAlbum(sai.id);
         }
     }
 }
