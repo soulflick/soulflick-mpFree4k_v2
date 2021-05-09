@@ -31,7 +31,11 @@
 
     </UserControl.Resources>
     <Grid>
-        <TextBlock x:Name="tbNotify" Text="Equalizer is currently deactivated..." HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="18" Foreground="Gray"/>
+        <TextBlock x:Name="tbNotify" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="18" Foreground="Gray">
+                Equalizer is currently deactivated...
+                <LineBreak/><LineBreak/>
+                Please start a sample Track  or change the player plugin.
+        </TextBlock>
 
         <ItemsControl ItemsSource="{Binding EqBands}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

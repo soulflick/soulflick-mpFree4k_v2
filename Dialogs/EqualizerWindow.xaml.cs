@@ -1,29 +1,37 @@
-﻿using System.Windows;
+﻿using MpFree4k.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
+using WPFEqualizer;
 
 namespace MpFree4k.Dialogs
 {
     public partial class EqualizerWindow : Window
     {
+        private EqualizerWindowViewModel ViewModel { get; } = new EqualizerWindowViewModel();
         public EqualizerWindow()
         {
             InitializeComponent();
-            Loaded += EqualizerWindow_Loaded;
-        }
 
-        private void EqualizerWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Width = EQControl.ActualWidth +  60;
+            DataContext = ViewModel;            
         }
 
         private void PresetChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (ViewModel.Presets == null)
+                return;
 
+            var index = (sender as ComboBox).SelectedIndex;
+            EQControl.Set(ViewModel.GetEQFrom(ViewModel.Presets[index].Path));
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             EQControl.Reset();
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Save();
         }
     }
 }

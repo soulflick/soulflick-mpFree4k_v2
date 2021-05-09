@@ -277,7 +277,7 @@ namespace WPFEqualizer.Visualization
         {
             if (GraphType == GraphType.Line)
             {
-                CreateLineSpectrum(graphics, fftBuffer, background, fillColor, size);
+                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, size);
                 return;
             }
             else if (GraphType == GraphType.Band)

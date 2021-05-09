@@ -24,9 +24,16 @@ namespace WPFEqualizer
         Band
     }
 
+    public class FileNameEventArgs
+    {
+        public string FileName { get; set; }
+    }
+
     public class SpectrumViewModel : INotifyPropertyChanged
 
     {
+        public static int EqualizerBandCount { get; } = 10;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public LinearSpectrum _control;
         public LineSpectrum _lineSpectrum;
@@ -210,7 +217,6 @@ namespace WPFEqualizer
 
             sampleSource = source.ToSampleSource();
 
-            //_simpleNotificationSource.BlockRead += notifysource_BlockRead;
             _singleBlockNotificationStream.SingleBlockRead += (s, a) => _spectrumProvider.Add(a.Left, a.Right);
 
             if (WasapiOut.IsSupportedOnCurrentPlatform)

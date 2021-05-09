@@ -246,12 +246,6 @@ namespace MpFree4k.Layers
 
             if (viewmode == ViewMode.Table)
             {
-                // all match
-                //Files.ForEach(x => x.IsVisible = (string.IsNullOrEmpty(x.Title) && string.IsNullOrEmpty(_query)) ||
-                //(!string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(_query)) ||
-                //x.Mp3Fields.Artists.ToLower().Contains(_query) ||
-                //x.Mp3Fields.Album.ToLower().Contains(_query));
-
                 Files.ForEach(x => x.IsVisible =
 
                 (string.IsNullOrWhiteSpace(_query)) ||
@@ -264,10 +258,6 @@ namespace MpFree4k.Layers
             }
             else if (viewmode == ViewMode.Details)
             {
-                //Artists.ForEach(x => x.IsVisible = x.Artists.ToLower().Contains(_query));
-                //Albums.ForEach(x => x.IsVisible = x.Album.ToLower().Contains(_query));
-                //Files.ForEach(x => x.IsVisible = (string.IsNullOrEmpty(x.Title) && string.IsNullOrEmpty(_query)) || (!string.IsNullOrEmpty(x.Title) && x.Title.ToLower().Contains(_query)));
-
                 Artists.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || query_strings.Any(q => x.Artists.ToLower().Contains(q)));
                 Albums.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || query_strings.Any(q => x.Album.ToLower().Contains(q)));
                 Files.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || (string.IsNullOrEmpty(x.Title) && string.IsNullOrEmpty(_query)) ||

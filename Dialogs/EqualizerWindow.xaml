@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:MpFree4k.Controls"
         mc:Ignorable="d" 
         Height="320"
-        Width="Auto"
+        Width="470"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="{DynamicResource PrimaryBackground}">
@@ -18,7 +18,21 @@
         <Grid>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Equalizer presets: " Foreground="{DynamicResource StandardTextColor}" VerticalAlignment="Center" Margin="8,6,6,6"/>
-                <ComboBox x:Name="cmbPresets" Height="23" SelectionChanged="PresetChanged" Width="120" VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="cmbPresets" 
+                          ItemsSource="{Binding Presets}" SelectedValue="{Binding Path}"
+                          SelectedIndex="{Binding SelectedIndex}"
+                          SelectionChanged="PresetChanged"
+                          Height="23" Width="120" VerticalAlignment="Center" 
+                          >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Label}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Button x:Name="btnSave" Content="Save Settings" Click="btnSave_Click" Height="23" Padding="10,0,10,0" VerticalAlignment="Center" Margin="12,0,0,0"/>
                 <Button x:Name="btnReset" Content="Reset EQ" Click="btnReset_Click" Height="23" Padding="10,0,10,0" VerticalAlignment="Center" Margin="12,0,0,0"/>
             </StackPanel>
         </Grid>

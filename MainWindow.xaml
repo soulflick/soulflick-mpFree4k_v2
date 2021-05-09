@@ -732,13 +732,13 @@
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <TextBlock>
-                                    type any text to match any fields on the track
+                                    type any text to match any fields on the track. you may combine all of these!
                                     <LineBreak/>
                                     type any combination of:
                                     <LineBreak/>
                                     ar|art|artist:name_to_search
                                     <LineBreak/>
-                                    al|alb|album:album_to_seearch
+                                    al|alb|album:album_to_search
                                     <LineBreak/>
                                     t|ti|title:title_to_search
                                 </TextBlock>

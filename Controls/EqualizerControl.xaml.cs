@@ -34,10 +34,8 @@ namespace MpFree4k.Controls
         List<double> originalGain = new List<double>(10);
         public int BandCount { get; set; } = 10;
 
-        public void RaiseProperty(string propertyName)
-        {
+        public void RaiseProperty(string propertyName) => 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public EqualizerControl()
         {
@@ -60,6 +58,7 @@ namespace MpFree4k.Controls
             }
 
             ValueObject.ValueChanged += ValueObject_ValueChanged;
+
             RaiseProperty(nameof(EqBands));
         }
 
@@ -78,6 +77,15 @@ namespace MpFree4k.Controls
                 _eqBands = value;
                 RaiseProperty(nameof(EqBands));
             }
+        }
+
+        public  void Set(double[] values)
+        {
+            if (values.Length != SpectrumViewModel.EqualizerBandCount || values.Length != EqBands.Count)
+                throw new ArgumentException("Euqalizer band resolution mistake.");
+
+            for (int i = 0; i < EqBands.Count; i++)
+                EqBands[i].Value = values[i];
         }
 
         public void Reset()
