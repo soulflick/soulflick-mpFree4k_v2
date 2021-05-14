@@ -5,14 +5,14 @@ namespace MpFree4k.Classes
 {
     public class PlaylistHelpers
     {
-         public static string getDurationFromLabel(string str)
+        public static string getDurationFromLabel(string str)
         {
             if (str.IndexOf("-") < 0) return string.Empty;
             string dur = str.Substring(0, str.IndexOf("-") - 1);
             return dur;
         }
 
-         static string solveDuration(string durationString)
+        static string solveDuration(string durationString)
         {
             string duration = durationString;
             if (!durationString.Contains(":")) return $"00:{durationString}";
@@ -114,9 +114,7 @@ namespace MpFree4k.Classes
             SetToolTip(itm);
         }
 
-        public static string CreateUniqueID()
-        {
-            return Guid.NewGuid().ToString("N");
-        }
+        public static string CreateUniqueID() => Guid.NewGuid().ToString("N");
+
     }
 }

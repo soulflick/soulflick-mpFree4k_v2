@@ -21,14 +21,8 @@ namespace Classes
         private List<string> _tracks = new List<string>();
         public List<string> Tracks
         {
-            get
-            {
-                return _tracks;
-            }
-            set
-            {
-                _tracks = value;
-            }
+            get => _tracks;
+            set => _tracks = value;
         }
 
         private ImageSource _image = null;
@@ -36,7 +30,7 @@ namespace Classes
         private bool _hasAlbumImage = false;
         public bool HasAlbumImage
         {
-            get { return _hasAlbumImage; }
+            get => _hasAlbumImage;
             set
             {
                 _hasAlbumImage = value;
@@ -45,10 +39,7 @@ namespace Classes
         }
         public ImageSource AlbumImage
         {
-            get
-            {
-                return _image;
-            }
+            get => _image;
             set
             {
                 _image = value;
@@ -70,21 +61,12 @@ namespace Classes
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private bool _isSpecialVisible = false;
         public bool IsSpecialVisible
         {
-            get
-            {
-                return _isSpecialVisible;
-            }
+            get => _isSpecialVisible;
             set
             {
                 _isSpecialVisible = value;
@@ -95,7 +77,7 @@ namespace Classes
         private bool _isVisible = true;
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             set
             {
                 _isVisible = value;
@@ -106,7 +88,7 @@ namespace Classes
         private bool _isSelected = false;
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 _isSelected = value;

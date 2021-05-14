@@ -11,9 +11,10 @@ using System.Drawing;
 using System.Timers;
 using WPFEqualizer.Utils;
 using WPFEqualizer.Visualization;
+using WPFEqualizer.Controls;
+
 using Color = System.Drawing.Color;
 using Point = System.Windows.Point;
-using WPFEqualizer.Controls;
 
 namespace WPFEqualizer
 {
@@ -30,15 +31,16 @@ namespace WPFEqualizer
     }
 
     public class SpectrumViewModel : INotifyPropertyChanged
-
     {
-        public static int EqualizerBandCount { get; } = 10;
+        public static int EqualizerBandCount => 10;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public LinearSpectrum _control;
         public LineSpectrum _lineSpectrum;
         public IWaveSource _source;
-       
+        public IWaveSource source = null;
+        public ISampleSource sampleSource = null;
+
         public WasapiCapture _capture;
         public CSCore.Streams.Effects.Equalizer _equalizer;
         public SimpleNotificationSource _simpleNotificationSource;
@@ -109,7 +111,7 @@ namespace WPFEqualizer
         public SpectrumViewModel(LinearSpectrum control)
         {
             this._control = control;
-            this._waveTimer = new Timer(10);
+            this._waveTimer = new Timer(2);
             this._waveTimer.Elapsed += WaveTimer_Elapsed;
 
             _tipPositions = new int[BarCount];
@@ -187,8 +189,6 @@ namespace WPFEqualizer
                 image.Dispose();
         }
 
-        public IWaveSource source = null;
-        public ISampleSource sampleSource = null;
         public void Init()
         {
             if (source != null)

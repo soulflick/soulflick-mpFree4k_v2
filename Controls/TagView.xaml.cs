@@ -15,16 +15,12 @@ namespace MpFree4k.Controls
 
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private FileViewInfo _currentTag = null;
         public FileViewInfo CurrentTag
         {
-            get { return _currentTag; }
+            get => _currentTag;
             set
             {
                 _currentTag = value;
@@ -55,7 +51,6 @@ namespace MpFree4k.Controls
             tbYear.IsEnabled = _enable;
             tbGenres.IsEnabled = _enable;
 
-            btnDeepDetail.IsEnabled = _enable;
             btnSaveMp3View.IsEnabled = _enable;
             lblFileName.IsEnabled = _enable;
 
@@ -126,34 +121,9 @@ namespace MpFree4k.Controls
             SetInfo(CurrentTag);
         }
 
-        private void btnDeepDetail_Click(object sender, RoutedEventArgs e)
-        {
-
-            //CurrentTag.save();
-            //this.enableControls(false);
-
-            //AllTagsView tView = new AllTagsView(CurrentTag);
-            //Window wnd = new Window();
-            //wnd.Background = System.Windows.Media.Brushes.White;
-            //wnd.Content = tView;
-            //wnd.Width = 505;
-            //wnd.Height = 600;
-            //wnd.ShowDialog();
-
-            ////if (tView.dlgResult == System.Windows.Forms.DialogResult.OK)
-            ////{
-            ////    CurrentTag.saveHandle();
-            ////}
-            ////(Window.GetWindow(this) as MainWindow).fileListView.showMp3Info();
-
-            //this.DataContext = null;
-            //this.DataContext = CurrentTag.Mp3Fields;
-            //this.enableControls(true);
-        }
-
         private void btnSaveImage_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Media.Imaging.BitmapImage img = CurrentTag.Image;
+            BitmapImage img = CurrentTag.Image;
             if (img == null) return;
 
             ImageConnector.SaveImageToFile(img);
@@ -175,7 +145,7 @@ namespace MpFree4k.Controls
 
         private void btnGoTo_Click(object sender, RoutedEventArgs e)
         {
-            if (this.CurrentTag == null || string.IsNullOrEmpty(this.CurrentTag.Path))
+            if (CurrentTag == null || string.IsNullOrEmpty(this.CurrentTag.Path))
                 return;
 
             try

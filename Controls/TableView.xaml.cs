@@ -12,11 +12,7 @@ namespace MpFree4k.Controls
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public TableView()
         {
@@ -95,18 +91,45 @@ namespace MpFree4k.Controls
         public AlbumViewType _albumViewType = AlbumViewType.List;
         public TrackViewType _trackViewType = TrackViewType.List;
 
+        public ArtistViewType ArtistViewType 
+        { 
+            get => _artistViewType;
+            set { _artistViewType = value; OnPropertyChanged("ArtistViewType"); } 
+        }
 
-        public ArtistViewType ArtistViewType { get { return _artistViewType; } set { _artistViewType = value; OnPropertyChanged("ArtistViewType"); } }
-        public AlbumViewType AlbumViewType { get { return _albumViewType; } set { _albumViewType = value; OnPropertyChanged("AlbumViewType"); } }
-        public TrackViewType TrackViewType { get { return _trackViewType; } set { _trackViewType = value; OnPropertyChanged("TrackViewType"); } }
+        public AlbumViewType AlbumViewType 
+        { 
+            get => _albumViewType;
+            set { _albumViewType = value; OnPropertyChanged("AlbumViewType"); } 
+        }
+
+        public TrackViewType TrackViewType 
+        { 
+            get => _trackViewType;
+            set { _trackViewType = value; OnPropertyChanged("TrackViewType"); } 
+        }
 
         private ArtistOrderType _artistOrderType = ArtistOrderType.Artist;
         public AlbumOrderType _albumOrderType = AlbumOrderType.Album;
         public TrackOrderType _trackOrderType = TrackOrderType.Standard;
 
-        public ArtistOrderType ArtistOrderType { get { return _artistOrderType; } set { _artistOrderType = value; OnPropertyChanged("ArtistOrderType"); } }
-        public AlbumOrderType AlbumOrderType { get { return _albumOrderType; } set { _albumOrderType = value; OnPropertyChanged("AlbumOrderType"); } }
-        public TrackOrderType TrackOrderType { get { return _trackOrderType; } set { _trackOrderType = value; OnPropertyChanged("TrackOrderType"); } }
+        public ArtistOrderType ArtistOrderType 
+        { 
+            get => _artistOrderType;
+            set { _artistOrderType = value; OnPropertyChanged("ArtistOrderType"); } 
+        }
+
+        public AlbumOrderType AlbumOrderType 
+        { 
+            get => _albumOrderType;
+            set { _albumOrderType = value; OnPropertyChanged("AlbumOrderType"); } 
+        }
+
+        public TrackOrderType TrackOrderType 
+        { 
+            get => _trackOrderType;
+            set { _trackOrderType = value; OnPropertyChanged("TrackOrderType"); } 
+        }
 
         private void _This_Loaded(object sender, RoutedEventArgs e)
         {

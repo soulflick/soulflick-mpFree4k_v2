@@ -24,7 +24,7 @@ namespace MpFree4k.ViewModels
         private string _groupName = "";
         public string GroupName
         {
-            get { return _groupName; }
+            get => _groupName;
             set
             {
                 _groupName = value;
@@ -35,10 +35,7 @@ namespace MpFree4k.ViewModels
         private AlbumItem[] _albums = null;
         public AlbumItem[] Albums
         {
-            get
-            {
-                return _albums;
-            }
+            get => _albums;
             set
             {
                 _albums = value;

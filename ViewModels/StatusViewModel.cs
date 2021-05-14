@@ -56,7 +56,7 @@ namespace MpFree4k.ViewModels
         private ulong _numberOfTracks = 0;
         public ulong NumberOfTracks
         {
-            get { return _numberOfTracks; }
+            get => _numberOfTracks;
             set
             {
                 _numberOfTracks = value;
@@ -67,10 +67,7 @@ namespace MpFree4k.ViewModels
         private string _totalDuration = "00:00";
         public string TotalDuration
         {
-            get
-            {
-                return _totalDuration;
-            }
+            get => _totalDuration;
             set
             {
                 _totalDuration = value;
@@ -81,7 +78,7 @@ namespace MpFree4k.ViewModels
         private string _remaining = "00:00";
         public string Remaining
         {
-            get { return _remaining; }
+            get => _remaining;
             set
             {
                 _remaining = value;

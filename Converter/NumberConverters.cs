@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace MpFree4k.Converter
 {
+    [ValueConversion(typeof(string), typeof(string))]
     public class EmptyStringToNotificationConverter : IValueConverter
     {
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
@@ -26,6 +27,7 @@ namespace MpFree4k.Converter
 
     }
 
+    [ValueConversion(typeof(string), typeof(Visibility))]
     public class StringToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
@@ -43,6 +45,7 @@ namespace MpFree4k.Converter
 
     }
 
+    [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
@@ -58,6 +61,7 @@ namespace MpFree4k.Converter
         }
     }
 
+    [ValueConversion(typeof(bool), typeof(double))]
     public class BoolToOpacityConverter : IValueConverter
     {
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
@@ -73,7 +77,7 @@ namespace MpFree4k.Converter
         }
     }
 
-    //[ValueConversion(typeof(int), typeof(bool))]
+    [ValueConversion(typeof(double), typeof(double))]
     public class AddConverter : IValueConverter
     {
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
@@ -97,6 +101,7 @@ namespace MpFree4k.Converter
     }
 
 
+    [ValueConversion(typeof(BitmapImage), typeof(BitmapImage))]
     public class NoImageToDefault : IValueConverter
     {
 
@@ -115,6 +120,7 @@ namespace MpFree4k.Converter
 
             if (value == null)
                 return DefaultAlbumImage;
+
             else return value;
         }
 
@@ -124,6 +130,7 @@ namespace MpFree4k.Converter
         }
     }
 
+    [ValueConversion(typeof(double), typeof(double))]
     public class GetSizeConverter : IValueConverter
     {
         private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject

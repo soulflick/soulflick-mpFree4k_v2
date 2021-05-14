@@ -318,10 +318,10 @@ namespace MpFree4k.ViewModels
             else if (RepeatMode == RepeatMode.Once)
             {
                 return null;
+
                 if (CurrentPlayPosition >= Tracks.Count - 1)
                 {
                     CurrentPlayPosition = Tracks.Count - 1;
-                    //return null;
                 }
                 else
                 {
@@ -333,7 +333,6 @@ namespace MpFree4k.ViewModels
                 if (CurrentPlayPosition >= Tracks.Count - 1)
                 {
                     CurrentPlayPosition = Tracks.Count - 1;
-                    //return null;
                 }
                 else
                 {
@@ -404,10 +403,8 @@ namespace MpFree4k.ViewModels
 
         public void Invoke(PlayState state)
         {
-            if (state == PlayState.Play)
-                OnPropertyChanged("Play");
-            else if (state == PlayState.PlayFromStart)
-                OnPropertyChanged("PlayFromStart");
+            if (state == PlayState.Play) OnPropertyChanged("Play");
+            else if (state == PlayState.PlayFromStart) OnPropertyChanged("PlayFromStart");
         }
     }
 }

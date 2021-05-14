@@ -24,15 +24,17 @@ namespace MpFree4k.Controls
     public partial class Favourites : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        
+        private bool loaded = false;
 
-        FavouritesViewModel VM = null;
-
+        private FavouritesViewModel VM = null;
         public Thickness TableMargin { get; set; } = new Thickness(30);
+        
+        private List<SimpleAlbumItem> dragItems_albums = new List<SimpleAlbumItem>();
+        private bool mousedown_tracks = false;
+        private bool mousedown_albums = false;
+        private Point mousepos = new Point(0, 0);
 
         public Favourites()
         {
@@ -46,7 +48,6 @@ namespace MpFree4k.Controls
 
         }
 
-        bool loaded = false;
         private void Favourites_Loaded(object sender, RoutedEventArgs e)
         {
             if (!loaded)
@@ -59,10 +60,7 @@ namespace MpFree4k.Controls
                 VM.Load();
         }
 
-        public void Reload()
-        {
-            VM.Load();
-        }
+        public void Reload() => VM.Load();
 
         public void UpdateMargín(FontSize size)
         {
@@ -70,7 +68,6 @@ namespace MpFree4k.Controls
             OnPropertyChanged("TableMargin");
         }
 
-        List<SimpleAlbumItem> dragItems_albums = new List<SimpleAlbumItem>();
         List<FileViewInfo> dragItems_tracks = new List<FileViewInfo>();
         private void TrackTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -89,8 +86,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        private bool mousedown_tracks = false;
-        private bool mousedown_albums = false;
         private void TrackTable_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             mousedown_tracks = true;
@@ -118,9 +113,7 @@ namespace MpFree4k.Controls
                         else
                             TrackTable.SelectedItems.Add(item);
                     }
-                    //item.IsSelected = !item.IsSelected;
                 }
-
             }
         }
 
@@ -165,7 +158,6 @@ namespace MpFree4k.Controls
 
         }
 
-        Point mousepos = new Point(0, 0);
         private void TrackTable_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown_tracks = false;

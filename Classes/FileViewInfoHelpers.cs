@@ -8,9 +8,8 @@ namespace Classes
     {
         public static void ReadMp3Fields(this FileViewInfo info)
         {
-            //_mp3Fields._Handle = _Handle;
             info.Mp3Fields.FileName = info.Path;
-            info.Mp3Fields.Album = (!String.IsNullOrEmpty(info._Handle.Tag.Album)) ? info._Handle.Tag.Album.Trim() : string.Empty;
+            info.Mp3Fields.Album = (!string.IsNullOrEmpty(info._Handle.Tag.Album)) ? info._Handle.Tag.Album.Trim() : string.Empty;
 
             string track_artists = info._Handle.Tag.AlbumArtists.Length > 0 ? string.Join("\n", info._Handle.Tag.AlbumArtists) :
                 info._Handle.Tag.Artists.Length > 0 ? string.Join("\n", info._Handle.Tag.Artists) : "unknown artist";
@@ -149,18 +148,15 @@ namespace Classes
             }
             catch (NotSupportedException nsExc)
             {
-                //info.Image = null;
                 return;
             }
             catch (Exception exc)
             {
-                //info.Image = null;
                 System.Windows.MessageBox.Show("Exception catched: " + exc.Message);
                 return;
             }
             info.Raise("Image");
         }
-
 
         public static void RemoveImage(this FileViewInfo info)
         {
@@ -169,7 +165,5 @@ namespace Classes
 
             info.Image = null;
         }
-
-
     }
 }

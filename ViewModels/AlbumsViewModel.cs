@@ -11,15 +11,16 @@ namespace ViewModels
 {
     public class AlbumsViewModel : INotifyPropertyChanged
     {
-        Dispatcher currentDispatcher = null;
         public AlbumsViewModel()
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
         }
+        
+        Dispatcher currentDispatcher = null;
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
         {
-            get { return _mediaLibrary; }
+            get => _mediaLibrary;
             set
             {
                 _mediaLibrary = value;

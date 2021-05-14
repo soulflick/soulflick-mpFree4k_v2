@@ -10,17 +10,19 @@ namespace ViewModels
 {
     public class TracksViewModel : INotifyPropertyChanged
     {
-        public static TracksViewModel _singleton = null;
-        Dispatcher currentDispatcher = null;
         public TracksViewModel()
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
-            _singleton = this;
+            Instance = this;
         }
+
+        public static TracksViewModel Instance = null;
+        Dispatcher currentDispatcher = null;
+
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
         {
-            get { return _mediaLibrary; }
+            get => _mediaLibrary;
             set
             {
                 _mediaLibrary = value;

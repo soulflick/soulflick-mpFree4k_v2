@@ -26,14 +26,18 @@ namespace MpFree4k
     }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public void UpdateHeaderSize()
-        {
-        }
+        public static MainWindow Instance = null;
+        public SettingControl setctrl = null;
+        public delegate void updateProgress(double percent);
+        public updateProgress delegateUpdateProgress;
+        public static bool ctrl_down = false;
+
+        private PlaylistSelector plsel = null;
 
         private ViewMode _viewMode = ViewMode.Details;
         public ViewMode ViewMode
         {
-            get { return _viewMode; }
+            get => _viewMode;
             set
             {
                 _viewMode = value;
@@ -44,22 +48,15 @@ namespace MpFree4k
         private void OnViewMode()
         {
             if (_viewMode == ViewMode.Albums)
-            {
                 Controls.AlbumView.StaticViewModel.UpdateAmount();
-            }
         }
 
-        public static MainWindow Instance = null;
         public static void SetProgress(double percent)
         {
-            if (Instance == null)
-                return;
+            if (Instance == null) return;
 
             mainDispatcher.BeginInvoke(Instance.delegateUpdateProgress, new object[] { percent });
         }
-
-        public delegate void updateProgress(double percent);
-        public updateProgress delegateUpdateProgress;
 
         public void updateProgressFunc(double percent)
         {
@@ -84,7 +81,7 @@ namespace MpFree4k
         Library _library = null;
         public Library Library
         {
-            get { return _library; }
+            get => _library;
             set
             {
                 if (_library != null && _library.Current != null)
@@ -120,11 +117,11 @@ namespace MpFree4k
 
 
         private RepeatMode _repeatMode = RepeatMode.GoThrough;
-        public RepeatMode RepeatMode { get { return _repeatMode; } set { _repeatMode = value; OnPropertyChanged("RepeatMode"); } }
-
-       
-        public SettingControl setctrl = null;
-        PlaylistSelector plsel = null;
+        public RepeatMode RepeatMode 
+        { 
+            get => _repeatMode;
+            set { _repeatMode = value; OnPropertyChanged("RepeatMode"); } 
+        }
 
         public MainWindow()
         {
@@ -151,12 +148,12 @@ namespace MpFree4k
                 PlaylistSerializer.Load(Playlist.DataContext as PlaylistViewModel, plsel.SelectedDefinition.Path);
 
             mainDispatcher = this.TableView.AlbumView.Dispatcher;
-            this.TableView.AlbumView.SetMediaLibrary(Library.Current);
-            this.TableView.ArtistView.SetMediaLibrary(Library.Current);
-            this.TableView.TrackView.SetMediaLibrary(Library.Current);
-            this.TrackTable.SetMediaLibrary(Library.Current);
-            this.Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
-            this.Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
+            TableView.AlbumView.SetMediaLibrary(Library.Current);
+            TableView.ArtistView.SetMediaLibrary(Library.Current);
+            TableView.TrackView.SetMediaLibrary(Library.Current);
+            TrackTable.SetMediaLibrary(Library.Current);
+            Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
+            Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             delegateUpdateProgress = new updateProgress(updateProgressFunc);
 
@@ -173,7 +170,7 @@ namespace MpFree4k
             query_timer.AutoReset = false;
             query_timer.Elapsed += Query_timer_Elapsed;
 
-            this.Width += 1;
+            Width += 1;
             
         }
 
@@ -198,10 +195,7 @@ namespace MpFree4k
         double _headerHeight = 0;
         public double HeaderHeight
         {
-            get
-            {
-                return _headerHeight;
-            }
+            get => _headerHeight;
             set
             {
                 _headerHeight = value;
@@ -212,7 +206,7 @@ namespace MpFree4k
         private double _progressValue = 0;
         public double ProgressValue
         {
-            get { return _progressValue; }
+            get => _progressValue;
             set
             {
                 _progressValue = value;
@@ -220,20 +214,19 @@ namespace MpFree4k
             }
         }
 
-        public static bool ctrl_down = false;
         private void _This_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
-                ctrl_down = true;
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) ctrl_down = true;
+
             else if (e.Key == Key.F12)
             {
-                if (this.WindowStyle != WindowStyle.None)
+                if (WindowStyle != WindowStyle.None)
                 {
-                    this.WindowStyle = WindowStyle.None;
+                    WindowStyle = WindowStyle.None;
                 }
                 else
                 {
-                    this.WindowStyle = WindowStyle.ThreeDBorderWindow;
+                    WindowStyle = WindowStyle.ThreeDBorderWindow;
                 }
             }
         }
@@ -256,7 +249,7 @@ namespace MpFree4k
                 }
             }
 
-            this.Player.Shutdown();
+            Player.Shutdown();
 
             Application.Current.Shutdown();
         }
@@ -332,13 +325,10 @@ namespace MpFree4k
                 MessageBox.Show(count.ToString() + " files copied to " + location);
             }
 
-            this.BringIntoView();
+            BringIntoView();
         }
 
-        private void _This_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Width += 1;
-        }
+        private void _This_Loaded(object sender, RoutedEventArgs e) => Width += 1;
 
         private void MainViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -351,18 +341,11 @@ namespace MpFree4k
             }
         }
 
-        private void MinimizeWindow(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
+        private void MinimizeWindow(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void MaximizeWindow(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = (this.WindowState == WindowState.Maximized) ?
-                WindowState.Normal : WindowState.Maximized;
-        }
+        private void MaximizeWindow(object sender, RoutedEventArgs e) => WindowState = (WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
 
-        private void btnEqualizer_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void btnEqualizer_MouseDown(object sender, MouseButtonEventArgs e)
         {
             EqualizerWindow eq = new EqualizerWindow();
             eq.ShowDialog();

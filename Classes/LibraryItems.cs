@@ -20,9 +20,9 @@ namespace FreeMP3Tagger.Classes
         public OLDAlbumItem()
         {
             this.Image = new System.Windows.Media.Imaging.BitmapImage(
-        new System.Uri(@"pack://application:,,,/" + 
-            System.Reflection.Assembly.GetCallingAssembly().GetName().Name + 
-            ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
+                new System.Uri(@"pack://application:,,,/" + 
+                System.Reflection.Assembly.GetCallingAssembly().GetName().Name + 
+               ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
 
     }
@@ -34,6 +34,4 @@ namespace FreeMP3Tagger.Classes
         public int AlbumCount { get; set; }
         public int TrackCount { get; set; }
     }
-
-   
 }

@@ -22,17 +22,11 @@ namespace Classes
 
         private ImageSource _image = null;
 
-        public bool HasAlbumImage
-        {
-            get { return _image != null; }
-        }
+        public bool HasAlbumImage => _image != null;
 
         public ImageSource AlbumImage
         {
-            get
-            {
-                return _image;
-            }
+            get => _image;
             set
             {
                 _image = value;
@@ -50,18 +44,12 @@ namespace Classes
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private bool _isVisible = true;
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             set
             {
                 _isVisible = value;
@@ -72,7 +60,7 @@ namespace Classes
         private bool _isSelected = false;
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 _isSelected = value;

@@ -96,17 +96,14 @@ namespace MpFree4k.Controls
 
 
         private System.Timers.Timer CheckSongTimer;
-        public bool SongEnded { get => MediaPlayer.SongEnded; }
-
-        bool manualPlayStateChanged = false;
-
-        int muteVolumne = 50;
-        List<bool> PlayStates = new List<bool>();
-
-        Dispatcher dispatcher = null;
+        public bool SongEnded => MediaPlayer.SongEnded;
+        private int muteVolumne = 50;
+        private List<bool> PlayStates = new List<bool>();
+        private Dispatcher dispatcher = null;
         private static Player _singleton = null;
+        private IMediaPlugin MediaPlayer;
+        private double trackLength = 0;
 
-        IMediaPlugin MediaPlayer;
         public Player()
         {
             dispatcher = this.Dispatcher;
@@ -189,10 +186,7 @@ namespace MpFree4k.Controls
         }
 
 
-        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            MediaPlayer?.SetVolume((int)sldVolume.Value);
-        }
+        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => MediaPlayer?.SetVolume((int)sldVolume.Value);
 
         void UpdatePositionMarker(double position)
         {
@@ -201,10 +195,7 @@ namespace MpFree4k.Controls
             sldTrackSlider.ValueChanged += sldTrackSlider_ValueChanged;
         }
 
-        void InitPositionMarker(int duration)
-        {
-            sldTrackSlider.Maximum = duration;
-        }
+        void InitPositionMarker(int duration) => sldTrackSlider.Maximum = duration;
 
         void ShowWindowTitleByFile(PlaylistItem item)
         {
@@ -258,10 +249,6 @@ namespace MpFree4k.Controls
 
             trackLength = Utilities.LibraryUtils.DurationStringToSeconds(itm.Duration);
         }
-
-       
-
-        double trackLength = 0;
 
         void ShowWindowTitle(string songName)
         {
@@ -576,25 +563,13 @@ namespace MpFree4k.Controls
             Unplay(current_track);
         }
 
-        private void btnPause_Click(object sender, RoutedEventArgs e)
-        {
-            Pause();
-        }
+        private void btnPause_Click(object sender, RoutedEventArgs e) => Pause();
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            Stop();
-        }
+        private void btnStop_Click(object sender, RoutedEventArgs e) => Stop();
 
-        private void btnForward_Click(object sender, RoutedEventArgs e)
-        {
-            MediaPlayer.Position += forward;
-        }
+        private void btnForward_Click(object sender, RoutedEventArgs e) => MediaPlayer.Position += forward;
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
-        {
-            Next();
-        }
+        private void btnNext_Click(object sender, RoutedEventArgs e) => Next();
 
         private void btnMute_Checked(object sender, RoutedEventArgs e)
         {
@@ -614,28 +589,18 @@ namespace MpFree4k.Controls
         public void showDefaultPicture()
         {
             TrackImage.Source = new System.Windows.Media.Imaging.BitmapImage(
-new System.Uri(@"pack://application:,,,/" +
-System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
-
-            //(Window.GetWindow(this) as MainWindow).Player.TrackImageBig.Source = TrackImage.Source;
+                new System.Uri(@"pack://application:,,,/" +
+                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
+                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
 
-        private void sldTrackSlider_StylusMove(object sender, System.Windows.Input.StylusEventArgs e)
-        {
-            MediaPlayer.SetVolume(0);
-        }
+        private void sldTrackSlider_StylusMove(object sender, System.Windows.Input.StylusEventArgs e) => MediaPlayer.SetVolume(0);
 
-        private void sldTrackSlider_StylusDown(object sender, System.Windows.Input.StylusDownEventArgs e)
-        {
-            MediaPlayer.SetVolume(muteVolumne);
-        }
+        private void sldTrackSlider_StylusDown(object sender, System.Windows.Input.StylusDownEventArgs e) => MediaPlayer.SetVolume(muteVolumne);
 
         private RemainingMode remainingMode = RemainingMode.Elapsed;
-        private void lblProgress_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
+        private void lblProgress_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             remainingMode = remainingMode == RemainingMode.Elapsed ? RemainingMode.Remaining : RemainingMode.Elapsed;
-        }
 
         private void Spectrum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

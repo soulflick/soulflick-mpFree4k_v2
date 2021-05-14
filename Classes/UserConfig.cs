@@ -7,10 +7,7 @@ namespace MpFree4k.Classes
         private static bool _showTouchButtons = true;
         public static bool ShowTouchButtons
         {
-            get
-            {
-                return _showTouchButtons;
-            }
+            get => _showTouchButtons;
             set
             {
                 _showTouchButtons = value;
@@ -18,10 +15,9 @@ namespace MpFree4k.Classes
         }
 
         private static bool _showFullAlbum = true;
-        public static bool ShowFullAlbum { get
-            {
-                return _showFullAlbum;
-            }
+        public static bool ShowFullAlbum 
+        { 
+            get => _showFullAlbum;
             set
             {
                 _showFullAlbum = value;
@@ -31,10 +27,7 @@ namespace MpFree4k.Classes
         private static bool _autoSavePlaylist = true;
         public static bool AutoSavePlaylist
         {
-            get
-            {
-                return _autoSavePlaylist;
-            }
+            get => _autoSavePlaylist;
             set
             {
                 _autoSavePlaylist = value;
@@ -44,7 +37,7 @@ namespace MpFree4k.Classes
         private static bool _rememberSelectedAlbum = true;
         public static bool RememberSelectedAlbums
         {
-            get { return _rememberSelectedAlbum; }
+            get => _rememberSelectedAlbum;
             set
             {
                 _rememberSelectedAlbum = value;

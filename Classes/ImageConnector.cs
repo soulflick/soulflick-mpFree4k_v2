@@ -11,7 +11,7 @@ namespace Classes
         public static void SaveImageToFile(BitmapImage img)
         {
             SaveFileDialog fDlg = new SaveFileDialog();
-            //fDlg.Filter = "Bitmap files|.bmp|EMF files|.emf|Exif files|.exif|GIF files|.gif|Icon|.ico|JPEG files|.jpg|PNG files|.png|Tiff files|.tiff";
+
             fDlg.Filter = "JPEG files|.jpg";
             if (fDlg.ShowDialog() != true) return;
 
@@ -60,7 +60,6 @@ namespace Classes
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                //img = System.Drawing.Image.FromStream(ms);
                 arr = ms.ToArray();
             }
 
@@ -73,7 +72,7 @@ namespace Classes
 
             using (System.IO.MemoryStream ms2 = new System.IO.MemoryStream(arr))
             {
-                img.Save(ms2, System.Drawing.Imaging.ImageFormat.Jpeg); // <-- Error occurs on this line
+                img.Save(ms2, System.Drawing.Imaging.ImageFormat.Jpeg);
                 ms2.Position = 0;
                 pic.Data = TagLib.ByteVector.FromStream(ms2);
             }
@@ -121,7 +120,6 @@ namespace Classes
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
-                //image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 image.StreamSource = ms;
                 image.EndInit();
 

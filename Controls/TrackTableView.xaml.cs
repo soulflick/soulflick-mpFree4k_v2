@@ -17,16 +17,13 @@ namespace MpFree4k.Controls
     public partial class TrackTableView : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
-        bool loaded = false;
-
-        List<FileViewInfo> dragItems = new List<FileViewInfo>();
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         public Thickness TableMargin { get; set; } = new Thickness(30);
+
+        private bool loaded = false;
+        private bool mousedown = false;
+        private Point mousepos = new Point(0, 0);
+        private List<FileViewInfo> dragItems = new List<FileViewInfo>();
 
         public TrackTableView()
         {
@@ -35,10 +32,7 @@ namespace MpFree4k.Controls
             InitializeComponent();
         }
 
-        public void SetMediaLibrary(Layers.MediaLibrary lib)
-        {
-            (this.DataContext as TrackTableViewModel).MediaLibrary = lib;
-        }
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => (this.DataContext as TrackTableViewModel).MediaLibrary = lib;
 
         public void UpdateMargín(FontSize size)
         {
@@ -53,17 +47,8 @@ namespace MpFree4k.Controls
 
             TableMargin = new Thickness(3);
 
-            MainWindow.Instance.Library.Current.PropertyChanged -= Current_PropertyChanged;
-            MainWindow.Instance.Library.Current.PropertyChanged += Current_PropertyChanged;
-
             loaded = true;
             Config.MediaHasChanged = false;
-
-            //TrackTable.ItemsSource = MainWindow.Instance.Library.Current.Files;
-        }
-
-        private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
         }
 
         private void TrackTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,7 +64,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        private bool mousedown = false;
         private void TrackTable_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             mousedown = true;
@@ -107,9 +91,7 @@ namespace MpFree4k.Controls
                         else
                             TrackTable.SelectedItems.Add(item);
                     }
-                    //item.IsSelected = !item.IsSelected;
                 }
-
             }
         }
 
@@ -127,10 +109,7 @@ namespace MpFree4k.Controls
             }
         }
 
-        private void TrackTable_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            playSelected();
-        }
+        private void TrackTable_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) => playSelected();
         
         private void playSelected()
         {
@@ -149,12 +128,8 @@ namespace MpFree4k.Controls
             PlaylistViewModel.Play(items.ToArray());
         }
 
-        private void _This_Loaded(object sender, RoutedEventArgs e)
-        {
-            MainWindow.Instance.Library.Current.QueryMe(ViewMode.Table);
-        }
+        private void _This_Loaded(object sender, RoutedEventArgs e) => MainWindow.Instance.Library.Current.QueryMe(ViewMode.Table);
 
-        Point mousepos = new Point(0, 0);
         private void TrackTable_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown = false;
@@ -172,10 +147,7 @@ namespace MpFree4k.Controls
             editor.ShowDialog();
         }
 
-        private void mnuCtxPlay_Click(object sender, RoutedEventArgs e)
-        {
-            playSelected();
-        }
+        private void mnuCtxPlay_Click(object sender, RoutedEventArgs e) => playSelected();
 
         public List<PlaylistItem> GetSelected()
         {
@@ -222,8 +194,8 @@ namespace MpFree4k.Controls
             if (item == null)
                 return;
 
-            var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var vm = DataContext as TrackTableViewModel;
+            var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Instance.Add(albumItems);
         }
 
@@ -233,8 +205,8 @@ namespace MpFree4k.Controls
             if (item == null)
                 return;
 
-            var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var vm = DataContext as TrackTableViewModel;
+            var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Insert(albumItems);
         }
 
@@ -244,14 +216,14 @@ namespace MpFree4k.Controls
             if (item == null)
                 return;
 
-            var vm = this.DataContext as TrackTableViewModel;
-            var albumItems = Utilities.LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
+            var vm = DataContext as TrackTableViewModel;
+            var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Play(albumItems);
         }
 
         private void mnuCtxPlayAll_Click(object sender, RoutedEventArgs e)
         {
-            var vm = this.DataContext as TrackTableViewModel;
+            var vm = DataContext as TrackTableViewModel;
             var uniques = vm.Tracks.DistinctBy(x => x.Title).ToArray();
             PlaylistViewModel.Play(uniques);
         }

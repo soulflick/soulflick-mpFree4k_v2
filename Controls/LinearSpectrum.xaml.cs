@@ -37,7 +37,7 @@ namespace WPFEqualizer.Controls
 
         public int BarGap
         {
-            get { return (int)this.GetValue(BarGapProperty); }
+            get => (int)this.GetValue(BarGapProperty);
             set
             {
                 this.SetValue(BarGapProperty, value);
@@ -47,7 +47,7 @@ namespace WPFEqualizer.Controls
 
         public int BarSegment
         {
-            get { return (int)this.GetValue(BarSegmentProperty); }
+            get => (int)this.GetValue(BarSegmentProperty);
             set
             {
                 this.SetValue(BarSegmentProperty, value);
@@ -57,7 +57,7 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush ControlBackground
         {
-            get { return (System.Windows.Media.SolidColorBrush)this.GetValue(ControlBackgroundProperty); }
+            get => (System.Windows.Media.SolidColorBrush)this.GetValue(ControlBackgroundProperty);
             set
             {
                 this.SetValue(ControlBackgroundProperty, value);
@@ -68,7 +68,7 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush BarStartBrush
         {
-            get { return (System.Windows.Media.SolidColorBrush)this.GetValue(BarStartBrushProperty); }
+            get => (System.Windows.Media.SolidColorBrush)this.GetValue(BarStartBrushProperty);
             set
             {
                 this.SetValue(BarStartBrushProperty, value);
@@ -79,7 +79,7 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush BarEndBrush
         {
-            get { return (System.Windows.Media.SolidColorBrush)this.GetValue(BarEndBrushProperty); }
+            get => (System.Windows.Media.SolidColorBrush)this.GetValue(BarEndBrushProperty);
             set
             {
                 this.SetValue(BarEndBrushProperty, value);
@@ -90,7 +90,7 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush LineBrush
         {
-            get { return (System.Windows.Media.SolidColorBrush)this.GetValue(LineBrushProperty); }
+            get => (System.Windows.Media.SolidColorBrush)this.GetValue(LineBrushProperty);
             set
             {
                 this.SetValue(LineBrushProperty, value);
@@ -101,7 +101,7 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush FillBrush
         {
-            get { return (System.Windows.Media.SolidColorBrush)this.GetValue(FillBrushProperty); }
+            get => (System.Windows.Media.SolidColorBrush)this.GetValue(FillBrushProperty);
             set
             {
                 this.SetValue(FillBrushProperty, value);
@@ -112,7 +112,7 @@ namespace WPFEqualizer.Controls
 
         public int BarCount
         {
-            get { return (int)this.GetValue(BarCountProperty); }
+            get => (int)this.GetValue(BarCountProperty);
             set
             {
                 this.SetValue(BarCountProperty, value);
@@ -122,7 +122,7 @@ namespace WPFEqualizer.Controls
 
         public GraphType GraphType
         {
-            get { return (GraphType)this.GetValue(GraphTypeProperty); }
+            get => (GraphType)this.GetValue(GraphTypeProperty);
             set
             {
                 this.SetValue(GraphTypeProperty, value);
@@ -146,10 +146,7 @@ namespace WPFEqualizer.Controls
             SetViewPort();
         }
 
-        public void SetViewModel(SpectrumViewModel vm)
-        {
-            this.DataContext = viewModel = vm;
-        }
+        public void SetViewModel(SpectrumViewModel vm) => DataContext = viewModel = vm;
 
         private void Spectrum_Loaded(object sender, RoutedEventArgs e)
         {
@@ -157,10 +154,7 @@ namespace WPFEqualizer.Controls
             ApplyProperties();
         }
 
-        public void Redraw()
-        {
-            viewModel.GenerateLineSpectrum();
-        }
+        public void Redraw() => viewModel.GenerateLineSpectrum();
 
         public void ApplyProperties()
         {
@@ -199,7 +193,7 @@ namespace WPFEqualizer.Controls
             if (viewModel == null)
                 return;
 
-            System.Windows.Point pos = Mouse.GetPosition(ImageSpectrum);
+            Point pos = Mouse.GetPosition(ImageSpectrum);
             viewModel.ApplyTipPos(pos);
         }
     }

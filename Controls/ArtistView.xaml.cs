@@ -8,7 +8,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using ViewModels;
 
 
@@ -17,6 +16,11 @@ namespace MpFree4k.Controls
     public partial class ArtistView : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private bool mousedown = false;
+        private bool prevent_side_selection = false;
+        private List<SimpleAlbumItem> selected_simple_albums = new List<SimpleAlbumItem>();
+        private Point mousepos = new Point(0, 0);
 
         public void OnPropertyChanged(String info)
         {
@@ -42,15 +46,9 @@ namespace MpFree4k.Controls
             }
         }
 
-        private void ArtistView_Loaded(object sender, RoutedEventArgs e)
-        {
-            ListWidth = calcListWidth();
-        }
+        private void ArtistView_Loaded(object sender, RoutedEventArgs e) => ListWidth = calcListWidth();
 
-        public void SetMediaLibrary(Layers.MediaLibrary lib)
-        {
-            (this.DataContext as ArtistsViewModel).MediaLibrary = lib;
-        }
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => (this.DataContext as ArtistsViewModel).MediaLibrary = lib;
 
         private void ListArtists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -74,7 +72,7 @@ namespace MpFree4k.Controls
             ListView view = ListArtists;
             double wid = view.ActualWidth;
 
-            ScrollViewer scrollview = FindVisualChild<ScrollViewer>(view);
+            ScrollViewer scrollview = VisualTreeHelperLocal.FindVisualChild<ScrollViewer>(view);
             if (scrollview != null)
             {
                 Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
@@ -96,36 +94,15 @@ namespace MpFree4k.Controls
                 _listWidth = value;
                 OnPropertyChanged("ListWidth");
             }
-            get
-            {
-
-                return _listWidth;
-
-            }
+            get => _listWidth;
         }
 
-        private childItem FindVisualChild<childItem>(DependencyObject obj)
-    where childItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is childItem)
-                    return (childItem)child;
-                else
-                {
-                    childItem childOfChild = FindVisualChild<childItem>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
+
 
         private ArtistViewType _artistViewType = Enums.ArtistViewType.List;
         public ArtistViewType ArtistViewType
         {
-            get { return _artistViewType; }
+            get => _artistViewType;
             set
             {
                 _artistViewType = value;
@@ -139,12 +116,8 @@ namespace MpFree4k.Controls
             UserConfig.ArtistViewType = type;
         }
 
-        private void ListArtists_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ListWidth = calcListWidth();
-        }
+        private void ListArtists_SizeChanged(object sender, SizeChangedEventArgs e) => ListWidth = calcListWidth();
 
-        List<PlaylistItem> dragItems = new List<PlaylistItem>();
         private void ListArtists_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (mousepos.X != 0 && mousepos.Y != 0 && mousedown && e.LeftButton == MouseButtonState.Pressed && e.OriginalSource is TextBlock)
@@ -159,13 +132,12 @@ namespace MpFree4k.Controls
             }
         }
 
-        private bool mousedown = false;
         private void ListArtists_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             mousedown = true;
             mousepos = e.MouseDevice.GetPosition(this);
             dragItems.Clear();
-            foreach (FileViewInfo info in TracksViewModel._singleton.Tracks.Where(x => x.IsVisible).ToList())
+            foreach (FileViewInfo info in TracksViewModel.Instance.Tracks.Where(x => x.IsVisible).ToList())
             {
                 PlaylistItem plitm = new PlaylistItem();
                 PlaylistHelpers.CreateFromMediaItem(plitm, info);
@@ -173,8 +145,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        bool prevent_side_selection = false;
-        List<SimpleAlbumItem> selected_simple_albums = new List<SimpleAlbumItem>();
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (prevent_side_selection)
@@ -254,7 +224,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        Point mousepos = new Point(0, 0);
         private void ListArtists_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown = false;

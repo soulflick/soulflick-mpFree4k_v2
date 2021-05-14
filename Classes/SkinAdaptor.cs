@@ -11,7 +11,7 @@ namespace MpFree4k.Classes
 
         public static void ClearStyles()
         {
-            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.TableView.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.TableView.ArtistView.Resources.MergedDictionaries.Clear();
@@ -28,9 +28,9 @@ namespace MpFree4k.Classes
 
         }
 
-        public static void AddSkin(System.Windows.ResourceDictionary resDict)
+        public static void AddSkin(ResourceDictionary resDict)
         {
-            System.Windows.Application.Current.Resources.MergedDictionaries.Add(resDict);
+            Application.Current.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.TableView.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.TableView.ArtistView.Resources.MergedDictionaries.Add(resDict);
@@ -95,8 +95,7 @@ namespace MpFree4k.Classes
             if (langDictUri == null)
                 return;
 
-            System.Windows.ResourceDictionary langDict =
-                System.Windows.Application.LoadComponent(langDictUri) as System.Windows.ResourceDictionary;
+            ResourceDictionary langDict = Application.LoadComponent(langDictUri) as ResourceDictionary;
 
             AddSkin(langDict);
         }
@@ -106,8 +105,7 @@ namespace MpFree4k.Classes
             ClearStyles();
 
             Uri langDictUri = new Uri(uri, UriKind.Relative);
-            System.Windows.ResourceDictionary langDict =
-                System.Windows.Application.LoadComponent(langDictUri) as System.Windows.ResourceDictionary;
+            ResourceDictionary langDict = Application.LoadComponent(langDictUri) as ResourceDictionary;
             
             AddSkin(langDict);
         }
@@ -115,7 +113,6 @@ namespace MpFree4k.Classes
         public static void ApplyFontSize(MainWindow main, FontSize size)
         {
             ApplySkin(main, UserConfig.Skin, size);
-            MainWindow.Instance.UpdateHeaderSize();
             MainWindow.Instance.TrackTable.UpdateMargín(size);
             MainWindow.Instance.Favourites.UpdateMargín(size);
         }
@@ -125,32 +122,22 @@ namespace MpFree4k.Classes
             ResourceDictionary orig_dict = Application.Current.Resources;
 
             ClearStyles();
-
             AddSkin(skin);
 
             string colors = @"Styles\SolidColorBrushes.xaml";
             Uri colors_uri = new Uri(colors, UriKind.Relative);
-            System.Windows.ResourceDictionary brushes_dict =
-               System.Windows.Application.LoadComponent(colors_uri) as System.Windows.ResourceDictionary;
+            ResourceDictionary brushes_dict = Application.LoadComponent(colors_uri) as ResourceDictionary;
 
             AddSkin(brushes_dict);
 
             Uri size_uri = GetSizeURI(size);
-            System.Windows.ResourceDictionary sizes_dict =
-               System.Windows.Application.LoadComponent(size_uri) as System.Windows.ResourceDictionary;
+            ResourceDictionary sizes_dict = Application.LoadComponent(size_uri) as ResourceDictionary;
 
             AddSkin(sizes_dict);
 
             ActiveSkin = skin;
 
-            string res = Application.Current.Resources.MergedDictionaries[0].Values.ToString();
-            foreach (var key in sizes_dict.Keys)
-            {
-                //Application.Current.Resources[key.ToString()] = sizes_dict.Values.
-            }
-
-
-
+            //Application.Current.Resources.MergedDictionaries[0].Values.ToString();
         }
 
         public static void ApplySkinFromFile(MainWindow main, string skinFile)

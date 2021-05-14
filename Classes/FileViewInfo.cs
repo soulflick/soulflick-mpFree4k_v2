@@ -7,11 +7,7 @@ namespace Classes
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Raise(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public bool IsItemChecked { get; set; }
 

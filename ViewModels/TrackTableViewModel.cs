@@ -9,18 +9,19 @@ namespace MpFree4k.ViewModels
 {
     public class TrackTableViewModel : INotifyPropertyChanged
     {
-        public static TrackTableViewModel _singleton = null;
-        Dispatcher currentDispatcher = null;
-
         public TrackTableViewModel()
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
-            _singleton = this;
+            Instance = this;
         }
+
+        public static TrackTableViewModel Instance = null;
+        Dispatcher currentDispatcher = null;
+
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
         {
-            get { return _mediaLibrary; }
+            get => _mediaLibrary;
             set
             {
                 _mediaLibrary = value;

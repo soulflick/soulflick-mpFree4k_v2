@@ -99,8 +99,7 @@ namespace WPFEqualizer.Visualization
             }
         }
 
-//        public Bitmap CreateSpectrumLine(Size size, Brush brush, Color background, Color lineColor, Color fillColor, bool highQuality)
-          public Bitmap DrawSpectrumLine(Size size, Brush gradientBrush, Color background, Color lineColor, Color fillColor, bool highQuality)
+        public Bitmap DrawSpectrumLine(Size size, Brush gradientBrush, Color background, Color lineColor, Color fillColor, bool highQuality)
         {
             if (!size.IsRealSize())
                 return null;
@@ -134,8 +133,7 @@ namespace WPFEqualizer.Visualization
         {
             UpdateFrequencyMappingIfNessesary(size);
 
-            using (
-                Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), gradientEndColor,
+            using (Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), gradientEndColor,
                     gradientStartColor, LinearGradientMode.Vertical))
             {
                 return DrawSpectrumLine(size, brush, background, lineColor, fillColor, highQuality);
@@ -173,7 +171,6 @@ namespace WPFEqualizer.Visualization
             SpectrumPointData[] spectrumPoints = CalculateSpectrumPoints(height, fftBuffer);
             SpectrumLines.Add(spectrumPoints);
 
-            float lineWidth = 2f;
             if (SpectrumLines.Count < 2)
                 SpectrumLines.Add(spectrumPoints);
 
@@ -237,12 +234,9 @@ namespace WPFEqualizer.Visualization
                 SpectrumLines.RemoveAt(0);
 
             int _localNumLines = Math.Min(numLines, SpectrumLines.Count);
-
             float lineWidth = 0.7f;
-            if (_localNumLines <= 2)
-            {
-                lineWidth = 2;
-            }
+
+            if (_localNumLines <= 2) lineWidth = 2;
 
             double _deltaR = (lineColor.R - background.R) / _localNumLines;
             double _deltaG = (lineColor.G - background.G) / _localNumLines;
@@ -257,6 +251,7 @@ namespace WPFEqualizer.Visualization
 
                 var pen = new Pen(penColor, lineWidth);
                 PointF p1 = new PointF(0, height - (float)SpectrumLines[lineNumber][0].Value);
+
                 for (int i = 0; i < SpectrumLines[lineNumber].Length; i++)
                 {
                     SpectrumPointData p = SpectrumLines[lineNumber][i];

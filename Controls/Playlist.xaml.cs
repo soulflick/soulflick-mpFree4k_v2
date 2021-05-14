@@ -19,17 +19,15 @@ namespace MpFree4k.Controls
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
         private PlaylistViewModel vm = null;
-
-        System.Timers.Timer addCompleteTimer;
-        Thread t_addFiles;
+        private System.Timers.Timer addCompleteTimer;
+        private Thread t_addFiles;
+        private bool drag_invalidate = false;
+        private bool mousedown = false;
+        private Point mousepos = new Point(0, 0);
 
         public Playlist()
         {
@@ -73,15 +71,10 @@ namespace MpFree4k.Controls
             }
         }
 
-        private void Playlist_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            setWidth();
-        }
+        private void Playlist_SizeChanged(object sender, SizeChangedEventArgs e) => setWidth();
 
-        private void Playlist_Loaded(object sender, RoutedEventArgs e)
-        {
-            setWidth();
-        }
+        private void Playlist_Loaded(object sender, RoutedEventArgs e) => setWidth();
+        private void PlaylistView_ScrollChanged(object sender, ScrollChangedEventArgs e) => setWidth();
 
         void setWidth()
         {
@@ -109,7 +102,7 @@ namespace MpFree4k.Controls
         private double _availableWidth = 0;
         public double AvailableWidth
         {
-            get { return _availableWidth; }
+            get => _availableWidth;
             set
             {
                 _availableWidth = value;
@@ -180,7 +173,6 @@ namespace MpFree4k.Controls
                 (lvi.DataContext as PlaylistItem).DragOver = false;
         }
 
-        bool drag_invalidate = false;
         private void PlaylistView_Drop(object sender, DragEventArgs e)
         {
             if (!(e.OriginalSource is FrameworkElement))
@@ -339,7 +331,6 @@ namespace MpFree4k.Controls
             addCompleteTimer.Start();
         }
 
-        private bool mousedown = false;
         private void PlaylistView_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             mousedown = true;
@@ -367,7 +358,6 @@ namespace MpFree4k.Controls
                         else
                             PlaylistView.SelectedItems.Add(item);
                     }
-                    //item.IsSelected = !item.IsSelected;
                 }
 
             }
@@ -415,7 +405,6 @@ namespace MpFree4k.Controls
             e.Handled = true;
         }
 
-        Point mousepos = new Point(0, 0);
         private void PlaylistView_MouseUp(object sender, MouseButtonEventArgs e)
         {
             drag_invalidate = true;
@@ -430,11 +419,6 @@ namespace MpFree4k.Controls
                 drag_invalidate = false;
                 DragDrop.DoDragDrop(PlaylistView, new DataObject("PlaylistItemData", dragItems), DragDropEffects.Move);
             }
-        }
-
-        private void PlaylistView_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            setWidth();
         }
     }
 }

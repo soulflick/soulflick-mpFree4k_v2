@@ -16,6 +16,15 @@ namespace WPFEqualizer.Visualization
 
     public class SpectrumBase : INotifyPropertyChanged
     {
+        protected void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        [DebuggerDisplay("{Value}")]
+        protected struct SpectrumPointData
+        {
+            public int SpectrumPointIndex;
+            public double Value;
+        }
+
         private const int ScaleFactorLinear = 9;
         protected const int ScaleFactorSqr = 2;
         protected const double MinDbValue = -90;
@@ -39,7 +48,7 @@ namespace WPFEqualizer.Visualization
 
         public int MaximumFrequency
         {
-            get { return _maximumFrequency; }
+            get => _maximumFrequency;
             set
             {
                 if (value <= MinimumFrequency)
@@ -56,7 +65,7 @@ namespace WPFEqualizer.Visualization
 
         public int MinimumFrequency
         {
-            get { return _minimumFrequency; }
+            get => _minimumFrequency;
             set
             {
                 if (value < 0)
@@ -71,7 +80,7 @@ namespace WPFEqualizer.Visualization
         [BrowsableAttribute(false)]
         public ISpectrumProvider SpectrumProvider
         {
-            get { return _spectrumProvider; }
+            get => _spectrumProvider;
             set
             {
                 if (value == null)
@@ -84,7 +93,7 @@ namespace WPFEqualizer.Visualization
 
         public bool IsXLogScale
         {
-            get { return _isXLogScale; }
+            get => _isXLogScale;
             set
             {
                 _isXLogScale = value;
@@ -95,7 +104,7 @@ namespace WPFEqualizer.Visualization
 
         public ScalingStrategy ScalingStrategy
         {
-            get { return _scalingStrategy; }
+            get => _scalingStrategy;
             set
             {
                 _scalingStrategy = value;
@@ -105,7 +114,7 @@ namespace WPFEqualizer.Visualization
 
         public bool UseAverage
         {
-            get { return _useAverage; }
+            get => _useAverage;
             set
             {
                 _useAverage = value;
@@ -116,7 +125,8 @@ namespace WPFEqualizer.Visualization
         [BrowsableAttribute(false)]
         public FftSize FftSize
         {
-            get { return (FftSize)_fftSize; }
+            get => (FftSize)_fftSize;
+
             protected set
             {
                 if ((int)Math.Log((int)value, 2) % 1 != 0)
@@ -212,24 +222,9 @@ namespace WPFEqualizer.Visualization
                     spectrumPointIndex++;
                     recalc = false;
                 }
-
-                //value = 0;
             }
 
             return dataPoints.ToArray();
-        }
-
-        protected void RaisePropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null && !String.IsNullOrEmpty(propertyName))
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        [DebuggerDisplay("{Value}")]
-        protected struct SpectrumPointData
-        {
-            public int SpectrumPointIndex;
-            public double Value;
         }
     }
 }

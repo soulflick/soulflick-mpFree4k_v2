@@ -139,7 +139,6 @@
                                 <Button x:Name="btnSaveImage" Content="Export image" Margin="0,2,4,2"  Click="btnSaveImage_Click" IsEnabled="False" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" />
                                 <Button x:Name="btnImportImage" Content="Import image" Margin="2,2,4,2"  Click="btnImportImage_Click" IsEnabled="False"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <Button x:Name="btnRemoveImage" Content="Remove image" Margin="2,2,4,2"  Click="btnRemoveImage_Click" IsEnabled="False"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <Button Visibility="Collapsed" x:Name="btnDeepDetail" Margin="2,2,4,2" Content="Edit all tag fields" Click="btnDeepDetail_Click" Width="120" Height="24" VerticalAlignment="Top" IsEnabled="False" HorizontalAlignment="Left" />
                             </StackPanel>
                         </Grid>
                     </Grid>

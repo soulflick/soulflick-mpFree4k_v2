@@ -17,20 +17,16 @@ namespace MpFree4k.Controls
 {
     public partial class TrackView : UserControl, INotifyPropertyChanged
     {
-        List<FileViewInfo> dragItems = new List<FileViewInfo>();
+        private List<FileViewInfo> dragItems = new List<FileViewInfo>();
+        private bool ctrlkey_down = false;
+        private bool mousedown = false;
+        private Point mousepos = new Point(0, 0);
 
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public void SetMediaLibrary(Layers.MediaLibrary lib)
-        {
-            (this.DataContext as TracksViewModel).MediaLibrary = lib;
-        }
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => (DataContext as TracksViewModel).MediaLibrary = lib;
 
         public TrackView()
         {
@@ -40,10 +36,7 @@ namespace MpFree4k.Controls
             InitializeComponent();
         }
 
-        private void TrackView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ListWidth = calcListWidth();
-        }
+        private void TrackView_SizeChanged(object sender, SizeChangedEventArgs e) => ListWidth = calcListWidth();
 
         private void TrackView_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -51,8 +44,7 @@ namespace MpFree4k.Controls
                 ListWidth = calcListWidth();
         }
 
-        private childItem FindVisualChild<childItem>(DependencyObject obj)
- where childItem : DependencyObject
+        private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
@@ -96,18 +88,10 @@ namespace MpFree4k.Controls
                 _listWidth = value;
                 OnPropertyChanged("ListWidth");
             }
-            get
-            {
-
-                return _listWidth;
-
-            }
+            get => _listWidth;
         }
 
-        private List<FileViewInfo> GetSelectedFileViewInfos()
-        {
-            return ListTracks.SelectedItems.Cast<FileViewInfo>().ToList().Where(v => v.IsVisible).ToList();
-        }
+        private List<FileViewInfo> GetSelectedFileViewInfos() => ListTracks.SelectedItems.Cast<FileViewInfo>().ToList().Where(v => v.IsVisible).ToList();
 
         private List<PlaylistItem> GetSelectedPlaylistItems()
         {
@@ -141,7 +125,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        bool ctrlkey_down = false;
         private void _This_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.LeftCtrl ||
@@ -205,7 +188,7 @@ namespace MpFree4k.Controls
         private TrackViewType _trackViewType = Enums.TrackViewType.List;
         public TrackViewType TrackViewType
         {
-            get { return _trackViewType; }
+            get => _trackViewType;
             set
             {
                 _trackViewType = value;
@@ -250,8 +233,6 @@ namespace MpFree4k.Controls
             (MainWindow.Instance.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
         }
 
-        private bool mousedown = false;
-        Point mousepos = new Point(0, 0);
         private void ListTracks_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown = false;

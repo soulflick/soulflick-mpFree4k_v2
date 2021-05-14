@@ -81,26 +81,15 @@ namespace MpFree4k.Classes
         private const string sql_remove_album = "DELETE FROM RecentALbums WHERE id = '{0}'";
         private const string sql_remove_albumtracks = "DELETE FROM AlbumTracks WHERE albumid = '{0}'";
 
-        private string get_sql_date(DateTime dt)
-        {
-            return dt.ToString("yyyy-MM-dd HH:mm:ss");
-        }
+        private string get_sql_date(DateTime dt) => dt.ToString("yyyy-MM-dd HH:mm:ss");
 
-        private string sanitize(string str)
-        {
-            str = str.Replace("'", "{!x%99}");
-            return str;
-        }
+        private string sanitize(string str) => str.Replace("'", "{!x%99}");
 
-        private string desanitize(string str)
-        {
-            str = str.Replace("{!x%99}", "'");
-            return str;
-        }
+        private string desanitize(string str) => str.Replace("{!x%99}", "'");
 
         private void GetTables()
         {
-            string sql = String.Format(sql_get_tables);
+            string sql = string.Format(sql_get_tables);
             SQLiteCommand command = new SQLiteCommand(sql, sqlcon);
 
             using (SQLiteDataReader reader = command.ExecuteReader())
@@ -179,10 +168,7 @@ namespace MpFree4k.Classes
             }
         }
 
-        private string getDate()
-        {
-            return get_sql_date(DateTime.Now);
-        }
+        private string getDate() => get_sql_date(DateTime.Now);
 
         private void InsertTrack(string path)
         {
@@ -304,16 +290,10 @@ namespace MpFree4k.Classes
             List<Tuple<string, string, int>> albums = new List<Tuple<string, string, int>>();
             SQLiteCommand command = new SQLiteCommand(sql, sqlcon);
 
-            //MainWindow.SetProgress(0);
-            //int step = 100 / UserConfig.NumberRecentAlbums;
-            //int _count = 0;
-
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    //_count++;
-                    //MainWindow.SetProgress(step * _count);
                     if (reader.StepCount < 1 || !reader.HasRows)
                         return albums;
 
@@ -326,7 +306,6 @@ namespace MpFree4k.Classes
                 }
             }
 
-            //MainWindow.SetProgress(0);
             return albums;
         }
 

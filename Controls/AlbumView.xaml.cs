@@ -21,6 +21,9 @@ namespace MpFree4k.Controls
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
         public static AlbumsViewModel StaticViewModel = null;
+        private bool mousedown = false;
+        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private Point mousepos = new Point(0, 0);
 
         public void OnPropertyChanged(String info)
         {
@@ -80,8 +83,7 @@ namespace MpFree4k.Controls
 
         }
 
-        List<PlaylistItem> dragItems = new List<PlaylistItem>();
-        private void ListAlbums_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void ListAlbums_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (mousepos.X != 0 && mousepos.Y != 0 && mousedown && e.LeftButton == MouseButtonState.Pressed && e.OriginalSource is TextBlock)
             {
@@ -95,7 +97,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        private bool mousedown = false;
         private void ListAlbums_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             mousedown = true;
@@ -103,7 +104,7 @@ namespace MpFree4k.Controls
 
             dragItems.Clear();
 
-            foreach (FileViewInfo info in TracksViewModel._singleton.Tracks.Where(x => x.IsVisible).ToList())
+            foreach (FileViewInfo info in TracksViewModel.Instance.Tracks.Where(x => x.IsVisible).ToList())
             {
                 PlaylistItem plitm = new PlaylistItem();
                 PlaylistHelpers.CreateFromMediaItem(plitm, info);
@@ -111,8 +112,7 @@ namespace MpFree4k.Controls
             }
         }
 
-        private childItem FindVisualChild<childItem>(DependencyObject obj)
-   where childItem : DependencyObject
+        private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
@@ -151,16 +151,11 @@ namespace MpFree4k.Controls
         private double _listWidth = -1;
         public double ListWidth
         {
-            set
+            get => _listWidth;
+            set 
             {
                 _listWidth = value;
                 OnPropertyChanged("ListWidth");
-            }
-            get
-            {
-
-                return _listWidth;
-
             }
         }
 
@@ -172,7 +167,7 @@ namespace MpFree4k.Controls
         private AlbumViewType _albumViewType = Enums.AlbumViewType.List;
         public AlbumViewType AlbumViewType
         {
-            get { return _albumViewType; }
+            get => _albumViewType;
             set
             {
                 _albumViewType = value;
@@ -197,7 +192,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        Point mousepos = new Point(0, 0);
         private void ListAlbums_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown = false;

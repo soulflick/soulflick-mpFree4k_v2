@@ -163,12 +163,22 @@
                         <Run Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run Text="{Binding Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"/><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
                     </TextBlock>
 
-                    <TextBlock  Grid.Row="4" Grid.ColumnSpan="2">
-                        <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
-                        <Run Text="{Binding Info.Mp3Fields.Track}"/>
-                        <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                        <Run Text="{Binding Info.Mp3Fields.TrackCount}"/>
-                    </TextBlock>
+                    <StackPanel Grid.Row="4" Grid.ColumnSpan="2"  Orientation="Horizontal">
+                        <TextBlock>
+                            <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding Info.Mp3Fields.Track}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding Info.Mp3Fields.TrackCount}"/>
+                        </TextBlock>
+
+                        <TextBlock>
+                            <Run Text=" | "/>
+                            <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding Info.Mp3Fields.Disc}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding Info.Mp3Fields.DiscCount}"/>
+                        </TextBlock>
+                    </StackPanel>
 
                     <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Text="Tracks from this Album:" Margin="0,24,0,0"/>
 

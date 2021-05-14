@@ -9,15 +9,16 @@ namespace ViewModels
 {
     public class ArtistsViewModel : INotifyPropertyChanged
     {
-        Dispatcher currentDispatcher = null;
         public ArtistsViewModel()
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
         }
+
+        Dispatcher currentDispatcher = null;
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
         {
-            get { return _mediaLibrary; }
+            get => _mediaLibrary;
             set
             {
                 _mediaLibrary = value;

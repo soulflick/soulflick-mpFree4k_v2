@@ -88,21 +88,19 @@ namespace MpFree4k.Controls
         }
     }
 
-
-    /// <summary>
-    /// Interaktionslogik für Favourites.xaml
-    /// </summary>
     public partial class AlbumDetailView : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+
+        List<AlbumItem> dragItems_albums = new List<AlbumItem>();
+        private bool mousedown_albums = false;
+        Point mousepos = new Point(0, 0);
 
         public void OnPropertyChanged(String info)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
-
-        // FavouriteAlbums
 
         public AlbumDetailViewModel VM = null;
 
@@ -121,7 +119,7 @@ namespace MpFree4k.Controls
         private AlbumDetailsOrderType _albumDetailsOrderType = Enums.AlbumDetailsOrderType.Year;
         public AlbumDetailsOrderType AlbumDetailsOrderType
         {
-            get { return _albumDetailsOrderType; }
+            get => _albumDetailsOrderType;
             set
             {
                 _albumDetailsOrderType = value;
@@ -142,10 +140,7 @@ namespace MpFree4k.Controls
                 gridCharTip.Visibility = AlbumDetailsOrderType != AlbumDetailsOrderType.All ? Visibility.Visible : Visibility.Hidden;
         }
 
-        List<AlbumItem> dragItems_albums = new List<AlbumItem>();
 
-        private bool mousedown_albums = false;
-        Point mousepos = new Point(0, 0);
         private void ListAlbums_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (mousepos.X != 0 && mousepos.Y != 0 && mousedown_albums && e.LeftButton == MouseButtonState.Pressed && e.OriginalSource is TextBlock)
