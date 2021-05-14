@@ -23,14 +23,98 @@ namespace MpFree4k.Layers
     public class MediaLibrary : INotifyPropertyChanged
     {
         public static BitmapImage DefaultAlbumImage = null;
-
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public string Name = "[not set]";
+        public string LibPath = "[not set]";
 
-        public void OnPropertyChanged(String info)
+        private string[] selected_artists = null;
+        private List<AlbumItem> selected_albums = null;
+        private Dispatcher current_dispatcher = null;
+        private Task t_load;
+        private bool _nested_message = false;
+        private int _filesCount = 0;
+
+        public MediaLibrary()
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            current_dispatcher = Dispatcher.CurrentDispatcher;
+
+            DefaultAlbumImage = new BitmapImage(
+                new System.Uri(@"pack://application:,,,/" +
+                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
+                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
+
+
+        private string _statusText = "";
+        public string StatusText
+        {
+            get => _statusText;
+            set
+            {
+                _statusText = value;
+                OnPropertyChanged("StatusText");
+            }
+        }
+
+        public string _query = "";
+        public string Query
+        {
+            get => _query;
+            set
+            {
+                _query = value.ToLower();
+                QueryMe(ViewMode.Details);
+                OnPropertyChanged("Query");
+            }
+        }
+
+        private List<ArtistItem> _artists = new List<ArtistItem>();
+        public List<ArtistItem> Artists
+        {
+            get => _artists;
+            set
+            {
+                _artists = value;
+                OnPropertyChanged("Artists");
+            }
+        }
+
+        private List<AlbumItem> _albums = new List<AlbumItem>();
+        public List<AlbumItem> Albums
+        {
+            get => _albums;
+            set
+            {
+                _albums = value;
+                OnPropertyChanged("Albums");
+            }
+        }
+
+        private List<FileViewInfo> _files = new List<FileViewInfo>();
+        public List<FileViewInfo> Files
+        {
+            get => _files;
+            set
+            {
+                _files = value;
+                OnPropertyChanged("Files");
+            }
+        }
+
+
+        private int _artistCount = 0;
+        public int ArtistCount
+        {
+            get => _artistCount;
+            set
+            {
+                _artistCount = value;
+                OnPropertyChanged("ArtistCount");
+
+            }
+        }
+
+        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public void Reset()
         {
@@ -62,25 +146,7 @@ namespace MpFree4k.Layers
             }
         }
 
-        string[] selected_artists = null;
-        List<AlbumItem> selected_albums = null;
-
-        public string _query = "";
-        public string Query
-        {
-            get { return _query; }
-            set
-            {
-                _query = value.ToLower();
-                QueryMe(ViewMode.Details);
-                OnPropertyChanged("Query");
-            }
-        }
-
-        private bool hasKey(List<Tuple<string, string>> tokens, string key)
-        {
-            return tokens.Any(t => t.Item1.ToLower() == key.ToLower());
-        }
+        private bool hasKey(List<Tuple<string, string>> tokens, string key) => tokens.Any(t => t.Item1.ToLower() == key.ToLower());
 
         private string getValue(List<Tuple<string, string>> tokens, string key)
         {
@@ -165,8 +231,9 @@ namespace MpFree4k.Layers
             if (string.IsNullOrEmpty(artist))
                 artist = getValue(tokens, "art");
 
-            Int64 year = -999;
-            Int64 track = -999;
+            long year = -999;
+            long track = -999;
+
             if (hasKey(tokens, "track"))
                 track = Convert.ToInt64(getValue(tokens, "track"));
 
@@ -360,11 +427,6 @@ namespace MpFree4k.Layers
             {
                 if (UserConfig.ShowFullAlbum)
                 {
-                    //Files.ForEach(x => x.IsVisible = albumitems.Any(
-                    //    album => album.Album == x.Mp3Fields.Album && album.Year == x.Mp3Fields.Year &&
-                    //    (string.IsNullOrEmpty(album.Artist) || album.Artist == "Various Artists" ||
-                    //    (selected_artists == null || selected_artists.Length == 0 || selected_artists.Any(s => album.AllArtist.Any(g => g == s))))));
-
                     Files.ForEach(x => x.IsVisible = albumitems.Any(
                         album => album.Album == x.Mp3Fields.Album && album.Year == x.Mp3Fields.Year));
                 }
@@ -387,18 +449,7 @@ namespace MpFree4k.Layers
                         Files[f].IsVisible = true;
                 }
             }
-            else
-                Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
-
-            //int pos = 0;
-            //for (int i = 0; i < Files.Count; i++)
-            //{
-            //    if (Files[pos].IsVisible)
-            //    {
-            //        Files[pos].Number = pos % 2;
-            //        pos++;
-            //    }
-            //}
+            else Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
 
             Refresh(Layers.MediaLevel.Tracks);
 
@@ -440,11 +491,8 @@ namespace MpFree4k.Layers
             }
             else if (level == MediaLevel.Albums)
             {
-                return; // discontinued
-                        //selected_albums = selection;
+                return; 
 
-                //current_dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, (Action)(() =>
-                //{
                 if (selection.Length > 0)
                     Files.ForEach(x => x.IsVisible = selection.Any(album => album == x.Mp3Fields.Album &&
                     (selected_artists == null || selected_artists.Length == 0 || selected_artists.Any(a => a == x.Mp3Fields.Artists))));
@@ -454,65 +502,8 @@ namespace MpFree4k.Layers
                     Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
 
                 Refresh(Layers.MediaLevel.Tracks);
-                //}));
             }
         }
-
-        private List<ArtistItem> _artists = new List<ArtistItem>();
-        public List<ArtistItem> Artists
-        {
-            get
-            {
-                return _artists;
-            }
-            set
-            {
-                _artists = value;
-                OnPropertyChanged("Artists");
-            }
-        }
-
-        private List<AlbumItem> _albums = new List<AlbumItem>();
-        public List<AlbumItem> Albums
-        {
-            get
-            {
-                return _albums;
-            }
-            set
-            {
-                _albums = value;
-                OnPropertyChanged("Albums");
-            }
-        }
-
-        Dispatcher current_dispatcher = null;
-
-
-        public MediaLibrary()
-        {
-            current_dispatcher = Dispatcher.CurrentDispatcher;
-
-            DefaultAlbumImage = new System.Windows.Media.Imaging.BitmapImage(
-                new System.Uri(@"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
-        }
-
-        public string Name = "[not set]";
-        public string LibPath = "[not set]";
-
-        private List<FileViewInfo> _files = new List<FileViewInfo>();
-        public List<FileViewInfo> Files
-        {
-            get { return _files; }
-            set
-            {
-                _files = value;
-                OnPropertyChanged("Files");
-            }
-        }
-        Task t_load;
 
         public void Load()
         {
@@ -536,14 +527,6 @@ namespace MpFree4k.Layers
                     percent = (_filesCount * 100) / (numfiles * 2);
 
                     MainWindow.SetProgress(percent);
-
-                    MainWindow.mainDispatcher.Invoke(
-                    System.Windows.Threading.DispatcherPriority.Render, (Action)(() =>
-                    {
-                        //OnPropertyChanged("Artists");
-                        //OnPropertyChanged("Albums");
-                        //OnPropertyChanged("Tracks");
-                    }));
                 }
 
                 t_load = new Task(() => tagImages());
@@ -556,20 +539,12 @@ namespace MpFree4k.Layers
                     percent = (_filesCount * 100) / (numfiles * 2);
 
                     MainWindow.SetProgress(percent);
-
-                    MainWindow.mainDispatcher.Invoke(
-                    System.Windows.Threading.DispatcherPriority.Render, (Action)(() =>
-                    {
-                        //OnPropertyChanged("Artists");
-                        //OnPropertyChanged("Albums");
-                        //OnPropertyChanged("Tracks");
-                    }));
                 }
 
                 StatusText = "ordering library...";
 
                 MainWindow.mainDispatcher.BeginInvoke(
-                    System.Windows.Threading.DispatcherPriority.Render, (Action)(() =>
+                    DispatcherPriority.Render, (Action)(() =>
                     {
                         lock (Artists)
                         {
@@ -579,7 +554,7 @@ namespace MpFree4k.Layers
                     }));
 
                 MainWindow.mainDispatcher.BeginInvoke(
-                   System.Windows.Threading.DispatcherPriority.Background, (Action)(() =>
+                   DispatcherPriority.Background, (Action)(() =>
                    {
                        lock (Albums)
                        {
@@ -589,7 +564,7 @@ namespace MpFree4k.Layers
                    }));
 
                 MainWindow.mainDispatcher.BeginInvoke(
-                   System.Windows.Threading.DispatcherPriority.Background, (Action)(() =>
+                   DispatcherPriority.Background, (Action)(() =>
                    {
                        lock (Files)
                        {
@@ -599,7 +574,7 @@ namespace MpFree4k.Layers
                    }));
 
                 MainWindow.mainDispatcher.Invoke(
-                    System.Windows.Threading.DispatcherPriority.Background, (Action)(() =>
+                    DispatcherPriority.Background, (Action)(() =>
                     {
                         StatusText = "done (" + Files.Count.ToString() + ")";
                     }));
@@ -626,7 +601,7 @@ namespace MpFree4k.Layers
             return count;
         }
 
-        public static System.Windows.Media.Imaging.BitmapImage GetImageFromTag(TagLib.IPicture[] Pictures)
+        public static BitmapImage GetImageFromTag(TagLib.IPicture[] Pictures)
         {
             if (Pictures.Length == 0 || Pictures[0] == null)
             {
@@ -634,14 +609,14 @@ namespace MpFree4k.Layers
             }
 
             byte[] raw = Pictures[0].Data.ToArray();
-            System.Windows.Media.Imaging.BitmapImage _img = new System.Windows.Media.Imaging.BitmapImage();
+            BitmapImage _img = new BitmapImage();
 
             try
             {
                 _img.BeginInit();
                 _img.UriSource = null;
                 _img.BaseUri = null;
-                _img.StreamSource = new System.IO.MemoryStream(raw);
+                _img.StreamSource = new MemoryStream(raw);
                 _img.EndInit();
                 _img.Freeze();
                 return _img;
@@ -658,10 +633,9 @@ namespace MpFree4k.Layers
             }
         }
 
-        bool nested_message = false;
         private void tagImages()
         {
-            nested_message = true;
+            _nested_message = true;
             string msg = "loading image {0} from {1}";
             int max = Files.Count;
             int index = 0;
@@ -671,10 +645,7 @@ namespace MpFree4k.Layers
                 index++;
                 _filesCount++;
 
-                //i.Number = index % 2;
-
-                if (i._Handle == null)
-                    continue;
+                if (i._Handle == null) continue;
 
                 BitmapImage img = GetImageFromTag(i._Handle.Tag.Pictures);
                 AlbumItem a = Albums.FirstOrDefault(x => (x.Artist == i.Mp3Fields.Artists || x.Artist == "Various Artists") && x.Album == i.Mp3Fields.Album &&
@@ -715,17 +686,6 @@ namespace MpFree4k.Layers
             }
         }
 
-        private int _artistCount = 0;
-        public int ArtistCount
-        {
-            get { return _artistCount; }
-            set
-            {
-                _artistCount = value;
-                OnPropertyChanged("ArtistCount");
-
-            }
-        }
         public void Load(string path)
         {
             Parallel.ForEach(Directory.GetFiles(path), (file) =>
@@ -752,7 +712,6 @@ namespace MpFree4k.Layers
             });
         }
 
-        int _filesCount = 0;
         private void addFile(FileViewInfo fin)
         {
             lock (Files)
@@ -810,7 +769,6 @@ namespace MpFree4k.Layers
                             albi.Tracks.Add(fin.Path);
 
                             Albums.Add(albi);
-                            //OnPropertyChanged("Albums");
                         }
                     }
                     ArtistCount++;
@@ -860,7 +818,6 @@ namespace MpFree4k.Layers
 
 
                                     Albums.Add(album);
-                                    //OnPropertyChanged("Albums");
                                 });
                             }
                         }
@@ -888,18 +845,5 @@ namespace MpFree4k.Layers
                 }
             }
         }
-
-        private string _statusText = "";
-        public string StatusText
-        {
-            get { return _statusText; }
-            set
-            {
-                _statusText = value;
-                OnPropertyChanged("StatusText");
-            }
-        }
     }
-
-
 }

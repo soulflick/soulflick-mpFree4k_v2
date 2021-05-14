@@ -32,8 +32,11 @@ namespace WPFEqualizer
 
     public class SpectrumViewModel : INotifyPropertyChanged
     {
+        private void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         public static int EqualizerBandCount => 10;
 
+        public Size ViewPort;
         public event PropertyChangedEventHandler PropertyChanged;
         public LinearSpectrum _control;
         public LineSpectrum _lineSpectrum;
@@ -48,7 +51,6 @@ namespace WPFEqualizer
         public BasicSpectrumProvider _spectrumProvider;
 
         private Timer _waveTimer;
-        private Point? _tipPos;
         private int[] _tipPositions;
 
         public Color Background = Color.FromArgb(255, 30, 30, 30);
@@ -60,6 +62,19 @@ namespace WPFEqualizer
         public double Spacing = 1;
         public static SpectrumViewModel Instance;
         public ISoundOut _soundOut;
+
+        public SpectrumViewModel(LinearSpectrum control)
+        {
+            _control = control;
+            _waveTimer = new Timer(10);
+            _waveTimer.Elapsed += WaveTimer_Elapsed;
+
+            _tipPositions = new int[BarCount];
+            for (int i = 0; i < BarCount; i++)
+                _tipPositions[i] = 0;
+
+            Instance = this;
+        }
 
         private GraphType _graphType = GraphType.Bar;
         public GraphType GraphType
@@ -108,36 +123,15 @@ namespace WPFEqualizer
             }
         }
 
-        public SpectrumViewModel(LinearSpectrum control)
-        {
-            this._control = control;
-            this._waveTimer = new Timer(2);
-            this._waveTimer.Elapsed += WaveTimer_Elapsed;
-
-            _tipPositions = new int[BarCount];
-            for (int i = 0; i < BarCount; i++)
-                _tipPositions[i] = 0;
-
-            Instance = this;
-
-        }
-
-        public Size ViewPort;
-
         private string mediaFile = null;
         public string MediaFile
         {
-            get { return mediaFile; }
+            get => mediaFile;
             set
             {
                 mediaFile = value;
                 RaisePropertyChanged(nameof(MediaFile));
             }
-        }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void WaveTimer_Elapsed(object sender, EventArgs e)
@@ -227,20 +221,17 @@ namespace WPFEqualizer
             _soundOut.Initialize(source);
 
             _waveTimer.Start();
-
         }
 
         private void SetEqualizer(Equalizer newEQ)
         {
-            if (newEQ == null)
-                return;
+            if (newEQ == null) return;
 
             if (_equalizer ==  null || _equalizer.SampleFilters.Count !=  newEQ.SampleFilters.Count)
             {
                 _equalizer = newEQ;
                 return;
             }
-
 
             for (int i = 0; i <_equalizer.SampleFilters.Count; i++)
                 newEQ.SampleFilters[i].AverageGainDB = _equalizer.SampleFilters[i].AverageGainDB;
@@ -250,8 +241,7 @@ namespace WPFEqualizer
 
         public void CreateSpectrum()
         {
-            if (_spectrumProvider == null || _control == null)
-                return;
+            if (_spectrumProvider == null || _control == null) return;
 
             const FftSize fftSize = FftSize.Fft4096;
 
@@ -271,8 +261,7 @@ namespace WPFEqualizer
 
         private void SetEqualizer(double gain)
         {
-            if (_equalizer == null)
-                return;
+            if (_equalizer == null) return;
 
             gain = Math.Min(20, gain);
             for (int f = 0; f < _equalizer.SampleFilters.Count; f++)
@@ -315,14 +304,14 @@ namespace WPFEqualizer
             GenerateLineSpectrum();
         }
 
-        public void SetTipPos(System.Windows.Point? tipPos)
+        public void SetTipPos(Point? tipPos)
         {
             return;
 
             if (tipPos == null)
                 _lineSpectrum.MousePoint = null;
             else
-                _lineSpectrum.MousePoint = Utils.Drawing.ToPoint((Point)tipPos);
+                _lineSpectrum.MousePoint = Drawing.ToPoint((Point)tipPos);
 
             GenerateLineSpectrum();
         }

@@ -15,7 +15,7 @@ namespace MpFree4k.Layers
         private MediaLibrary _current = null;
         public MediaLibrary Current
         {
-            get { return _current; }
+            get => _current;
             set
             {
                 _current = value;

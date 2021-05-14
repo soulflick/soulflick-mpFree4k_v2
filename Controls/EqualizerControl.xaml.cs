@@ -32,16 +32,18 @@ namespace MpFree4k.Controls
     public partial class EqualizerControl : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private List<double> originalGain = new List<double>(10);
+        private Equalizer equalizer;
+        private List<ValueObject> _eqBands = new List<ValueObject>();
 
-        List<double> originalGain = new List<double>(10);
         public int BandCount { get; set; } = 10;
-
         public void RaiseProperty(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public EqualizerControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            
+            DataContext = this;
 
             if (SpectrumViewModel.Instance?._equalizer == null)
                 return;
@@ -65,8 +67,6 @@ namespace MpFree4k.Controls
 
         private void ValueObject_ValueChanged(object sender, PropertyChangedEventArgs e) => Apply();
 
-        private Equalizer equalizer;
-        private List<ValueObject> _eqBands = new List<ValueObject>();
         public List<ValueObject> EqBands
         {
             get => _eqBands;

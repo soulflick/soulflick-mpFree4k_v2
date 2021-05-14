@@ -23,7 +23,8 @@
                           ItemsSource="{Binding Presets}" SelectedValue="{Binding Path}"
                           SelectedIndex="{Binding SelectedIndex}"
                           SelectionChanged="PresetChanged"
-                          Height="23" Width="120" VerticalAlignment="Center" 
+                          Height="23" Width="120" VerticalAlignment="Center"
+                          PreviewMouseDown="cmbPresets_PreviewMouseDown"
                           >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
