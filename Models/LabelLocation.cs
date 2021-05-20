@@ -1,4 +1,4 @@
-﻿namespace MpFree4k.Classes
+﻿namespace Models
 {
     public class LabelLocation
     {

@@ -58,17 +58,14 @@ namespace CSCore
         /// <summary>
         ///     Gets the <see cref="IWaveStream.WaveFormat" /> of the waveform-audio data.
         /// </summary>
-        public virtual WaveFormat WaveFormat
-        {
-            get { return Source.WaveFormat; }
-        }
+        public virtual WaveFormat WaveFormat => Source.WaveFormat;
 
         /// <summary>
         ///     Gets or sets the position in samples.
         /// </summary>
         public virtual long Position
         {
-            get { return CanSeek ? Source.Position : 0; }
+            get => CanSeek ? Source.Position : 0;
             set
             {
                 if (CanSeek)
@@ -81,18 +78,12 @@ namespace CSCore
         /// <summary>
         ///     Gets the length in samples.
         /// </summary>
-        public virtual long Length
-        {
-            get { return CanSeek ? Source.Length : 0; }
-        }
+        public virtual long Length => CanSeek ? Source.Length : 0;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="IWaveStream"/> supports seeking.
         /// </summary>
-        public bool CanSeek
-        {
-            get { return Source.CanSeek; }
-        }
+        public bool CanSeek => Source.CanSeek;
 
         /// <summary>
         ///     Disposes the <see cref="SampleSourceBase" /> and the underlying <see cref="Source" />.
@@ -115,17 +106,11 @@ namespace CSCore
         ///     True to release both managed and unmanaged resources; false to release only unmanaged
         ///     resources.
         /// </param>
-        protected virtual void Dispose(bool disposing)
-        {
-            Source.Dispose();
-        }
+        protected virtual void Dispose(bool disposing) => Source.Dispose();
 
         /// <summary>
         ///     Destructor which calls <see cref="Dispose(bool)" />.
         /// </summary>
-        ~SampleSourceBase()
-        {
-            Dispose(false);
-        }
+        ~SampleSourceBase() => Dispose(false);
     }
 }

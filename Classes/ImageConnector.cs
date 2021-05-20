@@ -3,6 +3,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.Win32;
 using System.Drawing;
+using Models;
 
 namespace Classes
 {
@@ -15,12 +16,12 @@ namespace Classes
             fDlg.Filter = "JPEG files|.jpg";
             if (fDlg.ShowDialog() != true) return;
 
-            string ext = System.IO.Path.GetExtension(fDlg.FileName);
+            string ext = Path.GetExtension(fDlg.FileName);
 
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(img));
 
-            using (var filestream = new System.IO.FileStream(fDlg.FileName, System.IO.FileMode.Create))
+            using (var filestream = new FileStream(fDlg.FileName, System.IO.FileMode.Create))
             {
                 try
                 {
@@ -48,7 +49,7 @@ namespace Classes
 
             try
             {
-                img = System.Drawing.Image.FromFile(name);
+                img = Image.FromFile(name);
             }
             catch (Exception exc)
             {
@@ -57,7 +58,7 @@ namespace Classes
             }
 
             byte[] arr;
-            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 arr = ms.ToArray();
@@ -70,7 +71,7 @@ namespace Classes
             pic.Description = "Cover";
 
 
-            using (System.IO.MemoryStream ms2 = new System.IO.MemoryStream(arr))
+            using (MemoryStream ms2 = new MemoryStream(arr))
             {
                 img.Save(ms2, System.Drawing.Imaging.ImageFormat.Jpeg);
                 ms2.Position = 0;
@@ -127,13 +128,13 @@ namespace Classes
             }
         }
 
-        public static byte[] getBytesFromImage(System.Windows.Media.Imaging.BitmapImage image)
+        public static byte[] getBytesFromImage(BitmapImage image)
         {
-            System.IO.Stream stream = image.StreamSource;
+            Stream stream = image.StreamSource;
             Byte[] buffer = null;
             if (stream != null && stream.Length > 0)
             {
-                using (System.IO.BinaryReader br = new System.IO.BinaryReader(stream))
+                using (BinaryReader br = new BinaryReader(stream))
                 {
                     buffer = br.ReadBytes((Int32)stream.Length);
                 }
@@ -142,21 +143,21 @@ namespace Classes
             return buffer;
         }
 
-        public static System.Windows.Media.Imaging.BitmapImage getResizedImage(byte[] imageData, int decodePixelWidth, int decodePixelHeight)
+        public static BitmapImage getResizedImage(byte[] imageData, int decodePixelWidth, int decodePixelHeight)
         {
-            System.Windows.Media.Imaging.BitmapImage result = new System.Windows.Media.Imaging.BitmapImage();
+            BitmapImage result = new BitmapImage();
             result.BeginInit();
             result.DecodePixelWidth = decodePixelWidth;
             result.DecodePixelHeight = decodePixelHeight;
-            result.StreamSource = new System.IO.MemoryStream(imageData);
+            result.StreamSource = new MemoryStream(imageData);
 
-            result.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.None;
-            result.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.Default;
+            result.CreateOptions = BitmapCreateOptions.None;
+            result.CacheOption = BitmapCacheOption.Default;
             result.EndInit();
             return result;
         }
 
-        public static System.Windows.Media.Imaging.BitmapImage GetImageFromFile(string Path)
+        public static BitmapImage GetImageFromFile(string Path)
         {
             try
             {

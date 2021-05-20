@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CSCore.DSP;
 
-namespace WPFEqualizer.Visualization
+namespace Equalizer.Visualization
 {
     public interface ISpectrumProvider
     {
@@ -10,12 +10,12 @@ namespace WPFEqualizer.Visualization
         int GetFftBandIndex(float frequency);
     }
 
-    public class BasicSpectrumProvider : FftProvider, ISpectrumProvider
+    public class SpectrumProvider : FftProvider, ISpectrumProvider
     {
         private readonly int _sampleRate;
         private readonly List<object> _contexts = new List<object>();
 
-        public BasicSpectrumProvider(int channels, int sampleRate, FftSize fftSize)
+        public SpectrumProvider(int channels, int sampleRate, FftSize fftSize)
             : base(channels, fftSize)
         {
             if (sampleRate <= 0)

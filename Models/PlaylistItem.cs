@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Classes;
+using System;
 using System.ComponentModel;
 
-namespace MpFree4k.Classes
+namespace Models
 {
     [Serializable]
     public class PlaylistItem : INotifyPropertyChanged
     {
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public PlaylistItem()
-        {
-            this.uniqueID = PlaylistHelpers.CreateUniqueID();
-        }
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        public PlaylistItem() => uniqueID = PlaylistHelpers.CreateUniqueID();
 
         private bool _dragOver = false;
 
@@ -18,30 +20,25 @@ namespace MpFree4k.Classes
         public bool DragOver
         {
             get => _dragOver;
-            set { _dragOver = value; NotifyPropertyChanged("DragOver"); }
+            set { _dragOver = value; Raise(nameof(DragOver)); }
         }
 
         private bool _isMouseOver = false;
         public bool IsMouseOver
         {
             get => _isMouseOver;
-            set { _isMouseOver = value; NotifyPropertyChanged("IsMouseOver"); }
+            set { _isMouseOver = value; Raise(nameof(IsMouseOver)); }
         }
 
         public bool _isPlaying = false;
         public bool IsPlaying
         {
             get => _isPlaying;
-            set { _isPlaying = value; NotifyPropertyChanged("IsPlaying"); }
+            set { _isPlaying = value; Raise(nameof(IsPlaying)); }
         }
 
         public string uniqueID = "";
 
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        [field: NonSerialized]
-        public void NotifyPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public int _position = 0;
         public int Position
@@ -50,7 +47,7 @@ namespace MpFree4k.Classes
             set
             {
                 _position = value;
-                NotifyPropertyChanged("Position");
+                Raise(nameof(Position));
             }
         }
 
@@ -63,7 +60,7 @@ namespace MpFree4k.Classes
                 if (Convert.ToInt32(value) < 10) _trackNumber = "  " + value;
                 else _trackNumber = value;
                 _trackNumber += '.';
-                NotifyPropertyChanged("TrackNumber");
+                Raise(nameof(TrackNumber));
             }
         }
 
@@ -71,80 +68,72 @@ namespace MpFree4k.Classes
         public string Title 
         { 
             get => _title;
-            set { _title = value; NotifyPropertyChanged("Title"); } 
+            set { _title = value; Raise(nameof(Title)); } 
         }
 
         private string _trackname = string.Empty;
         public string TrackName 
         { 
             get => _trackname;
-            set { _trackname = value; NotifyPropertyChanged("TrackName"); } 
+            set { _trackname = value; Raise(nameof(TrackName)); } 
         }
 
         private string _tracklabel = string.Empty;
         public string TrackLabel 
         { 
             get => _tracklabel;
-            set { _tracklabel = value; NotifyPropertyChanged("TrackLabel"); } 
+            set { _tracklabel = value; Raise(nameof(TrackLabel)); } 
         }
 
         private string _path = string.Empty;
         public string Path 
         { 
             get => _path;
-            set { _path = value; NotifyPropertyChanged("FileName"); } 
+            set { _path = value; Raise("FileName"); } 
         }
 
         private uint _track = 0;
         public uint Track
         {
             get => _track;
-            set { _track = value; NotifyPropertyChanged("Track"); }
+            set { _track = value; Raise(nameof(Track)); }
         }
 
         private string _artists = string.Empty;
         public string Artists 
         { 
             get => _artists;
-            set { _artists = value; NotifyPropertyChanged("Artists"); } 
+            set { _artists = value; Raise(nameof(Artists)); } 
         }
 
         private string _album = string.Empty;
         public string Album
         { 
             get => _album;
-            set { _album = value; NotifyPropertyChanged("Album"); } 
+            set { _album = value; Raise(nameof(Album)); } 
         }
 
         private string _year = string.Empty;
         public string Year 
         { 
             get => _year;
-            set { _year = value; NotifyPropertyChanged("Year"); } 
+            set { _year = value; Raise(nameof(Year)); } 
         }
 
         [field: NonSerialized]
         private System.Windows.Media.Imaging.BitmapImage _image = null;
 
-        [field: NonSerialized]
         public System.Windows.Media.Imaging.BitmapImage Image
         {
             get => _image;
-            set { _image = value; NotifyPropertyChanged("Image"); }
+            set { _image = value; Raise(nameof(Image)); }
         }
 
         private string _duration = string.Empty;
         public string Duration
         {
             get => _duration;
-            set { _duration = value; NotifyPropertyChanged("Duration"); }
-        }
-
-        public static string getNameFromLabel(string str)
-        {
-            if (str.IndexOf("-") < 0) return string.Empty;
-            string name = str.Substring(str.IndexOf("-") + 2);
-            return name;
+            set { _duration = value; Raise(nameof(Duration)); }
         }
 
         private string _toolTip = string.Empty;

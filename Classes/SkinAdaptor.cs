@@ -1,8 +1,10 @@
-﻿using MpFree4k.Enums;
+﻿using MpFree4k;
+using Mpfree4k.Enums;
 using System;
 using System.Windows;
+using Configuration;
 
-namespace MpFree4k.Classes
+namespace Classes
 {
     public static class SkinAdaptor
     {

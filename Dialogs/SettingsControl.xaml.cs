@@ -1,32 +1,32 @@
-﻿using System;
+﻿using MpFree4k;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
-using MpFree4k.Classes;
-using MpFree4k.Enums;
+using Configuration;
+using Mpfree4k.Enums;
+using Classes;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public partial class SettingControl : Window, INotifyPropertyChanged
     {
         static string settingsFile = "Settings.xml";
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        private bool clicked = false;
+        public bool HasConfig = false;
 
         public SettingControl()
         {
             this.DataContext = this;
 
-            this.Loaded += SettingControl_Loaded;
+            Loaded += SettingControl_Loaded;
 
             InitializeComponent();
 
@@ -62,7 +62,6 @@ namespace MpFree4k.Dialogs
             comboPluginType.SelectionChanged += comboPluginType_SelectionChanged;
         }
 
-        private bool clicked = false;
         private void ComboSizes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!clicked)
@@ -80,8 +79,6 @@ namespace MpFree4k.Dialogs
             MainWindow.Instance.Player.NotifyPropertyChanged("ButtonSize");
 
         }
-
-        public bool HasConfig = false;
 
         void readConfig()
         {
@@ -242,8 +239,6 @@ namespace MpFree4k.Dialogs
             return str;
         }
 
-
-
         private void ComboBoxSkin_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!clicked)
@@ -293,10 +288,7 @@ namespace MpFree4k.Dialogs
             File.WriteAllText(settingsFile, doc);
         }
 
-        private void comboBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            clicked = true;
-        }
+        private void comboBox_PreviewMouseDown(object sender, MouseButtonEventArgs e) => clicked = true;
 
         private void comboControlSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

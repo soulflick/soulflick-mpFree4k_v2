@@ -1,22 +1,60 @@
-﻿using MpFree4k.Enums;
-using System;
+﻿using Mpfree4k.Enums;
+using MpFree4k;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ViewModels;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class TableView : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public TableView() => InitializeComponent();
 
-        public TableView()
+        ArtistViewType _artistViewType = ArtistViewType.List;
+        public ArtistViewType ArtistViewType
         {
-            InitializeComponent();
+            get => _artistViewType;
+            set { _artistViewType = value; Raise(nameof(ArtistViewType)); }
+        }
+
+        AlbumViewType _albumViewType = AlbumViewType.List;
+        public AlbumViewType AlbumViewType
+        {
+            get => _albumViewType;
+            set { _albumViewType = value; Raise(nameof(AlbumViewType)); }
+        }
+
+        TrackViewType _trackViewType = TrackViewType.List;
+        public TrackViewType TrackViewType
+        {
+            get => _trackViewType;
+            set { _trackViewType = value; Raise(nameof(TrackViewType)); }
+        }
+
+        ArtistOrderType _artistOrderType = ArtistOrderType.Artist;
+        public ArtistOrderType ArtistOrderType
+        {
+            get => _artistOrderType;
+            set { _artistOrderType = value; Raise(nameof(ArtistOrderType)); }
+        }
+
+        AlbumOrderType _albumOrderType = AlbumOrderType.Album;
+        public AlbumOrderType AlbumOrderType
+        {
+            get => _albumOrderType;
+            set { _albumOrderType = value; Raise(nameof(AlbumOrderType)); }
+        }
+
+        TrackOrderType _trackOrderType = TrackOrderType.Standard;
+        public TrackOrderType TrackOrderType
+        {
+            get => _trackOrderType;
+            set { _trackOrderType = value; Raise(nameof(TrackOrderType)); }
         }
 
         private void ArtistViewType_MouseDown(object sender, MouseButtonEventArgs e)
@@ -84,51 +122,6 @@ namespace MpFree4k.Controls
                 TrackOrderType = type;
                 (TrackView.DataContext as TracksViewModel).OrderBy(type);
             }
-        }
-
-
-        private ArtistViewType _artistViewType = ArtistViewType.List;
-        public AlbumViewType _albumViewType = AlbumViewType.List;
-        public TrackViewType _trackViewType = TrackViewType.List;
-
-        public ArtistViewType ArtistViewType 
-        { 
-            get => _artistViewType;
-            set { _artistViewType = value; OnPropertyChanged("ArtistViewType"); } 
-        }
-
-        public AlbumViewType AlbumViewType 
-        { 
-            get => _albumViewType;
-            set { _albumViewType = value; OnPropertyChanged("AlbumViewType"); } 
-        }
-
-        public TrackViewType TrackViewType 
-        { 
-            get => _trackViewType;
-            set { _trackViewType = value; OnPropertyChanged("TrackViewType"); } 
-        }
-
-        private ArtistOrderType _artistOrderType = ArtistOrderType.Artist;
-        public AlbumOrderType _albumOrderType = AlbumOrderType.Album;
-        public TrackOrderType _trackOrderType = TrackOrderType.Standard;
-
-        public ArtistOrderType ArtistOrderType 
-        { 
-            get => _artistOrderType;
-            set { _artistOrderType = value; OnPropertyChanged("ArtistOrderType"); } 
-        }
-
-        public AlbumOrderType AlbumOrderType 
-        { 
-            get => _albumOrderType;
-            set { _albumOrderType = value; OnPropertyChanged("AlbumOrderType"); } 
-        }
-
-        public TrackOrderType TrackOrderType 
-        { 
-            get => _trackOrderType;
-            set { _trackOrderType = value; OnPropertyChanged("TrackOrderType"); } 
         }
 
         private void _This_Loaded(object sender, RoutedEventArgs e)

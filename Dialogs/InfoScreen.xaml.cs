@@ -2,14 +2,11 @@
 using System.Windows;
 using System.Windows.Navigation;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public partial class InfoScreen : Window
     {
-        public InfoScreen()
-        {
-            InitializeComponent();
-        }
+        public InfoScreen() => InitializeComponent();
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {

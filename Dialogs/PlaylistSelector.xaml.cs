@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -7,78 +6,60 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
-using MpFree4k.Classes;
-using MpFree4k.ViewModels;
+using Classes;
+using ViewModels;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public class PlaylistDefinition : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private bool _autoSelect = false;
         public bool AutoSelect
         {
-            get { return _autoSelect; }
+            get => _autoSelect;
             set
             {
                 _autoSelect = value;
-                OnPropertyChanged("AutoSelect");
+                Raise(nameof(AutoSelect));
             }
         }
 
         private string _name = "Enter Your Playlist Name Here";
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
-                OnPropertyChanged("Name");
+                Raise(nameof(Name));
             }
         }
 
         private string _path = "";
         public string Path
         {
-            get
-            {
-                return _path;
-            }
+            get => _path;
             set
             {
                 _path = value;
-                OnPropertyChanged("Path");
+                Raise(nameof(Path));
             }
         }
     }
 
-    /// <summary>
-    /// Interaktionslogik für LibrarySelector.xaml
-    /// </summary>
     public partial class PlaylistSelector : Window, INotifyPropertyChanged
     {
         string libfile = "Playlists.xml";
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
-        private PlaylistViewModel viewModel = null;
+        PlaylistViewModel viewModel = null;
+        public PlaylistDefinition DialogSelection = null;
 
         public PlaylistSelector(PlaylistViewModel viewModel)
         {
@@ -144,29 +125,26 @@ namespace MpFree4k.Dialogs
             savePlaylistXML();
         }
 
-        private PlaylistDefinition _currentDefinition = new PlaylistDefinition();
+        PlaylistDefinition _currentDefinition = new PlaylistDefinition();
         public PlaylistDefinition CurrentDefinition
         {
-            get { return _currentDefinition; }
+            get =>  _currentDefinition;
             set
             {
                 _currentDefinition = value;
-                OnPropertyChanged("CurrentDefinition");
+                Raise(nameof(CurrentDefinition));
             }
         }
 
-        private List<PlaylistDefinition> _playlistDefs = new List<PlaylistDefinition>()
-        {
-            //new MediaLibraryDefinition() { Name = "Default Library - Complete", Path = @"C:\Media\mp3"},
-            //new MediaLibraryDefinition() { Name = "Compilations", Path = @"C:\Media\mp3\_Compilations"}
-        };
+        List<PlaylistDefinition> _playlistDefs = new List<PlaylistDefinition>();
+
         public List<PlaylistDefinition> PlaylistDefs
         {
-            get { return _playlistDefs; }
+            get => _playlistDefs;
             set
             {
                 _playlistDefs = value;
-                OnPropertyChanged("PlaylistDefs");
+                Raise(nameof(PlaylistDefs));
             }
         }
 
@@ -235,7 +213,7 @@ namespace MpFree4k.Dialogs
                 _currentDefinition.Name = "";
                 _currentDefinition.Path = "";
 
-                OnPropertyChanged("PlaylistDefs");
+                Raise(nameof(PlaylistDefs));
 
                 reloadPlaylists();
             }
@@ -246,14 +224,14 @@ namespace MpFree4k.Dialogs
             PlaylistSerializer.Serialize(def.Path, viewModel.Tracks);
         }
 
-        private PlaylistDefinition _selectedDefinition = null;
+        PlaylistDefinition _selectedDefinition = null;
         public PlaylistDefinition SelectedDefinition
         {
-            get { return _selectedDefinition; }
+            get => _selectedDefinition;
             set
             {
                 _selectedDefinition = value;
-                OnPropertyChanged("SelectedDefinition");
+                Raise(nameof(SelectedDefinition));
             }
         }
         private void ListLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -292,7 +270,6 @@ namespace MpFree4k.Dialogs
             reloadPlaylists();
         }
 
-        public PlaylistDefinition DialogSelection = null;
         private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             savePlaylistXML();
@@ -308,8 +285,6 @@ namespace MpFree4k.Dialogs
 
             this.Close();
         }
-
-        PlaylistDefinition CheckedLib = null;
 
 
         private void cbDefault_Click(object sender, RoutedEventArgs e)

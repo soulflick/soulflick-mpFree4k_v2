@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -78,9 +79,7 @@ namespace Classes
                 info._Handle.Save();
                 success = true;
             }
-            catch (Exception exc)
-            {;
-            }
+            catch (Exception exc) { ; }
             ReadMp3Fields(info);
             info.Mp3Fields.HasChanged = false;
             return success;
@@ -93,7 +92,7 @@ namespace Classes
         }
         public static bool CreateFileHandle(this FileViewInfo info)
         {
-            info.FileName = System.IO.Path.GetFileName(info.Path);
+            info.FileName = Path.GetFileName(info.Path);
 
             try
             {
@@ -125,7 +124,6 @@ namespace Classes
             }
 
             byte[] raw = info._Handle.Tag.Pictures[0].Data.ToArray();
-
 
             info.Image = new System.Windows.Media.Imaging.BitmapImage();
 

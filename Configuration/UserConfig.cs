@@ -1,6 +1,6 @@
-﻿using MpFree4k.Enums;
+﻿using Mpfree4k.Enums;
 
-namespace MpFree4k.Classes
+namespace Configuration
 {
     public static class UserConfig
     {

@@ -1,0 +1,29 @@
+﻿<Window x:Class="MpFree4k.Windows.SmallView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Topmost="True"
+        Title="_This" Height="150" Width="800"
+        Loaded="_This_Loaded"
+        Closing="_This_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{DynamicResource MenuBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Grid  Background="{DynamicResource FirstItemBackground}">
+            <Image Width="20" Height="20" HorizontalAlignment="Right" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+        </Grid>         
+    </Grid>
+</Window>

@@ -130,15 +130,9 @@ namespace WPF.CSCore.Streams.Effects
         {
             private readonly List<EqualizerFilter> _list = new List<EqualizerFilter>();
 
-            public IEnumerator<EqualizerFilter> GetEnumerator()
-            {
-                return _list.GetEnumerator();
-            }
+            public IEnumerator<EqualizerFilter> GetEnumerator() => _list.GetEnumerator();
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
             public void Add(EqualizerFilter item)
             {
@@ -146,40 +140,19 @@ namespace WPF.CSCore.Streams.Effects
                 _list.Sort();
             }
 
-            public void Clear()
-            {
-                _list.Clear();
-            }
+            public void Clear() => _list.Clear();
 
-            public bool Contains(EqualizerFilter item)
-            {
-                return _list.Contains(item);
-            }
+            public bool Contains(EqualizerFilter item) => _list.Contains(item);
 
-            public void CopyTo(EqualizerFilter[] array, int arrayIndex)
-            {
-                _list.CopyTo(array, arrayIndex);
-            }
+            public void CopyTo(EqualizerFilter[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-            public bool Remove(EqualizerFilter item)
-            {
-                return _list.Remove(item);
-            }
+            public bool Remove(EqualizerFilter item) => _list.Remove(item);
 
-            public int Count
-            {
-                get { return _list.Count; }
-            }
+            public int Count => _list.Count;
 
-            public bool IsReadOnly
-            {
-                get { return false; }
-            }
+            public bool IsReadOnly => false;
 
-            public int IndexOf(EqualizerFilter item)
-            {
-                return _list.IndexOf(item);
-            }
+            public int IndexOf(EqualizerFilter item) => _list.IndexOf(item);
 
             public void Insert(int index, EqualizerFilter item)
             {
@@ -187,14 +160,11 @@ namespace WPF.CSCore.Streams.Effects
                 _list.Sort();
             }
 
-            public void RemoveAt(int index)
-            {
-                _list.RemoveAt(index);
-            }
+            public void RemoveAt(int index) => _list.RemoveAt(index);
 
             public EqualizerFilter this[int index]
             {
-                get { return _list[index]; }
+                get => _list[index];
                 set
                 {
                     _list[index] = value;

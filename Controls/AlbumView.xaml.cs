@@ -1,10 +1,10 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
-using MpFree4k.Utilities;
-using MpFree4k.ViewModels;
+using ViewModels;
+using Mpfree4k.Enums;
+using Layers;
+using Models;
+using Dialogs;
+using Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,45 +13,34 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ViewModels;
+using Configuration;
+using MpFree4k;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class AlbumView : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public static AlbumsViewModel StaticViewModel = null;
-        private bool mousedown = false;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        private AlbumsViewModel viewModel;
+        public void SetMediaLibrary(MediaLibrary lib) => viewModel.MediaLibrary = lib;
+
         private List<PlaylistItem> dragItems = new List<PlaylistItem>();
-        private Point mousepos = new Point(0, 0);
-
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
-        public void SetMediaLibrary(Layers.MediaLibrary lib)
-        {
-            viewModel.MediaLibrary = lib;
-        }
-
-        AlbumsViewModel viewModel;
+        bool mousedown = false;
+        Point mousepos = new Point(0, 0);
+        
         public AlbumView()
         {
-            this.DataContext = viewModel = new AlbumsViewModel();
-            StaticViewModel = this.DataContext as AlbumsViewModel;
+            DataContext = viewModel = new AlbumsViewModel();
             viewModel.PropertyChanged += AlbumView_PropertyChanged;
            
             InitializeComponent();
 
-            this.Loaded += AlbumView_Loaded;
+            Loaded += AlbumView_Loaded;
         }
 
-        private void AlbumView_Loaded(object sender, RoutedEventArgs e)
-        {
-            viewModel?.UpdateAmount();
-        }
+        private void AlbumView_Loaded(object sender, RoutedEventArgs e) => viewModel?.UpdateAmount();
 
         private void AlbumView_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -79,7 +68,7 @@ namespace MpFree4k.Controls
                     albums.Add((sender as ListView).SelectedItems[i] as AlbumItem); ;
             }
 
-            viewModel.MediaLibrary.Filter(Layers.MediaLevel.Albums, albums);
+            viewModel.MediaLibrary.Filter(MediaLevel.Albums, albums);
 
         }
 
@@ -155,7 +144,7 @@ namespace MpFree4k.Controls
             set 
             {
                 _listWidth = value;
-                OnPropertyChanged("ListWidth");
+                Raise(nameof(ListWidth));
             }
         }
 
@@ -164,14 +153,14 @@ namespace MpFree4k.Controls
             ListWidth = calcListWidth();
         }
 
-        private AlbumViewType _albumViewType = Enums.AlbumViewType.List;
+        private AlbumViewType _albumViewType = Mpfree4k.Enums.AlbumViewType.List;
         public AlbumViewType AlbumViewType
         {
             get => _albumViewType;
             set
             {
                 _albumViewType = value;
-                OnPropertyChanged("AlbumViewType");
+                Raise(nameof(AlbumViewType));
             }
         }
 
@@ -187,7 +176,7 @@ namespace MpFree4k.Controls
             {
                 AlbumsViewModel VM = this.DataContext as AlbumsViewModel;
                 VM.Albums.Where(a => a.IsVisible).ToList().ForEach(x => x.IsSelected = true);
-                VM.MediaLibrary.Refresh(Layers.MediaLevel.All);
+                VM.MediaLibrary.Refresh(MediaLevel.All);
                 e.Handled = true;
             }
         }
@@ -239,7 +228,7 @@ namespace MpFree4k.Controls
 
         private void mnuCtxEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (this.ListAlbums.SelectedItem is AlbumItem album)
+            if (ListAlbums.SelectedItem is AlbumItem album)
             {
                 FileViewInfo[] infos = LibraryUtils.GetInfoItems(album);
 

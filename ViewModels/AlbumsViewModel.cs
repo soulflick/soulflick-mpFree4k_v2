@@ -1,22 +1,23 @@
 ﻿using MpFree4k;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
+using Mpfree4k.Enums;
+using Layers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Threading;
+using Models;
 
 namespace ViewModels
 {
     public class AlbumsViewModel : INotifyPropertyChanged
     {
-        public AlbumsViewModel()
-        {
-            currentDispatcher = Dispatcher.CurrentDispatcher;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void Raise(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public static AlbumsViewModel Instance;
+
+        public AlbumsViewModel() => Instance = this;
         
-        Dispatcher currentDispatcher = null;
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
         {
@@ -27,21 +28,7 @@ namespace ViewModels
                 _mediaLibrary.PropertyChanged -= Library_PropertiesChanged;
                 _mediaLibrary.PropertyChanged += Library_PropertiesChanged;
 
-                OnPropertyChanged("Albums");
-            }
-        }
-
-        private void Library_PropertiesChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Albums")
-            {
-                MainWindow.mainDispatcher.Invoke(() => OnPropertyChanged("Albums"));
-
-                UpdateAmount();
-            }
-            else if (e.PropertyName == "IndexAlbums")
-            {
-                OnPropertyChanged(e.PropertyName);
+                Raise("Albums");
             }
         }
 
@@ -52,26 +39,15 @@ namespace ViewModels
             MainWindow.Instance.SetAmounts(Albums.Count(a => a.IsVisible), span);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        private List<AlbumItem> _albums = new List<AlbumItem>();
+        public List<AlbumItem> Albums
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        private List<Classes.AlbumItem> _albums = new List<Classes.AlbumItem>();
-        public List<Classes.AlbumItem> Albums
-        {
-            get {
-                if (MediaLibrary == null)
-                    return null;
-                return MediaLibrary.Albums; }
+            get => MediaLibrary?.Albums;
             set
             {
                 _albums = value;
                 UpdateAmount();
-                OnPropertyChanged("Albums");
+                Raise(nameof(Albums));
             }
         }
 
@@ -99,7 +75,21 @@ namespace ViewModels
                     break;
             }
 
-            this.MediaLibrary.Refresh(MediaLevel.Albums);
+            MediaLibrary.Refresh(MediaLevel.Albums);
+        }
+
+        private void Library_PropertiesChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Albums))
+            {
+                MainWindow.mainDispatcher.Invoke(() => Raise(nameof(Albums)));
+
+                UpdateAmount();
+            }
+            else if (e.PropertyName == "IndexAlbums")
+            {
+                Raise(e.PropertyName);
+            }
         }
     }
 }

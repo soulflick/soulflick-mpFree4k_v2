@@ -1,23 +1,20 @@
-﻿using Classes;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
+﻿using Mpfree4k.Enums;
+using Layers;
+using Models;
+using MpFree4k;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MpFree4k.ViewModels
+namespace ViewModels
 {
 
     public class AlbumDetailGroup : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public string JumpNode = "";
 
@@ -28,7 +25,7 @@ namespace MpFree4k.ViewModels
             set
             {
                 _groupName = value;
-                OnPropertyChanged("GroupName");
+                Raise(nameof(GroupName));
             }
         }
 
@@ -39,7 +36,7 @@ namespace MpFree4k.ViewModels
             set
             {
                 _albums = value;
-                OnPropertyChanged("Albums");
+                Raise(nameof(Albums));
             }
         }
     }
@@ -47,9 +44,10 @@ namespace MpFree4k.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public bool loaded;
+        //public bool loaded;
+        private AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
 
         private List<AlbumDetailGroup> _albumGroups = new List<AlbumDetailGroup>();
         public List<AlbumDetailGroup> AlbumGroups
@@ -58,10 +56,10 @@ namespace MpFree4k.ViewModels
             set
             {
                 _albumGroups = value;
-                if (_albumGroups.Count > 0 && _albumGroups[0].Albums.Length > 0)
-                    loaded = true;
+                //if (_albumGroups.Count > 0 && _albumGroups[0].Albums.Length > 0)
+                //    loaded = true;
 
-                OnPropertyChanged("AlbumGroups");
+                Raise(nameof(AlbumGroups));
             }
         }
 
@@ -72,25 +70,20 @@ namespace MpFree4k.ViewModels
             set
             {
                 _albums = value;
-                OnPropertyChanged("Albums");
+                Raise(nameof(Albums));
             }
         }
 
-        public AlbumDetailViewModel()
-        {
-            Library.Instance.Current.PropertyChanged += Current_PropertyChanged;
-        }
+        public AlbumDetailViewModel() => Library.Instance.Current.PropertyChanged += Current_PropertyChanged;
 
         private void Current_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Albums")
-                Reload();
+            if (e.PropertyName == nameof(Albums))
+                OrderBy(ViewType);
         }
 
-
-        private AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
         public void Reload() => OrderBy(ViewType);
- 
+
         void getGroups(AlbumDetailsOrderType type = AlbumDetailsOrderType.Album)
         {
             if (MainWindow.Instance.ViewMode != ViewMode.Albums) return;
@@ -110,7 +103,6 @@ namespace MpFree4k.ViewModels
                     step += step_width;
                     MainWindow.SetProgress(step);
 
-                    int pos = 0;
                     string albumname = group.First().Album;
                     AlbumDetailGroup g = new AlbumDetailGroup()
                     {
@@ -165,9 +157,8 @@ namespace MpFree4k.ViewModels
             else if (type == AlbumDetailsOrderType.All)
             {
                 double step_width = 100 / Math.Max(1, Albums.Count);
-                double step = 0;
 
-                AlbumDetailGroup g = new AlbumDetailGroup() { GroupName = String.Empty };
+                AlbumDetailGroup g = new AlbumDetailGroup() { GroupName = string.Empty };
                 g.Albums = Albums.ToArray();
                 _groups.Add(g);
             }

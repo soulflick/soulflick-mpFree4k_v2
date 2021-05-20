@@ -1,6 +1,54 @@
-﻿
-namespace MpFree4k.Enums
+﻿namespace Mpfree4k.Enums
 {
+    public enum ViewMode
+    {
+        Details,
+        Table,
+        Albums,
+        Favourites
+    }
+
+    public enum MediaLevel
+    {
+        All,
+        Artists,
+        Albums,
+        Tracks
+    }
+
+    public enum ScalingStrategy
+    {
+        Decibel,
+        Linear,
+        Sqrt
+    }
+
+    public enum SelectedControl
+    {
+        None,
+        Albums,
+        Tracks
+    }
+
+    public enum RemainingMode
+    {
+        Elapsed,
+        Remaining
+    }
+
+    public enum Playmode
+    {
+        Play,
+        Unplay
+    }
+
+    public enum GraphType
+    {
+        Bar,
+        Line,
+        Band
+    }
+
     public enum TabOrder
     {
         Detail = 0,
@@ -15,7 +63,7 @@ namespace MpFree4k.Enums
         Normal = 34,
         Bigger = 48,
         Biggest = 64,
-        Huge = 80        
+        Huge = 80
     }
 
     public enum RepeatMode

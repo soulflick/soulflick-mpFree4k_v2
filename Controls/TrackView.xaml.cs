@@ -1,8 +1,7 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.ViewModels;
+using Models;
+using Dialogs;
+using ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,31 +9,53 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using ViewModels;
+using Mpfree4k.Enums;
+using Configuration;
+using MpFree4k;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class TrackView : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
         private List<FileViewInfo> dragItems = new List<FileViewInfo>();
-        private bool ctrlkey_down = false;
-        private bool mousedown = false;
-        private Point mousepos = new Point(0, 0);
-
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-
-        public void SetMediaLibrary(Layers.MediaLibrary lib) => (DataContext as TracksViewModel).MediaLibrary = lib;
+        bool ctrlkey_down = false;
+        bool mousedown = false;
+        Point mousepos = new Point(0, 0);
 
         public TrackView()
         {
-            this.DataContext = new TracksViewModel();
-            (this.DataContext as TracksViewModel).PropertyChanged += TrackView_PropertyChanged;
-            this.SizeChanged += TrackView_SizeChanged;
+            DataContext = new TracksViewModel();
+            (DataContext as TracksViewModel).PropertyChanged += TrackView_PropertyChanged;
+            SizeChanged += TrackView_SizeChanged;
             InitializeComponent();
         }
+
+        private double _listWidth = -1;
+        public double ListWidth
+        {
+            set
+            {
+                _listWidth = value;
+                Raise(nameof(ListWidth));
+            }
+            get => _listWidth;
+        }
+
+        private TrackViewType _trackViewType = TrackViewType.List;
+        public TrackViewType TrackViewType
+        {
+            get => _trackViewType;
+            set
+            {
+                _trackViewType = value;
+                Raise(nameof(TrackViewType));
+            }
+        }
+
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => (DataContext as TracksViewModel).MediaLibrary = lib;
 
         private void TrackView_SizeChanged(object sender, SizeChangedEventArgs e) => ListWidth = calcListWidth();
 
@@ -44,29 +65,12 @@ namespace MpFree4k.Controls
                 ListWidth = calcListWidth();
         }
 
-        private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is childItem)
-                    return (childItem)child;
-                else
-                {
-                    childItem childOfChild = FindVisualChild<childItem>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
-
         double calcListWidth(double add = -4)
         {
             ListView view = ListTracks;
             double wid = view.ActualWidth;
 
-            ScrollViewer scrollview = FindVisualChild<ScrollViewer>(view);
+            ScrollViewer scrollview = Utils.VisualTreeHelper.GetVisualChild<ScrollViewer, ListView>(view);
             if (scrollview != null)
             {
                 Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
@@ -78,17 +82,6 @@ namespace MpFree4k.Controls
             }
 
             return wid + add;
-        }
-
-        private double _listWidth = -1;
-        public double ListWidth
-        {
-            set
-            {
-                _listWidth = value;
-                OnPropertyChanged("ListWidth");
-            }
-            get => _listWidth;
         }
 
         private List<FileViewInfo> GetSelectedFileViewInfos() => ListTracks.SelectedItems.Cast<FileViewInfo>().ToList().Where(v => v.IsVisible).ToList();
@@ -104,6 +97,13 @@ namespace MpFree4k.Controls
             }
             return items;
         }
+
+        public void SetViewType(TrackViewType type)
+        {
+            TrackViewType = type;
+            UserConfig.TrackViewType = type;
+        }
+
 
         private void ListTracks_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -154,7 +154,7 @@ namespace MpFree4k.Controls
                     else
                     {
                         ListTracks.SelectedItems.Clear();
-                        (this.DataContext as TracksViewModel).Tracks.ForEach(t => t.IsSelected = false);
+                        (DataContext as TracksViewModel).Tracks.ForEach(t => t.IsSelected = false);
                         item.IsSelected = true;
                     }
                 }
@@ -169,9 +169,7 @@ namespace MpFree4k.Controls
                     }
                     //item.IsSelected = !item.IsSelected;
                 }
-
             }
-
         }
 
         private void mnuCtxEdit_Click(object sender, RoutedEventArgs e)
@@ -183,23 +181,6 @@ namespace MpFree4k.Controls
             FileViewInfo[] infos = ListTracks.SelectedItems.Cast<FileViewInfo>().ToArray();
             TracksEditor editor = new TracksEditor(infos);
             editor.ShowDialog();
-        }
-
-        private TrackViewType _trackViewType = Enums.TrackViewType.List;
-        public TrackViewType TrackViewType
-        {
-            get => _trackViewType;
-            set
-            {
-                _trackViewType = value;
-                OnPropertyChanged("TrackViewType");
-            }
-        }
-
-        public void SetViewType(TrackViewType type)
-        {
-            TrackViewType = type;
-            UserConfig.TrackViewType = type;
         }
 
         private void ListTracks_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -245,7 +226,7 @@ namespace MpFree4k.Controls
             {
                 TracksViewModel VM = this.DataContext as TracksViewModel;
                 VM.Tracks.Where(a => a.IsVisible).ToList().ForEach(x => x.IsSelected = true);
-                VM.MediaLibrary.Refresh(Layers.MediaLevel.All);
+                VM.MediaLibrary.Refresh(MediaLevel.All);
                 e.Handled = true;
             }
         }

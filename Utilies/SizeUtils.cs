@@ -1,4 +1,4 @@
-﻿namespace WPFEqualizer.Utils
+﻿namespace Equalizer.Utils
 {
     public static class SizeUtils
     {

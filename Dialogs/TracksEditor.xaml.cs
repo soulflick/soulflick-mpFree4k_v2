@@ -1,11 +1,12 @@
 ﻿using Classes;
+using Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public partial class TracksEditor : Window, INotifyPropertyChanged
     {
@@ -31,10 +32,7 @@ namespace MpFree4k.Dialogs
         private ObservableCollection<FileViewInfo> fileInfos = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public void Raise(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         public ObservableCollection<FileViewInfo> FileInfos
         {
@@ -42,7 +40,7 @@ namespace MpFree4k.Dialogs
             set
             {
                 fileInfos = value;
-                RaisePropertyChanged(nameof(FileInfos));
+                Raise(nameof(FileInfos));
             }
         }
 
@@ -52,15 +50,12 @@ namespace MpFree4k.Dialogs
             Editor.CurrentTag = info;
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e) => Close();
 
         private void btnOkay_Click(object sender, RoutedEventArgs e)
         {
             FileInfos.ToList().ForEach(file => file.save());
-            this.Close();
+            Close();
         }
     }
 }

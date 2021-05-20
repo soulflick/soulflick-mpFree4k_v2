@@ -1,6 +1,8 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Layers;
+using Configuration;
+using Layers;
+using Models;
+using MpFree4k;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,44 +11,33 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Media.Imaging;
 
-namespace MpFree4k.ViewModels
+namespace ViewModels
 {
     public class FavouritesViewModel : INotifyPropertyChanged
     {
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged(this, new PropertyChangedEventArgs(info));
 
         private List<SimpleAlbumItem> _favouriteAlbums = null;
         public List<SimpleAlbumItem> FavouriteAlbums
         {
-            get
-            {
-                return _favouriteAlbums;
-            }
+            get => _favouriteAlbums;
             set
             {
                 _favouriteAlbums = value;
-                OnPropertyChanged("FavouriteAlbums");
+                Raise(nameof(FavouriteAlbums));
             }
         }
 
         private List<FileViewInfo> _favouriteTracks = null;
         public List<FileViewInfo> FavouriteTracks
         {
-            get
-            {
-                return _favouriteTracks;
-            }
+            get => _favouriteTracks;
             set
             {
                 _favouriteTracks = value;
-                OnPropertyChanged("FavouriteTracks");
+                Raise(nameof(FavouriteTracks));
             }
         }
 

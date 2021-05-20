@@ -1,8 +1,8 @@
-﻿using MpFree4k.ViewModels;
+﻿using ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public partial class EqualizerWindow : Window
     {
@@ -37,19 +37,10 @@ namespace MpFree4k.Dialogs
                 SelectedPreset = index;
         }
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
-        {
-            EQControl.Reset();
-        }
+        private void btnReset_Click(object sender, RoutedEventArgs e) => EQControl.Reset();
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Save();
-        }
+        private void btnSave_Click(object sender, RoutedEventArgs e) => ViewModel.Save();
 
-        private void cmbPresets_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            presets_clicked = true;
-        }
+        private void cmbPresets_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => presets_clicked = true;
     }
 }

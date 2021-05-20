@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Classes
+namespace Models
 {
-
     public class SimpleAlbumItem : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
         public static BitmapImage DefaultAlbumImage = null;
+
         public int id = 0;
         public uint Year { get; set; }
         public string Artist { get; set; }
@@ -30,7 +32,7 @@ namespace Classes
             set
             {
                 _image = value;
-                OnPropertyChanged("AlbumImage");
+                Raise(nameof(AlbumImage));
             }
         }
 
@@ -43,9 +45,6 @@ namespace Classes
                 ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         private bool _isVisible = true;
         public bool IsVisible
         {
@@ -53,7 +52,7 @@ namespace Classes
             set
             {
                 _isVisible = value;
-                OnPropertyChanged("IsVisible");
+                Raise(nameof(IsVisible));
             }
         }
 
@@ -64,9 +63,8 @@ namespace Classes
             set
             {
                 _isSelected = value;
-                OnPropertyChanged("IsSelected");
+                Raise(nameof(IsSelected));
             }
         }
-
     }
 }

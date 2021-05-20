@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace MpFree4k.Converter
+namespace Mpfree4k.Converters
 {
     public class FontWeightConverter : IMultiValueConverter
     {

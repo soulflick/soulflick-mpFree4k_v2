@@ -1,20 +1,15 @@
-﻿using MpFree4k.Classes;
+﻿using Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
-namespace MpFree4k.ViewModels
+namespace ViewModels
 {
     public class StatusViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        private PlaylistViewModel pvm = null;
 
         public void Update(double progress = -999)
         {
@@ -60,7 +55,7 @@ namespace MpFree4k.ViewModels
             set
             {
                 _numberOfTracks = value;
-                OnPropertyChanged("NumberOfTracks");
+                Raise(nameof(NumberOfTracks));
             }
         }
 
@@ -71,7 +66,7 @@ namespace MpFree4k.ViewModels
             set
             {
                 _totalDuration = value;
-                OnPropertyChanged("TotalDuration");
+                Raise(nameof(TotalDuration));
             }
         }
 
@@ -82,11 +77,11 @@ namespace MpFree4k.ViewModels
             set
             {
                 _remaining = value;
-                OnPropertyChanged("Remaining");
+                Raise(nameof(Remaining));
             }
         }
 
-        public void Set(PlaylistViewModel PVM)
+        public void SetViewmodel(PlaylistViewModel PVM)
         {
             if (pvm != null)
                 pvm.PropertyChanged -= PVM_PropertyChanged;
@@ -96,7 +91,6 @@ namespace MpFree4k.ViewModels
             pvm = PVM;
         }
 
-        private PlaylistViewModel pvm = null;
         private void PVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Tracks")

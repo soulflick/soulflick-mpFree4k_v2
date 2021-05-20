@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace Classes
+namespace Models
 {
     public class ArtistItem : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private string _artists = "-";
         public string Artists
@@ -16,7 +16,7 @@ namespace Classes
             set
             {
                 _artists = value;
-                OnPropertyChanged("Artists");
+                Raise(nameof(Artists));
             }
         }
 
@@ -27,7 +27,7 @@ namespace Classes
             set
             {
                 _artistLabel = value;
-                OnPropertyChanged("ArtistLabel");
+                Raise(nameof(ArtistLabel));
             }
         }
         private int _albumCount = 0;
@@ -37,7 +37,7 @@ namespace Classes
             set
             {
                 _albumCount = value;
-                OnPropertyChanged("AlbumCount");
+                Raise(nameof(AlbumCount));
             }
         }
         public int _trackCount = 0;
@@ -47,7 +47,7 @@ namespace Classes
             set
             {
                 _trackCount = value;
-                OnPropertyChanged("TrackCount");
+                Raise(nameof(TrackCount));
             }
         }
 
@@ -58,7 +58,7 @@ namespace Classes
             set
             {
                 year = value;
-                OnPropertyChanged("Year");
+                Raise(nameof(Year));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Classes
             set
             {
                 _albums = value;
-                OnPropertyChanged("Albums");
+                Raise(nameof(Albums));
             }
         }
         
@@ -82,7 +82,7 @@ namespace Classes
             set
             {
                 _firstAlbum = value;
-                OnPropertyChanged("FirstAlbum");
+                Raise(nameof(FirstAlbum));
             }
         }
 
@@ -93,7 +93,7 @@ namespace Classes
             set
             {
                 _isVisible = value;
-                OnPropertyChanged("IsVisible");
+                Raise(nameof(IsVisible));
             }
         }
 
@@ -104,7 +104,7 @@ namespace Classes
             set
             {
                 _isSelected = value;
-                OnPropertyChanged("IsSelected");
+                Raise(nameof(IsSelected));
             }
         }
     }

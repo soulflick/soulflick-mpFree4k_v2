@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MpFree4k.Interfaces
+namespace Interfaces
 {
     public interface IMediaPlugin : IDisposable
     {

@@ -1,6 +1,8 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Enums;
+using Configuration;
+using Mpfree4k.Enums;
+using Models;
+using MpFree4k;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,27 +13,23 @@ using System.Windows.Input;
 using ViewModels;
 
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class ArtistView : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
         private List<PlaylistItem> dragItems = new List<PlaylistItem>();
-        private bool mousedown = false;
-        private bool prevent_side_selection = false;
         private List<SimpleAlbumItem> selected_simple_albums = new List<SimpleAlbumItem>();
-        private Point mousepos = new Point(0, 0);
+        bool mousedown = false;
+        bool prevent_side_selection = false;
+        Point mousepos = new Point(0, 0);
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void Raise(string info)  => PropertyChanged(this, new PropertyChangedEventArgs(info));
 
         public ArtistView()
         {
-            this.DataContext = new ArtistsViewModel();
-            (this.DataContext as ArtistsViewModel).PropertyChanged += ArtistView_PropertyChanged;
+            DataContext = new ArtistsViewModel();
+            (DataContext as ArtistsViewModel).PropertyChanged += ArtistView_PropertyChanged;
             Loaded += ArtistView_Loaded;
             InitializeComponent();
             ListWidth = calcListWidth();
@@ -62,7 +60,7 @@ namespace MpFree4k.Controls
                     artists[i] = ((sender as ListView).SelectedItems[i] as ArtistItem).Artists;
             }
 
-            (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(Layers.MediaLevel.Artists, artists);
+            (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(MediaLevel.Artists, artists);
 
 
         }
@@ -72,7 +70,7 @@ namespace MpFree4k.Controls
             ListView view = ListArtists;
             double wid = view.ActualWidth;
 
-            ScrollViewer scrollview = VisualTreeHelperLocal.FindVisualChild<ScrollViewer>(view);
+            ScrollViewer scrollview = Utils.VisualTreeHelper.GetVisualChild<ScrollViewer, ListView>(view);
             if (scrollview != null)
             {
                 Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;
@@ -92,21 +90,21 @@ namespace MpFree4k.Controls
             set
             {
                 _listWidth = value;
-                OnPropertyChanged("ListWidth");
+                Raise(nameof(ListWidth));
             }
             get => _listWidth;
         }
 
 
 
-        private ArtistViewType _artistViewType = Enums.ArtistViewType.List;
+        private ArtistViewType _artistViewType = Mpfree4k.Enums.ArtistViewType.List;
         public ArtistViewType ArtistViewType
         {
             get => _artistViewType;
             set
             {
                 _artistViewType = value;
-                OnPropertyChanged("ArtistViewType");
+                Raise(nameof(ArtistViewType));
             }
         }
 
@@ -196,11 +194,11 @@ namespace MpFree4k.Controls
                         };
                         albums.Add(aai);
                     }
-                (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(Layers.MediaLevel.Albums, albums);
+                (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(MediaLevel.Albums, albums);
                 }
                 else
                 {
-                    (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(Layers.MediaLevel.Artists);
+                    (this.DataContext as ArtistsViewModel).MediaLibrary.Filter(MediaLevel.Artists);
                 }
             }
 
@@ -219,7 +217,7 @@ namespace MpFree4k.Controls
             {
                 ArtistsViewModel VM = this.DataContext as ArtistsViewModel;
                 VM.Artists.Where(a => a.IsVisible).ToList().ForEach(x => x.IsSelected = true);
-                VM.MediaLibrary.Refresh(Layers.MediaLevel.All);
+                VM.MediaLibrary.Refresh(MediaLevel.All);
                 e.Handled = true;
             }
         }

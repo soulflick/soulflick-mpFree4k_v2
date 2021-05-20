@@ -9,22 +9,17 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Timers;
-using WPFEqualizer.Utils;
-using WPFEqualizer.Visualization;
-using WPFEqualizer.Controls;
+using Equalizer.Utils;
+using Equalizer.Visualization;
+using Equalizer.Controls;
+using Mpfree4k.Enums;
 
 using Color = System.Drawing.Color;
 using Point = System.Windows.Point;
 
-namespace WPFEqualizer
-{
-    public enum GraphType
-    {
-        Bar,
-        Line,
-        Band
-    }
 
+namespace Equalizer
+{
     public class FileNameEventArgs
     {
         public string FileName { get; set; }
@@ -32,12 +27,15 @@ namespace WPFEqualizer
 
     public class SpectrumViewModel : INotifyPropertyChanged
     {
-        private void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        public static SpectrumViewModel Instance;
+        public ISoundOut _soundOut;
 
         public static int EqualizerBandCount => 10;
 
         public Size ViewPort;
-        public event PropertyChangedEventHandler PropertyChanged;
         public LinearSpectrum _control;
         public LineSpectrum _lineSpectrum;
         public IWaveSource _source;
@@ -48,7 +46,7 @@ namespace WPFEqualizer
         public CSCore.Streams.Effects.Equalizer _equalizer;
         public SimpleNotificationSource _simpleNotificationSource;
         public SingleBlockNotificationStream _singleBlockNotificationStream;
-        public BasicSpectrumProvider _spectrumProvider;
+        public SpectrumProvider _spectrumProvider;
 
         private Timer _waveTimer;
         private int[] _tipPositions;
@@ -60,8 +58,6 @@ namespace WPFEqualizer
         public Color FillBrush = Color.Gray;
 
         public double Spacing = 1;
-        public static SpectrumViewModel Instance;
-        public ISoundOut _soundOut;
 
         public SpectrumViewModel(LinearSpectrum control)
         {
@@ -130,7 +126,7 @@ namespace WPFEqualizer
             set
             {
                 mediaFile = value;
-                RaisePropertyChanged(nameof(MediaFile));
+                Raise(nameof(MediaFile));
             }
         }
 
@@ -192,11 +188,11 @@ namespace WPFEqualizer
             _capture = new WasapiLoopbackCapture();
 
             source = CodecFactory.Instance.GetCodec(MediaFile);
-            _spectrumProvider = new BasicSpectrumProvider(source.WaveFormat.Channels, source.WaveFormat.SampleRate, fftSize);
+            _spectrumProvider = new SpectrumProvider(source.WaveFormat.Channels, source.WaveFormat.SampleRate, fftSize);
 
             CreateSpectrum();
 
-            Equalizer newEqualizer = null;
+            CSCore.Streams.Effects.Equalizer newEqualizer = null;
 
             source = source
                .ChangeSampleRate(44100)
@@ -223,7 +219,7 @@ namespace WPFEqualizer
             _waveTimer.Start();
         }
 
-        private void SetEqualizer(Equalizer newEQ)
+        private void SetEqualizer(CSCore.Streams.Effects.Equalizer newEQ)
         {
             if (newEQ == null) return;
 
@@ -273,7 +269,6 @@ namespace WPFEqualizer
                     filter.Filters[j].GainDB = gain;
             }
         }
-
 
         public void ApplyTipPos(Point pos)
         {

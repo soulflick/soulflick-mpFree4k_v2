@@ -1,11 +1,12 @@
-﻿using MpFree4k.ViewModels;
+﻿using Models;
+using ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace MpFree4k.Classes
+namespace Classes
 {
     public static class PlaylistSerializer
     {
@@ -47,7 +48,7 @@ namespace MpFree4k.Classes
             if (playitem != null)
                 VM.CurrentPlayPosition = playitem.Position;
 
-            VM.OnPropertyChanged("Tracks");
+            VM.Raise("Tracks");
         }
     }
 }

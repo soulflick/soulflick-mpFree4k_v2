@@ -1,122 +1,46 @@
-﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.Utilities;
-using MpFree4k.ViewModels;
+﻿using Mpfree4k.Enums;
+using Models;
+using Dialogs;
+using Utilities;
+using ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Configuration;
+using MpFree4k;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
-    public static class ViewportHelper
-    {
-        public static bool IsInViewport(Control item)
-        {
-            if (item == null) return false;
-            ItemsControl itemsControl = null;
-            if (item is ListBoxItem)
-            {
-                itemsControl = ItemsControl.ItemsControlFromItemContainer(item) as ListBox;
-            }
-            else
-            {
-                throw new NotSupportedException(item.GetType().Name);
-            }
-
-            ScrollViewer scrollViewer = LocalVisualTreeHelper.GetVisualChild<ScrollViewer, ItemsControl>(itemsControl);
-            ScrollContentPresenter scrollContentPresenter = (ScrollContentPresenter)scrollViewer.Template.FindName("PART_ScrollContentPresenter", scrollViewer);
-            MethodInfo isInViewportMethod = scrollViewer.GetType().GetMethod("IsInViewport", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            return (bool)isInViewportMethod.Invoke(scrollViewer, new object[] { scrollContentPresenter, item });
-        }
-    }
-    public static class LocalVisualTreeHelper
-    {
-        private static void GetVisualChildren<T>(DependencyObject current, Collection<T> children) where T : DependencyObject
-        {
-            if (current != null)
-            {
-                if (current.GetType() == typeof(T))
-                {
-                    children.Add((T)current);
-                }
-
-                for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(current); i++)
-                {
-                    GetVisualChildren<T>(System.Windows.Media.VisualTreeHelper.GetChild(current, i), children);
-                }
-            }
-        }
-
-        public static Collection<T> GetVisualChildren<T>(DependencyObject current) where T : DependencyObject
-        {
-            if (current == null)
-            {
-                return null;
-            }
-
-            Collection<T> children = new Collection<T>();
-
-            GetVisualChildren<T>(current, children);
-
-            return children;
-        }
-
-        public static T GetVisualChild<T, P>(P templatedParent)
-            where T : FrameworkElement
-            where P : FrameworkElement
-        {
-            Collection<T> children = LocalVisualTreeHelper.GetVisualChildren<T>(templatedParent);
-
-            foreach (T child in children)
-            {
-                if (child.TemplatedParent == templatedParent)
-                {
-                    return child;
-                }
-            }
-
-            return null;
-        }
-    }
-
     public partial class AlbumDetailView : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged(this, new PropertyChangedEventArgs(info));
+
 
         List<AlbumItem> dragItems_albums = new List<AlbumItem>();
+        List<ListView> Lists = new List<ListView>();
+        private Point mousepos = new Point(0, 0);
         private bool mousedown_albums = false;
-        Point mousepos = new Point(0, 0);
-
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
 
         public AlbumDetailViewModel VM = null;
-
+        
         public AlbumDetailView()
         {
             VM = new AlbumDetailViewModel();
 
-            this.DataContext = VM;
+            DataContext = VM;
 
-            this.Loaded += Favourites_Loaded;
+            Loaded += Favourites_Loaded;
 
             InitializeComponent();
 
         }
 
-        private AlbumDetailsOrderType _albumDetailsOrderType = Enums.AlbumDetailsOrderType.Year;
+        private AlbumDetailsOrderType _albumDetailsOrderType = AlbumDetailsOrderType.Year;
         public AlbumDetailsOrderType AlbumDetailsOrderType
         {
             get => _albumDetailsOrderType;
@@ -124,8 +48,38 @@ namespace MpFree4k.Controls
             {
                 _albumDetailsOrderType = value;
                 VM.OrderBy(_albumDetailsOrderType);
-                OnPropertyChanged("AlbumDetailsOrderType");
+                Raise(nameof(AlbumDetailsOrderType));
             }
+        }
+
+        private string _currentCharacter = "A";
+        public string CurrentCharacter
+        {
+            get => _currentCharacter;
+            set
+            {
+                _currentCharacter = value;
+                Raise(nameof(CurrentCharacter));
+            }
+        }
+
+        public PlaylistItem[] GetSelectedTracks()
+        {
+            var album = dragItems_albums.FirstOrDefault();
+            if (album == null)
+                return null;
+
+            return LibraryUtils.GetTracks(album);
+        }
+
+        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
+        {
+            if (!element.IsVisible)
+                return false;
+
+            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
+            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
+            return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
         }
 
         private void Favourites_Loaded(object sender, RoutedEventArgs e)
@@ -180,27 +134,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        private string _currentCharacter = "A";
-        public string CurrentCharacter
-        {
-            get { return _currentCharacter; }
-            set
-            {
-                _currentCharacter = value;
-                OnPropertyChanged("CurrentCharacter");
-            }
-        }
-
-        private bool IsUserVisible(FrameworkElement element, FrameworkElement container)
-        {
-            if (!element.IsVisible)
-                return false;
-
-            Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
-            Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
-            return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
-        }
-
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (ListGroups.Items.Count == 0)
@@ -229,22 +162,12 @@ namespace MpFree4k.Controls
             }
         }
 
-        public PlaylistItem[] GetSelectedTracks()
-        {
-            var album = dragItems_albums.FirstOrDefault();
-            if (album == null)
-                return null;
-
-            return LibraryUtils.GetTracks(album);
-        }
-
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollViewer = (ScrollViewer)sender;
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
         }
 
-       
         private void mnuCtxPlay_Click(object sender, RoutedEventArgs e)
         {
             if ((sender as MenuItem).DataContext is AlbumItem album)
@@ -280,7 +203,6 @@ namespace MpFree4k.Controls
             }
         }
 
-        List<ListView> Lists = new List<ListView>();
         private void ListAlbums_Loaded(object sender, RoutedEventArgs e)
         {
             ListView v = sender as ListView;

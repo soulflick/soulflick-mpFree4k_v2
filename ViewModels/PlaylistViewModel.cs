@@ -1,12 +1,12 @@
-﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Enums;
+﻿using Mpfree4k.Enums;
+using Models;
+using MpFree4k;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MpFree4k.ViewModels
+namespace ViewModels
 {
     public enum PlayState
     {
@@ -16,13 +16,9 @@ namespace MpFree4k.ViewModels
 
     public class PlaylistViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public static PlaylistViewModel Instance = null;
 
@@ -30,18 +26,39 @@ namespace MpFree4k.ViewModels
         public PlaylistViewModel()
         {
             StatusVM = new StatusViewModel();
-            StatusVM.Set(this);
+            StatusVM.SetViewmodel(this);
             Instance = this;
+        }
+
+        public RepeatMode RepeatMode = RepeatMode.GoThrough;
+        public PlaylistItem CurrentSong = null;
+
+        private int _currentPlayPosition = 0;
+        public int CurrentPlayPosition
+        {
+            get => _currentPlayPosition;
+            set
+            {
+                _currentPlayPosition = value;
+
+                for (int i = 0; i < Tracks.Count; i++)
+                    Tracks[i].IsPlaying = false;
+
+                if (value < 0 || value >= Tracks.Count)
+                    return;
+
+                Tracks[value].IsPlaying = true;
+            }
         }
 
         private List<PlaylistItem> _tracks = new List<PlaylistItem>();
         public List<PlaylistItem> Tracks
         {
-            get { return _tracks; }
+            get => _tracks;
             set
             {
                 _tracks = value;
-                OnPropertyChanged("Tracks");
+                Raise(nameof(Tracks));
                 StatusVM.Update();
             }
         }
@@ -51,7 +68,7 @@ namespace MpFree4k.ViewModels
             foreach (var item in Tracks)
                 item.DragOver = false;
 
-            OnPropertyChanged("Tracks");
+            Raise(nameof(Tracks));
         }
 
         public void Add(FileViewInfo[] infos)
@@ -214,7 +231,7 @@ namespace MpFree4k.ViewModels
 
             enumerate(start);
 
-            OnPropertyChanged("Tracks");
+            Raise(nameof(Tracks));
         }
 
         public void enumerate(int start)
@@ -236,28 +253,6 @@ namespace MpFree4k.ViewModels
 
         }
 
-        public RepeatMode RepeatMode = RepeatMode.GoThrough;
-
-        private int _currentPlayPosition = 0;
-        public int CurrentPlayPosition
-        {
-            get { return _currentPlayPosition; }
-            set
-            {
-                _currentPlayPosition = value;
-
-                for (int i = 0; i < Tracks.Count; i++)
-                    Tracks[i].IsPlaying = false;
-
-                if (value < 0 || value >= Tracks.Count)
-                    return;
-
-                Tracks[value].IsPlaying = true;
-            }
-        }
-
-        public PlaylistItem CurrentSong = null;
-
         public PlaylistItem GetCurrent()
         {
             if (CurrentPlayPosition >= Tracks.Count)
@@ -271,15 +266,6 @@ namespace MpFree4k.ViewModels
 
             CurrentSong = Tracks[CurrentPlayPosition];
             return CurrentSong;
-        }
-
-        public void UpdatePlayPosition()
-        {
-
-            return;
-            if (CurrentSong != null)
-                CurrentPlayPosition = CurrentSong._position - 1;
-
         }
 
         public PlaylistItem GetShuffle()
@@ -403,8 +389,8 @@ namespace MpFree4k.ViewModels
 
         public void Invoke(PlayState state)
         {
-            if (state == PlayState.Play) OnPropertyChanged("Play");
-            else if (state == PlayState.PlayFromStart) OnPropertyChanged("PlayFromStart");
+            if (state == PlayState.Play) Raise("Play");
+            else if (state == PlayState.PlayFromStart) Raise("PlayFromStart");
         }
     }
 }

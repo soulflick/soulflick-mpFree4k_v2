@@ -1,4 +1,5 @@
 ﻿using Classes;
+using Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public class SimpleTrackItem
     {
@@ -31,7 +32,7 @@ namespace MpFree4k.Dialogs
         public FileViewInfo Info { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public void Raise(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public IEnumerable<SimpleTrackItem> AlbumTracks { get; set; }
 

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Classes;
+using System;
 using System.ComponentModel;
 
-namespace Classes
+namespace Models
 {
     public class FileViewInfo : INotifyPropertyChanged
     {

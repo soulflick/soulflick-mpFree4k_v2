@@ -1,9 +1,8 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.Utilities;
-using MpFree4k.ViewModels;
+using Models;
+using Dialogs;
+using Utilities;
+using ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,13 +10,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Mpfree4k.Enums;
+using Configuration;
+using MpFree4k;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class TrackTableView : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         public Thickness TableMargin { get; set; } = new Thickness(30);
 
         private bool loaded = false;
@@ -27,18 +29,57 @@ namespace MpFree4k.Controls
 
         public TrackTableView()
         {
-            this.DataContext = new TrackTableViewModel();
+            DataContext = new TrackTableViewModel();
             Loaded += TrackTableView_Loaded;
             InitializeComponent();
         }
 
-        public void SetMediaLibrary(Layers.MediaLibrary lib) => (this.DataContext as TrackTableViewModel).MediaLibrary = lib;
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => (DataContext as TrackTableViewModel).MediaLibrary = lib;
 
         public void UpdateMargín(FontSize size)
         {
             TableMargin = new Thickness(2 * (int)size);
-            OnPropertyChanged("TableMargin");
+            Raise(nameof(TableMargin));
         }
+
+        public List<PlaylistItem> GetSelected()
+        {
+            if (TrackTable.SelectedItem == null)
+                return null;
+
+            List<PlaylistItem> plItems = new List<PlaylistItem>();
+            List<FileViewInfo> items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToList();
+            items.ForEach(item => plItems.Add(PlaylistHelpers.CreateFromFileViewInfo(item)));
+
+            return plItems;
+        }
+
+        private FileViewInfo GetFirstSelected()
+        {
+            if (TrackTable.SelectedItem == null)
+                return null;
+
+            return TrackTable.SelectedItems[0] as FileViewInfo;
+        }
+
+        private void playSelected()
+        {
+            if (TrackTable.SelectedItem == null)
+                return;
+
+            List<PlaylistItem> items = new List<PlaylistItem>();
+
+            foreach (var f_Sel in TrackTable.SelectedItems)
+            {
+                PlaylistItem p_i = new PlaylistItem();
+                PlaylistHelpers.CreateFromMediaItem(p_i, (FileViewInfo)f_Sel);
+                items.Add(p_i);
+            }
+
+            PlaylistViewModel.Play(items.ToArray());
+        }
+
+        private void _This_Loaded(object sender, RoutedEventArgs e) => MainWindow.Instance.Library.Current.QueryMe(ViewMode.Table);
 
         private void TrackTableView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -111,25 +152,6 @@ namespace MpFree4k.Controls
 
         private void TrackTable_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) => playSelected();
         
-        private void playSelected()
-        {
-            if (TrackTable.SelectedItem == null)
-                return;
-
-            List<PlaylistItem> items = new List<PlaylistItem>();
-
-            foreach (var f_Sel in TrackTable.SelectedItems)
-            {
-                PlaylistItem p_i = new PlaylistItem();
-                PlaylistHelpers.CreateFromMediaItem(p_i, (FileViewInfo)f_Sel);
-                items.Add(p_i);
-            }
-
-            PlaylistViewModel.Play(items.ToArray());
-        }
-
-        private void _This_Loaded(object sender, RoutedEventArgs e) => MainWindow.Instance.Library.Current.QueryMe(ViewMode.Table);
-
         private void TrackTable_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             mousedown = false;
@@ -148,26 +170,6 @@ namespace MpFree4k.Controls
         }
 
         private void mnuCtxPlay_Click(object sender, RoutedEventArgs e) => playSelected();
-
-        public List<PlaylistItem> GetSelected()
-        {
-            if (TrackTable.SelectedItem == null)
-                return null;
-
-            List<PlaylistItem> plItems = new List<PlaylistItem>();
-            List<FileViewInfo> items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToList();
-            items.ForEach(item => plItems.Add(PlaylistHelpers.CreateFromFileViewInfo(item)));
-
-            return plItems;
-        }
-
-        private FileViewInfo GetFirstSelected()
-        {
-            if (TrackTable.SelectedItem == null)
-                return null;
-
-            return TrackTable.SelectedItems[0] as FileViewInfo;
-        }
 
         private void mnuCtxAdd_Click(object sender, RoutedEventArgs e)
         {

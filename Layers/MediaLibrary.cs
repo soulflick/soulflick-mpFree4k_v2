@@ -8,18 +8,13 @@ using System.ComponentModel;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Media.Imaging;
-using MpFree4k.Classes;
+using Configuration;
+using Models;
+using Mpfree4k.Enums;
+using MpFree4k;
 
-namespace MpFree4k.Layers
+namespace Layers
 {
-    public enum MediaLevel
-    {
-        All,
-        Artists,
-        Albums,
-        Tracks
-    }
-
     public class MediaLibrary : INotifyPropertyChanged
     {
         public static BitmapImage DefaultAlbumImage = null;
@@ -404,7 +399,7 @@ namespace MpFree4k.Layers
             a.Year == x.Mp3Fields.Year &&
             (string.IsNullOrEmpty(a.Artist) || a.Artist == "Various Artists" || a.Artist == x.Mp3Fields.Artists))));
 
-            Refresh(Layers.MediaLevel.All);
+            Refresh(MediaLevel.All);
         }
 
         public void Set(SimpleAlbumItem album)
@@ -417,7 +412,7 @@ namespace MpFree4k.Layers
             Files.ForEach(x => x.IsVisible = (x.Mp3Fields.Album == album.AlbumLabel && x.Mp3Fields.Year == album.Year &&
                 x.Mp3Fields.Artists == album.Artist));
 
-            Refresh(Layers.MediaLevel.All);
+            Refresh(MediaLevel.All);
         }
 
         public void Filter(MediaLevel level, List<AlbumItem> albumitems)
@@ -451,7 +446,7 @@ namespace MpFree4k.Layers
             }
             else Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
 
-            Refresh(Layers.MediaLevel.Tracks);
+            Refresh(MediaLevel.Tracks);
 
 
         }
@@ -475,7 +470,7 @@ namespace MpFree4k.Layers
                 Refresh(MediaLevel.Albums);
 
                 Files.ForEach(x => x.IsVisible = selected_artists == null || selected_artists.Length == 0 || (selected_artists.Any(a => a == x.Mp3Fields.Artists)));
-                Refresh(Layers.MediaLevel.Tracks);
+                Refresh(MediaLevel.Tracks);
 
                 if (selected_albums != null && selected_albums.Count > 0)
                     Files.ForEach(x => x.IsVisible = selected_albums.Any(album => album.Album == x.Mp3Fields.Album &&
@@ -501,7 +496,7 @@ namespace MpFree4k.Layers
                 else
                     Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
 
-                Refresh(Layers.MediaLevel.Tracks);
+                Refresh(MediaLevel.Tracks);
             }
         }
 

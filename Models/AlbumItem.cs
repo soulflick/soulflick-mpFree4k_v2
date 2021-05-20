@@ -3,11 +3,14 @@ using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Classes
+namespace Models
 {
-
     public class AlbumItem : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+
         public static BitmapImage DefaultAlbumImage = null;
         public uint Year { get; set; }
         public string Artist { get; set; }
@@ -34,7 +37,7 @@ namespace Classes
             set
             {
                 _hasAlbumImage = value;
-                OnPropertyChanged("HasAlbumImage");
+                Raise(nameof(HasAlbumImage));
             }
         }
         public ImageSource AlbumImage
@@ -43,13 +46,13 @@ namespace Classes
             set
             {
                 _image = value;
-                OnPropertyChanged("AlbumImage");
+                Raise(nameof(AlbumImage));
             }
         }
 
         public AlbumItem()
         {
-            if (AlbumItem.DefaultAlbumImage == null)
+            if (DefaultAlbumImage == null)
             {
                 string uri = @"pack://application:,,,/" +
                 System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
@@ -60,9 +63,6 @@ namespace Classes
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         private bool _isSpecialVisible = false;
         public bool IsSpecialVisible
         {
@@ -70,7 +70,7 @@ namespace Classes
             set
             {
                 _isSpecialVisible = value;
-                OnPropertyChanged("IsSpecialVisible");
+                Raise(nameof(IsSpecialVisible));
             }
         }
 
@@ -81,7 +81,7 @@ namespace Classes
             set
             {
                 _isVisible = value;
-                OnPropertyChanged("IsVisible");
+                Raise(nameof(IsVisible));
             }
         }
 
@@ -92,7 +92,7 @@ namespace Classes
             set
             {
                 _isSelected = value;
-                OnPropertyChanged("IsSelected");
+                Raise(nameof(IsSelected));
             }
         }
 

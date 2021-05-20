@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -7,25 +7,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
-using Classes;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using Configuration;
 
-namespace MpFree4k.Dialogs
+namespace Dialogs
 {
     public class MediaLibraryDefinition : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private bool _autoSelect = false;
         public bool AutoSelect
         {
-            get { return _autoSelect; }
+            get => _autoSelect;
             set
             {
                 _autoSelect = value;
@@ -36,10 +31,7 @@ namespace MpFree4k.Dialogs
         private string _name = "Enter Your Library's Name Here";
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
@@ -50,10 +42,7 @@ namespace MpFree4k.Dialogs
         private string _path = "";
         public string Path
         {
-            get
-            {
-                return _path;
-            }
+            get => _path;
             set
             {
                 _path = value;
@@ -62,33 +51,62 @@ namespace MpFree4k.Dialogs
         }
     }
 
-    /// <summary>
-    /// Interaktionslogik für LibrarySelector.xaml
-    /// </summary>
     public partial class LibrarySelector : Window, INotifyPropertyChanged
     {
         string libfile = "MediaLibraries.xml";
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
+        public MediaLibraryDefinition DialogSelection = null;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        MediaLibraryDefinition CheckedLib = null;
 
         public LibrarySelector()
         {
             this.DataContext = this;
             InitializeComponent();
 
-            readLibs();
+            ReadLibraries();
         }
 
-        void readLibs()
+        private MediaLibraryDefinition _currentDefinition = new MediaLibraryDefinition();
+        public MediaLibraryDefinition CurrentDefinition
         {
-            if (!File.Exists(libfile))
-                return;
+            get => _currentDefinition;
+            set
+            {
+                _currentDefinition = value;
+                Raise(nameof(CurrentDefinition));
+            }
+        }
+
+        private List<MediaLibraryDefinition> _libdefs = new List<MediaLibraryDefinition>();
+        public List<MediaLibraryDefinition> LibDefs
+        {
+            get => _libdefs;
+            set
+            {
+                _libdefs = value;
+                Raise(nameof(LibDefs));
+            }
+        }
+
+
+        private MediaLibraryDefinition _selectedLib = null;
+        public MediaLibraryDefinition SelectedLib
+        {
+            get => _selectedLib;
+            set
+            {
+                _selectedLib = value;
+                Raise(nameof(SelectedLib));
+            }
+        }
+
+        private void ReadLibraries()
+        {
+            if (!File.Exists(libfile)) return;
 
             XDocument doc = XDocument.Load(libfile);
             var authors = doc.Descendants("MediaLibrary");
@@ -109,10 +127,10 @@ namespace MpFree4k.Dialogs
 
             SelectedLib = LibDefs.FirstOrDefault(x => x.AutoSelect);
 
-            reloadLibs();
+            ReloadLibraries();
         }
 
-        string sanitize(string str)
+        private string Sanitize(string str)
         {
             char[] _c = new char[] { '/', '\\', '"', '\t', '\n', '\r'};
             foreach (char c in _c)
@@ -120,55 +138,29 @@ namespace MpFree4k.Dialogs
             return str;
         }
 
-        void saveLibs()
+        private void SaveLibs()
         {
             string doc = "<xml>\n\t<MediaLibraries>\n";
             foreach (MediaLibraryDefinition def in LibDefs)
             {
-                doc += "\t\t<MediaLibrary Name=\"" + sanitize(def.Name) + "\" Path=\"" + def.Path + "\" Select=\"" + def.AutoSelect.ToString() + "\"/>\n";
+                doc += "\t\t<MediaLibrary Name=\"" + Sanitize(def.Name) + "\" Path=\"" + def.Path + "\" Select=\"" + def.AutoSelect.ToString() + "\"/>\n";
             }
             doc += "\t</MediaLibraries>\n</xml>";
 
             File.WriteAllText(libfile, doc);
         }
 
-        void reloadLibs()
+        private void ReloadLibraries()
         {
             ListLibraries.ItemsSource = null;
             ListLibraries.ItemsSource = LibDefs.OrderBy(l => l.Name);
 
-            saveLibs();
+            SaveLibs();
         }
-
-        private MediaLibraryDefinition _currentDefinition = new MediaLibraryDefinition();
-        public MediaLibraryDefinition CurrentDefinition
-        {
-            get { return _currentDefinition; }
-            set
-            {
-                _currentDefinition = value;
-                OnPropertyChanged("CurrentDefinition");
-            }
-        }
-
-        private List<MediaLibraryDefinition> _libdefs = new List<MediaLibraryDefinition>()
-        {
-            //new MediaLibraryDefinition() { Name = "Default Library - Complete", Path = @"C:\Media\mp3"},
-            //new MediaLibraryDefinition() { Name = "Compilations", Path = @"C:\Media\mp3\_Compilations"}
-        };
-        public List<MediaLibraryDefinition> LibDefs
-        {
-            get { return _libdefs; }
-            set
-            {
-                _libdefs = value;
-                OnPropertyChanged("LibDefs");
-            }
-        }
-
+     
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            this.Topmost = false;
+            Topmost = false;
 
             var dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
@@ -179,8 +171,8 @@ namespace MpFree4k.Dialogs
             if (result == CommonFileDialogResult.Ok)
                 _currentDefinition.Path = dialog.FileName;
 
-            this.Topmost = true;
-            this.BringIntoView();
+            Topmost = true;
+            BringIntoView();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -190,28 +182,18 @@ namespace MpFree4k.Dialogs
             {
                 LibDefs.Add(new MediaLibraryDefinition()
                 {
-                    Name = sanitize(_currentDefinition.Name),
+                    Name = Sanitize(_currentDefinition.Name),
                     Path = _currentDefinition.Path
                 });
                 _currentDefinition.Name = "";
                 _currentDefinition.Path = "";
 
-                OnPropertyChanged("LibDefs");
+                Raise(nameof(LibDefs));
 
-                reloadLibs();
+                ReloadLibraries();
             }
         }
 
-        private MediaLibraryDefinition _selectedLib = null;
-        public MediaLibraryDefinition SelectedLib
-        {
-            get { return _selectedLib;  }
-            set
-            {
-                _selectedLib = value;
-                OnPropertyChanged("SelectedLib");
-            }
-        }
         private void ListLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListView).SelectedItem == null)
@@ -235,13 +217,12 @@ namespace MpFree4k.Dialogs
             MediaLibraryDefinition def = (sender as ListView).SelectedItem as MediaLibraryDefinition;
             LibDefs.Remove(def);
 
-            reloadLibs();
+            ReloadLibraries();
         }
 
-        public MediaLibraryDefinition DialogSelection = null;
-        private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+       private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            saveLibs();
+            SaveLibs();
 
             if ((sender as ListView).SelectedItem == null)
                 return;
@@ -254,9 +235,6 @@ namespace MpFree4k.Dialogs
             Config.MediaHasChanged = true;
             this.Close();
         }
-
-        MediaLibraryDefinition CheckedLib = null;
-
 
         private void cbDefault_Click(object sender, RoutedEventArgs e)
         {
@@ -284,7 +262,7 @@ namespace MpFree4k.Dialogs
                 }
             }
 
-            saveLibs();
+            SaveLibs();
         }
     }
 }

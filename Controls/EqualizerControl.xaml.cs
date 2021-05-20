@@ -1,41 +1,19 @@
-﻿using CSCore.Streams.Effects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using WPFEqualizer;
+using Equalizer;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
-    public class ValueObject :  INotifyPropertyChanged
-    {
-
-        private double value = 0;
-        public double Value 
-        { 
-            get => value; 
-            set
-            {
-                this.value = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
-                ValueChanged?.Invoke(this, null);
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public static event PropertyChangedEventHandler ValueChanged;
-
-    }
-
     public partial class EqualizerControl : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private List<double> originalGain = new List<double>(10);
-        private Equalizer equalizer;
+        private CSCore.Streams.Effects.Equalizer equalizer;
         private List<ValueObject> _eqBands = new List<ValueObject>();
-
         public int BandCount { get; set; } = 10;
         public void RaiseProperty(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -65,8 +43,6 @@ namespace MpFree4k.Controls
             RaiseProperty(nameof(EqBands));
         }
 
-        private void ValueObject_ValueChanged(object sender, PropertyChangedEventArgs e) => Apply();
-
         public List<ValueObject> EqBands
         {
             get => _eqBands;
@@ -76,6 +52,8 @@ namespace MpFree4k.Controls
                 RaiseProperty(nameof(EqBands));
             }
         }
+
+        private void ValueObject_ValueChanged(object sender, PropertyChangedEventArgs e) => Apply();
 
         public void Set(double[] values)
         {

@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="MpFree4k.Controls.TrackTableView"
+﻿<UserControl x:Class="Controls.TrackTableView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converter="clr-namespace:MpFree4k.Converter"
+             xmlns:converters="clr-namespace:Mpfree4k.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="_This"
@@ -16,8 +16,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <converter:BoolToOpacityConverter x:Key="bool2opacconv"/>
-            <converter:AddConverter x:Key="addconv"/>
+            <converters:BoolToOpacityConverter x:Key="bool2opacconv"/>
+            <converters:AddConverter x:Key="addconv"/>
 
             <Thickness x:Key="MarginResource" Left="{StaticResource TrackTableMargin}"
                        Top="{StaticResource TrackTableMargin}" 

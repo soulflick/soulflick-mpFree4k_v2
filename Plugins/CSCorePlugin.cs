@@ -1,10 +1,10 @@
 ﻿using CSCore;
 using CSCore.SoundOut;
-using MpFree4k.Interfaces;
+using Interfaces;
 using System;
-using WPFEqualizer;
+using Equalizer;
 
-namespace MpFree4k.Plugins
+namespace Plugins
 {
     public class CSCorePlugin : SpectrumViewModel, IMediaPlugin
     {

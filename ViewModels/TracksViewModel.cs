@@ -1,23 +1,21 @@
 ﻿using MpFree4k;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
+using Mpfree4k.Enums;
+using Layers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Threading;
+using Models;
 
 namespace ViewModels
 {
     public class TracksViewModel : INotifyPropertyChanged
     {
-        public TracksViewModel()
-        {
-            currentDispatcher = Dispatcher.CurrentDispatcher;
-            Instance = this;
-        }
-
         public static TracksViewModel Instance = null;
-        Dispatcher currentDispatcher = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        public TracksViewModel() => Instance = this;
 
         private MediaLibrary _mediaLibrary = null;
         public MediaLibrary MediaLibrary
@@ -29,39 +27,26 @@ namespace ViewModels
                 _mediaLibrary.PropertyChanged -= Library_PropertiesChanged;
                 _mediaLibrary.PropertyChanged += Library_PropertiesChanged;
 
-                OnPropertyChanged("Tracks");
+                Raise(nameof(Tracks));
+            }
+        }
+
+
+        private List<FileViewInfo> _tracks = new List<FileViewInfo>();
+        public List<FileViewInfo> Tracks
+        {
+            get => MediaLibrary?.Files.Where(f => f.IsVisible)?.ToList();
+            set
+            {
+                _tracks = value;
+                Raise(nameof(Tracks));
             }
         }
 
         private void Library_PropertiesChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Tracks")
-                MainWindow.mainDispatcher.Invoke(() => OnPropertyChanged("Tracks"));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        private List<Classes.FileViewInfo> _tracks = new List<Classes.FileViewInfo>();
-        public List<Classes.FileViewInfo> Tracks
-        {
-            get
-            {
-                if (MediaLibrary == null)
-                    return null;
-
-                return MediaLibrary.Files.Where(f => f.IsVisible).ToList();
-            }
-            set
-            {
-                _tracks = value;
-                OnPropertyChanged("Tracks");
-            }
+            if (e.PropertyName == nameof(Tracks))
+                MainWindow.mainDispatcher.Invoke(() => Raise("Tracks"));
         }
 
         public void OrderBy(TrackOrderType orderType)
@@ -69,29 +54,29 @@ namespace ViewModels
             switch (orderType)
             {
                 case TrackOrderType.Standard:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Album).ThenBy(b => b.Mp3Fields.Track).ThenBy(c => c.Mp3Fields.Artists).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Album).ThenBy(b => b.Mp3Fields.Track).ThenBy(c => c.Mp3Fields.Artists).ToList();
                     break;
                 case TrackOrderType.TrackName:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Title).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Title).ToList();
                     break;
                 case TrackOrderType.Album:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Album).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Album).ToList();
                     break;
                 case TrackOrderType.Artist:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.AlbumArtists).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.AlbumArtists).ToList();
                     break;
                 case TrackOrderType.Genre:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Genres).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Genres).ToList();
                     break;
                 case TrackOrderType.Year:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderByDescending(a => a.Mp3Fields.Year).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderByDescending(a => a.Mp3Fields.Year).ToList();
                     break;
                 default:
-                    this.MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Title).ToList();
+                    MediaLibrary.Files = MediaLibrary.Files.OrderBy(a => a.Mp3Fields.Title).ToList();
                     break;
             }
 
-            this.MediaLibrary.Refresh(MediaLevel.Tracks);
+            MediaLibrary.Refresh(MediaLevel.Tracks);
         }
     }
 }

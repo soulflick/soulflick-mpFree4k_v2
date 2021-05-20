@@ -1,12 +1,9 @@
 ﻿using System.Windows.Controls;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class PlaylistStatus : UserControl
     {
-        public PlaylistStatus()
-        {
-            InitializeComponent();
-        }
+        public PlaylistStatus() => InitializeComponent();
     }
 }

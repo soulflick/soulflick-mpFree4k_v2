@@ -1,7 +1,7 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Utilities;
-using MpFree4k.ViewModels;
+using Models;
+using Utilities;
+using ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,14 +12,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MpFree4k;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class Playlist : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private List<PlaylistItem> dragItems = new List<PlaylistItem>();
         private PlaylistViewModel vm = null;
@@ -32,16 +32,28 @@ namespace MpFree4k.Controls
         public Playlist()
         {
             vm = new PlaylistViewModel();
-            this.DataContext = vm;
+            DataContext = vm;
             vm.PropertyChanged += Playlist_PropertyChanged;
             MainWindow.Instance.Player.PropertyChanged += Player_PropertyChanged;
             MainWindow.Instance.Player.ValueChanged += Player_ValueChanged;
-            this.Loaded += Playlist_Loaded;
+            Loaded += Playlist_Loaded;
             SizeChanged += Playlist_SizeChanged;
+            
             InitializeComponent();
 
             addCompleteTimer = new System.Timers.Timer(100);
             addCompleteTimer.Elapsed += AddCompleteTimer_Elapsed;
+        }
+
+        private double _availableWidth = 0;
+        public double AvailableWidth
+        {
+            get => _availableWidth;
+            set
+            {
+                _availableWidth = value;
+                Raise(nameof(AvailableWidth));
+            }
         }
 
         private void AddCompleteTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -55,7 +67,7 @@ namespace MpFree4k.Controls
                 {
                     PlaylistView.ItemsSource = null;
                     PlaylistView.ItemsSource = vm.Tracks;
-                    OnPropertyChanged("Tracks");
+                    Raise("Tracks");
                 });
 
                 MainWindow.SetProgress(0);
@@ -72,14 +84,13 @@ namespace MpFree4k.Controls
         }
 
         private void Playlist_SizeChanged(object sender, SizeChangedEventArgs e) => setWidth();
-
         private void Playlist_Loaded(object sender, RoutedEventArgs e) => setWidth();
         private void PlaylistView_ScrollChanged(object sender, ScrollChangedEventArgs e) => setWidth();
 
         void setWidth()
         {
             AvailableWidth = PlaylistView.ActualWidth;
-            Decorator border = VisualTreeHelper.GetChild(this.PlaylistView, 0) as Decorator;
+            Decorator border = VisualTreeHelper.GetChild(PlaylistView, 0) as Decorator;
             if (border != null)
             {
                 ScrollViewer scroller = border.Child as ScrollViewer;
@@ -96,17 +107,6 @@ namespace MpFree4k.Controls
                     if (AvailableWidth != newwid)
                         AvailableWidth = newwid;
                 }
-            }
-        }
-
-        private double _availableWidth = 0;
-        public double AvailableWidth
-        {
-            get => _availableWidth;
-            set
-            {
-                _availableWidth = value;
-                OnPropertyChanged("AvailableWidth");
             }
         }
 
@@ -153,10 +153,6 @@ namespace MpFree4k.Controls
             ListViewItem lvi = (ListViewItem)PlaylistView.ItemContainerGenerator.ContainerFromItem(element.DataContext);
             if (lvi != null)
                 (lvi.DataContext as PlaylistItem).DragOver = true;
-        }
-
-        private void PlaylistView_DragEnter(object sender, DragEventArgs e)
-        {
         }
 
         private void PlaylistView_DragLeave(object sender, DragEventArgs e)
@@ -222,7 +218,6 @@ namespace MpFree4k.Controls
                 }
 
                 vm.Move(infoItems, pos);
-                vm.UpdatePlayPosition();
                 dragItems.Clear();
                 vm.StatusVM.Update();
 
@@ -388,10 +383,7 @@ namespace MpFree4k.Controls
         {
             dragItems.Clear();
 
-            foreach (PlaylistItem pli in PlaylistView.SelectedItems)
-            {
-                dragItems.Add(pli);
-            }
+            foreach (PlaylistItem pli in PlaylistView.SelectedItems) dragItems.Add(pli);
         }
 
         private void TrackClick(object sender, MouseButtonEventArgs e)

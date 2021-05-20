@@ -1,10 +1,10 @@
 ﻿using Classes;
-using MpFree4k.Classes;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MpFree4k.Utilities
+namespace Utilities
 {
     public static class LibraryUtils
     {

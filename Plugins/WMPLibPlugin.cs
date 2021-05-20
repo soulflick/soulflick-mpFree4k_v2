@@ -1,8 +1,8 @@
-﻿using MpFree4k.Interfaces;
+﻿using Interfaces;
 using System;
 using WMPLib;
 
-namespace MpFree4k.Plugins
+namespace Plugins
 {
     public class WMPLibPlugin : IMediaPlugin
     {

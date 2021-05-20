@@ -4,19 +4,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using CSCore;
 using CSCore.DSP;
+using Mpfree4k.Enums;
 
-namespace WPFEqualizer.Visualization
+namespace Equalizer.Visualization
 {
-    public enum ScalingStrategy
-    {
-        Decibel,
-        Linear,
-        Sqrt
-    }
-
     public class SpectrumBase : INotifyPropertyChanged
     {
-        protected void RaisePropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         [DebuggerDisplay("{Value}")]
         protected struct SpectrumPointData
@@ -59,7 +54,7 @@ namespace WPFEqualizer.Visualization
                 _maximumFrequency = value;
                 UpdateFrequencyMapping();
 
-                RaisePropertyChanged("MaximumFrequency");
+                Raise(nameof(MaximumFrequency));
             }
         }
 
@@ -73,7 +68,7 @@ namespace WPFEqualizer.Visualization
                 _minimumFrequency = value;
                 UpdateFrequencyMapping();
 
-                RaisePropertyChanged("MinimumFrequency");
+                Raise(nameof(MinimumFrequency));
             }
         }
 
@@ -87,7 +82,7 @@ namespace WPFEqualizer.Visualization
                     throw new ArgumentNullException("value");
                 _spectrumProvider = value;
 
-                RaisePropertyChanged("SpectrumProvider");
+                Raise(nameof(SpectrumProvider));
             }
         }
 
@@ -98,7 +93,7 @@ namespace WPFEqualizer.Visualization
             {
                 _isXLogScale = value;
                 UpdateFrequencyMapping();
-                RaisePropertyChanged("IsXLogScale");
+                Raise(nameof(IsXLogScale));
             }
         }
 
@@ -108,7 +103,7 @@ namespace WPFEqualizer.Visualization
             set
             {
                 _scalingStrategy = value;
-                RaisePropertyChanged("ScalingStrategy");
+                Raise(nameof(ScalingStrategy));
             }
         }
 
@@ -118,7 +113,7 @@ namespace WPFEqualizer.Visualization
             set
             {
                 _useAverage = value;
-                RaisePropertyChanged("UseAverage");
+                Raise(nameof(UseAverage));
             }
         }
 
@@ -135,11 +130,9 @@ namespace WPFEqualizer.Visualization
                 _fftSize = (int)value;
                 _maxFftIndex = _fftSize / 2 - 1;
 
-                RaisePropertyChanged("FFTSize");
+                Raise(nameof(FftSize));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void UpdateFrequencyMapping()
         {

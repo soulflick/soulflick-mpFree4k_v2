@@ -1,17 +1,17 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Classes;
+using Models;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class Mp3TagView : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public Mp3TagView() => InitializeComponent();
 
         private FileViewInfo _currentTag = null;
         public FileViewInfo CurrentTag
@@ -21,14 +21,9 @@ namespace MpFree4k.Controls
             {
                 _currentTag = value;
                 SetCurrentTag();
-                OnPropertyChanged("CurrentTag");
+                Raise(nameof(CurrentTag));
                 enableControls(true);
             }
-        }
-
-        public Mp3TagView()
-        {
-            InitializeComponent();
         }
 
         public void enableControls(bool _enable)
@@ -48,32 +43,26 @@ namespace MpFree4k.Controls
             tbYear.IsEnabled = _enable;
             tbGenres.IsEnabled = _enable;
 
-            btnDeepDetail.IsEnabled = _enable;
-            btnSaveMp3View.IsEnabled = _enable;
-            lblFileName.IsEnabled = _enable;
-
+            btnSaveMp3View.IsEnabled = _enable;       
             btnSaveImage.IsEnabled = _enable;
             btnImportImage.IsEnabled = _enable;
             btnRemoveImage.IsEnabled = _enable;
+
+            lblFileName.IsEnabled = _enable;
         }
 
         private void btnSaveMp3View_Click(object sender, RoutedEventArgs e)
         {
-            this.CurrentTag.Mp3Fields.HasChanged = true;
-            this.CurrentTag.save();
+            CurrentTag.Mp3Fields.HasChanged = true;
+            CurrentTag.save();
         }
 
         public void SetCurrentTag()
         {
-            this.DataContext = CurrentTag.Mp3Fields;
-            this.AlbumImage.DataContext = CurrentTag.Image;
-            this.AlbumImage.Source = CurrentTag.Image;
-            this.FileProperties.SetInfo(CurrentTag);
-        }
-
-        private void btnDeepDetail_Click(object sender, RoutedEventArgs e)
-        {
-
+            DataContext = CurrentTag.Mp3Fields;
+            AlbumImage.DataContext = CurrentTag.Image;
+            AlbumImage.Source = CurrentTag.Image;
+            FileProperties.SetInfo(CurrentTag);
         }
 
         private void btnSaveImage_Click(object sender, RoutedEventArgs e)

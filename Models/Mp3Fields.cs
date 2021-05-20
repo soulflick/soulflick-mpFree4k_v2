@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace Classes
+namespace Models
 {
     [Serializable()]
     public class Mp3Fields : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void Raise(string info)=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public bool HasChanged = false;
 
@@ -16,7 +16,7 @@ namespace Classes
         public bool Consider 
         { 
             get => _consider;
-            set { _consider = value; } 
+            set => _consider = value;
         }
 
         private string _filename = string.Empty;
@@ -192,7 +192,7 @@ namespace Classes
         private string _bitrate = string.Empty;
         public string Bitrate
         {
-            get { return _bitrate; }
+            get => _bitrate;
             set
             {
                 if (_bitrate == value) return;
@@ -210,7 +210,7 @@ namespace Classes
             set
             {
                 _durationValue = value;
-                OnPropertyChanged("DurationValue");
+                Raise(nameof(DurationValue));
             }
         }
 

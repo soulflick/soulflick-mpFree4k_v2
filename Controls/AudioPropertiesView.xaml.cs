@@ -1,14 +1,11 @@
-﻿using Classes;
+﻿using Models;
 using System.Windows.Controls;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public partial class AudioPropertiesView : UserControl
     {
-        public AudioPropertiesView()
-        {
-            InitializeComponent();
-        }
+        public AudioPropertiesView() => InitializeComponent();
 
         public void ClearInfo()
         {

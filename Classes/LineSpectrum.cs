@@ -5,9 +5,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using CSCore.DSP;
-using WPFEqualizer.Utils;
+using Mpfree4k.Enums;
+using Equalizer.Utils;
 
-namespace WPFEqualizer.Visualization
+namespace Equalizer.Visualization
 {
     public struct MaximumTip
     {
@@ -39,23 +40,20 @@ namespace WPFEqualizer.Visualization
         }
 
         [Browsable(false)]
-        public double BarWidth
-        {
-            get { return _barWidth; }
-        }
+        public double BarWidth => _barWidth;
 
         public double BarSpacing
         {
-            get { return _barSpacing; }
+            get => _barSpacing;
             set
             {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                if (value < 0) throw new ArgumentOutOfRangeException("value");
+
                 _barSpacing = value;
 
                 UpdateFrequencyMapping();
-                RaisePropertyChanged("BarSpacing");
-                RaisePropertyChanged("BarWidth");
+                Raise(nameof(BarSpacing));
+                Raise(nameof(BarWidth));
             }
         }
 
@@ -74,8 +72,8 @@ namespace WPFEqualizer.Visualization
                 SpectrumResolution = value;
 
                 UpdateFrequencyMapping();
-                RaisePropertyChanged("BarCount");
-                RaisePropertyChanged("BarWidth");
+                Raise(nameof(BarCount));
+                Raise(nameof(BarWidth));
             }
         }
 
@@ -86,7 +84,7 @@ namespace WPFEqualizer.Visualization
             protected set
             {
                 _currentSize = value;
-                RaisePropertyChanged("CurrentSize");
+                Raise(nameof(CurrentSize));
             }
         }
 

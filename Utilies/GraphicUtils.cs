@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace WPFEqualizer.Utils
+namespace Equalizer.Utils
 {
     public class Drawing
     {

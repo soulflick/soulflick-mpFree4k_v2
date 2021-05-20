@@ -1,16 +1,15 @@
-﻿using MpFree4k.Classes;
-using MpFree4k.Dialogs;
+﻿using Classes;
+using Dialogs;
 using System.ComponentModel;
 
-namespace MpFree4k.Layers
+namespace Layers
 {
     public class Library : INotifyPropertyChanged
     {
         public SQLiteConnector connector = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private MediaLibrary _current = null;
         public MediaLibrary Current
@@ -19,7 +18,7 @@ namespace MpFree4k.Layers
             set
             {
                 _current = value;
-                OnPropertyChanged("Current");
+                Raise(nameof(Current));
             }
         }
 

@@ -1,7 +1,8 @@
 ﻿using Classes;
+using Models;
 using System;
 
-namespace MpFree4k.Classes
+namespace Classes
 {
     public class PlaylistHelpers
     {

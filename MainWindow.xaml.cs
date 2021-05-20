@@ -1,8 +1,8 @@
-﻿using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
-using MpFree4k.ViewModels;
+﻿using Classes;
+using Dialogs;
+using Mpfree4k.Enums;
+using Layers;
+using ViewModels;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.ComponentModel;
@@ -13,17 +13,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Linq;
-using System.Collections.Generic;
+using MpFree4k.Windows;
+using Models;
+using Configuration;
 
 namespace MpFree4k
 {
-    public enum ViewMode
-    {
-        Details,
-        Table,
-        Albums,
-        Favourites
-    }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public static MainWindow Instance = null;
@@ -33,6 +28,12 @@ namespace MpFree4k
         public static bool ctrl_down = false;
 
         private PlaylistSelector plsel = null;
+        public static Dispatcher mainDispatcher = null;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+
+        private string _query = "";
+        Timer query_timer = new Timer(300);
 
         private ViewMode _viewMode = ViewMode.Details;
         public ViewMode ViewMode
@@ -45,10 +46,58 @@ namespace MpFree4k
             }
         }
 
+
+        double _headerHeight = 0;
+        public double HeaderHeight
+        {
+            get => _headerHeight;
+            set
+            {
+                _headerHeight = value;
+                Raise(nameof(HeaderHeight));
+            }
+        }
+
+        private double _progressValue = 0;
+        public double ProgressValue
+        {
+            get => _progressValue;
+            set
+            {
+                _progressValue = value;
+                Raise(nameof(ProgressValue));
+            }
+        }
+
+        private RepeatMode _repeatMode = RepeatMode.GoThrough;
+        public RepeatMode RepeatMode
+        {
+            get => _repeatMode;
+            set { _repeatMode = value; Raise(nameof(RepeatMode)); }
+        }
+
+        Library _library = null;
+        public Library Library
+        {
+            get => _library;
+            set
+            {
+                if (_library != null && _library.Current != null)
+                    _library.Current.PropertyChanged -= Current_PropertyChanged;
+
+                _library = value;
+
+                if (_library != null && _library.Current != null)
+                    _library.Current.PropertyChanged += Current_PropertyChanged;
+
+                Raise(nameof(Library));
+            }
+        }
+
         private void OnViewMode()
         {
             if (_viewMode == ViewMode.Albums)
-                Controls.AlbumView.StaticViewModel.UpdateAmount();
+                AlbumsViewModel.Instance.UpdateAmount();
         }
 
         public static void SetProgress(double percent)
@@ -68,34 +117,6 @@ namespace MpFree4k
             }));
         }
 
-
-        public static Dispatcher mainDispatcher = null;
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
-        Library _library = null;
-        public Library Library
-        {
-            get => _library;
-            set
-            {
-                if (_library != null && _library.Current != null)
-                    _library.Current.PropertyChanged -= Current_PropertyChanged;
-
-                _library = value;
-
-                if (_library != null && _library.Current != null)
-                    _library.Current.PropertyChanged += Current_PropertyChanged;
-
-                OnPropertyChanged("Library");
-            }
-        }
-
         private void Current_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (new string[] { "Albums", "Tracks", "Filter" }.Contains(e.PropertyName))
@@ -113,14 +134,6 @@ namespace MpFree4k
         {
             string content = "length: " + duration.ToString() + " count: " + count.ToString();
             this.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => tbAmountFiltered.Text = content));
-        }
-
-
-        private RepeatMode _repeatMode = RepeatMode.GoThrough;
-        public RepeatMode RepeatMode 
-        { 
-            get => _repeatMode;
-            set { _repeatMode = value; OnPropertyChanged("RepeatMode"); } 
         }
 
         public MainWindow()
@@ -171,7 +184,16 @@ namespace MpFree4k
             query_timer.Elapsed += Query_timer_Elapsed;
 
             Width += 1;
+
+            StateChanged += MainWindow_StateChanged;
             
+        }
+
+        SmallView smallView = new SmallView();
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized && Config.OpenSmallWindowWhenMinimized)
+                smallView.Show();
         }
 
         private void Query_timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -182,36 +204,12 @@ namespace MpFree4k
             query_timer.Stop();
         }
 
-        private string _query = "";
-        Timer query_timer = new Timer(300);
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _query = (sender as TextBox).Text;
             query_timer.Stop();
             query_timer.Start();
 
-        }
-
-        double _headerHeight = 0;
-        public double HeaderHeight
-        {
-            get => _headerHeight;
-            set
-            {
-                _headerHeight = value;
-                OnPropertyChanged("HeaderHeight");
-            }
-        }
-
-        private double _progressValue = 0;
-        public double ProgressValue
-        {
-            get => _progressValue;
-            set
-            {
-                _progressValue = value;
-                OnPropertyChanged("ProgressValue");
-            }
         }
 
         private void _This_KeyDown(object sender, KeyEventArgs e)
@@ -284,7 +282,7 @@ namespace MpFree4k
             }
         }
 
-        private string getCountString(int count)
+        string getCountString(int count)
         {
             string cnt = count.ToString();
             int cnt_len = cnt.Length;

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace MpFree4k.Classes
+namespace Classes
 {
     public class SQLiteConnector
     {

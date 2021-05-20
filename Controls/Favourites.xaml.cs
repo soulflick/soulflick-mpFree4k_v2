@@ -1,9 +1,9 @@
 ﻿using Classes;
-using MpFree4k.Classes;
-using MpFree4k.Dialogs;
-using MpFree4k.Enums;
-using MpFree4k.Utilities;
-using MpFree4k.ViewModels;
+using Mpfree4k.Enums;
+using Models;
+using Dialogs;
+using Utilities;
+using ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,38 +11,34 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MpFree4k;
+using Configuration;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
-    public enum SelectedControl
-    {
-        None, 
-        Albums,
-        Tracks
-    }
-
     public partial class Favourites : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        
-        private bool loaded = false;
-
-        private FavouritesViewModel VM = null;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         public Thickness TableMargin { get; set; } = new Thickness(30);
-        
+
+        FavouritesViewModel VM = null;
         private List<SimpleAlbumItem> dragItems_albums = new List<SimpleAlbumItem>();
-        private bool mousedown_tracks = false;
-        private bool mousedown_albums = false;
-        private Point mousepos = new Point(0, 0);
+        private List<FileViewInfo> dragItems_tracks = new List<FileViewInfo>();
+        private SelectedControl SelectedControl = SelectedControl.None;
+
+        bool loaded = false;
+        bool mousedown_tracks = false;
+        bool mousedown_albums = false;
+        Point mousepos = new Point(0, 0);
 
         public Favourites()
         {
             VM = new FavouritesViewModel();
 
-            this.DataContext = VM;
+            DataContext = VM;
 
-            this.Loaded += Favourites_Loaded;
+            Loaded += Favourites_Loaded;
 
             InitializeComponent();
 
@@ -53,7 +49,7 @@ namespace MpFree4k.Controls
             if (!loaded)
             {
                 TableMargin = new Thickness(3);
-                OnPropertyChanged("TableMargin");
+                Raise(nameof(TableMargin));
             }
 
             if (MainWindow.Instance.MainViews.SelectedIndex == (int)TabOrder.Favourites)
@@ -65,10 +61,9 @@ namespace MpFree4k.Controls
         public void UpdateMargín(FontSize size)
         {
             TableMargin = new Thickness(2 * (int)size);
-            OnPropertyChanged("TableMargin");
+            Raise(nameof(TableMargin));
         }
 
-        List<FileViewInfo> dragItems_tracks = new List<FileViewInfo>();
         private void TrackTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             dragItems_tracks.Clear();
@@ -193,7 +188,6 @@ namespace MpFree4k.Controls
             mousepos = new Point(0, 0);
         }
 
-        private SelectedControl SelectedControl = SelectedControl.None;
         private void ListAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             

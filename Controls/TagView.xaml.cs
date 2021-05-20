@@ -6,16 +6,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Classes;
+using Models;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
 
     public partial class TagView : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public TagView() => InitializeComponent();
 
         private FileViewInfo _currentTag = null;
         public FileViewInfo CurrentTag
@@ -25,13 +26,9 @@ namespace MpFree4k.Controls
             {
                 _currentTag = value;
                 SetCurrentTag();
-                OnPropertyChanged("CurrentTag");
+                Raise(nameof(CurrentTag));
                 enableControls(true);
             }
-        }
-        public TagView()
-        {
-            InitializeComponent();
         }
 
         public void enableControls(bool _enable)
@@ -96,6 +93,17 @@ namespace MpFree4k.Controls
             }
         }
 
+        public void SetCurrentTag()
+        {
+            this.DataContext = CurrentTag.Mp3Fields;
+
+            BitmapImage img = ImageConnector.GetImageFromFile(CurrentTag.Path);
+            CurrentTag.Image = img;
+            AlbumImage.DataContext = CurrentTag.Image;
+            AlbumImage.Source = CurrentTag.Image;
+            SetInfo(CurrentTag);
+        }
+
         private void btnSaveMp3View_Click(object sender, RoutedEventArgs e)
         {
             this.CurrentTag.Mp3Fields.HasChanged = true;
@@ -108,17 +116,6 @@ namespace MpFree4k.Controls
             {
                 MessageBox.Show("Could not save tag for: " + CurrentTag.Path);
             }
-        }
-
-        public void SetCurrentTag()
-        {
-            this.DataContext = CurrentTag.Mp3Fields;
-
-            BitmapImage img = ImageConnector.GetImageFromFile(CurrentTag.Path);
-            CurrentTag.Image = img;
-            AlbumImage.DataContext = CurrentTag.Image;
-            AlbumImage.Source = CurrentTag.Image;
-            SetInfo(CurrentTag);
         }
 
         private void btnSaveImage_Click(object sender, RoutedEventArgs e)
@@ -145,8 +142,7 @@ namespace MpFree4k.Controls
 
         private void btnGoTo_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentTag == null || string.IsNullOrEmpty(this.CurrentTag.Path))
-                return;
+            if (CurrentTag == null || string.IsNullOrEmpty(CurrentTag.Path)) return;
 
             try
             {

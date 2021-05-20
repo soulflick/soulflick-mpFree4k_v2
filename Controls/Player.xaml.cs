@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
-using MpFree4k.Classes;
 using System.Timers;
 using Classes;
-using MpFree4k.ViewModels;
+using ViewModels;
 using System.Windows.Threading;
-using MpFree4k.Enums;
-using MpFree4k.Layers;
 using System.Linq;
-using System.Threading;
-using MpFree4k.Interfaces;
-using MpFree4k.Plugins;
-using WPFEqualizer;
-using MpFree4k.Dialogs;
+using Interfaces;
+using Plugins;
+using Equalizer;
+using Dialogs;
+using Models;
+using Mpfree4k.Enums;
+using Configuration;
+using MpFree4k;
+using Layers;
 
-namespace MpFree4k.Controls
+namespace Controls
 {
     public class ValueChangedEvent : EventArgs
     {
@@ -25,22 +26,51 @@ namespace MpFree4k.Controls
         public string Value;
     }
 
-    public enum RemainingMode
-    {
-        Elapsed,
-        Remaining
-    }
-
-    public enum Playmode
-    {
-        Play,
-        Unplay
-    }
-
     public partial class Player : UserControl, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<ValueChangedEvent> ValueChanged;
+
+        System.Timers.Timer CheckSongTimer;
+        Dispatcher dispatcher = null;
+        PlaylistItem current_track = null;
+        
+        private static Player _singleton = null;
+
         private PlaylistViewModel _playlistVM = null;
-        private int forward = 5;
+        private List<bool> PlayStates = new List<bool>();
+        private IMediaPlugin MediaPlayer;
+        int forward = 5;
+        int muteVolumne = 50;
+        double trackLength = 0;
+        double pause_position = 0;
+
+        RemainingMode remainingMode = RemainingMode.Elapsed;
+
+        // deactivated
+        // Thread tPlayReverse = new Thread(() => reverse());
+        //bool stopreverse = false;
+
+        Playmode playmode = Playmode.Play;
+
+        public Player()
+        {
+            dispatcher = Dispatcher;
+
+            InitializeComponent();
+
+            btnMute.DataContext = this;
+
+            Rebuild();
+
+            CheckSongTimer = new System.Timers.Timer(300);
+            CheckSongTimer.AutoReset = true;
+            CheckSongTimer.Elapsed += CheckSongTimer_Elapsed;
+            Loaded += Player_Loaded;
+
+            _singleton = this;
+        }
+
         public PlaylistViewModel PlayListVM
         {
             get => _playlistVM;
@@ -53,9 +83,26 @@ namespace MpFree4k.Controls
             }
         }
 
-        public double ButtonSize
+        public double ButtonSize => (double)UserConfig.ControlSize;
+
+        public bool SongEnded => MediaPlayer.SongEnded;
+
+        private bool _isCheckedState = false;
+        public bool IsCheckedState
         {
-            get => (double)UserConfig.ControlSize;
+            get => _isCheckedState;
+            set { _isCheckedState = value; NotifyPropertyChanged("IsCheckedState"); }
+        }
+
+        private Visibility _touchButtonsVisibility = Visibility.Visible;
+        public Visibility TouchButtonsVisibility
+        {
+            get => _touchButtonsVisibility;
+            set
+            {
+                _touchButtonsVisibility = value;
+                NotifyPropertyChanged(nameof(TouchButtonsVisibility));
+            }
         }
 
         private void _playlistVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -72,54 +119,15 @@ namespace MpFree4k.Controls
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        public event EventHandler<ValueChangedEvent> ValueChanged;
-
-        public void NotifyPropertyChanged(String info)
+        public void NotifyPropertyChanged(string info)
         {
             if (info == "ButtonSize" || info == "FontSize")
             {
                 double h = ButtonSize + 36;
-                this.Height = h + (6.5 * (Math.Max((int)UserConfig.FontSize - 3, 0)));
+                Height = h + (6.5 * (Math.Max((int)UserConfig.FontSize - 3, 0)));
             }
 
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-
-        private bool _isCheckedState = false;
-        public bool IsCheckedState
-        {
-            get => _isCheckedState;
-            set { _isCheckedState = value; NotifyPropertyChanged("IsCheckedState"); }
-        }
-
-
-        private System.Timers.Timer CheckSongTimer;
-        public bool SongEnded => MediaPlayer.SongEnded;
-        private int muteVolumne = 50;
-        private List<bool> PlayStates = new List<bool>();
-        private Dispatcher dispatcher = null;
-        private static Player _singleton = null;
-        private IMediaPlugin MediaPlayer;
-        private double trackLength = 0;
-
-        public Player()
-        {
-            dispatcher = this.Dispatcher;
-
-            InitializeComponent();
-
-            btnMute.DataContext = this;
-
-            Rebuild();
-
-            CheckSongTimer = new System.Timers.Timer(300);
-            CheckSongTimer.AutoReset = true;
-            CheckSongTimer.Elapsed += CheckSongTimer_Elapsed;
-            Loaded += Player_Loaded;
-
-            _singleton = this;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
 
         public void Rebuild()
@@ -146,7 +154,7 @@ namespace MpFree4k.Controls
 
         private void MediaPlayer_PlayStateChanged(object sender, EventArgs e)
         {
-            if (sender is String property)
+            if (sender is string property)
             {
                 if (property == "Play" && MediaPlayer is SpectrumViewModel model)
                 {
@@ -169,24 +177,15 @@ namespace MpFree4k.Controls
             lblAlbum.Text = "...";
             lblYear.Text = "-";
 
-            this.Height = (85 - 34) + ButtonSize - 34;
+            Height = (85 - 34) + ButtonSize - 34;
             NotifyPropertyChanged("ButtonSize");
         }
 
         public void OnThemeChanged()
         {
-            Spectrum.ControlBackground = this.Resources["SpectrumBackground"] as System.Windows.Media.SolidColorBrush;
+            Spectrum.ControlBackground = Resources["SpectrumBackground"] as System.Windows.Media.SolidColorBrush;
             Spectrum.ApplyProperties();
         }
-
-        private void CheckSongTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            CheckSong();
-            ValueChanged(null, new ValueChangedEvent() { Key = "PlayTimeUpdate", Value = MediaPlayer.Position.ToString() });
-        }
-
-
-        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => MediaPlayer?.SetVolume((int)sldVolume.Value);
 
         void UpdatePositionMarker(double position)
         {
@@ -217,17 +216,6 @@ namespace MpFree4k.Controls
 
         }
 
-        private Visibility _touchButtonsVisibility = Visibility.Visible;
-        public Visibility TouchButtonsVisibility
-        {
-            get => _touchButtonsVisibility;
-            set
-            {
-                _touchButtonsVisibility = value;
-                NotifyPropertyChanged(nameof(TouchButtonsVisibility));
-            }
-        }
-
         void SetTrackInfo(PlaylistItem itm)
         {
             lblTrack.Content = "";
@@ -256,36 +244,31 @@ namespace MpFree4k.Controls
             (Window.GetWindow(this) as MainWindow).Title = cstr;
         }
 
-        Thread tPlayReverse = new Thread(() => reverse());
-        Playmode playmode = Playmode.Play;
-        private void Unplay(PlaylistItem pItm)
-        {
-            playmode = Playmode.Unplay;
-            tPlayReverse = new Thread(() => reverse());
-            tPlayReverse.Start();
-        }
+        //private void Unplay(PlaylistItem pItm)
+        //{
+        //    playmode = Playmode.Unplay;
+        //    tPlayReverse = new Thread(() => reverse());
+        //    tPlayReverse.Start();
+        //}
 
-        bool stopreverse = false;
-        static void reverse()
-        {
-            double position = _singleton.MediaPlayer.Position;
-            double end = position;
+        //static void reverse()
+        //{
+        //    double position = _singleton.MediaPlayer.Position;
+        //    double end = position;
 
-            _singleton.MediaPlayer.Play();
-            while (!_singleton.stopreverse && position > 0.1)
-            {
-                Thread.Sleep(100);
-                _singleton.MediaPlayer.Forward(-0.2);
-                position = _singleton.MediaPlayer.Position;
-                _singleton.Dispatcher.BeginInvoke(new Action(() => _singleton.UpdatePositionMarker(position)));
-            }
+        //    _singleton.MediaPlayer.Play();
+        //    while (!_singleton.stopreverse && position > 0.1)
+        //    {
+        //        Thread.Sleep(100);
+        //        _singleton.MediaPlayer.Forward(-0.2);
+        //        position = _singleton.MediaPlayer.Position;
+        //        _singleton.Dispatcher.BeginInvoke(new Action(() => _singleton.UpdatePositionMarker(position)));
+        //    }
 
-            _singleton.MediaPlayer.Position = end - 1;
-            return;
-        }
+        //    _singleton.MediaPlayer.Position = end - 1;
+        //    return;
+        //}
 
-
-        PlaylistItem current_track = null;
         public void Play(PlaylistItem fileInfo, bool from_start = false)
         {
             if (fileInfo == null)
@@ -343,7 +326,7 @@ namespace MpFree4k.Controls
                 }
                 else
                 {
-                    Unplay(fileInfo);
+                    //Unplay(fileInfo);
                     return;
                 }
 
@@ -450,9 +433,7 @@ namespace MpFree4k.Controls
                 showDefaultPicture();
             }
         }
-
        
-        double pause_position = 0;
         public void Pause()
         {
             if (MediaPlayer.IsPaused)
@@ -477,7 +458,7 @@ namespace MpFree4k.Controls
 
         public void Stop()
         {
-            tPlayReverse.Abort();
+            //tPlayReverse.Abort();
 
             for (int i = 0; i < PlayStates.Count; i++)
                 PlayStates[i] = false;
@@ -490,21 +471,6 @@ namespace MpFree4k.Controls
                 lblProgress.Content = "00:00";
             }));
             CheckSongTimer.Stop();
-        }
-
-
-
-        private void sldTrackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (MediaPlayer == null) return;
-            if (!MediaPlayer.HasMedia) return;
-
-            MediaPlayer.Position = sldTrackSlider.Value;
-        }
-
-        private void btnPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            Previous();
         }
 
         void Next()
@@ -537,6 +503,35 @@ namespace MpFree4k.Controls
                 Play(current_track);
         }
 
+        public void showDefaultPicture()
+        {
+            TrackImage.Source = new System.Windows.Media.Imaging.BitmapImage(
+                new Uri(@"pack://application:,,,/" +
+                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
+                ";component/" + "Images/no_album_cover.jpg", UriKind.Absolute));
+        }
+
+        private void CheckSongTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CheckSong();
+            ValueChanged(null, new ValueChangedEvent() { Key = "PlayTimeUpdate", Value = MediaPlayer.Position.ToString() });
+        }
+
+        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => MediaPlayer?.SetVolume((int)sldVolume.Value);
+
+        private void sldTrackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (MediaPlayer == null) return;
+            if (!MediaPlayer.HasMedia) return;
+
+            MediaPlayer.Position = sldTrackSlider.Value;
+        }
+
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            Previous();
+        }
+
         private void btnRewind_Click(object sender, RoutedEventArgs e)
         {
             if (MediaPlayer.Position > 0)
@@ -547,7 +542,7 @@ namespace MpFree4k.Controls
         {
             if (playmode == Playmode.Unplay)
             {
-                tPlayReverse.Abort();
+                //tPlayReverse.Abort();
                 MediaPlayer.Play();
                 playmode = Playmode.Play;
                 return;
@@ -560,7 +555,7 @@ namespace MpFree4k.Controls
         private void btnReverse_Click(object sender, RoutedEventArgs e)
         {
             current_track = PlayListVM.GetCurrent();
-            Unplay(current_track);
+            //Unplay(current_track);
         }
 
         private void btnPause_Click(object sender, RoutedEventArgs e) => Pause();
@@ -586,19 +581,10 @@ namespace MpFree4k.Controls
             IsCheckedState = btnMute.IsChecked == true;
         }
 
-        public void showDefaultPicture()
-        {
-            TrackImage.Source = new System.Windows.Media.Imaging.BitmapImage(
-                new System.Uri(@"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
-        }
-
         private void sldTrackSlider_StylusMove(object sender, System.Windows.Input.StylusEventArgs e) => MediaPlayer.SetVolume(0);
 
         private void sldTrackSlider_StylusDown(object sender, System.Windows.Input.StylusDownEventArgs e) => MediaPlayer.SetVolume(muteVolumne);
 
-        private RemainingMode remainingMode = RemainingMode.Elapsed;
         private void lblProgress_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             remainingMode = remainingMode == RemainingMode.Elapsed ? RemainingMode.Remaining : RemainingMode.Elapsed;
 

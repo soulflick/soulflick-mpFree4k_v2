@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using MpFree4k.Classes;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,24 +6,22 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using WPFEqualizer;
+using Equalizer;
+using Models;
 
-namespace MpFree4k.ViewModels
+namespace ViewModels
 {
     public class EqualizerWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void RaiseProperty(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public ObservableCollection<LabelLocation> Presets { get; set; } = new ObservableCollection<LabelLocation>();
 
         public string EqualizerDirectory => Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Presets");
 
-        public EqualizerWindowViewModel()
-        {
-            Reload();
-        }
+        public EqualizerWindowViewModel() => Reload();
 
         private int? _selectedIndex = 0;
         public int? SelectedIndex
@@ -37,7 +34,7 @@ namespace MpFree4k.ViewModels
                 else
                     _selectedIndex = value;
 
-                RaiseProperty(nameof(SelectedIndex));
+                Raise(nameof(SelectedIndex));
             }
         }
 
@@ -121,7 +118,7 @@ namespace MpFree4k.ViewModels
                 return;
             }
 
-            RaiseProperty(nameof(Presets));
+            Raise(nameof(Presets));
 
             if (string.IsNullOrEmpty(preset_file))
             {

@@ -1,66 +1,68 @@
-﻿using System.Windows;
+﻿using Mpfree4k.Enums;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WPFEqualizer.Controls
+namespace Equalizer.Controls
 {
     public partial class LinearSpectrum : UserControl
     {
+        private SpectrumViewModel viewModel;
+
         public static readonly DependencyProperty BarGapProperty = DependencyProperty.Register(
-          "BarGap", typeof(int), typeof(LinearSpectrum), new PropertyMetadata(1));
+          nameof(BarGap), typeof(int), typeof(LinearSpectrum), new PropertyMetadata(1));
 
         public static readonly DependencyProperty BarSegmentProperty = DependencyProperty.Register(
-          "BarSegment", typeof(int), typeof(LinearSpectrum), new PropertyMetadata(4));
+          nameof(BarSegment), typeof(int), typeof(LinearSpectrum), new PropertyMetadata(4));
 
         public static readonly DependencyProperty ControlBackgroundProperty = DependencyProperty.Register(
-          "ControlBackground", typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.DarkGray));
+          nameof(ControlBackground), typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.DarkGray));
 
         public static readonly DependencyProperty BarStartBrushProperty = DependencyProperty.Register(
-          "BarStartBrush", typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
+          nameof(BarStartBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
 
         public static readonly DependencyProperty BarEndBrushProperty = DependencyProperty.Register(
-          "BarEndBrush", typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Yellow));
+          nameof(BarEndBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Yellow));
 
         public static readonly DependencyProperty LineBrushProperty = DependencyProperty.Register(
-          "LineBrush", typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Gainsboro));
+          nameof(LineBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Gainsboro));
 
         public static readonly DependencyProperty FillBrushProperty = DependencyProperty.Register(
-          "FillBrush", typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
+          nameof(FillBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(LinearSpectrum), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
 
         public static readonly DependencyProperty BarCountProperty = DependencyProperty.Register(
-          "BarCount", typeof(int), typeof(LinearSpectrum), new PropertyMetadata(48));
+          nameof(BarCount), typeof(int), typeof(LinearSpectrum), new PropertyMetadata(48));
 
         public static readonly DependencyProperty GraphTypeProperty = DependencyProperty.Register(
-          "GraphType", typeof(GraphType), typeof(LinearSpectrum), new PropertyMetadata(GraphType.Bar));
+          nameof(GraphType), typeof(GraphType), typeof(LinearSpectrum), new PropertyMetadata(GraphType.Bar));
 
         
-
         public int BarGap
         {
-            get => (int)this.GetValue(BarGapProperty);
+            get => (int)GetValue(BarGapProperty);
             set
             {
-                this.SetValue(BarGapProperty, value);
+                SetValue(BarGapProperty, value);
                 viewModel.BarGap = value;
             }
         }
 
         public int BarSegment
         {
-            get => (int)this.GetValue(BarSegmentProperty);
+            get => (int)GetValue(BarSegmentProperty);
             set
             {
-                this.SetValue(BarSegmentProperty, value);
+                SetValue(BarSegmentProperty, value);
                 viewModel.BarSegment = value;
             }
         }
 
         public System.Windows.Media.SolidColorBrush ControlBackground
         {
-            get => (System.Windows.Media.SolidColorBrush)this.GetValue(ControlBackgroundProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(ControlBackgroundProperty);
             set
             {
-                this.SetValue(ControlBackgroundProperty, value);
+                SetValue(ControlBackgroundProperty, value);
                 if (viewModel != null)
                     viewModel.Background = Utils.ColorUtils.ToDrawingColor(value);
             }
@@ -68,10 +70,10 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush BarStartBrush
         {
-            get => (System.Windows.Media.SolidColorBrush)this.GetValue(BarStartBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(BarStartBrushProperty);
             set
             {
-                this.SetValue(BarStartBrushProperty, value);
+                SetValue(BarStartBrushProperty, value);
                 if (viewModel != null)
                     viewModel.BarStartBrush = Utils.ColorUtils.ToDrawingColor(value);
             }
@@ -79,10 +81,10 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush BarEndBrush
         {
-            get => (System.Windows.Media.SolidColorBrush)this.GetValue(BarEndBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(BarEndBrushProperty);
             set
             {
-                this.SetValue(BarEndBrushProperty, value);
+                SetValue(BarEndBrushProperty, value);
                 if (viewModel != null)
                     viewModel.BarEndBrush = Utils.ColorUtils.ToDrawingColor(value);
             }
@@ -90,10 +92,10 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush LineBrush
         {
-            get => (System.Windows.Media.SolidColorBrush)this.GetValue(LineBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(LineBrushProperty);
             set
             {
-                this.SetValue(LineBrushProperty, value);
+                SetValue(LineBrushProperty, value);
                 if (viewModel != null)
                     viewModel.LineBrush = Utils.ColorUtils.ToDrawingColor(value);
             }
@@ -101,10 +103,10 @@ namespace WPFEqualizer.Controls
 
         public System.Windows.Media.SolidColorBrush FillBrush
         {
-            get => (System.Windows.Media.SolidColorBrush)this.GetValue(FillBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(FillBrushProperty);
             set
             {
-                this.SetValue(FillBrushProperty, value);
+                SetValue(FillBrushProperty, value);
                 if (viewModel != null)
                     viewModel.FillBrush = Utils.ColorUtils.ToDrawingColor(value);
             }
@@ -112,25 +114,23 @@ namespace WPFEqualizer.Controls
 
         public int BarCount
         {
-            get => (int)this.GetValue(BarCountProperty);
+            get => (int)GetValue(BarCountProperty);
             set
             {
-                this.SetValue(BarCountProperty, value);
+                SetValue(BarCountProperty, value);
                 viewModel.BarCount = value;
             }
         }
 
         public GraphType GraphType
         {
-            get => (GraphType)this.GetValue(GraphTypeProperty);
+            get => (GraphType)GetValue(GraphTypeProperty);
             set
             {
-                this.SetValue(GraphTypeProperty, value);
+                SetValue(GraphTypeProperty, value);
                 viewModel.GraphType = value;
             }
         }
-
-        private SpectrumViewModel viewModel;
 
         public LinearSpectrum()
         {
@@ -139,6 +139,10 @@ namespace WPFEqualizer.Controls
             SizeChanged += Spectrum_SizeChanged;
         }
 
+        public void SetViewModel(SpectrumViewModel vm) => DataContext = viewModel = vm;
+
+        public void Redraw() => viewModel.GenerateLineSpectrum();
+
         private void Spectrum_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ImageSpectrum.Width = GridImage.ActualWidth;
@@ -146,15 +150,11 @@ namespace WPFEqualizer.Controls
             SetViewPort();
         }
 
-        public void SetViewModel(SpectrumViewModel vm) => DataContext = viewModel = vm;
-
         private void Spectrum_Loaded(object sender, RoutedEventArgs e)
         {
             SetViewPort();
             ApplyProperties();
         }
-
-        public void Redraw() => viewModel.GenerateLineSpectrum();
 
         public void ApplyProperties()
         {
