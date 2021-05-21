@@ -1,5 +1,11 @@
 ﻿namespace Mpfree4k.Enums
 {
+    public enum FlagType
+    {
+        OK = 0,
+        Tagged = 1
+    }
+
     public enum ViewMode
     {
         Details,

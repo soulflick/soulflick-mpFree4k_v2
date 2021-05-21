@@ -187,7 +187,8 @@ namespace Equalizer
             const FftSize fftSize = FftSize.Fft4096;
             _capture = new WasapiLoopbackCapture();
 
-            source = CodecFactory.Instance.GetCodec(MediaFile);
+            try { source = CodecFactory.Instance.GetCodec(MediaFile); }
+            catch (CSCore.MediaFoundation.MediaFoundationException) { throw; }
             _spectrumProvider = new SpectrumProvider(source.WaveFormat.Channels, source.WaveFormat.SampleRate, fftSize);
 
             CreateSpectrum();

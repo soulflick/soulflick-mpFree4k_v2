@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mpfree4k.Enums;
+using System;
 using System.ComponentModel;
 using System.Linq;
 
@@ -11,6 +12,14 @@ namespace Models
         protected void Raise(string info)=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public bool HasChanged = false;
+
+        public void SetFlag(FlagType flagType)
+        {
+            Flag = flagType;
+            Raise(nameof(Flag));
+        }
+
+        public FlagType Flag { get; set; } = 0;
 
         private bool _consider = false;
         public bool Consider 

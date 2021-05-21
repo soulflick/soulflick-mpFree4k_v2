@@ -76,6 +76,7 @@
                     <MenuItem x:Name="mnuCtxPlayAll" Header="play all" Click="mnuCtxPlayAll_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxEdit"  Header="edit" Click="mnuCtxEdit_Click"/>
+                    <MenuItem x:Name="mnuCtxSetFlag"  Header="tag this" Click="mnuCtxSetFlag_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.CellStyle>
@@ -150,7 +151,17 @@
                 <DataGridTemplateColumn Header="Title" Width="20*" SortMemberPath="Title">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Flag}" Value="1">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

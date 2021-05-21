@@ -187,7 +187,6 @@ namespace Controls
                 return;
 
             PlaylistViewModel.Insert(items.ToArray());
-
         }
 
         private void mnuCtxAddAlbum_Click(object sender, RoutedEventArgs e)
@@ -228,6 +227,15 @@ namespace Controls
             var vm = DataContext as TrackTableViewModel;
             var uniques = vm.Tracks.DistinctBy(x => x.Title).ToArray();
             PlaylistViewModel.Play(uniques);
+        }
+
+        private void mnuCtxSetFlag_Click(object sender, RoutedEventArgs e)
+        {
+            if (TrackTable.SelectedItems == null ||
+                TrackTable.SelectedItems.Count == 0)
+                return;
+
+            foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { track.SetFlag(FlagType.Tagged); }
         }
     }
 }

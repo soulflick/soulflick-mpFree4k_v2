@@ -1,4 +1,5 @@
 ﻿using Classes;
+using Mpfree4k.Enums;
 using System;
 using System.ComponentModel;
 
@@ -11,6 +12,13 @@ namespace Models
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public bool IsItemChecked { get; set; }
+
+        public void SetFlag(FlagType flag)
+        {
+            Flag = flag; Raise(nameof(Flag));
+            Mp3Fields.Flag = flag;
+        }
+        public FlagType Flag { get; set; } = 0;
 
         bool _isPlaying = false;
         public bool IsPlaying 
