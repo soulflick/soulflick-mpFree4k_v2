@@ -31,7 +31,7 @@ namespace ViewModels
         }
 
         public RepeatMode RepeatMode = RepeatMode.GoThrough;
-        public PlaylistItem CurrentSong = null;
+        public PlaylistInfo CurrentSong = null;
 
         private int _currentPlayPosition = 0;
         public int CurrentPlayPosition
@@ -51,8 +51,8 @@ namespace ViewModels
             }
         }
 
-        private List<PlaylistItem> _tracks = new List<PlaylistItem>();
-        public List<PlaylistItem> Tracks
+        private List<PlaylistInfo> _tracks = new List<PlaylistInfo>();
+        public List<PlaylistInfo> Tracks
         {
             get => _tracks;
             set
@@ -80,7 +80,7 @@ namespace ViewModels
             this.Add(pList);
         }
 
-        public static void Add(PlaylistItem[] items)
+        public static void Add(PlaylistInfo[] items)
         {
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             VM.Add(items.ToList());
@@ -92,7 +92,7 @@ namespace ViewModels
             Insert(pItems);
         }
 
-        public static void Insert(PlaylistItem[] items)
+        public static void Insert(PlaylistInfo[] items)
         {
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int idx = VM.CurrentPlayPosition;
@@ -100,7 +100,7 @@ namespace ViewModels
             foreach (var p_i in items)
             {
                 idx++;
-                VM.Add(new List<PlaylistItem>() { p_i }, idx);
+                VM.Add(new List<PlaylistInfo>() { p_i }, idx);
             }
         }
 
@@ -111,7 +111,7 @@ namespace ViewModels
             Play(pItems);
         }
 
-        public static void Play(PlaylistItem[] items)
+        public static void Play(PlaylistInfo[] items)
         {
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int playpos = VM.CurrentPlayPosition;
@@ -130,7 +130,7 @@ namespace ViewModels
                 else
                     playpos = 0;
 
-                VM.Add(new List<PlaylistItem>() { p_i }, playpos);
+                VM.Add(new List<PlaylistInfo>() { p_i }, playpos);
 
                 if (first)
                 {
@@ -146,15 +146,15 @@ namespace ViewModels
                 VM.enumerate(currentplaypos);
         }
 
-        public void Move(List<PlaylistItem> itms, int pos)
+        public void Move(List<PlaylistInfo> itms, int pos)
         {
             int minpos = Math.Min(itms.Min(i => i.Position) - 1, pos - 1);
 
             pos = Math.Min(pos, Tracks.Count);
 
-            PlaylistItem referenceItem = pos < Tracks.Count && pos >= 0 ? Tracks[pos] : null;
+            PlaylistInfo referenceItem = pos < Tracks.Count && pos >= 0 ? Tracks[pos] : null;
 
-            foreach (PlaylistItem pi in itms)
+            foreach (PlaylistInfo pi in itms)
                 Tracks.Remove(pi);
 
             enumerate(minpos);
@@ -165,7 +165,7 @@ namespace ViewModels
             enumerate(minpos);
         }
 
-        public void Add(PlaylistItem item, int position = int.MaxValue)
+        public void Add(PlaylistInfo item, int position = int.MaxValue)
         {
             MainWindow.mainDispatcher.Invoke(() =>
             {
@@ -184,16 +184,16 @@ namespace ViewModels
                 item.DragOver = false;
         }
 
-        public void Add(List<PlaylistItem> items, int position = int.MaxValue)
+        public void Add(List<PlaylistInfo> items, int position = int.MaxValue)
         {
             if (position == int.MaxValue || position > Tracks.Count)
                 position = (int)Tracks.Count;
 
             int startpos = position;
 
-            foreach (PlaylistItem item in items)
+            foreach (PlaylistInfo item in items)
             {
-                PlaylistItem new_item = new PlaylistItem()
+                PlaylistInfo new_item = new PlaylistInfo()
                 {
                     Album = item.Album,
                     Title = item.Title,
@@ -246,14 +246,14 @@ namespace ViewModels
 
             if (CurrentSong != null)
             {
-                PlaylistItem current = Tracks.FirstOrDefault(x => x.uniqueID == CurrentSong.uniqueID);
+                PlaylistInfo current = Tracks.FirstOrDefault(x => x.uniqueID == CurrentSong.uniqueID);
                 if (current != null)
                     CurrentPlayPosition = Math.Max(0, current._position - 1);
             }
 
         }
 
-        public PlaylistItem GetCurrent()
+        public PlaylistInfo GetCurrent()
         {
             if (CurrentPlayPosition >= Tracks.Count)
                 CurrentPlayPosition = Tracks.Count - 1;
@@ -268,7 +268,7 @@ namespace ViewModels
             return CurrentSong;
         }
 
-        public PlaylistItem GetShuffle()
+        public PlaylistInfo GetShuffle()
         {
             Random rnd = new Random();
             int idx = rnd.Next(0, Tracks.Count);
@@ -276,7 +276,7 @@ namespace ViewModels
             return GetCurrent();
         }
 
-        public PlaylistItem GetNext()
+        public PlaylistInfo GetNext()
         {
             if (RepeatMode == RepeatMode.GoThrough)
             {
@@ -333,7 +333,7 @@ namespace ViewModels
             return GetCurrent();
         }
 
-        public PlaylistItem GetPrevious()
+        public PlaylistInfo GetPrevious()
         {
             if (RepeatMode == RepeatMode.GoThrough)
             {

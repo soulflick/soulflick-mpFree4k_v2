@@ -158,6 +158,7 @@
     <Compile Include="Classes\SQLiteConnector.cs" />
     <Compile Include="Classes\TagLibConvertPicture.cs" />
     <Compile Include="Configuration\UserConfig.cs" />
+    <Compile Include="Utilies\Notify.cs" />
     <Compile Include="Utilies\VisualTreeHelper.cs" />
     <Compile Include="Controls\AudioPropertiesView.xaml.cs">
       <DependentUpon>AudioPropertiesView.xaml</DependentUpon>
@@ -239,6 +240,7 @@
     <Compile Include="ViewModels\AlbumDetailViewModel.cs" />
     <Compile Include="ViewModels\EqualizerWindowViewModel.cs" />
     <Compile Include="ViewModels\FavouritesViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\SpectrumViewModel.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />

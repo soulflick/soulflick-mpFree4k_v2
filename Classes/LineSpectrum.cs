@@ -20,11 +20,11 @@ namespace Equalizer.Visualization
 
     public class LineSpectrum : SpectrumBase
     {
-        private int _barCount;
-        private double _barSpacing;
-        private double _barWidth;
-        private Size _currentSize;
-        private MaximumTip[] _tips;
+        int _barCount;
+        double _barSpacing;
+        double _barWidth;
+        Size _currentSize;
+        MaximumTip[] _tips;
 
         public int numLines = 18;
         public int BarGap = 1;
@@ -59,7 +59,7 @@ namespace Equalizer.Visualization
 
         public int BarCount
         {
-            get { return _barCount; }
+            get => _barCount;
             set
             {
                 if (value <= 0)
@@ -80,7 +80,7 @@ namespace Equalizer.Visualization
         [BrowsableAttribute(false)]
         public Size CurrentSize
         {
-            get { return _currentSize; }
+            get => _currentSize;
             protected set
             {
                 _currentSize = value;

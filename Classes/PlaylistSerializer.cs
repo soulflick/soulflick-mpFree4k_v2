@@ -10,7 +10,7 @@ namespace Classes
 {
     public static class PlaylistSerializer
     {
-        public static void Serialize(string filename, List<PlaylistItem> items)
+        public static void Serialize(string filename, List<PlaylistInfo> items)
         {
             using (Stream stream = File.Open(filename, FileMode.Create))
             {
@@ -32,9 +32,9 @@ namespace Classes
 
                 try
                 {
-                    var items = (List<PlaylistItem>)bin.Deserialize(stream);
+                    var items = (List<PlaylistInfo>)bin.Deserialize(stream);
 
-                    foreach (PlaylistItem item in items)
+                    foreach (PlaylistInfo item in items)
                     {
                         VM.Tracks.Add(item);
                     }
@@ -44,7 +44,7 @@ namespace Classes
                     return;
                 }
             }
-            PlaylistItem playitem = VM.Tracks.FirstOrDefault(t => t.IsPlaying);
+            PlaylistInfo playitem = VM.Tracks.FirstOrDefault(t => t.IsPlaying);
             if (playitem != null)
                 VM.CurrentPlayPosition = playitem.Position;
 

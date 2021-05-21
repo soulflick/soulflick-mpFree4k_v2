@@ -270,7 +270,7 @@ namespace MpFree4k
             selector.ShowDialog();
         }
 
-        public PlaylistItem[] GetSelectedTracks()
+        public PlaylistInfo[] GetSelectedTracks()
         {
             switch (MainViews.SelectedIndex)
             {
@@ -304,7 +304,7 @@ namespace MpFree4k
             {
                 string location = dialog.FileName;
                 int count = 0;
-                foreach (PlaylistItem pi in (Playlist.DataContext as PlaylistViewModel).Tracks)
+                foreach (PlaylistInfo pi in (Playlist.DataContext as PlaylistViewModel).Tracks)
                 {
                     if (!File.Exists(pi.Path))
                         continue;

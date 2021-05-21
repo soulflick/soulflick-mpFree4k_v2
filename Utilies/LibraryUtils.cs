@@ -28,12 +28,12 @@ namespace Utilities
             return protoList.DistinctBy(p => p.Title).OrderBy(o => o.Mp3Fields.Track).ToArray();
         }
 
-        public static IEnumerable<PlaylistItem> GetItems(string[] tracks)
+        public static IEnumerable<PlaylistInfo> GetItems(string[] tracks)
         {
             foreach (string track in tracks)
             {
                 FileViewInfo fi = new FileViewInfo(track);
-                PlaylistItem plitm = new PlaylistItem();
+                PlaylistInfo plitm = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(plitm, fi);
                 yield return plitm;
             }
@@ -48,21 +48,21 @@ namespace Utilities
             return album.Tracks.ToList().Select(t => new FileViewInfo(t)).ToArray();
         }
 
-        public static FileViewInfo[] GetInfoItems(PlaylistItem[] items)
+        public static FileViewInfo[] GetInfoItems(PlaylistInfo[] items)
         {
             return items.ToList().Select(i => new FileViewInfo(i.Path)).ToArray();
         }
 
-        public static PlaylistItem[] GetTracks(AlbumItem album)
+        public static PlaylistInfo[] GetTracks(AlbumItem album)
         {
             if (album == null || album.Tracks == null || !album.Tracks.Any())
                 return null;
 
-            List<PlaylistItem> items = new List<PlaylistItem>();
+            List<PlaylistInfo> items = new List<PlaylistInfo>();
             foreach (string track in album.Tracks)
             {
                 FileViewInfo fi = new FileViewInfo(track);
-                PlaylistItem plitm = new PlaylistItem();
+                PlaylistInfo plitm = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(plitm, fi);
                 items.Add(plitm);
             }
@@ -70,16 +70,16 @@ namespace Utilities
             return items.ToArray();
         }
 
-        public static PlaylistItem[] GetTracks(SimpleAlbumItem album)
+        public static PlaylistInfo[] GetTracks(SimpleAlbumItem album)
         {
             if (album == null || album.Tracks == null || !album.Tracks.Any())
                 return null;
 
-            List<PlaylistItem> items = new List<PlaylistItem>();
+            List<PlaylistInfo> items = new List<PlaylistInfo>();
             foreach (string track in album.Tracks)
             {
                 FileViewInfo fi = new FileViewInfo(track);
-                PlaylistItem plitm = new PlaylistItem();
+                PlaylistInfo plitm = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(plitm, fi);
                 items.Add(plitm);
             }

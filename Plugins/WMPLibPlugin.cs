@@ -22,16 +22,10 @@ namespace Plugins
         public double Duration { get; set; }
         public double Position { 
             get => MediaPlayer.controls.currentPosition;
-            set
-            {
-                MediaPlayer.controls.currentPosition = value;
-            }
+            set => MediaPlayer.controls.currentPosition = value;
         }
 
-        public void Forward(int msecs)
-        {
-            MediaPlayer.controls.currentPosition += msecs;
-        }
+        public void Forward(int msecs) => MediaPlayer.controls.currentPosition += msecs;
 
         public double Volume { get; set; }
         public bool SongEnded { get; set; }
@@ -40,16 +34,13 @@ namespace Plugins
         public string URL
         {
             get => url;
-            set
-            {
-                url = MediaPlayer.URL = value;
-            }
+            set => url = MediaPlayer.URL = value;
         }
 
         IWMPMedia currentMedia = null;
         public void Init(string url)
         {
-            this.URL = url;
+            URL = url;
             currentMedia = MediaPlayer.newMedia(url);
             Duration = currentMedia.duration;
         }
@@ -66,30 +57,15 @@ namespace Plugins
 
         public bool HasMedia => currentMedia != null;
 
-        public void Forward(double msecs)
-        {
-            MediaPlayer.controls.currentPosition += msecs;
-        }
+        public void Forward(double msecs) => MediaPlayer.controls.currentPosition += msecs;
 
-        public void Backward(double msecs)
-        {
-            MediaPlayer.controls.currentPosition -= msecs;
-        }
+        public void Backward(double msecs) => MediaPlayer.controls.currentPosition -= msecs;
 
-        public void Pause()
-        {
-            MediaPlayer.controls.pause();
-        }
+        public void Pause() => MediaPlayer.controls.pause();
 
-        public void Play()
-        {
-            MediaPlayer.controls.play();
-        }
+        public void Play() => MediaPlayer.controls.play();
 
-        public void Stop()
-        {
-            MediaPlayer.controls.stop();
-        }
+        public void Stop() => MediaPlayer.controls.stop();
 
         void wplayer_PlayStateChange(int NewState)
         {

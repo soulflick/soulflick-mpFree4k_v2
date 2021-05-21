@@ -76,7 +76,7 @@ namespace Dialogs
             if (MainWindow.Instance.TableView.ArtistView != null)
                 SkinAdaptor.ApplyFontSize(MainWindow.Instance, size);
 
-            MainWindow.Instance.Player.NotifyPropertyChanged("ButtonSize");
+            MainWindow.Instance.Player.Raise("ButtonSize");
 
         }
 
@@ -295,7 +295,7 @@ namespace Dialogs
             ComboBoxItem itm = (sender as ComboBox).SelectedItem as ComboBoxItem;
             ControlSize csize = (ControlSize)itm.Tag;
             UserConfig.ControlSize = csize;
-            MainWindow.Instance.Player.NotifyPropertyChanged("ButtonSize");
+            MainWindow.Instance.Player.Raise("ButtonSize");
         }
 
         private void tbNumAlbums_TextChanged(object sender, TextChangedEventArgs e)

@@ -17,6 +17,8 @@ using Mpfree4k.Enums;
 using Configuration;
 using MpFree4k;
 using Layers;
+using ViewModels;
+using System.Windows.Media;
 
 namespace Controls
 {
@@ -26,17 +28,24 @@ namespace Controls
         public string Value;
     }
 
+    public class ViewModelChangedEventArgs : EventArgs
+    {
+        public ViewModelChangedEventArgs(object info) { this.value = info; }
+        public object value;
+    }
+
     public partial class Player : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ValueChangedEvent> ValueChanged;
+        public event EventHandler<ViewModelChangedEventArgs> ViewModelChanged;
+
+        public static Player Instance;
 
         System.Timers.Timer CheckSongTimer;
         Dispatcher dispatcher = null;
-        PlaylistItem current_track = null;
+        PlaylistInfo current_track = null;
         
-        private static Player _singleton = null;
-
         private PlaylistViewModel _playlistVM = null;
         private List<bool> PlayStates = new List<bool>();
         private IMediaPlugin MediaPlayer;
@@ -59,6 +68,8 @@ namespace Controls
 
             InitializeComponent();
 
+            Instance = this;
+
             btnMute.DataContext = this;
 
             Rebuild();
@@ -67,8 +78,6 @@ namespace Controls
             CheckSongTimer.AutoReset = true;
             CheckSongTimer.Elapsed += CheckSongTimer_Elapsed;
             Loaded += Player_Loaded;
-
-            _singleton = this;
         }
 
         public PlaylistViewModel PlayListVM
@@ -76,22 +85,115 @@ namespace Controls
             get => _playlistVM;
             set
             {
-                if (_playlistVM != null)
-                    _playlistVM.PropertyChanged -= _playlistVM_PropertyChanged;
+                if (_playlistVM != null) _playlistVM.PropertyChanged -= _playlistVM_PropertyChanged;
                 _playlistVM = value;
                 _playlistVM.PropertyChanged += _playlistVM_PropertyChanged;
             }
         }
 
+        public static ImageSource defaultImage = null;
+
         public double ButtonSize => (double)UserConfig.ControlSize;
 
         public bool SongEnded => MediaPlayer.SongEnded;
+
+        public void Play(PlaylistInfo fileInfo, bool from_start = false)
+        {
+            if (fileInfo == null)
+            {
+                Stop();
+                return;
+            }
+
+            ViewModelChanged?.Invoke(null, new ViewModelChangedEventArgs(fileInfo));
+
+            bool paused = MediaPlayer.IsPaused;
+
+            MediaPlayer.SongEnded = false;
+            CheckSongTimer.Start();
+            current_track = fileInfo;
+
+            MediaPlayer.Stop();
+            MediaPlayer.Position = 0;
+            MediaPlayer.URL = fileInfo.Path;
+            lblTrack.Content = fileInfo.Path;
+
+            MediaPlayer.Init(fileInfo.Path);
+
+            if (MediaPlayer.Duration == 0)
+            {
+                if (PlayListVM.RepeatMode == RepeatMode.GoThrough ||
+                    PlayListVM.RepeatMode == RepeatMode.Loop ||
+                    PlayListVM.RepeatMode == RepeatMode.Shuffle)
+                {
+                    Next();
+                }
+                return;
+            }
+
+            double duration = (int)MediaPlayer.Duration;
+            InitPositionMarker((int)duration);
+            lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
+            setProgressSliderTicks(duration);
+            ShowWindowTitleByFile(fileInfo);
+
+            if (!MediaPlayer.IsPaused)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Position = 0;
+            }
+
+            try
+            {
+                if (!MediaPlayer.IsPaused)
+                    MediaPlayer.Init(current_track.Path);
+
+                if (playmode == Playmode.Play)
+                {
+                    MediaPlayer.Play();
+                }
+                else
+                {
+                    //Unplay(fileInfo);
+                    return;
+                }
+
+                RememberTrack(current_track);
+
+                if (paused && !from_start)
+                    MediaPlayer.Position = pause_position;
+
+                try
+                {
+                    DisplayTrackImage(fileInfo);
+                }
+                catch
+                {
+                    TrackImage.Source = null;
+                    //TrackImageBig.Source = null;
+                }
+
+                duration = MediaPlayer.Duration;
+                InitPositionMarker((int)duration);
+                lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
+                setProgressSliderTicks(duration);
+
+                Raise("Play");
+
+            }
+            catch (Exception exc)
+            {
+                if (PlayListVM.RepeatMode != RepeatMode.Once ||
+                    PlayListVM.RepeatMode != RepeatMode.RepeatOne)
+                    Next();
+            }
+        }
 
         private bool _isCheckedState = false;
         public bool IsCheckedState
         {
             get => _isCheckedState;
-            set { _isCheckedState = value; NotifyPropertyChanged("IsCheckedState"); }
+            set { _isCheckedState = value; Raise("IsCheckedState"); }
         }
 
         private Visibility _touchButtonsVisibility = Visibility.Visible;
@@ -101,7 +203,7 @@ namespace Controls
             set
             {
                 _touchButtonsVisibility = value;
-                NotifyPropertyChanged(nameof(TouchButtonsVisibility));
+                Raise(nameof(TouchButtonsVisibility));
             }
         }
 
@@ -119,7 +221,7 @@ namespace Controls
             }
         }
 
-        public void NotifyPropertyChanged(string info)
+        public void Raise(string info)
         {
             if (info == "ButtonSize" || info == "FontSize")
             {
@@ -178,7 +280,7 @@ namespace Controls
             lblYear.Text = "-";
 
             Height = (85 - 34) + ButtonSize - 34;
-            NotifyPropertyChanged("ButtonSize");
+            Raise("ButtonSize");
         }
 
         public void OnThemeChanged()
@@ -196,7 +298,7 @@ namespace Controls
 
         void InitPositionMarker(int duration) => sldTrackSlider.Maximum = duration;
 
-        void ShowWindowTitleByFile(PlaylistItem item)
+        void ShowWindowTitleByFile(PlaylistInfo item)
         {
             SetTrackInfo(item);
 
@@ -216,7 +318,7 @@ namespace Controls
 
         }
 
-        void SetTrackInfo(PlaylistItem itm)
+        void SetTrackInfo(PlaylistInfo itm)
         {
             lblTrack.Content = "";
             lblArtist.Content = "";
@@ -269,99 +371,8 @@ namespace Controls
         //    return;
         //}
 
-        public void Play(PlaylistItem fileInfo, bool from_start = false)
-        {
-            if (fileInfo == null)
-            {
-                Stop();
-                return;
-            }
-
-            bool paused = MediaPlayer.IsPaused;
-
-            MediaPlayer.SongEnded = false;
-            CheckSongTimer.Start();
-            current_track = fileInfo;
-
-            MediaPlayer.Stop();
-            MediaPlayer.Position = 0;
-            MediaPlayer.URL = fileInfo.Path;
-            lblTrack.Content = fileInfo.Path;
-
-            MediaPlayer.Init(fileInfo.Path);
-
-            if (MediaPlayer.Duration == 0)
-            {
-                if (PlayListVM.RepeatMode == RepeatMode.GoThrough ||
-                    PlayListVM.RepeatMode == RepeatMode.Loop ||
-                    PlayListVM.RepeatMode == RepeatMode.Shuffle)
-                {
-                    Next();
-                    return;
-                }
-                return;
-            }
-
-
-            double duration = (int)MediaPlayer.Duration;
-            InitPositionMarker((int)duration);
-            lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
-            setProgressSliderTicks(duration);
-            ShowWindowTitleByFile(fileInfo);
-
-            if (!MediaPlayer.IsPaused)
-            {
-                MediaPlayer.Stop();
-                MediaPlayer.Position = 0;
-            }
-
-            try
-            {
-                if (!MediaPlayer.IsPaused)
-                    MediaPlayer.Init(current_track.Path);
-
-                if (playmode == Playmode.Play)
-                {
-                    MediaPlayer.Play();
-                }
-                else
-                {
-                    //Unplay(fileInfo);
-                    return;
-                }
-
-                RememberTrack(current_track);
-
-                if (paused && !from_start)
-                    MediaPlayer.Position = pause_position;
-
-                try
-                {
-                    DisplayTrackImage(fileInfo);
-                }
-                catch
-                {
-                    TrackImage.Source = null;
-                    //TrackImageBig.Source = null;
-                }
-
-                duration = MediaPlayer.Duration;
-                InitPositionMarker((int)duration);
-                lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
-                setProgressSliderTicks(duration);
-
-                NotifyPropertyChanged("Play");
-
-            }
-            catch (Exception exc)
-            {
-                if (PlayListVM.RepeatMode != RepeatMode.Once ||
-                    PlayListVM.RepeatMode != RepeatMode.RepeatOne)
-                    Next();
-            }
-        }
-
-        void RememberTrack(PlaylistItem t)
+        
+        void RememberTrack(PlaylistInfo t)
         {
             Library.Instance.connector.SetTrack(t.Path);
             string[] tracks = Library.Instance.Current.Files.Where(f => f.Mp3Fields.Year.ToString() == t.Year && f.Mp3Fields.Album == t.Album).Select(y => y.Path).ToArray();
@@ -407,7 +418,7 @@ namespace Controls
             sldTrackSlider.Ticks = dbls;
         }
 
-        void DisplayTrackImage(PlaylistItem itm)
+        void DisplayTrackImage(PlaylistInfo itm)
         {
             if (itm.Image != null)
             {
@@ -430,7 +441,7 @@ namespace Controls
 
             if (TrackImage.Source == null)
             {
-                showDefaultPicture();
+                TrackImage.Source = DefaultImage;
             }
         }
        
@@ -503,12 +514,16 @@ namespace Controls
                 Play(current_track);
         }
 
-        public void showDefaultPicture()
+        public ImageSource DefaultImage  
         {
-            TrackImage.Source = new System.Windows.Media.Imaging.BitmapImage(
-                new Uri(@"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg", UriKind.Absolute));
+            get
+            {
+                if (defaultImage == null)
+                    defaultImage = new System.Windows.Media.Imaging.BitmapImage(new Uri(@"pack://application:,,,/" +
+                        System.Reflection.Assembly.GetCallingAssembly().GetName().Name + ";component/Images/no_album_cover.jpg", UriKind.Absolute));
+
+                return defaultImage;
+            }
         }
 
         private void CheckSongTimer_Elapsed(object sender, ElapsedEventArgs e)

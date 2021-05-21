@@ -129,7 +129,7 @@ namespace Controls
         private void TrackTable_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             FileViewInfo f_Sel = TrackTable.SelectedItem as FileViewInfo;
-            PlaylistItem p_i = new PlaylistItem();
+            PlaylistInfo p_i = new PlaylistInfo();
             PlaylistHelpers.CreateFromMediaItem(p_i, f_Sel);
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
 
@@ -145,8 +145,8 @@ namespace Controls
             else
                 playpos = 0;
 
-            VM.Add(new List<PlaylistItem>() { p_i }, playpos);
-            PlaylistItem cloned = VM.Tracks[playpos];
+            VM.Add(new List<PlaylistInfo>() { p_i }, playpos);
+            PlaylistInfo cloned = VM.Tracks[playpos];
             VM.enumerate(playpos);
             VM.CurrentPlayPosition = cloned._position - 1;
             (MainWindow.Instance.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);
@@ -259,11 +259,11 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            List<PlaylistItem> items = new List<PlaylistItem>();
+            List<PlaylistInfo> items = new List<PlaylistInfo>();
 
             foreach (var f_Sel in TrackTable.SelectedItems)
             {
-                PlaylistItem p_i = new PlaylistItem();
+                PlaylistInfo p_i = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(p_i, (FileViewInfo)f_Sel);
                 items.Add(p_i);
             }
@@ -271,7 +271,7 @@ namespace Controls
             PlaylistViewModel.Play(items.ToArray());
         }
 
-        public PlaylistItem[] GetSelected()
+        public PlaylistInfo[] GetSelected()
         {
             switch (SelectedControl)
             {
@@ -288,10 +288,10 @@ namespace Controls
                         if (dragItems_tracks.Count == 0)
                             return null;
 
-                        List<PlaylistItem> items = new List<PlaylistItem>();
+                        List<PlaylistInfo> items = new List<PlaylistInfo>();
                         foreach (var it in dragItems_tracks)
                         {
-                            PlaylistItem pli = PlaylistHelpers.CreateFromMediaItem(it);
+                            PlaylistInfo pli = PlaylistHelpers.CreateFromMediaItem(it);
                             items.Add(pli);
                         }
 
@@ -307,7 +307,7 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            PlaylistItem[] items = TrackTable.SelectedItems.Cast<PlaylistItem>().ToArray();
+            PlaylistInfo[] items = TrackTable.SelectedItems.Cast<PlaylistInfo>().ToArray();
             PlaylistViewModel.Insert(items);
         }
 
@@ -316,7 +316,7 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            PlaylistItem[] items = TrackTable.SelectedItems.Cast<PlaylistItem>().ToArray();
+            PlaylistInfo[] items = TrackTable.SelectedItems.Cast<PlaylistInfo>().ToArray();
             PlaylistViewModel.Insert(items);
         }
 

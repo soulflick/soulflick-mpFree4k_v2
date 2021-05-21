@@ -23,7 +23,7 @@ namespace ViewModels
             NumberOfTracks = (ulong)pvm.Tracks.Count;
 
             TimeSpan span = new TimeSpan();
-            foreach (PlaylistItem i in pvm.Tracks)
+            foreach (PlaylistInfo i in pvm.Tracks)
             {
                 TimeSpan p = Utilities.LibraryUtils.GetDuration(i.Duration);
                 span = span.Add(p);

@@ -26,7 +26,7 @@ namespace Controls
         private AlbumsViewModel viewModel;
         public void SetMediaLibrary(MediaLibrary lib) => viewModel.MediaLibrary = lib;
 
-        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private List<PlaylistInfo> dragItems = new List<PlaylistInfo>();
         bool mousedown = false;
         Point mousepos = new Point(0, 0);
         
@@ -95,7 +95,7 @@ namespace Controls
 
             foreach (FileViewInfo info in TracksViewModel.Instance.Tracks.Where(x => x.IsVisible).ToList())
             {
-                PlaylistItem plitm = new PlaylistItem();
+                PlaylistInfo plitm = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(plitm, info);
                 dragItems.Add(plitm);
             }

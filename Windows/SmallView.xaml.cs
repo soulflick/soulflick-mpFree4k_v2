@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 namespace MpFree4k.Windows
 {
     public partial class SmallView : Window
     {
-        public SmallView() => InitializeComponent();
+        public SmallView()
+        {
+            InitializeComponent();
+
+            Loaded += (s, e) => Initialize();
+        }
+
+        void Initialize() => DataContext = new ViewModels.PlayerViewModel();
 
         private void _This_Loaded(object sender, RoutedEventArgs e)
         {
@@ -18,14 +21,8 @@ namespace MpFree4k.Windows
         }
 
         public bool _closed = false;
-        private void _This_Closing(object sender, EventArgs e)
-        {
-            _closed = true;
-        }
+        private void _This_Closing(object sender, EventArgs e) => _closed = true;
+        private void Minimize(object sender, System.Windows.Input.MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void Image_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

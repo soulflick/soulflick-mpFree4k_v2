@@ -26,9 +26,9 @@ namespace Classes
             return duration;
         }
 
-        public static PlaylistItem CreateFromFileViewInfo(FileViewInfo infoItm)
+        public static PlaylistInfo CreateFromFileViewInfo(FileViewInfo infoItm)
         {
-            PlaylistItem plItm = new PlaylistItem();
+            PlaylistInfo plItm = new PlaylistInfo();
 
             plItm.Path = infoItm.Path;
             plItm.Duration = solveDuration(infoItm.Mp3Fields.Duration);
@@ -49,7 +49,7 @@ namespace Classes
             return plItm;
         }
 
-        public static void CreateFromFileViewInfo(PlaylistItem plItm, FileViewInfo infoItm)
+        public static void CreateFromFileViewInfo(PlaylistInfo plItm, FileViewInfo infoItm)
         {
             plItm.Path = infoItm.Path;
             plItm.Duration = solveDuration(infoItm.Mp3Fields.Duration);
@@ -68,7 +68,7 @@ namespace Classes
             SetToolTip(plItm);
         }
 
-        static void SetToolTip(PlaylistItem itm)
+        static void SetToolTip(PlaylistInfo itm)
         {
             itm.ToolTip = itm.Title + "\n"
                 + itm.Artists + "\n"
@@ -84,14 +84,14 @@ namespace Classes
                 "[" + itm.Path + "]";
         }
 
-        public static PlaylistItem CreateFromMediaItem(FileViewInfo infoItm)
+        public static PlaylistInfo CreateFromMediaItem(FileViewInfo infoItm)
         {
-            PlaylistItem itm = new PlaylistItem();
+            PlaylistInfo itm = new PlaylistInfo();
             CreateFromMediaItem(itm, infoItm);
             return itm;
         }
 
-        public static void CreateFromMediaItem(PlaylistItem itm, FileViewInfo infoItm)
+        public static void CreateFromMediaItem(PlaylistInfo itm, FileViewInfo infoItm)
         {
             if (infoItm == null)
                 return;

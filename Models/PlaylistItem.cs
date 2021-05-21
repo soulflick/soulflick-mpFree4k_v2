@@ -5,14 +5,14 @@ using System.ComponentModel;
 namespace Models
 {
     [Serializable]
-    public class PlaylistItem : INotifyPropertyChanged
+    public class PlaylistInfo : INotifyPropertyChanged
     {
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        public PlaylistItem() => uniqueID = PlaylistHelpers.CreateUniqueID();
+        public PlaylistInfo() => uniqueID = PlaylistHelpers.CreateUniqueID();
 
         private bool _dragOver = false;
 

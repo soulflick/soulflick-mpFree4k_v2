@@ -42,12 +42,12 @@ namespace Controls
             Raise(nameof(TableMargin));
         }
 
-        public List<PlaylistItem> GetSelected()
+        public List<PlaylistInfo> GetSelected()
         {
             if (TrackTable.SelectedItem == null)
                 return null;
 
-            List<PlaylistItem> plItems = new List<PlaylistItem>();
+            List<PlaylistInfo> plItems = new List<PlaylistInfo>();
             List<FileViewInfo> items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToList();
             items.ForEach(item => plItems.Add(PlaylistHelpers.CreateFromFileViewInfo(item)));
 
@@ -67,11 +67,11 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            List<PlaylistItem> items = new List<PlaylistItem>();
+            List<PlaylistInfo> items = new List<PlaylistInfo>();
 
             foreach (var f_Sel in TrackTable.SelectedItems)
             {
-                PlaylistItem p_i = new PlaylistItem();
+                PlaylistInfo p_i = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(p_i, (FileViewInfo)f_Sel);
                 items.Add(p_i);
             }

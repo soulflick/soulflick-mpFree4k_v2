@@ -86,12 +86,12 @@ namespace Controls
 
         private List<FileViewInfo> GetSelectedFileViewInfos() => ListTracks.SelectedItems.Cast<FileViewInfo>().ToList().Where(v => v.IsVisible).ToList();
 
-        private List<PlaylistItem> GetSelectedPlaylistItems()
+        private List<PlaylistInfo> GetSelectedPlaylistItems()
         {
-            List<PlaylistItem> items = new List<PlaylistItem>();
+            List<PlaylistInfo> items = new List<PlaylistInfo>();
             foreach (var fi in GetSelectedFileViewInfos())
             {
-                PlaylistItem item = new PlaylistItem();
+                PlaylistInfo item = new PlaylistInfo();
                 PlaylistHelpers.CreateFromFileViewInfo(item, fi);
                 items.Add(item);
             }
@@ -186,7 +186,7 @@ namespace Controls
         private void ListTracks_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             FileViewInfo f_Sel = ListTracks.SelectedItem as FileViewInfo;
-            PlaylistItem p_i = new PlaylistItem();
+            PlaylistInfo p_i = new PlaylistInfo();
             PlaylistHelpers.CreateFromMediaItem(p_i, f_Sel);
             PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
             int playpos = VM.CurrentPlayPosition;
@@ -201,14 +201,14 @@ namespace Controls
             else
                 playpos = 0;
 
-            VM.Add(new List<PlaylistItem>() { p_i }, playpos);
+            VM.Add(new List<PlaylistInfo>() { p_i }, playpos);
             if (playpos >= VM.Tracks.Count)
                 playpos = VM.Tracks.Count - 1;
 
             if (playpos < 0)
                 return;
 
-            PlaylistItem cloned = VM.Tracks[playpos];
+            PlaylistInfo cloned = VM.Tracks[playpos];
             VM.enumerate(playpos);
             VM.CurrentPlayPosition = cloned._position - 1;
             (MainWindow.Instance.Playlist.DataContext as PlaylistViewModel).Invoke(PlayState.Play);

@@ -63,7 +63,7 @@ namespace Controls
             }
         }
 
-        public PlaylistItem[] GetSelectedTracks()
+        public PlaylistInfo[] GetSelectedTracks()
         {
             var album = dragItems_albums.FirstOrDefault();
             if (album == null)

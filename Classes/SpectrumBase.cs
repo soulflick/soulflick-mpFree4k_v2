@@ -26,20 +26,20 @@ namespace Equalizer.Visualization
         protected const double MaxDbValue = 0;
         protected const double DbScale = (MaxDbValue - MinDbValue);
 
-        private int _fftSize;
-        private bool _isXLogScale;
-        private int _maxFftIndex;
-        private int _maximumFrequency = 20000;
-        private int _maximumFrequencyIndex;
-        private int _minimumFrequency = 20; //Default spectrum from 20Hz to 20kHz
-        private int _minimumFrequencyIndex;
-        private ScalingStrategy _scalingStrategy;
-        private int[] _spectrumIndexMax;
-        private int[] _spectrumLogScaleIndexMax;
-        private ISpectrumProvider _spectrumProvider;
+        int _fftSize;
+        bool _isXLogScale;
+        int _maxFftIndex;
+        int _maximumFrequency = 20000;
+        int _maximumFrequencyIndex;
+        int _minimumFrequency = 20; //Default spectrum from 20Hz to 20kHz
+        int _minimumFrequencyIndex;
+        ScalingStrategy _scalingStrategy;
+        int[] _spectrumIndexMax;
+        int[] _spectrumLogScaleIndexMax;
+        ISpectrumProvider _spectrumProvider;
 
         protected int SpectrumResolution;
-        private bool _useAverage;
+        bool _useAverage;
 
         public int MaximumFrequency
         {

@@ -98,14 +98,14 @@ namespace Plugins
         public bool SongEnded
         {
             get => _songEnded;
-            set { _songEnded = value; }
+            set => _songEnded = value;
         }
 
         private string url;
         public string URL
         {
             get => url;
-            set { url = value; }
+            set => url = value;
         }
 
         public void Init(string url)
@@ -151,10 +151,7 @@ namespace Plugins
                 _soundOut.WaveSource.Position -= (long)msecs;
         }
 
-        public void Pause()
-        {
-            _soundOut?.Pause();
-        }
+        public void Pause() => _soundOut?.Pause();
 
         public void Play()
         {

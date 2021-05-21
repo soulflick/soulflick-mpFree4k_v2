@@ -18,7 +18,7 @@ namespace Controls
     public partial class ArtistView : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
-        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private List<PlaylistInfo> dragItems = new List<PlaylistInfo>();
         private List<SimpleAlbumItem> selected_simple_albums = new List<SimpleAlbumItem>();
         bool mousedown = false;
         bool prevent_side_selection = false;
@@ -137,7 +137,7 @@ namespace Controls
             dragItems.Clear();
             foreach (FileViewInfo info in TracksViewModel.Instance.Tracks.Where(x => x.IsVisible).ToList())
             {
-                PlaylistItem plitm = new PlaylistItem();
+                PlaylistInfo plitm = new PlaylistInfo();
                 PlaylistHelpers.CreateFromMediaItem(plitm, info);
                 dragItems.Add(plitm);
             }

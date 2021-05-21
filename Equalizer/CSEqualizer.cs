@@ -31,10 +31,7 @@ namespace WPF.CSCore.Streams.Effects
         /// <remarks>
         ///     None of the <see cref="EqualizerFilter" />
         /// </remarks>
-        public IList<EqualizerFilter> SampleFilters
-        {
-            get { return _equalizerFilters; }
-        }
+        public IList<EqualizerFilter> SampleFilters => _equalizerFilters;
 
         /// <summary>
         ///     Returns a new instance of the <see cref="Equalizer" /> class with 10 preset <see cref="EqualizerFilter" />.
@@ -126,7 +123,8 @@ namespace WPF.CSCore.Streams.Effects
             return read;
         }
 
-        private class EqualizerFilterCollection : IList<EqualizerFilter>
+
+        public class EqualizerFilterCollection : IList<EqualizerFilter>
         {
             private readonly List<EqualizerFilter> _list = new List<EqualizerFilter>();
 

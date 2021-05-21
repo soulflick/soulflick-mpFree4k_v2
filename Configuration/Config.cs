@@ -1,4 +1,6 @@
-﻿namespace Configuration
+﻿using Mpfree4k.Enums;
+
+namespace Configuration
 {
     public static class Config
     {
@@ -7,5 +9,6 @@
         public static int drag_pixel = 8;
         public static bool MediaHasChanged = false;
         public static bool OpenSmallWindowWhenMinimized = true;
+        public static ScalingStrategy EQScalingStrategy = ScalingStrategy.Linear;
     }
 }

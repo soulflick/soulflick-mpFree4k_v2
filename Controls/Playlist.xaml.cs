@@ -21,7 +21,7 @@ namespace Controls
         public event PropertyChangedEventHandler PropertyChanged;
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
-        private List<PlaylistItem> dragItems = new List<PlaylistItem>();
+        private List<PlaylistInfo> dragItems = new List<PlaylistInfo>();
         private PlaylistViewModel vm = null;
         private System.Timers.Timer addCompleteTimer;
         private Thread t_addFiles;
@@ -116,7 +116,7 @@ namespace Controls
             if (VM.CurrentSong == null)
                 return;
 
-            PlaylistItem p = VM.CurrentSong;
+            PlaylistInfo p = VM.CurrentSong;
             PlaylistView.ScrollIntoView(p);
 
             if (e.PropertyName == "Play")
@@ -136,7 +136,7 @@ namespace Controls
                 if (VM.CurrentSong == null)
                     return;
 
-                PlaylistItem p = VM.CurrentSong;
+                PlaylistInfo p = VM.CurrentSong;
                 PlaylistView.ScrollIntoView(p);
             }
         }
@@ -152,7 +152,7 @@ namespace Controls
 
             ListViewItem lvi = (ListViewItem)PlaylistView.ItemContainerGenerator.ContainerFromItem(element.DataContext);
             if (lvi != null)
-                (lvi.DataContext as PlaylistItem).DragOver = true;
+                (lvi.DataContext as PlaylistInfo).DragOver = true;
         }
 
         private void PlaylistView_DragLeave(object sender, DragEventArgs e)
@@ -166,7 +166,7 @@ namespace Controls
 
             ListViewItem lvi = (ListViewItem)PlaylistView.ItemContainerGenerator.ContainerFromItem(element.DataContext);
             if (lvi != null)
-                (lvi.DataContext as PlaylistItem).DragOver = false;
+                (lvi.DataContext as PlaylistInfo).DragOver = false;
         }
 
         private void PlaylistView_Drop(object sender, DragEventArgs e)
@@ -183,7 +183,7 @@ namespace Controls
 
             lvi = (ListViewItem)PlaylistView.ItemContainerGenerator.ContainerFromItem(element.DataContext);
             if (lvi != null)
-                pos = (lvi.DataContext as PlaylistItem).Position - 1;
+                pos = (lvi.DataContext as PlaylistInfo).Position - 1;
 
             if (e.Data.GetDataPresent("MediaLibraryItemData"))
             {
@@ -191,7 +191,7 @@ namespace Controls
                 if (data == null || data.Count == 0)
                     return;
 
-                List<PlaylistItem> infoItms = (from object item in data select (PlaylistItem)item).ToList();
+                List<PlaylistInfo> infoItms = (from object item in data select (PlaylistInfo)item).ToList();
                 dragItems.Clear();
 
                 vm.Add(infoItms, pos);
@@ -209,7 +209,7 @@ namespace Controls
                 if (data == null || data.Count == 0)
                     return;
 
-                List<PlaylistItem> infoItems = (from object item in data select (PlaylistItem)item).ToList();
+                List<PlaylistInfo> infoItems = (from object item in data select (PlaylistInfo)item).ToList();
 
                 if (dragItems.Any(x => x._position == pos + 1))
                 {
@@ -241,7 +241,7 @@ namespace Controls
                     MainWindow.SetProgress(3);
 
                     foreach (AlbumItem album in albums)
-                        foreach (PlaylistItem pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
+                        foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
                         {
                             progress += step;
                             MainWindow.SetProgress(progress);
@@ -263,11 +263,11 @@ namespace Controls
                     return;
 
                 var info = data.Cast<FileViewInfo>();
-                List<PlaylistItem> playlistItems = new List<PlaylistItem>();
+                List<PlaylistInfo> playlistItems = new List<PlaylistInfo>();
 
                 foreach (var it in info)
                 {
-                    PlaylistItem pli = PlaylistHelpers.CreateFromMediaItem(it);
+                    PlaylistInfo pli = PlaylistHelpers.CreateFromMediaItem(it);
                     playlistItems.Add(pli);
                 }
 
@@ -292,7 +292,7 @@ namespace Controls
 
                     MainWindow.SetProgress(3);
 
-                    foreach (PlaylistItem pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
+                    foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
                     {
                         progress += step;
                         MainWindow.SetProgress(progress);
@@ -311,7 +311,7 @@ namespace Controls
                 if (files.Length == 0)
                     return;
 
-                List<PlaylistItem> externalItems = new List<PlaylistItem>();
+                List<PlaylistInfo> externalItems = new List<PlaylistInfo>();
 
                 foreach (string file in files)
                     externalItems.Add(PlaylistHelpers.CreateFromFileViewInfo(new FileViewInfo(file)));
@@ -368,7 +368,7 @@ namespace Controls
 
                 int[] remove_indices = new int[PlaylistView.SelectedItems.Count];
                 int idx = 0;
-                foreach (PlaylistItem infoItm in PlaylistView.SelectedItems)
+                foreach (PlaylistInfo infoItm in PlaylistView.SelectedItems)
                 {
                     remove_indices[idx] = infoItm._position - 1;
                     idx++;
@@ -383,12 +383,12 @@ namespace Controls
         {
             dragItems.Clear();
 
-            foreach (PlaylistItem pli in PlaylistView.SelectedItems) dragItems.Add(pli);
+            foreach (PlaylistInfo pli in PlaylistView.SelectedItems) dragItems.Add(pli);
         }
 
         private void TrackClick(object sender, MouseButtonEventArgs e)
         {
-            PlaylistItem pi = (sender as ListViewItem).DataContext as PlaylistItem;
+            PlaylistInfo pi = (sender as ListViewItem).DataContext as PlaylistInfo;
             vm.CurrentPlayPosition = pi._position - 1;
             vm.Invoke(PlayState.PlayFromStart);
 
