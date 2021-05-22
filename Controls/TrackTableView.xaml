@@ -73,6 +73,8 @@
                     <MenuItem x:Name="mnuCtxInsertAlbum" Header="insert this album" Click="mnuCtxInsertAlbum_Click"/>
                     <MenuItem x:Name="mnuCtxAddAlbum" Header="add this album" Click="mnuCtxAddAlbum_Click"/>
                     <Separator/>
+                    <MenuItem x:Name="mnuCtxPlayThisArtist" Header="play this artist" Click="mnuCtxPlayThisArtist_Click"/>
+                    <Separator/>
                     <MenuItem x:Name="mnuCtxPlayAll" Header="play all" Click="mnuCtxPlayAll_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxEdit"  Header="edit" Click="mnuCtxEdit_Click"/>

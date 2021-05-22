@@ -237,5 +237,19 @@ namespace Controls
 
             foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { track.SetFlag(FlagType.Tagged); }
         }
+
+        private void mnuCtxPlayThisArtist_Click(object sender, RoutedEventArgs e)
+        {
+            if (TrackTable.SelectedItems == null ||
+                TrackTable.SelectedItems.Count == 0)
+                return;
+
+            List<string> artists = new List<string>();
+            foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { artists.Add(track.Mp3Fields.AlbumArtists); };
+            var selection = ((TrackTableViewModel)DataContext).LibraryTracks.Where(y => artists.Contains(y.Mp3Fields.AlbumArtists)).Distinct();
+            selection = selection.DistinctBy(x => x);
+
+            PlaylistViewModel.Play(selection.ToArray());
+        }
     }
 }
