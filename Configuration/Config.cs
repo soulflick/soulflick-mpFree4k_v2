@@ -8,7 +8,6 @@ namespace Configuration
         public static int update_timeout = 950;
         public static int drag_pixel = 8;
         public static bool MediaHasChanged = false;
-        public static bool OpenSmallWindowWhenMinimized = true;
         public static ScalingStrategy EQScalingStrategy = ScalingStrategy.Linear;
     }
 }

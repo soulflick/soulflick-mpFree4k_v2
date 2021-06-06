@@ -192,8 +192,11 @@ namespace MpFree4k
         SmallView smallView = new SmallView();
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (WindowState == WindowState.Minimized && Config.OpenSmallWindowWhenMinimized)
+            if (WindowState == WindowState.Minimized && UserConfig.OpenSmallWindowWhenMinimized)
+            {
+                smallView = new SmallView();
                 smallView.Show();
+            }
         }
 
         private void Query_timer_Elapsed(object sender, ElapsedEventArgs e)

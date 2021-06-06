@@ -26,7 +26,6 @@ namespace Layers
         private List<AlbumItem> selected_albums = null;
         private Dispatcher current_dispatcher = null;
         private Task t_load;
-        private bool _nested_message = false;
         private int _filesCount = 0;
 
         public MediaLibrary()
@@ -47,7 +46,7 @@ namespace Layers
             set
             {
                 _statusText = value;
-                OnPropertyChanged("StatusText");
+                Raise(nameof(StatusText));
             }
         }
 
@@ -59,7 +58,7 @@ namespace Layers
             {
                 _query = value.ToLower();
                 QueryMe(ViewMode.Details);
-                OnPropertyChanged("Query");
+                Raise(nameof(Query));
             }
         }
 
@@ -70,7 +69,7 @@ namespace Layers
             set
             {
                 _artists = value;
-                OnPropertyChanged("Artists");
+                Raise(nameof(Artists));
             }
         }
 
@@ -81,7 +80,7 @@ namespace Layers
             set
             {
                 _albums = value;
-                OnPropertyChanged("Albums");
+                Raise(nameof(Albums));
             }
         }
 
@@ -92,7 +91,7 @@ namespace Layers
             set
             {
                 _files = value;
-                OnPropertyChanged("Files");
+                Raise(nameof(Files));
             }
         }
 
@@ -104,12 +103,12 @@ namespace Layers
             set
             {
                 _artistCount = value;
-                OnPropertyChanged("ArtistCount");
+                Raise(nameof(ArtistCount));
 
             }
         }
 
-        public void OnPropertyChanged(String info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public void Reset()
         {
@@ -124,19 +123,19 @@ namespace Layers
             switch (mediaLevel)
             {
                 case MediaLevel.Artists:
-                    OnPropertyChanged("Artists");
+                    Raise("Artists");
                     break;
                 case MediaLevel.Albums:
-                    OnPropertyChanged("Albums");
+                    Raise("Albums");
                     break;
                 case MediaLevel.Tracks:
-                    OnPropertyChanged("Tracks");
+                    Raise("Tracks");
                     break;
                 case MediaLevel.All:
-                    OnPropertyChanged("Artists");
-                    OnPropertyChanged("Albums");
-                    OnPropertyChanged("Files");
-                    OnPropertyChanged("Tracks");
+                    Raise("Artists");
+                    Raise("Albums");
+                    Raise("Files");
+                    Raise("Tracks");
                     break;
             }
         }
@@ -210,6 +209,7 @@ namespace Layers
             string title = getValue(tokens, "title");
             string album = getValue(tokens, "album");
             string artist = getValue(tokens, "artist");
+            string flag = getValue(tokens, "flag");
 
             if (string.IsNullOrEmpty(title))
                 title = getValue(tokens, "t");
@@ -244,6 +244,14 @@ namespace Layers
             {
                 Files.ForEach(f => f.IsVisible = true);
 
+                if (!string.IsNullOrWhiteSpace(flag))
+                {
+                    Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Flag > 0);
+                    Refresh(MediaLevel.Tracks);
+                    Raise("Filter");
+                    return;
+
+                }
                 if (!string.IsNullOrWhiteSpace(title))
                 {
                     Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Title.ToLower().Contains(title));
@@ -291,7 +299,7 @@ namespace Layers
                 Refresh(MediaLevel.Albums);
             }
 
-            OnPropertyChanged("Filter");
+            Raise("Filter");
         }
         public void QueryMe(ViewMode viewmode)
         {
@@ -339,7 +347,7 @@ namespace Layers
                 Refresh(MediaLevel.Albums);
             }
 
-            OnPropertyChanged("Filter");
+            Raise("Filter");
         }
 
         public TimeSpan GetVisibleLength()
@@ -481,7 +489,7 @@ namespace Layers
                     Files.ForEach(x => x.IsVisible = selected_artists.Any(artist => artist == x.Mp3Fields.Artists));
 
                 Filter(MediaLevel.Albums, selected_albums);
-                OnPropertyChanged("IndexAlbums");
+                Raise("IndexAlbums");
 
             }
             else if (level == MediaLevel.Albums)
@@ -544,7 +552,7 @@ namespace Layers
                         lock (Artists)
                         {
                             Artists = Artists.OrderBy(a => a.Artists).ToList();
-                            OnPropertyChanged("Artists");
+                            Raise("Artists");
                         }
                     }));
 
@@ -554,7 +562,7 @@ namespace Layers
                        lock (Albums)
                        {
                            Albums = Albums.OrderBy(a => a.Album).ThenBy(a => a.Album).ToList();
-                           OnPropertyChanged("Albums");
+                           Raise("Albums");
                        }
                    }));
 
@@ -564,7 +572,7 @@ namespace Layers
                        lock (Files)
                        {
                            Files = Files.OrderBy(a => a.Mp3Fields.Album).ThenBy(b => b.Mp3Fields.Track).ThenBy(c => c.Mp3Fields.Artists).ToList();
-                           OnPropertyChanged("Tracks");
+                           Raise("Tracks");
                        }
                    }));
 
@@ -630,7 +638,6 @@ namespace Layers
 
         private void tagImages()
         {
-            _nested_message = true;
             string msg = "loading image {0} from {1}";
             int max = Files.Count;
             int index = 0;

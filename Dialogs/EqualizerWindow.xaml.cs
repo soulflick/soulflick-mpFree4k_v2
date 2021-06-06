@@ -23,11 +23,17 @@ namespace Dialogs
         {
             presets_clicked = false;
             cmbPresets.SelectedIndex = SelectedPreset;
+
+            if (EQControl.EqBands.Count == 0)
+            {
+                MessageBox.Show("Please initialize the equalizer by starting a sample track.");
+                Close();
+            }
         }
 
         private void PresetChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ViewModel.Presets == null)
+            if (ViewModel.Presets == null || EQControl.EqBands.Count == 0)
                 return;
 
             var index = (sender as ComboBox).SelectedIndex;

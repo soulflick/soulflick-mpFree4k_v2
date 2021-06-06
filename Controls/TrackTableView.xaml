@@ -74,6 +74,7 @@
                     <MenuItem x:Name="mnuCtxAddAlbum" Header="add this album" Click="mnuCtxAddAlbum_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxPlayThisArtist" Header="play this artist" Click="mnuCtxPlayThisArtist_Click"/>
+                    <MenuItem x:Name="mnuCtxAddThisArtist" Header="add this artist" Click="mnuCtxAddThisArtist_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxPlayAll" Header="play all" Click="mnuCtxPlayAll_Click"/>
                     <Separator/>
@@ -159,6 +160,12 @@
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Flag}" Value="1">
                                                 <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="1">
+                                                <Setter Property="Foreground" Value="Blue"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="1">
+                                                <Setter Property="Foreground" Value="Green"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

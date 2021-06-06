@@ -8,41 +8,35 @@ namespace Configuration
         public static bool ShowTouchButtons
         {
             get => _showTouchButtons;
-            set
-            {
-                _showTouchButtons = value;
-            }
+            set => _showTouchButtons = value;
         }
 
         private static bool _showFullAlbum = true;
         public static bool ShowFullAlbum 
         { 
             get => _showFullAlbum;
-            set
-            {
-                _showFullAlbum = value;
-            }
+            set => _showFullAlbum = value;
         }
 
         private static bool _autoSavePlaylist = true;
         public static bool AutoSavePlaylist
         {
             get => _autoSavePlaylist;
-            set
-            {
-                _autoSavePlaylist = value;
-            }
+            set=> _autoSavePlaylist = value;
         }
 
         private static bool _rememberSelectedAlbum = true;
         public static bool RememberSelectedAlbums
         {
             get => _rememberSelectedAlbum;
-            set
-            {
-                _rememberSelectedAlbum = value;
-            }
+            set => _rememberSelectedAlbum = value;
+        }
 
+        private static bool _openSmallWindowWhenMinimized = true;
+        public static bool OpenSmallWindowWhenMinimized
+        {
+            get => _openSmallWindowWhenMinimized;
+            set => _openSmallWindowWhenMinimized = value;
         }
 
         public static PluginTypes PluginType = PluginTypes.CSCore;

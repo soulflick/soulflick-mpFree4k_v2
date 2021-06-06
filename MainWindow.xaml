@@ -741,6 +741,8 @@
                                     al|alb|album:album_to_search
                                     <LineBreak/>
                                     t|ti|title:title_to_search
+                                    <LineBreak/>
+                                    flag:[0..30] - show flagged files
                                 </TextBlock>
                             </Setter.Value>
                         </Setter>

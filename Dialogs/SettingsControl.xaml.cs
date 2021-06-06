@@ -36,6 +36,7 @@ namespace Dialogs
             showAlbumArtists.IsChecked = UserConfig.ShowFullAlbum;
             rememberSelected.IsChecked = UserConfig.RememberSelectedAlbums;
             showTouchButtons.IsChecked = UserConfig.ShowTouchButtons;
+            showSmallView.IsChecked = UserConfig.OpenSmallWindowWhenMinimized;
         }
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
@@ -226,9 +227,13 @@ namespace Dialogs
                         }
                     }
                 }
-
+                else if (key_str == "showMiniView")
+                {
+                    bool _true = false;
+                    if (bool.TryParse(key_val, out _true))
+                        UserConfig.OpenSmallWindowWhenMinimized = _true;
+                }
             }
-
         }
 
         string sanitize(string str)
@@ -283,6 +288,7 @@ namespace Dialogs
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
             doc += "\t\t<setting name=\"showtouchbuttons\" value=\"" + UserConfig.ShowTouchButtons + "\"/>\n";
+            doc += "\t\t<setting name=\"showMiniView\" value=\"" + UserConfig.OpenSmallWindowWhenMinimized + "\"/>\n";
             doc += "\t</settings>\n</xml>";
 
             File.WriteAllText(settingsFile, doc);
@@ -347,5 +353,9 @@ namespace Dialogs
 
             MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        private void showSmallView_Checked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = true;
+
+        private void showSmallView_Unchecked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = false;
     }
 }

@@ -73,11 +73,8 @@ namespace ViewModels
 
         public void Add(FileViewInfo[] infos)
         {
-            if (infos == null || infos.Length == 0)
-                return;
-
-            var pList = Utilities.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToList();
-            this.Add(pList);
+            if (infos == null || infos.Length == 0) return;
+            Add(Utilities.LibraryUtils.GetItems(infos.Select(i => i.Path).ToArray()).ToList());
         }
 
         public static void Add(PlaylistInfo[] items)

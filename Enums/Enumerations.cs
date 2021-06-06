@@ -3,7 +3,35 @@
     public enum FlagType
     {
         OK = 0,
-        Tagged = 1
+        Tagged,
+        Hidden,
+        Easy,
+        Inactive,
+        FocusLost,
+        Lost,
+        Remaining,
+        Rest,
+        New,
+        Recurring,
+        Failures,
+        Automatic,
+        Silent,
+        Reverse,
+        Singular,
+        Exceeded,
+        Potentials,
+        Swing,
+        Chart,
+        StandBy,
+        Exits,
+        Flops,
+        Externs,
+        Practicals,
+        Used,
+        Unknown,
+        Occupied,
+        Selected,
+        Mute
     }
 
     public enum ViewMode
