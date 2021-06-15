@@ -193,7 +193,7 @@ namespace Controls
         public bool IsCheckedState
         {
             get => _isCheckedState;
-            set { _isCheckedState = value; Raise("IsCheckedState"); }
+            set { _isCheckedState = value; Raise(nameof(IsCheckedState)); }
         }
 
         private Visibility _touchButtonsVisibility = Visibility.Visible;
@@ -617,9 +617,25 @@ namespace Controls
             }
             else if (Spectrum.GraphType == GraphType.Band)
             {
+                Spectrum.GraphType = GraphType.ThinBand;
+                Spectrum.BarCount = 256;
+            }
+            else if (Spectrum.GraphType == GraphType.ThinBand)
+            {
+                Spectrum.GraphType = GraphType.ThinBandWithTips;
+                Spectrum.BarCount = 256;
+            }
+            else if (Spectrum.GraphType == GraphType.ThinBandWithTips)
+            {
+                Spectrum.GraphType = GraphType.ThinLine;
+                Spectrum.BarCount = 512;
+            }
+            else if (Spectrum.GraphType == GraphType.ThinLine)
+            { 
                 Spectrum.GraphType = GraphType.Bar;
                 Spectrum.BarCount = 32;
             }
+
             Spectrum.ApplyProperties();
             Spectrum.Redraw();
         }

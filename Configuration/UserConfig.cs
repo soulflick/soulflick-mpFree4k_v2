@@ -32,7 +32,7 @@ namespace Configuration
             set => _rememberSelectedAlbum = value;
         }
 
-        private static bool _openSmallWindowWhenMinimized = true;
+        private static bool _openSmallWindowWhenMinimized = false;
         public static bool OpenSmallWindowWhenMinimized
         {
             get => _openSmallWindowWhenMinimized;

@@ -30,7 +30,13 @@ namespace Equalizer.Visualization
         public int BarGap = 1;
         public int BarSegment = 4;
         public Point? MousePoint;
-        public GraphType GraphType = GraphType.Line;
+
+        private GraphType _graphType = GraphType.ThinBand;
+        public GraphType GraphType
+        {
+            get => _graphType;
+            set => _graphType = value;
+        }
 
         public LineSpectrum(FftSize fftSize, int numBars) : base()
         {
@@ -131,8 +137,7 @@ namespace Equalizer.Visualization
         {
             UpdateFrequencyMappingIfNessesary(size);
 
-            using (Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), gradientEndColor,
-                    gradientStartColor, LinearGradientMode.Vertical))
+            using (Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float)_barWidth, size.Height), gradientEndColor, gradientStartColor, LinearGradientMode.Vertical))
             {
                 return DrawSpectrumLine(size, brush, background, lineColor, fillColor, highQuality);
             }
@@ -161,6 +166,46 @@ namespace Equalizer.Visualization
                 p1.Y = top - gap;
                 top -= gap;
             }
+        }
+
+        private void CreateLineSpectrum(Graphics graphics, float[] fftBuffer, Color background, Color lineColor, Color fillColor, Size size, float thickness)
+        {
+            int height = size.Height;
+            SpectrumPointData[] spectrumPoints = CalculateSpectrumPoints(height, fftBuffer);
+            SpectrumLines.Add(spectrumPoints);
+
+            while (SpectrumLines.Count > 1)
+                SpectrumLines.RemoveAt(0);
+
+            int numPoints = SpectrumLines[0].Length;
+            double[] yCoords = new double[numPoints];
+
+            for (int i = 0; i < numPoints; i++)
+                yCoords[i] = SpectrumLines[0][i].Value;
+
+            List<PointF> points = new List<PointF>();
+            for (int i = 0; i < numPoints; i++)
+            {
+                double xCoord = (_barWidth * i) + (BarSpacing * i) + 1 + _barWidth / 2;
+                double yCoord = yCoords[i];
+                yCoord = height - yCoord - 0.3;
+
+                points.Add(new Point((int)xCoord, (int)yCoord));
+            }
+
+            for (int i = numPoints - 1; i >= 0; i--)
+            {
+                double xCoord = (_barWidth * i) + (BarSpacing * i) + 1 + _barWidth / 2;
+                double yCoord = yCoords[i];
+                yCoord = height - yCoord + 0.3;
+
+                points.Add(new Point((int)xCoord, (int)yCoord));
+            }
+
+            Pen pen = new Pen(lineColor, thickness);
+            var brush = new SolidBrush(fillColor);
+
+            graphics.DrawPolygon(pen, points.ToArray());
         }
 
         private void CreateBandSpectrum(Graphics graphics, float[] fftBuffer, Color background, Color lineColor, Color fillColor, Size size)
@@ -268,9 +313,24 @@ namespace Equalizer.Visualization
 
         private void CreateSpectrumInternal(Graphics graphics, Pen pen, float[] fftBuffer, Color background, Color lineColor, Color fillColor, Size size)
         {
+            bool showBandTips = true;
             if (GraphType == GraphType.Line)
             {
                 CreateLineSpectrum(graphics, fftBuffer, background, lineColor, size);
+                return;
+            }
+            else if (GraphType == GraphType.ThinBand)
+            {
+                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness:1.09f);
+                showBandTips = false;
+            }
+            else if (GraphType == GraphType.ThinBandWithTips)
+            {
+                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness: 1.09f);
+            }
+            else if (GraphType == GraphType.ThinLine)
+            {
+                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness: 1.09f);
                 return;
             }
             else if (GraphType == GraphType.Band)
@@ -303,29 +363,32 @@ namespace Equalizer.Visualization
                 DrawLine(graphics, pen, p1, p2, BarGap, BarSegment);
             }
 
-            var tipPpen = new Pen(Brushes.LightGray, (float)_barWidth);
-
-            for (int i = 0; i < spectrumPoints.Length; i++)
+            if (showBandTips)
             {
-                int tipHeight = _tips[i].height;
+                var tipPpen = new Pen(Brushes.LightGray, (float)_barWidth);
 
-                int timeDiff = (int)(_tips[i].time - DateTime.Now).TotalMilliseconds;
-                if (timeDiff < 0)
+                for (int i = 0; i < spectrumPoints.Length; i++)
                 {
-                    int elapsed = Math.Abs(timeDiff);
-                    tipHeight = (int)Math.Max(0, _tips[i].h_ - (_tips[i].h_ / _tips[i].t_) * elapsed);
-                    _tips[i].height = tipHeight;
+                    int tipHeight = _tips[i].height;
+
+                    int timeDiff = (int)(_tips[i].time - DateTime.Now).TotalMilliseconds;
+                    if (timeDiff < 0)
+                    {
+                        int elapsed = Math.Abs(timeDiff);
+                        tipHeight = (int)Math.Max(0, _tips[i].h_ - (_tips[i].h_ / _tips[i].t_) * elapsed);
+                        _tips[i].height = tipHeight;
+                    }
+
+                    SpectrumPointData p = spectrumPoints[i];
+                    int barIndex = p.SpectrumPointIndex;
+                    double xCoord = (_barWidth * barIndex) + (BarSpacing * barIndex) + 1 + _barWidth / 2;
+                    float y = CurrentSize.Height - tipHeight;
+
+                    var p1 = new PointF((float)xCoord, y - 0);
+                    var p2 = new PointF((float)xCoord, y + 1);
+
+                    graphics.DrawLine(tipPpen, p1, p2);
                 }
-
-                SpectrumPointData p = spectrumPoints[i];
-                int barIndex = p.SpectrumPointIndex;
-                double xCoord = (_barWidth * barIndex) + (BarSpacing * barIndex) + 1 + _barWidth / 2;
-                float y = CurrentSize.Height - tipHeight;
-
-                var p1 = new PointF((float)xCoord, y - 0);
-                var p2 = new PointF((float)xCoord, y + 1);
-
-                graphics.DrawLine(tipPpen, p1, p2);
             }
 
             DrawTip(graphics, MousePoint);

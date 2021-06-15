@@ -72,7 +72,7 @@ namespace Equalizer
             Instance = this;
         }
 
-        private GraphType _graphType = GraphType.Bar;
+        private GraphType _graphType = GraphType.ThinBand;
         public GraphType GraphType
         {
             get => _graphType;
@@ -172,9 +172,8 @@ namespace Equalizer
             if (image == null)
                 return;
 
-            _control?.Dispatcher.Invoke(() =>
-                { if (_control != null) _control.ImageSpectrum.Source = BMP.BitmapToImageSource(image); });
-
+            _control?.Dispatcher.Invoke(() => { if (_control != null) _control.ImageSpectrum.Source = BMP.BitmapToImageSource(image); });
+             
             if (image != null)
                 image.Dispose();
         }

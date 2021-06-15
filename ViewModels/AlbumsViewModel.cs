@@ -34,7 +34,7 @@ namespace ViewModels
 
         public void UpdateAmount()
         {
-            double duration = MediaLibrary.Files.Where(f => Albums.Any(a => a.IsVisible && a.Tracks.Contains(f.Path))).Sum(f => f.Mp3Fields.DurationValue);
+            double duration = MediaLibrary.Files?.Where(f => Albums.Any(a => a.IsVisible && a.Tracks.Contains(f.Path))).Sum(f => f.Mp3Fields.DurationValue) ?? 0;
             TimeSpan span = TimeSpan.FromSeconds(duration);
             MainWindow.Instance.SetAmounts(Albums.Count(a => a.IsVisible), span);
         }

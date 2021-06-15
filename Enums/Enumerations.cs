@@ -80,7 +80,10 @@
     {
         Bar,
         Line,
-        Band
+        Band,
+        ThinBandWithTips,
+        ThinBand,
+        ThinLine
     }
 
     public enum TabOrder
