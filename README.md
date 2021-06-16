@@ -30,6 +30,7 @@ Website: www.soulflick.com
 - Two Plugins to choose:
 * Windows Media Player Libary (WMPLib) to access all known formats
 * CSCore Plugin: mp3 Plugin with Equalizer support
+- Seven Visualization Gadgets to see your live music
 
 Feel free to contribute and contact me.
 
