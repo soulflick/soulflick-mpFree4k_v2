@@ -330,7 +330,7 @@ namespace Equalizer.Visualization
             }
             else if (GraphType == GraphType.ThinLine)
             {
-                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness: 1.09f);
+                CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness: 0.4f);
                 return;
             }
             else if (GraphType == GraphType.Band)

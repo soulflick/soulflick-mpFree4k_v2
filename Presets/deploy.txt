@@ -1,0 +1,1 @@
+Copy Presets Folder into the target destination folder of your application.

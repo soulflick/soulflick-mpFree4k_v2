@@ -50,7 +50,7 @@
 
     <Color x:Key="SpectrumStartColor">#526B7F</Color>
     <Color x:Key="SpectrumEndColor">White</Color>
-    <Color x:Key="SpectrumLineColor">#E0E0E0</Color>
+    <Color x:Key="SpectrumLineColor">White</Color>
 
     <Color x:Key="PlayListTipColor">#0D1923</Color>
     <Color x:Key="PlayListTipTextColor">#808080</Color>    
