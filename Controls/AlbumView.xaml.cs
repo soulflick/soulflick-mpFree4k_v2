@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Configuration;
 using MpFree4k;
+using VisualTreeHelper = System.Windows.Media.VisualTreeHelper;
 
 namespace Controls
 {

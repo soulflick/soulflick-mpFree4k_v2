@@ -70,7 +70,7 @@ namespace Controls
             ListView view = ListArtists;
             double wid = view.ActualWidth;
 
-            ScrollViewer scrollview = Utils.VisualTreeHelper.GetVisualChild<ScrollViewer, ListView>(view);
+            ScrollViewer scrollview = Utilities.VisualTreeHelper.GetVisualChild<ScrollViewer, ListView>(view);
             if (scrollview != null)
             {
                 Visibility verticalVisibility = scrollview.ComputedVerticalScrollBarVisibility;

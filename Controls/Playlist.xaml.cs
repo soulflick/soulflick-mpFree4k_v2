@@ -90,7 +90,7 @@ namespace Controls
         void setWidth()
         {
             AvailableWidth = PlaylistView.ActualWidth;
-            Decorator border = VisualTreeHelper.GetChild(PlaylistView, 0) as Decorator;
+            Decorator border = System.Windows.Media.VisualTreeHelper.GetChild(PlaylistView, 0) as Decorator;
             if (border != null)
             {
                 ScrollViewer scroller = border.Child as ScrollViewer;

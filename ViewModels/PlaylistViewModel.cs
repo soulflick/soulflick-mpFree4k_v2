@@ -71,6 +71,8 @@ namespace ViewModels
             Raise(nameof(Tracks));
         }
 
+        public static void AddTracks(FileViewInfo[] infos) => Instance.Add(infos);
+
         public void Add(FileViewInfo[] infos)
         {
             if (infos == null || infos.Length == 0) return;

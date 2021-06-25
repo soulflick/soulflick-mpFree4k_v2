@@ -79,7 +79,15 @@
                     <MenuItem x:Name="mnuCtxPlayAll" Header="play all" Click="mnuCtxPlayAll_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxEdit"  Header="edit" Click="mnuCtxEdit_Click"/>
-                    <MenuItem x:Name="mnuCtxSetFlag"  Header="tag this" Click="mnuCtxSetFlag_Click"/>
+                    <MenuItem Header="flag this track">
+                        <MenuItem Header="OK" Name="mnuCtxFlagOK" Click="mnuCtxFlagOK_Click"/>
+                        <MenuItem Header="Tagged" Name="mnuCtxFlagTagged" Click="mnuCtxFlagTagged_Click"/>
+                        <MenuItem Header="Hidden" Name="mnuCtxFlagHidden" Click="mnuCtxFlagHidden_Click"/>
+                        <MenuItem Header="Easy" Name="mnuCtxFlagEasy" Click="mnuCtxFlagEasy_Click"/>
+                        <MenuItem Header="New" Name="mnuCtxFlagNew" Click="mnuCtxFlagNew_Click"/>
+                        <MenuItem Header="Failures" Name="mnuCtxFlagFailures" Click="mnuCtxFlagFailures_Click"/>
+                        <MenuItem Header="Unknown" Name="mnuCtxFlagUnknown" Click="mnuCtxFlagUnknown_Click"/>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.CellStyle>
@@ -158,16 +166,30 @@
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Flag}" Value="1">
-                                                <Setter Property="Foreground" Value="Red"/>
+                                            <DataTrigger Binding="{Binding Flag}" Value="0">
+                                                <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Flag}" Value="1">
-                                                <Setter Property="Foreground" Value="Blue"/>
+                                                <Setter Property="Foreground" Value="Violet"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="1">
+                                            <DataTrigger Binding="{Binding Flag}" Value="2">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="3">
                                                 <Setter Property="Foreground" Value="Green"/>
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="4">
+                                                <Setter Property="Foreground" Value="Blue"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="5">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Flag}" Value="6">
+                                                <Setter Property="Foreground" Value="Orange"/>
+                                            </DataTrigger>
                                         </Style.Triggers>
+
+                                        <!-- OK = 0, Tagged, Hidden, Easy, New, Failures, Unknown -->
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>

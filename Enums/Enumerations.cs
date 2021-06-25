@@ -6,32 +6,9 @@
         Tagged,
         Hidden,
         Easy,
-        Inactive,
-        FocusLost,
-        Lost,
-        Remaining,
-        Rest,
         New,
-        Recurring,
         Failures,
-        Automatic,
-        Silent,
-        Reverse,
-        Singular,
-        Exceeded,
-        Potentials,
-        Swing,
-        Chart,
-        StandBy,
-        Exits,
-        Flops,
-        Externs,
-        Practicals,
-        Used,
-        Unknown,
-        Occupied,
-        Selected,
-        Mute
+        Unknown
     }
 
     public enum ViewMode

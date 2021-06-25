@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Controls;
 
-namespace Utilies
+namespace Utilities
 {
     public static class ViewportHelper
     {
@@ -19,7 +19,7 @@ namespace Utilies
                 throw new NotSupportedException(item.GetType().Name);
             }
 
-            ScrollViewer scrollViewer = Utils.VisualTreeHelper.GetVisualChild<ScrollViewer, ItemsControl>(itemsControl);
+            ScrollViewer scrollViewer = Utilities.VisualTreeHelper.GetVisualChild<ScrollViewer, ItemsControl>(itemsControl);
             ScrollContentPresenter scrollContentPresenter = (ScrollContentPresenter)scrollViewer.Template.FindName("PART_ScrollContentPresenter", scrollViewer);
             MethodInfo isInViewportMethod = scrollViewer.GetType().GetMethod("IsInViewport", BindingFlags.NonPublic | BindingFlags.Instance);
 

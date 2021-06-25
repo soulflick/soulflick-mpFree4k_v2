@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace Utils
+namespace Utilities
 {
-
     public static class VisualTreeHelper
     {
         private static void GetVisualChildren<T>(DependencyObject current, Collection<T> children) where T : DependencyObject

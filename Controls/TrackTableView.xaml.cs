@@ -34,7 +34,9 @@ namespace Controls
             InitializeComponent();
         }
 
-        public void SetMediaLibrary(Layers.MediaLibrary lib) => (DataContext as TrackTableViewModel).MediaLibrary = lib;
+        private TrackTableViewModel ViewModel => DataContext as TrackTableViewModel;
+
+        public void SetMediaLibrary(Layers.MediaLibrary lib) => ViewModel.MediaLibrary = lib;
 
         public void UpdateMargín(FontSize size)
         {
@@ -195,7 +197,7 @@ namespace Controls
             if (item == null)
                 return;
 
-            var vm = DataContext as TrackTableViewModel;
+            var vm = ViewModel;
             var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Instance.Add(albumItems);
         }
@@ -206,7 +208,7 @@ namespace Controls
             if (item == null)
                 return;
 
-            var vm = DataContext as TrackTableViewModel;
+            var vm = ViewModel;
             var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Insert(albumItems);
         }
@@ -217,26 +219,22 @@ namespace Controls
             if (item == null)
                 return;
 
-            var vm = DataContext as TrackTableViewModel;
+            var vm = ViewModel;
             var albumItems = LibraryUtils.GetAlbumItems(item, vm.LibraryTracks.ToList());
             PlaylistViewModel.Play(albumItems);
         }
 
         private void mnuCtxPlayAll_Click(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as TrackTableViewModel;
+            var vm = ViewModel;
             var uniques = vm.Tracks.DistinctBy(x => x.Title).ToArray();
             PlaylistViewModel.Play(uniques);
         }
 
-        private void mnuCtxSetFlag_Click(object sender, RoutedEventArgs e)
+        private void flagTracks(FlagType fType)
         {
-            if (TrackTable.SelectedItems == null ||
-                TrackTable.SelectedItems.Count == 0)
-                return;
-
-            foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) 
-                track.SetFlag(track.Flag == FlagType.OK ? FlagType.Tagged : FlagType.OK);
+            if (TrackTable.SelectedItems == null || TrackTable.SelectedItems.Count == 0) return;
+            foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) track.SetFlag(fType);
         }
 
         private void mnuCtxPlayThisArtist_Click(object sender, RoutedEventArgs e)
@@ -247,8 +245,9 @@ namespace Controls
 
             List<string> artists = new List<string>();
             foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { artists.Add(track.Mp3Fields.AlbumArtists); };
-            var selection = ((TrackTableViewModel)DataContext).LibraryTracks.Where(y => artists.Contains(y.Mp3Fields.AlbumArtists)).Distinct();
-            selection = selection.DistinctBy(x => x).DistinctBy(y => y.Mp3Fields.FileName).DistinctBy(y => y.Mp3Fields.Track);
+            artists = artists.Distinct().ToList();
+            var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
+            selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
 
             PlaylistViewModel.Play(selection.ToArray());
         }
@@ -261,10 +260,46 @@ namespace Controls
 
             List<string> artists = new List<string>();
             foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { artists.Add(track.Mp3Fields.AlbumArtists); };
-            var selection = ((TrackTableViewModel)DataContext).LibraryTracks.Where(y => artists.Contains(y.Mp3Fields.AlbumArtists)).Distinct();
-            selection = selection.DistinctBy(x => x).DistinctBy(y => y.Mp3Fields.FileName).DistinctBy(y => y.Mp3Fields.Track);
+            artists = artists.Distinct().ToList();
+            var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
+            selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
 
-            PlaylistViewModel.Instance.Add(selection.ToArray());
+            PlaylistViewModel.AddTracks(selection.ToArray());
+        }
+
+        private void mnuCtxFlagOK_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.OK);
+        }
+
+        private void mnuCtxFlagTagged_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.Tagged);
+        }
+
+        private void mnuCtxFlagHidden_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.Hidden);
+        }
+
+        private void mnuCtxFlagEasy_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.Easy);
+        }
+
+        private void mnuCtxFlagNew_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.New);
+        }
+
+        private void mnuCtxFlagFailures_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.Failures);
+        }
+
+        private void mnuCtxFlagUnknown_Click(object sender, RoutedEventArgs e)
+        {
+            flagTracks(FlagType.Unknown);
         }
     }
 }

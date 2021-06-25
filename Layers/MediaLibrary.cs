@@ -144,17 +144,17 @@ namespace Layers
 
         private string getValue(List<Tuple<string, string>> tokens, string key)
         {
-            if (!hasKey(tokens, key))
-                return null;
-
+            if (!hasKey(tokens, key)) return null;
             return tokens.FirstOrDefault(t => t.Item1 == key).Item2.Trim();
         }
 
 
         public void QueryExplicit(ViewMode viewmode)
         {
-            string _q = Query.ToLower();
             List<Tuple<string, string>> tokens = new List<Tuple<string, string>>();
+
+            string _thisQuery = _query.Trim().ToLower();
+            string _q = _thisQuery;
             char delim = ':';
             int idx = _q.IndexOf(delim);
             string key = "", value = "";
@@ -197,9 +197,12 @@ namespace Layers
                 idx = _q.IndexOf(delim);
             }
 
-            if (!string.IsNullOrWhiteSpace(_q))
+            _q = _q.Trim();
+            key = key.Trim();
+
+            if (!string.IsNullOrEmpty(_q))
             {
-                if (!string.IsNullOrWhiteSpace(key))
+                if (!string.IsNullOrEmpty(key))
                 {
                     value = _q;
                     tokens.Add(new Tuple<string, string>(key, value));
@@ -228,6 +231,16 @@ namespace Layers
 
             long year = -999;
             long track = -999;
+            FlagType? flagType = null;
+            string flagString = string.Empty;
+
+            if (_thisQuery.StartsWith("flag:") || _thisQuery.Contains(" flag:")) flag = "flag:";
+
+            if (hasKey(tokens, "flag"))
+            {
+                flagString = getValue(tokens, "flag");
+                if (FlagType.TryParse(flagString, out FlagType _flagType)) { flagType = _flagType; }
+            }
 
             if (hasKey(tokens, "track"))
                 track = Convert.ToInt64(getValue(tokens, "track"));
@@ -235,32 +248,42 @@ namespace Layers
             if (hasKey(tokens, "year"))
                 year = Convert.ToInt64(getValue(tokens, "year"));
 
-            bool anyset = !string.IsNullOrWhiteSpace(artist) ||
-                !string.IsNullOrWhiteSpace(album) ||
-                !string.IsNullOrWhiteSpace(title) ||
+            bool anyset = !string.IsNullOrEmpty(artist) ||
+                !string.IsNullOrEmpty(album) ||
+                !string.IsNullOrEmpty(title) ||
                 track != -999;
 
             if (viewmode == ViewMode.Table)
             {
                 Files.ForEach(f => f.IsVisible = true);
 
-                if (!string.IsNullOrWhiteSpace(flag))
+                if (!string.IsNullOrEmpty(flag))
                 {
-                    Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Flag > 0);
+                    FlagType? fType = null;
+                    if (!string.IsNullOrEmpty(flagString))
+                    {
+                        fType = Utilities.EnumUtils.GetFlagType(flagString);
+                        if (fType != null) flagType = (FlagType)fType;
+                    }
+                    if (flagType == null)
+                        Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Flag > 0);
+                    else
+                        Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Flag == flagType);
+
                     Refresh(MediaLevel.Tracks);
                     Raise("Filter");
                     return;
 
                 }
-                if (!string.IsNullOrWhiteSpace(title))
+                if (!string.IsNullOrEmpty(title))
                 {
                     Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Title.ToLower().Contains(title));
                 }
-                if (!string.IsNullOrWhiteSpace(album))
+                if (!string.IsNullOrEmpty(album))
                 {
                     Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Mp3Fields.Album.ToLower().Contains(album));
                 }
-                if (!string.IsNullOrWhiteSpace(artist))
+                if (!string.IsNullOrEmpty(artist))
                 {
                     Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Mp3Fields.Artists.ToLower().Contains(artist));
                 }
@@ -277,11 +300,11 @@ namespace Layers
             }
             else if (viewmode == ViewMode.Details)
             {
-                if (!string.IsNullOrWhiteSpace(artist))
+                if (!string.IsNullOrEmpty(artist))
                     Artists.ForEach(x => x.IsVisible = x.Artists.ToLower().Contains(artist));
-                if (!string.IsNullOrWhiteSpace(album))
+                if (!string.IsNullOrEmpty(album))
                     Albums.ForEach(x => x.IsVisible = x.Album.ToLower().Contains(album));
-                if (!string.IsNullOrWhiteSpace(title))
+                if (!string.IsNullOrEmpty(title))
                     Files.ForEach(x => x.IsVisible = x.Title.ToLower().Contains(title));
 
                 Refresh(MediaLevel.Artists);
@@ -291,8 +314,8 @@ namespace Layers
             else
             {
                 Albums.ForEach(x => x.IsVisible = (
-                (string.IsNullOrWhiteSpace(artist) || !string.IsNullOrWhiteSpace(artist) && x.AllArtist.Any(y => y.ToLower().Contains(artist)))) &&
-                (string.IsNullOrWhiteSpace(album) || !string.IsNullOrWhiteSpace(album) && x.Album.ToLower().Contains(album)) &&
+                (string.IsNullOrEmpty(artist) || !string.IsNullOrEmpty(artist) && x.AllArtist.Any(y => y.ToLower().Contains(artist)))) &&
+                (string.IsNullOrEmpty(album) || !string.IsNullOrEmpty(album) && x.Album.ToLower().Contains(album)) &&
                 (year == -999 || x.Year == year));
 
 
@@ -303,22 +326,23 @@ namespace Layers
         }
         public void QueryMe(ViewMode viewmode)
         {
-            if (Query.Contains(':'))
+            var _thisQuery = _query.Trim().ToLower();
+            if (_thisQuery.Contains(':'))
             {
                 QueryExplicit(viewmode);
                 return;
             }
 
             List<string> query_strings = new List<string>();
-            Query.Split(" ".ToCharArray()).ToList().
-                Where(x => !string.IsNullOrWhiteSpace(x)).ToList()
+            _thisQuery.Split(" ".ToCharArray()).ToList().
+                Where(x => !string.IsNullOrEmpty(x)).ToList()
                 .ForEach(f => query_strings.Add(f.ToLower()));
 
             if (viewmode == ViewMode.Table)
             {
                 Files.ForEach(x => x.IsVisible =
 
-                (string.IsNullOrWhiteSpace(_query)) ||
+                (string.IsNullOrEmpty(_thisQuery)) ||
                 (!string.IsNullOrEmpty(x.Title) &&
                 query_strings.Any(q => x.Title.ToLower().Contains(q)) ||
                 query_strings.Any(q => x.Mp3Fields.Artists.ToLower().Contains(q)) ||
@@ -328,9 +352,9 @@ namespace Layers
             }
             else if (viewmode == ViewMode.Details)
             {
-                Artists.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || query_strings.Any(q => x.Artists.ToLower().Contains(q)));
-                Albums.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || query_strings.Any(q => x.Album.ToLower().Contains(q)));
-                Files.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || (string.IsNullOrEmpty(x.Title) && string.IsNullOrEmpty(_query)) ||
+                Artists.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || query_strings.Any(q => x.Artists.ToLower().Contains(q)));
+                Albums.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || query_strings.Any(q => x.Album.ToLower().Contains(q)));
+                Files.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || (string.IsNullOrEmpty(x.Title) && string.IsNullOrEmpty(_thisQuery)) ||
                 (!string.IsNullOrEmpty(x.Title) && query_strings.Any(q => x.Title.ToLower().Contains(q))));
 
                 Refresh(MediaLevel.Artists);
@@ -339,7 +363,7 @@ namespace Layers
             }
             else
             {
-                Albums.ForEach(x => x.IsVisible = string.IsNullOrWhiteSpace(_query) || (
+                Albums.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || (
                 x.AllArtist.Any(y => query_strings.Any(q => y.ToLower().Contains(q))) ||
                 query_strings.Any(q => x.Artist.ToLower().Contains(q)) ||
                 query_strings.Any(q => x.Album.ToLower().Contains(q))));
