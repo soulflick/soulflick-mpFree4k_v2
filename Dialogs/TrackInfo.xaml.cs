@@ -1,5 +1,6 @@
 ﻿using Classes;
 using Models;
+using MpFree4k.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,6 +15,7 @@ namespace Dialogs
         public string Name { get; set; }
         public string Length { get; set; }
         public int Track { get; set; }
+        public double DurationValue { get; set; }
     }
 
     public partial class TrackInfo : Window, INotifyPropertyChanged
@@ -35,6 +37,21 @@ namespace Dialogs
         public void Raise(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public IEnumerable<SimpleTrackItem> AlbumTracks { get; set; }
+
+        public string DiscLength
+        {
+            get
+            {
+                if (AlbumTracks == null || !AlbumTracks.Any())
+                    return string.Empty;
+
+                double len = 0;
+                foreach (var track in AlbumTracks)
+                    len += track.DurationValue;
+
+                return Utilities.LibraryUtils.GetDurationString((int)len);
+            }
+        }
 
         public void SetInfo(FileViewInfo info)
         {
@@ -59,14 +76,26 @@ namespace Dialogs
             }
 
             var tracks = Utilities.LibraryUtils.GetAlbumItems(info, collection);
+            var filteredTracks = new List<FileViewInfo>();
 
-            AlbumTracks = from track in tracks
-                            select new SimpleTrackItem
-                            {
-                                Length = track.Mp3Fields.Duration,
-                                Name = track.Title,
-                                Track = (int)track.Mp3Fields.Track
+            foreach (var t in tracks)
+            {
+                if (filteredTracks.Any(f => f.Title == t.Title && f.Number == t.Number && f.Mp3Fields.DurationValue == t.Mp3Fields.DurationValue))
+                    continue;
+
+                else filteredTracks.Add(t);
+            }
+
+            AlbumTracks = from track in filteredTracks
+                          select new SimpleTrackItem
+                          {
+                              Length = track.Mp3Fields.Duration,
+                              Name = track.Title,
+                              Track = (int)track.Mp3Fields.Track,
+                              DurationValue = (double)track.Mp3Fields.DurationValue
                             };
+
+            Raise(nameof(DiscLength));
 
         }
 

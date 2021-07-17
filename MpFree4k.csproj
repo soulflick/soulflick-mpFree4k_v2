@@ -159,6 +159,7 @@
     <Compile Include="Classes\TagLibConvertPicture.cs" />
     <Compile Include="Configuration\UserConfig.cs" />
     <Compile Include="Utilities\EnumUtils.cs" />
+    <Compile Include="Utilities\LinqUtils.cs" />
     <Compile Include="Utilities\Notify.cs" />
     <Compile Include="Utilities\VisualTreeHelper.cs" />
     <Compile Include="Controls\AudioPropertiesView.xaml.cs">

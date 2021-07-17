@@ -187,7 +187,11 @@ namespace Equalizer
             _capture = new WasapiLoopbackCapture();
 
             try { source = CodecFactory.Instance.GetCodec(MediaFile); }
-            catch (CSCore.MediaFoundation.MediaFoundationException) { throw; }
+            catch (CSCore.MediaFoundation.MediaFoundationException exc)
+            {
+                System.Windows.MessageBox.Show(exc.Message + "\n\n" + MediaFile);
+                return;
+            }
             _spectrumProvider = new SpectrumProvider(source.WaveFormat.Channels, source.WaveFormat.SampleRate, fftSize);
 
             CreateSpectrum();

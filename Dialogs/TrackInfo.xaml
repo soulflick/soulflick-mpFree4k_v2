@@ -178,6 +178,12 @@
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding Info.Mp3Fields.DiscCount}"/>
                         </TextBlock>
+
+                        <TextBlock>
+                            <Run Text=" | "/>
+                            <Run Text="Disc Length " Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}"/>
+                        </TextBlock>
                     </StackPanel>
 
                     <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Text="Tracks from this Album:" Margin="0,24,0,0"/>
