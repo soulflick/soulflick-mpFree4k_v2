@@ -459,7 +459,7 @@
                 <Grid Margin="16,10,0,0" Width="Auto" Height="Auto" ZIndex="100" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Border x:Name="ImgBorder" CornerRadius="5"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="1,0,0,0" VerticalAlignment="Center">
-                            <Button Name="btnPrevious" ToolTip="Play previus track" Click="btnPrevious_Click" Style="{StaticResource PlayerButtonLeftStyle}">
+                            <Button Name="btnPrevious" ToolTip="Play previous track" Click="btnPrevious_Click" Style="{StaticResource PlayerButtonLeftStyle}">
                                 <Image Source="/MpFree4k;component/Images/previous.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
                             <Button 
