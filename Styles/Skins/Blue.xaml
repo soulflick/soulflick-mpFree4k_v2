@@ -33,6 +33,7 @@
     <Color x:Key="MenuTextColor">LightGray</Color>
     <Color x:Key="GridAlternateColor">#3C5A8C</Color>
     <Color x:Key="GridSelectionColor">#909090</Color>
+    <Color x:Key="PlaylistInsertColor">#5078BA</Color>
     <Color x:Key="GridSelectionTextColor">White</Color>
     <Color x:Key="MenuHoverColor">White</Color>
     <Color x:Key="MenuSelectionColor">WhiteSmoke</Color>

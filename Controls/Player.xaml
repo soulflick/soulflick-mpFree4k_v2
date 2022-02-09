@@ -427,8 +427,9 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="190"/>
+                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="24"/>
                 <ColumnDefinition Width="100*"/>
             </Grid.ColumnDefinitions>
 
@@ -573,7 +574,10 @@
                     </Style>
                 </Grid.Resources>
             </Grid>
-            <Grid Name="grdButtons" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="4,2,4,2" HorizontalAlignment="Center">
+            
+            <GridSplitter Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
+            
+            <Grid Name="grdButtons" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Margin="4,2,4,2" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>

@@ -13,8 +13,8 @@
         x:Name="_This"
         WindowStartupLocation="CenterScreen"
         Title="MpFree4k - soulflick" 
-        Height="585" 
-        Width="955"
+        Height="600" 
+        Width="1024"
         Background="{DynamicResource PrimaryBackground}"
         SnapsToDevicePixels="True">
     <Window.Resources>
@@ -588,7 +588,7 @@
 
             </TabControl.Resources>
 
-            <TabItem Header="All">
+            <TabItem Header="Artists">
                 <controls:TableView x:Name="TableView" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
             <TabItem Header="Albums">
@@ -597,7 +597,7 @@
             <TabItem Header="Tracks">
                 <controls:TrackTableView x:Name="TrackTable" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Favourites">
+            <TabItem Header="Favorites">
                 <controls:Favourites x:Name="Favourites" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
         </TabControl>

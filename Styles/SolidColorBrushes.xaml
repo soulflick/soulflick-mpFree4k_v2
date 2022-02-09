@@ -31,6 +31,7 @@
     <!--<SolidColorBrush x:Key="MenuTextBrush" Color="{DynamicResource MenuTextColor}"/>-->
     <SolidColorBrush x:Key="GridAlternateBrush" Color="{DynamicResource GridAlternateColor}"/>
     <SolidColorBrush x:Key="GridSelectionBrush" Color="{DynamicResource GridSelectionColor}"/>
+    <SolidColorBrush x:Key="PlaylistInsertBrush" Color="{DynamicResource PlaylistInsertColor}"/>
     <SolidColorBrush x:Key="GridSelectionTextBrush" Color="{DynamicResource GridSelectionTextColor}"/>
     <SolidColorBrush x:Key="InactiveSelectionBrush" Color="{DynamicResource InactiveSelectionColor}"/>
     <SolidColorBrush x:Key="MenuHoverBrush" Color="{DynamicResource MenuHoverColor}"/>

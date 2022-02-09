@@ -608,12 +608,12 @@ namespace Controls
             if (Spectrum.GraphType == GraphType.Bar)
             {
                 Spectrum.GraphType = GraphType.Line;
-                Spectrum.BarCount = 100;
+                Spectrum.BarCount = 128;
             }
             else if (Spectrum.GraphType == GraphType.Line)
             {
                 Spectrum.GraphType = GraphType.Band;
-                Spectrum.BarCount = 120;
+                Spectrum.BarCount = 128;
             }
             else if (Spectrum.GraphType == GraphType.Band)
             {
@@ -633,7 +633,7 @@ namespace Controls
             else if (Spectrum.GraphType == GraphType.ThinLine)
             { 
                 Spectrum.GraphType = GraphType.Bar;
-                Spectrum.BarCount = 32;
+                Spectrum.BarCount = 64;
             }
 
             Spectrum.ApplyProperties();

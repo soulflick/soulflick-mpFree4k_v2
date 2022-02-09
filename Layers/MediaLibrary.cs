@@ -213,8 +213,9 @@ namespace Layers
             string album = getValue(tokens, "album");
             string artist = getValue(tokens, "artist");
             string flag = getValue(tokens, "flag");
+            string comment = getValue(tokens, "comment");
 
-            if (string.IsNullOrEmpty(title))
+            if (string.IsNullOrEmpty(title)) 
                 title = getValue(tokens, "t");
             if (string.IsNullOrEmpty(title))
                 title = getValue(tokens, "ti");
@@ -228,6 +229,11 @@ namespace Layers
                 artist = getValue(tokens, "ar");
             if (string.IsNullOrEmpty(artist))
                 artist = getValue(tokens, "art");
+
+            if (string.IsNullOrEmpty(comment))
+                comment = getValue(tokens, "c");
+            if (string.IsNullOrEmpty(comment))
+                comment = getValue(tokens, "co");
 
             long year = -999;
             long track = -999;
@@ -294,6 +300,10 @@ namespace Layers
                 if (year != -999)
                 {
                     Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Mp3Fields.Year == year);
+                }
+                if (!string.IsNullOrEmpty(comment))
+                {
+                    Files.Where(f => f.IsVisible).ToList().ForEach(f => f.IsVisible = f.Mp3Fields.Comment.ToLower().Contains(comment));
                 }
 
                 Refresh(MediaLevel.Tracks);

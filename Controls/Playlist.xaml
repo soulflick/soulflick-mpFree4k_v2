@@ -203,7 +203,7 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DragOver}" Value="True">
                             <Setter Property="Opacity" Value="1"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource GridSelectionBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource PlaylistInsertBrush}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DragOver}" Value="False">
                             <Setter Property="Opacity" Value="1"/>

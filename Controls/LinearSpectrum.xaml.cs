@@ -128,7 +128,7 @@ namespace Equalizer.Controls
             set
             {
                 SetValue(GraphTypeProperty, value);
-                viewModel.GraphType = value;
+                if (viewModel != null) viewModel.GraphType = value;
             }
         }
 
