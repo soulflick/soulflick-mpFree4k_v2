@@ -23,34 +23,34 @@
 
     </UserControl.Resources>
 
-    <Grid Margin="2" Background="{DynamicResource PlayListTipBackground}">
+    <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="22"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0">
-            <TextBlock Foreground="{DynamicResource PlayListTipForeground}"
+            <TextBlock Foreground="{DynamicResource ListItemForeground}"
                                FontSize="{DynamicResource FontSizeSmaller}"
                                VerticalAlignment="Center"
                                Margin="6,0,4,0"
                                TextTrimming="CharacterEllipsis">
-            <Run Text="Tracks: "/><Run Text="{Binding NumberOfTracks, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
+            <Run Text="Tracks: "/><Run Text="{Binding NumberOfTracks, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MenuDisabledTextBrush}"/>
             </TextBlock>
 
             <TextBlock FontSize="{DynamicResource FontSizeSmaller}" VerticalAlignment="Center"
-                   Foreground="{DynamicResource PlayListTipForeground}"
+                   Foreground="{DynamicResource ListItemForeground}"
                    Margin="0,0,4,0">
             <Run Text="Duration: "/><Run Text="{Binding TotalDuration, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MenuDisabledTextBrush}"/>
             </TextBlock>
 
             <TextBlock FontSize="{DynamicResource FontSizeSmaller}" VerticalAlignment="Center"
-                   Foreground="{DynamicResource PlayListTipForeground}"
+                   Foreground="{DynamicResource ListItemForeground}"
                    Margin="0,0,4,0">
             <Run Text="Remaining: "/><Run Text="{Binding Remaining, TargetNullValue=0, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MenuDisabledTextBrush}"/>
             </TextBlock>
         </StackPanel>
 
-        <!--<Border Grid.Row="1" BorderBrush="{DynamicResource MenuDisabledTextBrush}" BorderThickness="0,0,0,1" Margin="6,0,0,0"/>-->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource MenuDisabledTextBrush}" BorderThickness="0,0,0,1" Margin="6,0,0,0"/>
     </Grid>
 </UserControl>

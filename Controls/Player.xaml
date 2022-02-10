@@ -415,8 +415,15 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{DynamicResource MenuBrush}">
-
+    <Grid>
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
+                    <GradientStop Color="{DynamicResource PlayerStartColor}" Offset="0.5" />
+                    <GradientStop Color="{DynamicResource PlayerEndColor}" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Grid VerticalAlignment="Stretch" ZIndex="1">
             <Grid.Background>
                 <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
@@ -426,37 +433,18 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="Auto" MinWidth="128"/>
                 <ColumnDefinition Width="256"/>
                 <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="256" MinWidth="128"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="100*" MinWidth="256"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Background="{DynamicResource PlayerEndGradient}" Grid.Row="1" Grid.ColumnSpan="4"/>
+            <Grid Grid.Row="1" Grid.ColumnSpan="4"/>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="4">
-                <Rectangle>
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
-                            <GradientStop Color="{DynamicResource PlayerStartColor}" Offset="0" />
-                            <GradientStop Color="{DynamicResource PlayerEndColor}" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid Grid.Column="0" Grid.ColumnSpan="4" Opacity="0.65">
-                <Rectangle>
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" >
-                            <GradientStop Color="{DynamicResource PlayerStartColor}" Offset="0" />
-                            <GradientStop Color="{DynamicResource PlayerEndColor}" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
 
-            <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="4" Panel.ZIndex="1001">
+            <Grid Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" Panel.ZIndex="1001">
                 <Grid Margin="16,10,0,0" Width="Auto" Height="Auto" ZIndex="100" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Border x:Name="ImgBorder" CornerRadius="5"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="1,0,0,0" VerticalAlignment="Center">
@@ -535,7 +523,8 @@
                     IsMoveToPointEnabled="True" IsSnapToTickEnabled="False" TickPlacement="BottomRight" TickFrequency="20"/>
                 <Label Content="100" FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="3" Margin="4,0,5,0" Padding="0" VerticalAlignment="Center" Grid.ColumnSpan="2" />
             </Grid>
-            <Grid Name="grdTrackInfo" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,2,0,0">
+
+            <Grid Name="grdTrackInfo" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,2,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100*"/>
@@ -554,7 +543,10 @@
                     <Run Name="lblAlbum" /><Run Text=" ("/><Run Name="lblYear"/><Run Text=")"/>
                 </TextBlock>
             </Grid>
-            <Grid Grid.Column="2" Panel.ZIndex="999">
+
+            <GridSplitter Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+            <Border Grid.Column="3" Panel.ZIndex="999" BorderBrush="{DynamicResource PlayerButtonMouseOverBorderBrush}">
                 <controls:LinearSpectrum x:Name="Spectrum"
                                      MouseDown="Spectrum_MouseDown"
                                      BorderBrush="#4A4A4A" BorderThickness="0.5" Margin="8,6,8,0"
@@ -564,7 +556,7 @@
                                      LineBrush="{DynamicResource SpectrumLineBrush}"
                                      FillBrush="{DynamicResource SpectrumFillBrush}"
                                      BarSegment="4" BarGap="1" GraphType="ThinLine" BarCount="256" Opacity="0.75"/>
-                <Grid.Resources>
+                <Border.Resources>
                     <Style TargetType="controls:LinearSpectrum">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -572,12 +564,12 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                </Grid.Resources>
-            </Grid>
+                </Border.Resources>
+            </Border>
             
-            <GridSplitter Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
+            <GridSplitter Grid.Column="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent"/>
             
-            <Grid Name="grdButtons" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Margin="4,2,4,2" HorizontalAlignment="Center">
+            <Grid Name="grdButtons" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Margin="4,2,4,2" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -600,7 +592,7 @@
                     </Style>
                 </Border.Style>
             </Border>
-            <Grid Name="grdSlider" Style="{StaticResource sliderGridStyle}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Margin="0,0,0,0" HorizontalAlignment="Stretch">
+            <Grid Name="grdSlider" Style="{StaticResource sliderGridStyle}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Margin="0,0,0,0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
