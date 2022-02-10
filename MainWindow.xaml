@@ -721,8 +721,8 @@
             <TextBox Grid.Column="1" x:Name="FilterBox" TextChanged="FilterBox_TextChanged" VerticalAlignment="Stretch" Height="Auto" 
                      HorizontalAlignment="Stretch"
                      VerticalContentAlignment="Center"
-                     Padding="3,2,2,3"
-                     Margin="3"
+                     Padding="3 6 2 3"
+                     Margin="3 7 3 3"
                      Background="{DynamicResource ListViewItemBackground}"
                      Foreground="{DynamicResource ListViewItemForeground}"
                      BorderBrush="#cccccc" FontSize="{DynamicResource FontSizeLarge}">
@@ -755,7 +755,7 @@
         <Grid Grid.Row="4" Grid.ColumnSpan="3">
             <ProgressBar x:Name="ProgressBar" Height="4" HorizontalAlignment="Stretch" Margin="-4,0,-4,0" BorderThickness="0"
                          Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent"/>
+                          Background="{DynamicResource FirstItemBackground}"/>
         </Grid>
 
 
