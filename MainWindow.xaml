@@ -754,7 +754,8 @@
 
         <Grid Grid.Row="4" Grid.ColumnSpan="3">
             <ProgressBar x:Name="ProgressBar" Height="4" HorizontalAlignment="Stretch" Margin="-4,0,-4,0" BorderThickness="0"
-                         Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"/>
+                         Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent"/>
         </Grid>
 
 
