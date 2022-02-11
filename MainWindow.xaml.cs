@@ -160,7 +160,7 @@ namespace MpFree4k
             if (plsel.SelectedDefinition != null)
                 PlaylistSerializer.Load(Playlist.DataContext as PlaylistViewModel, plsel.SelectedDefinition.Path);
 
-            mainDispatcher = this.TableView.AlbumView.Dispatcher;
+            mainDispatcher = TableView.AlbumView.Dispatcher;
             TableView.AlbumView.SetMediaLibrary(Library.Current);
             TableView.ArtistView.SetMediaLibrary(Library.Current);
             TableView.TrackView.SetMediaLibrary(Library.Current);
@@ -243,15 +243,33 @@ namespace MpFree4k
             SettingControl.WriteUserConfig();
             if (UserConfig.AutoSavePlaylist)
             {
-                plsel = new PlaylistSelector(this.Playlist.DataContext as PlaylistViewModel);
-                if (plsel.SelectedDefinition != null)
+                plsel = new PlaylistSelector(Playlist.DataContext as PlaylistViewModel);
+                if (plsel.SelectedDefinition == null)
                 {
-                    PlaylistSerializer.Serialize(plsel.SelectedDefinition.Path, (this.Playlist.DataContext as PlaylistViewModel).Tracks);
+                    var def = new PlaylistDefinition()
+                    {
+                        AutoSelect = true,
+                        Name = "autosave",
+                        Path = Path.Combine(
+                            Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Playlists/autosave.pls")
+                    };
+                    var auto = plsel.PlaylistDefs.FirstOrDefault(_def => _def.Name == def.Name);
+                    if (auto != null)
+                    {
+                        auto.AutoSelect = true;
+                        plsel.SelectedDefinition = auto;
+                    }
+                    else
+                    {
+                        plsel.PlaylistDefs.Add(def);
+                        plsel.SelectedDefinition = def;
+                    }
+                    plsel.SavePlaylistXML();
                 }
+                PlaylistSerializer.Serialize(plsel.SelectedDefinition.Path, (Playlist.DataContext as PlaylistViewModel).Tracks);
             }
 
             Player.Shutdown();
-
             Application.Current.Shutdown();
         }
 

@@ -105,13 +105,11 @@ namespace Dialogs
             return str;
         }
 
-        void savePlaylistXML()
+        public void SavePlaylistXML()
         {
             string doc = "<xml>\n\t<Playlists>\n";
             foreach (PlaylistDefinition def in PlaylistDefs)
-            {
                 doc += "\t\t<Playlist Name=\"" + sanitize(def.Name) + "\" Path=\"" + def.Path + "\" Select=\"" + def.AutoSelect.ToString() + "\"/>\n";
-            }
             doc += "\t</Playlists>\n</xml>";
 
             File.WriteAllText(libfile, doc);
@@ -121,8 +119,7 @@ namespace Dialogs
         {
             ListLibraries.ItemsSource = null;
             ListLibraries.ItemsSource = PlaylistDefs.OrderBy(l => l.Name);
-
-            savePlaylistXML();
+            SavePlaylistXML();
         }
 
         PlaylistDefinition _currentDefinition = new PlaylistDefinition();
@@ -177,7 +174,7 @@ namespace Dialogs
                 _currentDefinition.Path = dialog.FileName;
             }
 
-            this.BringIntoView();
+            BringIntoView();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -219,10 +216,7 @@ namespace Dialogs
             }
         }
 
-        void serialize(PlaylistDefinition def)
-        {
-            PlaylistSerializer.Serialize(def.Path, viewModel.Tracks);
-        }
+        void serialize(PlaylistDefinition def) => PlaylistSerializer.Serialize(def.Path, viewModel.Tracks);
 
         PlaylistDefinition _selectedDefinition = null;
         public PlaylistDefinition SelectedDefinition
@@ -272,7 +266,7 @@ namespace Dialogs
 
         private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            savePlaylistXML();
+            SavePlaylistXML();
 
             if ((sender as ListView).SelectedItem == null)
                 return;
@@ -283,7 +277,7 @@ namespace Dialogs
 
             PlaylistSerializer.Load(viewModel, def.Path);
 
-            this.Close();
+            Close();
         }
 
 
@@ -297,23 +291,15 @@ namespace Dialogs
                 PlaylistDefinition def = SelectedDefinition;
                 foreach (PlaylistDefinition _d in PlaylistDefs)
                 {
-                    if (_d != def)
-                        _d.AutoSelect = false;
-                    else
-                    {
-                        _d.AutoSelect = true;
-                    }
+                    if (_d != def) _d.AutoSelect = false;
+                    else _d.AutoSelect = true;
                 }
             }
             else
-            {
                 foreach (PlaylistDefinition _d in PlaylistDefs)
-                {
                     _d.AutoSelect = false;
-                }
-            }
 
-            savePlaylistXML();
+            SavePlaylistXML();
         }
     }
 }
