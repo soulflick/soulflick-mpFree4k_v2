@@ -244,15 +244,18 @@ namespace MpFree4k
             if (UserConfig.AutoSavePlaylist)
             {
                 plsel = new PlaylistSelector(Playlist.DataContext as PlaylistViewModel);
+                var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Playlists");
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
                 if (plsel.SelectedDefinition == null)
                 {
                     var def = new PlaylistDefinition()
                     {
                         AutoSelect = true,
                         Name = "autosave",
-                        Path = Path.Combine(
-                            Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Playlists/autosave.pls")
+                        Path = Path.Combine(path, "autosave.pls")
                     };
+
                     var auto = plsel.PlaylistDefs.FirstOrDefault(_def => _def.Name == def.Name);
                     if (auto != null)
                     {

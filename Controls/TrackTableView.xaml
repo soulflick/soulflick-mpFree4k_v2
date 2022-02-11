@@ -148,7 +148,8 @@
                     <Setter Property="BorderBrush" Value="Black"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Padding" Value="6"/>
+                    <Setter Property="Margin" Value="3"/>
                     <Setter Property="Foreground" Value="{DynamicResource ListItemForeground}"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">

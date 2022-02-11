@@ -433,8 +433,8 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="128"/>
-                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="256" MinWidth="128"/>
                 <ColumnDefinition Width="24"/>
                 <ColumnDefinition Width="256" MinWidth="128"/>
                 <ColumnDefinition Width="24"/>
@@ -443,32 +443,29 @@
 
             <Grid Grid.Row="1" Grid.ColumnSpan="4"/>
 
-
             <Grid Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" Panel.ZIndex="1001">
                 <Grid Margin="16,10,0,0" Width="Auto" Height="Auto" ZIndex="100" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Border x:Name="ImgBorder" CornerRadius="5"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="1,0,0,0" VerticalAlignment="Center">
-                            <Button Name="btnPrevious" ToolTip="Play previous track" Click="btnPrevious_Click" Style="{StaticResource PlayerButtonLeftStyle}">
+                            <Button Margin="1,0,1,0" Name="btnPrevious" ToolTip="Play previous track" Click="btnPrevious_Click" Style="{StaticResource PlayerButtonLeftStyle}">
                                 <Image Source="/MpFree4k;component/Images/previous.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <Button 
-                        Margin="1,0,1,0"
-                         Name="btnRewind" ToolTip="Rewind" Click="btnRewind_Click" Style="{StaticResource PlayerButtonStyle}">
+                            <Button Margin="1,0,1,0" Name="btnRewind" ToolTip="Rewind" Click="btnRewind_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/rewind.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <!--<Button Name="btnReverse" ToolTip="Reverse" Click="btnReverse_Click" Style="{StaticResource PlayerButtonStyle}">
+                            <!--<Button Margin="1,0,1,0" Name="btnReverse" ToolTip="Reverse" Click="btnReverse_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/play_reverse.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>-->
                             <Button Margin="1,0,1,0" Name="btnStart" ToolTip="Play" Click="btnStart_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/play.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <Button Name="btnPause" ToolTip="Pause" Click="btnPause_Click" Style="{StaticResource PlayerButtonStyle}">
+                            <Button Margin="1,0,1,0" Name="btnPause" ToolTip="Pause" Click="btnPause_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/pause.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
                             <Button Margin="1,0,1,0" Name="btnStop" ToolTip="Stop" Click="btnStop_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/stop.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <Button Name="btnForward" ToolTip="Forward" Click="btnForward_Click" Style="{StaticResource PlayerButtonStyle}">
+                            <Button Margin="1,0,1,0" Name="btnForward" ToolTip="Forward" Click="btnForward_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/forward.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
                             <Button Margin="1,0,5,0" Name="btnNext" ToolTip="Play next track" Click="btnNext_Click" Style="{StaticResource PlayerButtonRightStyle}">
@@ -579,9 +576,13 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" BorderThickness="0" HorizontalAlignment="Left" BorderBrush="WhiteSmoke">
+            
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" BorderThickness="0" HorizontalAlignment="Left" 
+                    BorderBrush="WhiteSmoke">
+                
                 <Image x:Name="TrackImage" Source="/MpFree4k;component/Images/no_album_cover.jpg" 
-                       MouseDown="TrackImage_MouseDown" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                       MouseDown="TrackImage_MouseDown" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Margin="5 5 15 5"/>
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
