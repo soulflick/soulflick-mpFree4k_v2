@@ -314,6 +314,8 @@ namespace Equalizer.Visualization
         private void CreateSpectrumInternal(Graphics graphics, Pen pen, float[] fftBuffer, Color background, Color lineColor, Color fillColor, Size size)
         {
             bool showBandTips = true;
+            bool showLine = true;
+
             if (GraphType == GraphType.Line)
             {
                 CreateLineSpectrum(graphics, fftBuffer, background, lineColor, size);
@@ -323,6 +325,11 @@ namespace Equalizer.Visualization
             {
                 CreateLineSpectrum(graphics, fftBuffer, background, lineColor, Color.Transparent, size, thickness:1.09f);
                 showBandTips = false;
+            }
+            else if (GraphType == GraphType.WideBars)
+            {
+                showLine = true;
+                showBandTips = true;
             }
             else if (GraphType == GraphType.ThinBandWithTips)
             {
@@ -342,6 +349,7 @@ namespace Equalizer.Visualization
             int height = size.Height;
             SpectrumPointData[] spectrumPoints = CalculateSpectrumPoints(height, fftBuffer);
 
+            if (showLine)
             for (int i = 0; i < spectrumPoints.Length; i++)
             {
                 SpectrumPointData p = spectrumPoints[i];

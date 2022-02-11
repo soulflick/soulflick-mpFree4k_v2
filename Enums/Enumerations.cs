@@ -58,6 +58,7 @@
         Bar,
         Line,
         Band,
+        WideBars,
         ThinBandWithTips,
         ThinBand,
         ThinLine

@@ -605,7 +605,7 @@ namespace Controls
 
         private void Spectrum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (Spectrum.GraphType == GraphType.Bar)
+            if (Spectrum.GraphType == GraphType.WideBars)
             {
                 Spectrum.GraphType = GraphType.Line;
                 Spectrum.BarCount = 128;
@@ -616,11 +616,6 @@ namespace Controls
                 Spectrum.BarCount = 128;
             }
             else if (Spectrum.GraphType == GraphType.Band)
-            {
-                Spectrum.GraphType = GraphType.ThinBand;
-                Spectrum.BarCount = 256;
-            }
-            else if (Spectrum.GraphType == GraphType.ThinBand)
             {
                 Spectrum.GraphType = GraphType.ThinBandWithTips;
                 Spectrum.BarCount = 256;
@@ -634,6 +629,11 @@ namespace Controls
             { 
                 Spectrum.GraphType = GraphType.Bar;
                 Spectrum.BarCount = 64;
+            }
+            else if (Spectrum.GraphType == GraphType.Bar)
+            {
+                Spectrum.GraphType = GraphType.WideBars;
+                Spectrum.BarCount = 192;
             }
 
             Spectrum.ApplyProperties();
