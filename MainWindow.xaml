@@ -560,7 +560,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Row="0" Grid.ColumnSpan="7">
-            <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 0 0"/>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource MenuBrush}">

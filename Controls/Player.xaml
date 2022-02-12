@@ -521,7 +521,7 @@
                 <Label Content="100" FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="3" Margin="4,0,5,0" Padding="0" VerticalAlignment="Center" Grid.ColumnSpan="2" />
             </Grid>
 
-            <Grid Name="grdTrackInfo" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,2,0,0">
+            <Grid Name="grdTrackInfo" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,2,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100*"/>
@@ -532,11 +532,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,0,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
-                <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,0,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
-                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeNormal}" Margin="0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <Label Name="lblArtist" Grid.Column="1" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeNormal}" Margin="0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Margin="0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
+                <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
+                <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
+                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeNormal}" Margin="0 2 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
+                <Label Name="lblArtist" Grid.Column="1" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeNormal}" Margin="0" Padding="0 2 0 0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Margin="0 2 0 0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
                     <Run Name="lblAlbum" /><Run Text=" ("/><Run Name="lblYear"/><Run Text=")"/>
                 </TextBlock>
             </Grid>
