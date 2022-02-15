@@ -231,7 +231,7 @@ namespace Controls
         {
             if ((sender as MenuItem).DataContext is SimpleAlbumItem album)
             {
-                PlaylistViewModel.Play(LibraryUtils.GetTracks(album));
+                PlaylistViewModel.Insert(LibraryUtils.GetTracks(album));
             }
         }
 
@@ -239,7 +239,7 @@ namespace Controls
         {
             if ((sender as MenuItem).DataContext is SimpleAlbumItem album)
             {
-                PlaylistViewModel.Play(LibraryUtils.GetTracks(album));
+                PlaylistViewModel.Add(LibraryUtils.GetTracks(album));
             }
         }
 
@@ -307,7 +307,7 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            PlaylistInfo[] items = TrackTable.SelectedItems.Cast<PlaylistInfo>().ToArray();
+            FileViewInfo[] items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToArray();
             PlaylistViewModel.Insert(items);
         }
 
@@ -316,8 +316,8 @@ namespace Controls
             if (TrackTable.SelectedItem == null)
                 return;
 
-            PlaylistInfo[] items = TrackTable.SelectedItems.Cast<PlaylistInfo>().ToArray();
-            PlaylistViewModel.Insert(items);
+            FileViewInfo[] items = TrackTable.SelectedItems.Cast<FileViewInfo>().ToArray();
+            PlaylistViewModel.Instance.Add(items);
         }
 
         private void mnuTrackCtxEdit_Click(object sender, RoutedEventArgs e)
