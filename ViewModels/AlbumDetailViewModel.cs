@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace ViewModels
 {
@@ -29,8 +31,8 @@ namespace ViewModels
             }
         }
 
-        private AlbumItem[] _albums = null;
-        public AlbumItem[] Albums
+        private List<AlbumItem> _albums = new List<AlbumItem>();
+        public List<AlbumItem> Albums
         {
             get => _albums;
             set
@@ -49,8 +51,8 @@ namespace ViewModels
         //public bool loaded;
         private AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
 
-        private List<AlbumDetailGroup> _albumGroups = new List<AlbumDetailGroup>();
-        public List<AlbumDetailGroup> AlbumGroups
+        private ObservableCollection<AlbumDetailGroup> _albumGroups = new ObservableCollection<AlbumDetailGroup>();
+        public ObservableCollection<AlbumDetailGroup> AlbumGroups
         {
             get =>_albumGroups;
             set
@@ -84,10 +86,14 @@ namespace ViewModels
 
         public void Reload() => OrderBy(ViewType);
 
+        string LibraryName = null;
+
         void getGroups(AlbumDetailsOrderType type = AlbumDetailsOrderType.Album)
         {
             if (MainWindow.Instance.ViewMode != ViewMode.Albums) return;
 
+            MainWindow.Instance.Cursor = Cursors.Wait;
+            
             AlbumGroups.Clear();
 
             List<AlbumDetailGroup> _groups = new List<AlbumDetailGroup>();
@@ -109,8 +115,8 @@ namespace ViewModels
                         GroupName = albumname,
                         JumpNode = string.IsNullOrEmpty(albumname) ? "" : albumname[0].ToString()
                     };
-                    g.Albums = group.OrderBy(c => c.Album).ToArray();
-                    _groups.Add(g);
+                    g.Albums = group.OrderBy(c => c.Album).ToList();
+                    AlbumGroups.Add(g);
                 }
             }
             else if (type == AlbumDetailsOrderType.Artist)
@@ -130,8 +136,8 @@ namespace ViewModels
                         GroupName = artist,
                         JumpNode = string.IsNullOrEmpty(artist) ? "" : artist[0].ToString()
                     };
-                    g.Albums = group.OrderBy(c => c.Artist).ToArray();
-                    _groups.Add(g);
+                    g.Albums = group.OrderBy(c => c.Artist).ToList();
+                    AlbumGroups.Add(g);
                 }
             }
             else if (type == AlbumDetailsOrderType.Year)
@@ -150,8 +156,8 @@ namespace ViewModels
                         GroupName = year,
                         JumpNode = year
                     };
-                    g.Albums = group.OrderBy(c => c.Year).ToArray();
-                    _groups.Add(g);
+                    g.Albums = group.OrderBy(c => c.Year).ToList();
+                    AlbumGroups.Add(g);
                 }
             }
             else if (type == AlbumDetailsOrderType.All)
@@ -159,12 +165,11 @@ namespace ViewModels
                 double step_width = 100 / Math.Max(1, Albums.Count);
 
                 AlbumDetailGroup g = new AlbumDetailGroup() { GroupName = string.Empty };
-                g.Albums = Albums.ToArray();
-                _groups.Add(g);
+                g.Albums = Albums.ToList();
+                AlbumGroups.Add(g);
             }
             
-            AlbumGroups = _groups;
-
+            MainWindow.Instance.Cursor = Cursors.Arrow;
             MainWindow.SetProgress(0);
         }
 
@@ -172,6 +177,9 @@ namespace ViewModels
         {
             if (MainWindow.Instance.ViewMode != ViewMode.Albums)
                 return;
+
+            LibraryName = Library.Instance.Current.LibPath;
+            AlbumGroups.ToString();
 
             switch (ot)
             {

@@ -301,5 +301,20 @@ namespace Controls
         {
             flagTracks(FlagType.Unknown);
         }
+
+        private void mnuCtxInsertThisArtist_Click(object sender, RoutedEventArgs e)
+        {
+            if (TrackTable.SelectedItems == null ||
+                TrackTable.SelectedItems.Count == 0)
+                return;
+
+            List<string> artists = new List<string>();
+            foreach (var track in TrackTable.SelectedItems.Cast<FileViewInfo>()) { artists.Add(track.Mp3Fields.AlbumArtists); };
+            artists = artists.Distinct().ToList();
+            var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
+            selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
+
+            PlaylistViewModel.Insert(selection.ToArray());
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Controls
         List<ListView> Lists = new List<ListView>();
         private Point mousepos = new Point(0, 0);
         private bool mousedown_albums = false;
+        private bool instance_loaded = false;
 
         public AlbumDetailViewModel VM = null;
         
@@ -34,7 +35,7 @@ namespace Controls
 
             DataContext = VM;
 
-            Loaded += Favourites_Loaded;
+            Loaded += Albums_Loaded;
 
             InitializeComponent();
 
@@ -82,7 +83,7 @@ namespace Controls
             return rect.Contains(bounds.TopLeft) || rect.Contains(bounds.BottomRight);
         }
 
-        private void Favourites_Loaded(object sender, RoutedEventArgs e)
+        private void Albums_Loaded(object sender, RoutedEventArgs e)
         {
             if (MainWindow.Instance.ViewMode != ViewMode.Albums)
                 return;
@@ -92,6 +93,7 @@ namespace Controls
 
             if (gridCharTip != null)
                 gridCharTip.Visibility = AlbumDetailsOrderType != AlbumDetailsOrderType.All ? Visibility.Visible : Visibility.Hidden;
+
         }
 
 

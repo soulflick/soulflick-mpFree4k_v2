@@ -266,7 +266,7 @@
                       VirtualizingPanel.ScrollUnit="Item"
             ScrollViewer.CanContentScroll="True"
             Margin="2,5,0,5"
-            ItemsSource="{Binding AlbumGroups, UpdateSourceTrigger=PropertyChanged}">
+            ItemsSource="{Binding AlbumGroups, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel  Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth, Converter={StaticResource convAdd}, ConverterParameter=-24}"
@@ -286,7 +286,7 @@
                                     SelectionMode="Single"
                                     Background="{DynamicResource FirstItemBackground}"
                                     PresentationTraceSources.TraceLevel="High"
-                                    ItemsSource="{Binding Albums, UpdateSourceTrigger=PropertyChanged}"
+                                    ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     BorderThickness="0"
                                     PreviewMouseUp="ListAlbums_PreviewMouseUp"
                                     PreviewMouseDown="ListAlbums_PreviewMouseDown"

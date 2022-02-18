@@ -54,7 +54,7 @@
     </Window.Resources>
 
     <Grid Background="{DynamicResource  MenuBrush}">
-        <Border Margin="4" Background="{DynamicResource PlaylistItemBackground}" BorderBrush="#333333" BorderThickness="1">
+        <Border Margin="4" Background="{DynamicResource PlaylistItemBackground}" BorderBrush="#333333" BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="80"/>
