@@ -259,6 +259,7 @@ namespace MpFree4k
                     var auto = plsel.PlaylistDefs.FirstOrDefault(_def => _def.Name == def.Name);
                     if (auto != null)
                     {
+                        plsel.PlaylistDefs.ForEach(d => d.AutoSelect = false);
                         auto.AutoSelect = true;
                         plsel.SelectedDefinition = auto;
                     }
