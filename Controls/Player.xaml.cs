@@ -226,7 +226,7 @@ namespace Controls
             if (info == "ButtonSize" || info == "FontSize")
             {
                 double h = ButtonSize + 36;
-                Height = h + (6.5 * (Math.Max((int)UserConfig.FontSize - 3, 0)));
+                //Height = h + (6.5 * (Math.Max((int)UserConfig.FontSize - 3, 0)));
             }
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
@@ -279,7 +279,7 @@ namespace Controls
             lblAlbum.Text = "...";
             lblYear.Text = "-";
 
-            Height = (85 - 34) + ButtonSize - 34;
+            //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");
         }
 

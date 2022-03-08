@@ -31,7 +31,7 @@ namespace Equalizer.Visualization
         public int BarSegment = 4;
         public Point? MousePoint;
 
-        private GraphType _graphType = GraphType.ThinBand;
+        private GraphType _graphType = GraphType.Bar;
         public GraphType GraphType
         {
             get => _graphType;

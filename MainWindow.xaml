@@ -546,7 +546,8 @@
 
     <Grid Background="{DynamicResource MenuBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="90" MinHeight="80" MaxHeight="195"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto" x:Name="cdTabControl"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="Auto"/>
@@ -559,15 +560,14 @@
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0" Grid.ColumnSpan="7">
-            <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 0 0"/>
-        </Grid>
+        <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.ColumnSpan="7" Grid.Row="0"/>
 
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource MenuBrush}">
-            <TextBlock Text="" FontSize="{DynamicResource FontSizeLarge}" Margin="1,3,1,2"/>
-        </Grid>
+        <GridSplitter Grid.Row="1" Height="10" Grid.ColumnSpan="3"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                      ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
+                      Background="{DynamicResource FirstItemBackground}"/>
 
-        <TabControl x:Name="MainViews" Grid.Row="1" Grid.RowSpan="2"
+        <TabControl x:Name="MainViews" Grid.Row="2" Grid.RowSpan="2"
                     BorderBrush="{DynamicResource PrimaryBackground}" BorderThickness="0"
                     SelectionChanged="MainViews_SelectionChanged"
                     SnapsToDevicePixels="True"
@@ -604,7 +604,7 @@
 
         <GridSplitter Grid.Column="1" Grid.RowSpan="1" Grid.Row="2" Width="5" Background="{DynamicResource FirstItemBackground}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
 
-        <Grid Grid.Row="2" Grid.Column="2" Background="{DynamicResource PlaylistBackground}" Margin="0">
+        <Grid Grid.Row="3" Grid.Column="2" Background="{DynamicResource PlaylistBackground}" Margin="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="{Binding ElementName=cdTabControl, Path=Height}"/>
@@ -706,7 +706,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="3" Grid.ColumnSpan="3" Background="{DynamicResource FirstItemBackground}">
+        <Grid Grid.Row="4" Grid.ColumnSpan="3" Background="{DynamicResource FirstItemBackground}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15*"/>
@@ -752,13 +752,11 @@
             </TextBox>
         </Grid>
 
-        <Grid Grid.Row="4" Grid.ColumnSpan="3">
+        <Grid Grid.Row="5" Grid.ColumnSpan="3">
             <ProgressBar x:Name="ProgressBar" Height="4" HorizontalAlignment="Stretch" Margin="-4,0,-4,0" BorderThickness="0"
                          Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"
                           Background="{DynamicResource FirstItemBackground}"/>
         </Grid>
-
-
 
         <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
                       Tag="settings"

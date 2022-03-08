@@ -72,7 +72,7 @@ namespace Equalizer
             Instance = this;
         }
 
-        private GraphType _graphType = GraphType.ThinBand;
+        private GraphType _graphType = GraphType.Bar;
         public GraphType GraphType
         {
             get => _graphType;

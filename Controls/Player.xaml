@@ -4,11 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:Equalizer.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="694"
-             MinWidth="0" MinHeight="85"
-             Height="Auto"
+             mc:Ignorable="d"
              x:Name="_This"
+             VerticalAlignment="Center"
              HorizontalAlignment="Stretch"
              VerticalContentAlignment="Stretch">
     <UserControl.Resources>
@@ -416,7 +414,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Rectangle>
+        <Rectangle VerticalAlignment="Stretch">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
                     <GradientStop Color="{DynamicResource PlayerStartColor}" Offset="0.5" />
@@ -532,11 +530,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
-                <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
-                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeNormal}" Margin="0 2 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <Label Name="lblArtist" Grid.Column="1" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeNormal}" Margin="0" Padding="0 2 0 0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="{DynamicResource FontSizeNormal}" Margin="0 2 0 0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
+                <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
+                <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
+                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeBig}" Margin="0 2 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
+                <Label Name="lblArtist" Grid.Column="1" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeBig}" Margin="0" Padding="0 2 0 0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Margin="0 2 0 0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
                     <Run Name="lblAlbum" /><Run Text=" ("/><Run Name="lblYear"/><Run Text=")"/>
                 </TextBlock>
             </Grid>
@@ -552,7 +550,7 @@
                                      BarEndBrush="{DynamicResource SpectrumEndBrush}"
                                      LineBrush="{DynamicResource SpectrumLineBrush}"
                                      FillBrush="{DynamicResource SpectrumFillBrush}"
-                                     BarSegment="4" BarGap="1" GraphType="ThinLine" BarCount="256" Opacity="0.75"/>
+                                     BarSegment="4" BarGap="1" GraphType="Bar" BarCount="64" Opacity="0.75"/>
                 <Border.Resources>
                     <Style TargetType="controls:LinearSpectrum">
                         <Style.Triggers>
