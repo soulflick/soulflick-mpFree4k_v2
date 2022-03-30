@@ -470,19 +470,19 @@
             <Grid.RowDefinitions>
                 <!-- Image and Labels -->
                 <RowDefinition Height="Auto"/>
+                <!-- Volume -->
+                <RowDefinition Height="Auto"/>
                 <!-- Controls -->
                 <RowDefinition Height="Auto"/>
-                <!-- Progress -->
-                <RowDefinition Height="Auto"/>
-                <!-- Volume Slider -->
-                <RowDefinition Height="Auto"/>
                 <!-- Line Graph -->
-                <RowDefinition Height="122"/>
+                <RowDefinition Height="122" MinHeight="12"/>
+                <!-- GridSplitter -->
+                <RowDefinition Height="5"/>
                 <!-- Info -->
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="3" Panel.ZIndex="1001">
+            <Grid Grid.Row="2" Panel.ZIndex="1001">
                 <Grid Margin="10,10,0,0" Width="Auto" Height="Auto" ZIndex="100" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Border x:Name="ImgBorder" CornerRadius="5"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="1,0,0,0" VerticalAlignment="Center">
@@ -511,7 +511,7 @@
 
             </Grid>
 
-            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10 0 0 0" Style="{StaticResource sliderGridStyle}" MinWidth="150">
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10 0 0 0" Style="{StaticResource sliderGridStyle}" MinWidth="150">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -620,7 +620,7 @@
                 </Grid>
             </Grid>
 
-            <Border Grid.Row="4" Panel.ZIndex="999" BorderBrush="{DynamicResource PlayerButtonMouseOverBorderBrush}">
+            <Border Grid.Row="3" Panel.ZIndex="999" BorderBrush="{DynamicResource PlayerButtonMouseOverBorderBrush}">
                 <controls:LinearSpectrum x:Name="Spectrum"
                                      MouseDown="Spectrum_MouseDown"
                                      BorderBrush="#3A3A3A" BorderThickness="0.5" Margin="13,10,8,0"
@@ -641,6 +641,8 @@
                 </Border.Resources>
             </Border>
 
+            <GridSplitter Grid.Row="4" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Height="5" HorizontalAlignment="Stretch" Background="{DynamicResource ListViewItemBackground}"/>
+
             <Grid Grid.Row="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -650,7 +652,7 @@
                     <RowDefinition Height="100*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Margin="14,10,0,0" Grid.Row="0" Grid.ColumnSpan="2" 
+                <TextBlock Margin="10,10,0,0" Grid.Row="0" Grid.ColumnSpan="2" 
                            Text="{Binding ElementName=_This, Path=Info.Path}"
                                FontSize="{DynamicResource FontSizeSmaller}"
                                Foreground="{DynamicResource MenuDisabledTextBrush}"
