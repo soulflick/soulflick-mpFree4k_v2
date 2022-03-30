@@ -41,12 +41,12 @@
 
             <Style TargetType="{x:Type ListViewItem}">
                 <Setter Property="OverridesDefaultStyle" Value="false"/>
+                <Setter Property="Margin" Value="0"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
                             <Border BorderBrush="Transparent"  BorderThickness="0" Name="Bd">
-                                <GridViewRowPresenter  
- 	                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
@@ -58,9 +58,9 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="AlbumItemList">
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="36"/>
+                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="100*"/>
                         <ColumnDefinition Width="7*"/>
                         <ColumnDefinition Width="10*"/>
@@ -70,7 +70,7 @@
                         <RowDefinition Height="Auto" MinHeight="15"/>
                     </Grid.RowDefinitions>
 
-                    <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4"
                           Width="32" Height="32" Opacity="0.8"
                           Grid.RowSpan="2">
                         <Grid.OpacityMask>
@@ -92,7 +92,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AlbumTile">
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="100*"/>
@@ -104,7 +104,7 @@
 
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
                           Width="110" Height="110" Opacity="0.8"
-                          Margin="-2,0,0,0"
+                          Margin="0"
                           Grid.RowSpan="2">
                         <Grid.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
@@ -154,7 +154,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AlbumPlain">
-                <Grid Margin="2" HorizontalAlignment="Stretch">
+                <Grid Margin="0" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -181,7 +181,6 @@
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="ContentTemplate" Value="{StaticResource AlbumItemList}"/>
-
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=_This, Path=AlbumViewType}" Value="{x:Static enums:AlbumViewType.List}">
                                     <Setter Property="ContentTemplate" Value="{StaticResource AlbumItemList}"/>
@@ -210,9 +209,9 @@
         
     </UserControl.Resources>
     
-    <Grid Background="{DynamicResource PrimaryBackground}">
+    <Grid>
         <ListView x:Name="ListAlbums" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Background="{DynamicResource FirstItemBackground}"
+                  Background="{DynamicResource PlayerStartGradient}"
                   PresentationTraceSources.TraceLevel="High"
                   ItemsSource="{Binding Albums}"
                   ItemTemplate="{StaticResource SwitchAlbumTemplate}"
@@ -237,7 +236,9 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource AlbumItemList}"/>
                     <!--<Setter Property="IsSelected" Value="{Binding IsSelected}"/>-->
-                    <Setter Property="Margin" Value="0,0,0,1"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="7"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

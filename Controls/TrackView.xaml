@@ -38,12 +38,12 @@
                 <Setter Property="Foreground" Value="Black" />
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="13"/>
-                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="28"/>
             </Style>
 
             <DataTemplate x:Key="TrackList">
-                <Grid Margin="2" HorizontalAlignment="Stretch">
+                <Grid Margin="0" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="36"/>
                         <ColumnDefinition Width="100*"/>
@@ -74,7 +74,7 @@
 
 
             <DataTemplate x:Key="TrackTile">
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="100*"/>
@@ -85,7 +85,7 @@
 
 
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Margin="-2,0,0,0"
+                          Margin="0"
                           Width="110" Height="110"
                           Grid.RowSpan="2"
                           Opacity="0.8">
@@ -93,7 +93,8 @@
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                         </Grid.OpacityMask>
                         <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
-                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding TrackImage, Converter={StaticResource noimgtodefconv}}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding TrackImage, Converter={StaticResource noimgtodefconv}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
                                Width="110" Height="110"
                                Opacity="{Binding HasTrackImage, Converter={StaticResource bool2opacconv}}"  />
 
@@ -145,7 +146,7 @@
 
             <DataTemplate x:Key="TrackDetail">
                 <Border Margin="4" BorderBrush="WhiteSmoke" BorderThickness="0" HorizontalAlignment="Stretch">
-                    <Grid Margin="2">
+                    <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="100*"/>
@@ -157,8 +158,8 @@
 
 
                         <Grid VerticalAlignment="Top" HorizontalAlignment="Center"
-                          Width="110" Height="110" Opacity="0.8" Grid.Row="0"
-                          Grid.RowSpan="2">
+                              Width="110" Height="110" Opacity="0.8" Grid.Row="0"
+                              Grid.RowSpan="2">
                             <Grid.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                             </Grid.OpacityMask>
@@ -210,7 +211,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="TrackPlain">
-                <Grid Margin="2" HorizontalAlignment="Stretch">
+                <Grid Margin="0" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -295,7 +296,7 @@
                   PresentationTraceSources.TraceLevel="None"
                   ItemsSource="{Binding Tracks}"
                   ItemTemplate="{StaticResource SwitchTrackTemplate}"
-                  Background="{DynamicResource FirstItemBackground}"
+                  Background="{DynamicResource PlayerStartGradient}"
                   BorderThickness="0"
                   SelectionChanged="ListTracks_SelectionChanged"
                   PreviewKeyDown="ListTracks_PreviewKeyDown"
@@ -313,10 +314,12 @@
                     <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
-                    <Setter Property="Margin" Value="0,0,0,1"/>
+                    <Setter Property="Margin" Value="0"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource TrackList}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="7"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

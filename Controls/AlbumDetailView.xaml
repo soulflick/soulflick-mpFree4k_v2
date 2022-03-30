@@ -305,6 +305,8 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                         <Setter Property="Margin" Value="0,0,1,1"/>
                                         <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Margin" Value="7"/>
                                         <Style.Triggers>
                                             <Trigger Property="IsVisible" Value="False">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -314,7 +316,7 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="2" Width="240">
+                                        <Grid Margin="2" Width="330">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="100*"/>
@@ -326,7 +328,7 @@
 
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
                                                 Width="110" Height="110" Opacity="0.8"
-                                                Margin="-2,0,0,0"
+                                                Margin="3"
                                                 Grid.RowSpan="2">
                                                 
                                                 <Grid.OpacityMask>
@@ -343,7 +345,7 @@
                                             </Grid>
 
 
-                                            <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                                            <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="7">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="100*"/>
@@ -362,17 +364,17 @@
                                                     FontFamily="Verdana" VerticalAlignment="Bottom"
                                                     HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
 
-                                                <TextBlock Text="Artist:" Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                                                <TextBlock Text="{Binding Artist}" Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                                                <TextBlock Text="Artist:" Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                                                <TextBlock Text="{Binding Artist}" Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
-                                                <TextBlock Text="Genre:" Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                                                <TextBlock Text="{Binding Genre}" Grid.Row="2" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                                                <TextBlock Text="Genre:" Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                                                <TextBlock Text="{Binding Genre}" Grid.Row="2" Grid.Column="1" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
-                                                <TextBlock Text="Year:" Grid.Column="0" Grid.Row="3" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                                                <TextBlock Text="{Binding Year}" Grid.Row="3" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                                                <TextBlock Text="Year:" Grid.Column="0" Grid.Row="3" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                                                <TextBlock Text="{Binding Year}" Grid.Row="3" Grid.Column="1" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
-                                                <TextBlock Text="Tracks:" Grid.Column="0" Grid.Row="4" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                                                <TextBlock Text="{Binding TrackCount}" Grid.Row="4" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                                                <TextBlock Text="Tracks:" Grid.Column="0" Grid.Row="4" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
+                                                <TextBlock Text="{Binding TrackCount}" Grid.Row="4" Grid.Column="1" FontSize="{DynamicResource FontSizeSmall}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
                                             </Grid>
                                         </Grid>

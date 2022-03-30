@@ -37,18 +37,20 @@
                 <Setter Property="Foreground" Value="Black" />
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="13"/>
-                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="28"/>
             </Style>
 
             <Style TargetType="{x:Type ListViewItem}">
                 <Setter Property="OverridesDefaultStyle" Value="false"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="7"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
                             <Border BorderBrush="Transparent"  BorderThickness="0" Name="Bd">
-                                <GridViewRowPresenter  
- 	                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
@@ -60,9 +62,9 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ItemList">
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="36"/>
+                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="100*"/>
                         <ColumnDefinition Width="8*"/>
                         <ColumnDefinition Width="8*"/>
@@ -71,25 +73,24 @@
                         <RowDefinition Height="Auto" MinHeight="30"/>
                     </Grid.RowDefinitions>
 
-                    <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   Width="32" Height="32" Opacity="0.8">
+                    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Width="32" Height="32" Opacity="0.8" Margin="4">
                         <Grid.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                         </Grid.OpacityMask>
-                        <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" />
+                        <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" BorderThickness="0"/>
                         <Image Source="{Binding FirstAlbum, Converter={StaticResource noimgtodefconv}}"
                                Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"/>
                     </Grid>
 
                     <TextBlock Text="{Binding Artists}" Grid.Column="1" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" FontFamily="Verdana" VerticalAlignment="Center"
-                           HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding AlbumCount}" Grid.Column="2" FontSize="{DynamicResource FontSizeSmaller}" Margin="0,0,2,0"/>
-                    <TextBlock Text="{Binding TrackCount}" Grid.Column="3" FontSize="{DynamicResource FontSizeSmaller}"/>
+                           HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" Margin="7,7,0,0"/>
+                    <TextBlock Text="{Binding AlbumCount}" Grid.Column="2" FontSize="{DynamicResource FontSizeSmaller}" Margin="7,2,0,0"/>
+                    <TextBlock Text="{Binding TrackCount}" Grid.Column="3" FontSize="{DynamicResource FontSizeSmaller}" Margin="7,2,0,0"/>
                 </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="ArtistPlain">
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100*"/>
                         <!--<ColumnDefinition Width="8*"/>
@@ -100,7 +101,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Artists}" Grid.Column="0" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" FontFamily="Verdana" VerticalAlignment="Center"
-                           HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" Margin="0,3,0,4"/>
+                           HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" Margin="0,3,0,4" Padding="7"/>
                     <!--<TextBlock Text="{Binding AlbumCount}" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" Margin="0,0,2,0"/>
                     <TextBlock Text="{Binding TrackCount}" Grid.Column="2" FontSize="{DynamicResource FontSizeSmaller}"/>-->
                 </Grid>
@@ -108,14 +109,15 @@
 
             <DataTemplate x:Key="ArtistTile">
                 <!--<Border Margin="4" BorderBrush="WhiteSmoke" BorderThickness="1" HorizontalAlignment="Stretch">-->
-                <Grid Margin="2">
+                <Grid Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" MinHeight="22"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="{Binding Artists}" Grid.Column="1" FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource ListItemForeground}" FontFamily="Verdana"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center"
+                               Margin="4"/>
 
                     <ListBox ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                   Grid.Row="1"
@@ -136,12 +138,15 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Padding" Value="0"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="4" BorderBrush="White" BorderThickness="0" HorizontalAlignment="Stretch">
-                                    <Grid Margin="2">
+                                <Border Margin="0" BorderBrush="White" BorderThickness="0" HorizontalAlignment="Stretch">
+                                    <Grid Margin="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="100*"/>
@@ -153,14 +158,14 @@
                                         </Grid.RowDefinitions>
 
 
-                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                                              Margin="2,2,6,2"
-                                   Width="80" Height="80" Opacity="0.8"
+                                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left"
+                                              Margin="7,7,0,0"
+                                              Width="80" Height="80" Opacity="0.8"
                                               Grid.RowSpan="2">
                                             <Grid.OpacityMask>
                                                 <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                                             </Grid.OpacityMask>
-                                            <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" />
+                                            <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" BorderThickness="0"/>
                                             <Image Source="{Binding AlbumImage, Converter={StaticResource noimgtodefconv}}"
                                                    Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"/>
                                         </Grid>
@@ -170,9 +175,10 @@
                                             HorizontalAlignment="Stretch"
                                             TextTrimming="CharacterEllipsis"
                                             ToolTip="{Binding AlbumLabel}"
+                                            Margin="7,7,0,0"
                                             Text="{Binding AlbumLabel}" FontSize="{DynamicResource FontSizeBig}" Foreground="{DynamicResource ListItemForeground}" FontFamily="Verdana"/>
 
-                                        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                                        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Margin="12,4,0,0">
                                             <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Foreground="{DynamicResource MenuTextBrush}" FontFamily="Verdana"><Run Text="Genre: "/><Run Foreground="{DynamicResource ListItemForeground}" Text="{Binding Genre}"/></TextBlock>
                                             <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Foreground="{DynamicResource MenuTextBrush}" FontFamily="Verdana"><Run Text="Year: "/><Run Foreground="{DynamicResource ListItemForeground}"  Text="{Binding Year}"/></TextBlock>
                                             <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Foreground="{DynamicResource MenuTextBrush}" FontFamily="Verdana"><Run Text="Tracks: "/><Run  Foreground="{DynamicResource ListItemForeground}" Text="{Binding TrackCount}"/></TextBlock>
@@ -210,13 +216,13 @@
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource PrimaryBackground}">
+    <Grid Background="{DynamicResource ListViewItemBackground}">
         <ListView x:Name="ListArtists" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   PresentationTraceSources.TraceLevel="High"
                   ItemsSource="{Binding Artists, UpdateSourceTrigger=PropertyChanged}"
                   SelectionChanged="ListArtists_SelectionChanged"
                   BorderThickness="0"
-                  Background="{DynamicResource FirstItemBackground}"
+                  Background="{DynamicResource PlayerStartGradient}"
                   SizeChanged="ListArtists_SizeChanged"
                   PreviewMouseUp="ListArtists_PreviewMouseUp"
                   PreviewKeyDown="ListArtists_PreviewKeyDown"
@@ -235,7 +241,8 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource ItemList}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
-                    <Setter Property="Margin" Value="0,0,0,1"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

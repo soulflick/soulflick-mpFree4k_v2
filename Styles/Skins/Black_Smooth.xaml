@@ -14,8 +14,8 @@
     <Color x:Key="DefaultItemForeground">#E0E0E0</Color>
     <Color x:Key="MenuTextBrushForeground">#CCCCCC</Color>
     <Color x:Key="MenuDisabledTextForeGround">#808080</Color>
-    <Color x:Key="FirstColorBrush">LightSteelBlue</Color>
-    <Color x:Key="FirstColorLightBrush">LightSteelBlue</Color>
+    <Color x:Key="FirstColorBrush">Gray</Color>
+    <Color x:Key="FirstColorLightBrush">Gray</Color>
     <Color x:Key="PrimaryBackgroundBrush">White</Color>
     <Color x:Key="SecondBackgroundBrush">White</Color>
     <Color x:Key="StandardTextForeground">#4682B4</Color>
