@@ -21,12 +21,14 @@ namespace Classes
             MainWindow.Instance.TableView.TrackView.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Playlist.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Player.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.SmartPlayer.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.setctrl.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.TrackTable.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Favourites.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Clear();
-            MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Clear();
+            //MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Clear();
+            MainWindow.Instance.SmartPlayer.Spectrum.Resources.MergedDictionaries.Clear();
 
         }
 
@@ -40,13 +42,16 @@ namespace Classes
             MainWindow.Instance.TableView.TrackView.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Playlist.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Player.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.SmartPlayer.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.setctrl.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.TrackTable.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Favourites.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Add(resDict);
-            MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Add(resDict);
+            //MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Player.OnThemeChanged();
+            MainWindow.Instance.SmartPlayer.Spectrum.Resources.MergedDictionaries.Add(resDict);
+            MainWindow.Instance.SmartPlayer.OnThemeChanged();
         }
 
         public static string GetSkinURI(SkinColors skin)

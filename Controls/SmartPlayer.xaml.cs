@@ -6,33 +6,26 @@ using System.Timers;
 using Classes;
 using ViewModels;
 using System.Windows.Threading;
+using System.Linq;
 using Interfaces;
 using Equalizer;
+using Dialogs;
 using Models;
 using Mpfree4k.Enums;
 using Configuration;
 using MpFree4k;
+using Layers;
 using System.Windows.Media;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 namespace Controls
 {
-    public class ValueChangedEvent : EventArgs
-    {
-        public string Key;
-        public string Value;
-    }
-
-    public class ViewModelChangedEventArgs : EventArgs
-    {
-        public ViewModelChangedEventArgs(object info) { this.value = info; }
-        public object value;
-    }
-
-    
-    public partial class Player : UserControl, INotifyPropertyChanged, IPlayer
+    public partial class SmartPlayer : UserControl, INotifyPropertyChanged, IPlayer
     {
         private PlayerViewModel ViewModel { get; set; }
-        public static Player Instance;
+        public static SmartPlayer Instance;
         public event PropertyChangedEventHandler PropertyChanged;
         private PlaylistViewModel _playlistVM = null;
         
@@ -42,7 +35,7 @@ namespace Controls
 
         private IMediaPlugin MediaPlayer => ViewModel.MediaPlayer;
 
-        public Player()
+        public SmartPlayer()
         {
             if (PlayerViewModel.Instance == null)
                 ViewModel = new PlayerViewModel(this);
@@ -55,7 +48,7 @@ namespace Controls
 
             Instance = this;
 
-            //1 btnMute.DataContext = this;
+            btnMute.DataContext = this;
 
             ViewModel.Rebuild();
 
@@ -84,7 +77,7 @@ namespace Controls
 
         public void updateProgress(string label, double progress)
         {
-            lblProgress.Content = label;
+            Player.Instance.lblProgress.Content = label;
             UpdatePositionMarker(progress);
         }
 
@@ -97,6 +90,9 @@ namespace Controls
                 return;
             }
 
+            var info = new FileViewInfo(fileInfo.Path);
+            SetInfo(info);
+
             ViewModelChanged?.Invoke(null, new ViewModelChangedEventArgs(fileInfo));
 
             bool paused = MediaPlayer.IsPaused;
@@ -108,7 +104,7 @@ namespace Controls
             MediaPlayer.Stop();
             MediaPlayer.Position = 0;
             MediaPlayer.URL = fileInfo.Path;
-            //1 lblTrack.Content = fileInfo.Path;
+            lblTrack.Content = fileInfo.Path;
 
             MediaPlayer.Init(fileInfo.Path);
 
@@ -125,7 +121,7 @@ namespace Controls
 
             double duration = (int)MediaPlayer.Duration;
             InitPositionMarker((int)duration);
-            lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
+            Player.Instance.lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
             setProgressSliderTicks(duration);
             ShowWindowTitleByFile(fileInfo);
 
@@ -161,13 +157,13 @@ namespace Controls
                 }
                 catch
                 {
-                    //1 TrackImage.Source = null;
+                    TrackImage.Source = null;
                     //TrackImageBig.Source = null;
                 }
 
                 duration = MediaPlayer.Duration;
                 InitPositionMarker((int)duration);
-                lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
+                Player.Instance.lblTotalTrackDuration.Content = Utilities.LibraryUtils.GetDurationString((int)duration);
                 setProgressSliderTicks(duration);
 
                 Raise("Play");
@@ -226,13 +222,11 @@ namespace Controls
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        /*
                         model.ViewPort = new System.Drawing.Size((int)Spectrum.ActualWidth, (int)Spectrum.ActualHeight);
                         model._control = Spectrum;
                         Spectrum.SetViewModel(model);
                         Spectrum.ApplyProperties();
                         model.CreateSpectrum();
-                        */
                     });
                 }
             }
@@ -240,7 +234,6 @@ namespace Controls
 
         private void Player_Loaded(object sender, RoutedEventArgs e)
         {
-            /*
             lblTrack.Content = "...";
             lblArtist.Content = "...";
             lblAlbum.Text = "...";
@@ -248,23 +241,22 @@ namespace Controls
 
             //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");
-            */
         }
 
         public void OnThemeChanged()
         {
-            //1 Spectrum.ControlBackground = Resources["SpectrumBackground"] as System.Windows.Media.SolidColorBrush;
-            //1 Spectrum.ApplyProperties();
+            Spectrum.ControlBackground = Resources["SpectrumBackground"] as System.Windows.Media.SolidColorBrush;
+            Spectrum.ApplyProperties();
         }
 
         void UpdatePositionMarker(double position)
         {
-            sldTrackSlider.ValueChanged -= sldTrackSlider_ValueChanged;
-            sldTrackSlider.Value = position;
-            sldTrackSlider.ValueChanged += sldTrackSlider_ValueChanged;
+            Player.Instance.sldTrackSlider.ValueChanged -= sldTrackSlider_ValueChanged;
+            Player.Instance.sldTrackSlider.Value = position;
+            Player.Instance.sldTrackSlider.ValueChanged += sldTrackSlider_ValueChanged;
         }
 
-        void InitPositionMarker(int duration) => 0.ToString(); //=> sldTrackSlider.Maximum = duration;
+        void InitPositionMarker(int duration) => Player.Instance.sldTrackSlider.Maximum = duration;
 
         void ShowWindowTitleByFile(PlaylistInfo item)
         {
@@ -288,7 +280,6 @@ namespace Controls
 
         void SetTrackInfo(PlaylistInfo itm)
         {
-            /*
             lblTrack.Content = "";
             lblArtist.Content = "";
             lblAlbum.Text = "";
@@ -307,7 +298,6 @@ namespace Controls
             lblYear.Text = itm.Year;
 
             ViewModel.trackLength = Utilities.LibraryUtils.DurationStringToSeconds(itm.Duration);
-            */
         }
 
         void ShowWindowTitle(string songName)
@@ -347,16 +337,15 @@ namespace Controls
 
         void setProgressSliderTicks(double duration)
         {
-            sldTrackSlider.TickFrequency = 10; // (int)(duration / 30);
+            Player.Instance.sldTrackSlider.TickFrequency = 10; // (int)(duration / 30);
             System.Windows.Media.DoubleCollection dbls = new System.Windows.Media.DoubleCollection();
             for (int i = 0; i <= (int)(duration / 30); i++)
                 dbls.Add(i * 30);
-            sldTrackSlider.Ticks = dbls;
+            Player.Instance.sldTrackSlider.Ticks = dbls;
         }
 
         void DisplayTrackImage(PlaylistInfo itm)
         {
-            /*
             if (itm.Image != null)
             {
                 TrackImage.Source = itm.Image;
@@ -380,7 +369,6 @@ namespace Controls
             {
                 TrackImage.Source = DefaultImage;
             }
-            */
         }
        
         public void Pause()
@@ -415,8 +403,8 @@ namespace Controls
 
             Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
             {
-                sldTrackSlider.Value = 0;
-                //1 lblProgress.Content = "00:00";
+                Player.Instance.sldTrackSlider.Value = 0;
+                Player.Instance.lblProgress.Content = "00:00";
             }));
             CheckSongTimer.Stop();
         }
@@ -463,40 +451,27 @@ namespace Controls
             }
         }
 
-        public int Volume => 0; // (int)sldVolume.Value;
+        public int Volume => (int)sldVolume.Value;
 
         public Dispatcher dispatcher => this.Dispatcher;
 
         private void CheckSongTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ViewModel.CheckSong();
-            ValueChanged(null, new ValueChangedEvent() { Key = "PlayTimeUpdate", Value = MediaPlayer.Position.ToString() });
+            if (ValueChanged != null)
+                ValueChanged(null, new ValueChangedEvent() { Key = "PlayTimeUpdate", Value = MediaPlayer.Position.ToString() });
         }
 
-        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => 0.ToString(); //MediaPlayer?.SetVolume((int)sldVolume.Value);
+        private void sldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => MediaPlayer?.SetVolume((int)sldVolume.Value);
 
-        public void sldTrackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void sldTrackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            0.ToString();
-
             if (MediaPlayer == null) return;
             if (!MediaPlayer.HasMedia) return;
 
-            
-            MediaPlayer.Position = sldTrackSlider.Value;
+            MediaPlayer.Position = Player.Instance.sldTrackSlider.Value;
         }
 
-        private void lblProgress_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
-            ViewModel.remainingMode = ViewModel.remainingMode == RemainingMode.Elapsed ? RemainingMode.Remaining : RemainingMode.Elapsed;
-
-        private void sldTrackSlider_StylusMove(object sender, System.Windows.Input.StylusEventArgs e) => MediaPlayer.SetVolume(0);
-
-        private void sldTrackSlider_StylusDown(object sender, System.Windows.Input.StylusDownEventArgs e) => MediaPlayer.SetVolume(ViewModel.muteVolumne);
-
-
-
-
-        /*
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
             Previous();
@@ -510,7 +485,10 @@ namespace Controls
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.onStart();
+            if (MediaPlayer.IsPaused)
+                ViewModel.onStart();
+            else
+                Pause();
         }
 
         private void btnReverse_Click(object sender, RoutedEventArgs e)
@@ -542,8 +520,13 @@ namespace Controls
             IsCheckedState = btnMute.IsChecked == true;
         }
 
-        
-        
+        //private void sldTrackSlider_StylusMove(object sender, System.Windows.Input.StylusEventArgs e) => MediaPlayer.SetVolume(0);
+
+        //private void sldTrackSlider_StylusDown(object sender, System.Windows.Input.StylusDownEventArgs e) => MediaPlayer.SetVolume(ViewModel.muteVolumne);
+
+        private void lblProgress_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+            ViewModel.remainingMode = ViewModel.remainingMode == RemainingMode.Elapsed ? RemainingMode.Remaining : RemainingMode.Elapsed;
+
         private void Spectrum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Spectrum.GraphType == GraphType.WideBars)
@@ -613,6 +596,117 @@ namespace Controls
             info.ShowDialog();
         }
 
-        */
+        FileViewInfo _info = null;
+        public FileViewInfo Info
+        {
+            get => _info;
+            set
+            {
+                _info = value;
+                Raise(nameof(Info));
+            }
+        }
+
+        private IEnumerable<FileViewInfo> collection => Library.Instance.Current.Files;
+
+        private IEnumerable<SimpleTrackItem> _albumTracks = null;
+        public IEnumerable<SimpleTrackItem> AlbumTracks
+        {
+            get => _albumTracks;
+            set
+            {
+                _albumTracks = value;
+                Raise(nameof(AlbumTracks));
+            }
+        }
+
+        public string DiscLength
+        {
+            get
+            {
+                if (AlbumTracks == null || !AlbumTracks.Any())
+                    return string.Empty;
+
+                double len = 0;
+                foreach (var track in AlbumTracks)
+                    len += track.DurationValue;
+
+                return Utilities.LibraryUtils.GetDurationString((int)len);
+            }
+        }
+
+        public void SetInfo(FileViewInfo info)
+        {
+            
+            Info = info;
+
+            if (info._Handle != null)
+            {
+                tbBitrate.Text = info._Handle.Properties.AudioBitrate.ToString();
+                tbBitsPerSample.Text = info._Handle.Properties.BitsPerSample.ToString();
+                tbChannels.Text = info._Handle.Properties.AudioChannels.ToString();
+                tbDescription.Text = info._Handle.Properties.Description;
+                tbDuration.Text = info._Handle.Properties.Duration.ToString(@"hh\:mm\:ss");
+                tbSampleRate.Text = info._Handle.Properties.AudioSampleRate.ToString();
+
+                tbCodecs.Text = string.Empty;
+                foreach (var entry in info._Handle.Properties.Codecs)
+                {
+                    if (entry == null) continue;
+                    tbCodecs.Text += entry.MediaTypes.ToString() + " ";
+                }
+            }
+
+            var tracks = Utilities.LibraryUtils.GetAlbumItems(info, collection);
+            var filteredTracks = new List<FileViewInfo>();
+
+            foreach (var t in tracks)
+            {
+                if (filteredTracks.Any(f => f.Title == t.Title && f.Number == t.Number && f.Mp3Fields.DurationValue == t.Mp3Fields.DurationValue))
+                    continue;
+
+                else filteredTracks.Add(t);
+            }
+
+            AlbumTracks = from track in filteredTracks
+                          select new SimpleTrackItem
+                          {
+                              Length = track.Mp3Fields.Duration,
+                              Name = track.Title,
+                              Track = (int)track.Mp3Fields.Track,
+                              DurationValue = (double)track.Mp3Fields.DurationValue,
+                              Path = track.Path
+                          };
+
+            Raise(nameof(DiscLength));
+        }
+
+        private void Path_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                Process.Start("explorer.exe", Path.GetDirectoryName(Info.Path));
+            }
+            catch
+            {
+                MessageBox.Show("Cannot open storage location.");
+            }
+        }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var track = (sender as Grid).DataContext as SimpleTrackItem;
+
+            FileViewInfo f_info = new FileViewInfo(track.Path);
+            PlaylistViewModel.Play(new FileViewInfo[]  { f_info });
+        }
+
+        private void RunArtist_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string artist = (sender as System.Windows.Documents.Run).Text;
+
+            MainWindow.Instance.MainViews.SelectedIndex = 2;
+            MainWindow.Instance.FilterBox.Text = artist;
+        }
     }
 }

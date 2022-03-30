@@ -165,8 +165,10 @@ namespace MpFree4k
             TableView.ArtistView.SetMediaLibrary(Library.Current);
             TableView.TrackView.SetMediaLibrary(Library.Current);
             TrackTable.SetMediaLibrary(Library.Current);
-            Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
+            //Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
+            SmartPlayer.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
             Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
+            SmartPlayer.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             delegateUpdateProgress = new updateProgress(updateProgressFunc);
 
@@ -398,6 +400,17 @@ namespace MpFree4k
         {
             InfoScreen info = new InfoScreen();
             info.ShowDialog();
+        }
+
+        bool paused = false;
+        private void GridSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            
+        }
+
+        private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+           
         }
     }
 }

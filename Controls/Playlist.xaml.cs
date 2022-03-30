@@ -34,8 +34,8 @@ namespace Controls
             vm = new PlaylistViewModel();
             DataContext = vm;
             vm.PropertyChanged += Playlist_PropertyChanged;
-            MainWindow.Instance.Player.PropertyChanged += Player_PropertyChanged;
-            MainWindow.Instance.Player.ValueChanged += Player_ValueChanged;
+            MainWindow.Instance.SmartPlayer.PropertyChanged += Player_PropertyChanged;
+            MainWindow.Instance.SmartPlayer.ValueChanged += Player_ValueChanged;
             Loaded += Playlist_Loaded;
             SizeChanged += Playlist_SizeChanged;
             

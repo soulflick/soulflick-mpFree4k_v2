@@ -143,6 +143,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\SpectrumProvider.cs" />
+    <Compile Include="Controls\SmartPlayer.xaml.cs">
+      <DependentUpon>SmartPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Enums\Enumerations.cs" />
     <Compile Include="Models\LabelLocation.cs" />
     <Compile Include="Classes\LineSpectrum.cs" />
@@ -272,6 +276,10 @@
     <Page Include="Controls\LinearSpectrum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SmartPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\PlaylistStatus.xaml">
       <SubType>Designer</SubType>

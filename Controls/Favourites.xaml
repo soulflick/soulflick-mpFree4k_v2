@@ -90,6 +90,7 @@
                     <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>

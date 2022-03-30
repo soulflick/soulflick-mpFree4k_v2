@@ -16,6 +16,7 @@ namespace Dialogs
         public string Length { get; set; }
         public int Track { get; set; }
         public double DurationValue { get; set; }
+        public string Path { get; set; }
     }
 
     public partial class TrackInfo : Window, INotifyPropertyChanged

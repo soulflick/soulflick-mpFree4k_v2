@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Configuration;
 using Mpfree4k.Enums;
 using Classes;
+using ViewModels;
 
 namespace Dialogs
 {
@@ -78,6 +79,7 @@ namespace Dialogs
                 SkinAdaptor.ApplyFontSize(MainWindow.Instance, size);
 
             MainWindow.Instance.Player.Raise("ButtonSize");
+            MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
 
         }
 
@@ -268,6 +270,7 @@ namespace Dialogs
             UserConfig.RememberSelectedAlbums = rememberSelected.IsChecked == true;
             UserConfig.ShowTouchButtons = showTouchButtons.IsChecked == true;
             MainWindow.Instance.Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
+            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             WriteUserConfig();
         }
@@ -302,6 +305,7 @@ namespace Dialogs
             ControlSize csize = (ControlSize)itm.Tag;
             UserConfig.ControlSize = csize;
             MainWindow.Instance.Player.Raise("ButtonSize");
+            MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
 
         private void tbNumAlbums_TextChanged(object sender, TextChangedEventArgs e)
@@ -334,7 +338,7 @@ namespace Dialogs
 
             if (MessageBox.Show("Do you want to apply your settings now?", "Playback Plugin", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                MainWindow.Instance.Player.Rebuild();
+                PlayerViewModel.Instance.Rebuild();
             }
         }
 
@@ -344,6 +348,7 @@ namespace Dialogs
                 return;
 
             MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void showTouchButtons_Unchecked(object sender, RoutedEventArgs e)
@@ -352,6 +357,7 @@ namespace Dialogs
                 return;
 
             MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void showSmallView_Checked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = true;
