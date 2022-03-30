@@ -591,7 +591,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Name="lblProgress" Foreground="{DynamicResource MenuTextBrush}" FontSize="{DynamicResource FontSizeSmallest}" Margin="3,0,0,0" VerticalAlignment="Center" Grid.Column="0" Content="00:00" Padding="0" MouseDown="lblProgress_MouseDown">
+                <Label Name="lblProgress" Foreground="{DynamicResource MenuTextBrush}" FontSize="{DynamicResource FontSizeSmallest}" Margin="3,0,0,0" VerticalAlignment="Center" Grid.Column="0" Content="00:00" Padding="0" 
+                       MouseDown="lblProgress_MouseDown">
                     <Label.Resources>
                         <Style TargetType="Label">
                             <Style.Triggers>
@@ -605,7 +606,7 @@
                 <Slider Name="sldTrackSlider" Grid.Column="1" Cursor="Arrow" Margin="4,1,4,1" ValueChanged="sldTrackSlider_ValueChanged" 
                         VerticalAlignment="Center"
                     AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="0" IsSnapToTickEnabled="False" TickPlacement="BottomRight"
-                    IsMoveToPointEnabled="True" StylusMove="sldTrackSlider_StylusMove" StylusDown="sldTrackSlider_StylusDown"/>
+                    IsMoveToPointEnabled="True"/>
                 <Label Name="lblTotalTrackDuration" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0" VerticalAlignment="Center" FontSize="{DynamicResource FontSizeSmallest}"  Grid.Column="2" Content="00:00" Padding="0" HorizontalAlignment="Center"/>
             </Grid>
         </Grid>

@@ -51,6 +51,6 @@
             </TextBlock>
         </StackPanel>
 
-        <Border Grid.Row="1" BorderBrush="{DynamicResource MenuDisabledTextBrush}" BorderThickness="0,0,0,1" Margin="6,0,0,0"/>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource MenuDisabledTextBrush}" BorderThickness="0,0,0,0" Margin="6,0,0,0"/>
     </Grid>
 </UserControl>

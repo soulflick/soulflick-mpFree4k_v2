@@ -13,6 +13,7 @@ using Models;
 using Mpfree4k.Enums;
 using MpFree4k;
 using MpFree4k.Classes;
+using System.Collections.ObjectModel;
 
 namespace Layers
 {
@@ -211,7 +212,7 @@ namespace Layers
             string flag = getValue(tokens, "flag");
             string comment = getValue(tokens, "comment");
 
-            if (string.IsNullOrEmpty(title)) 
+            if (string.IsNullOrEmpty(title))
                 title = getValue(tokens, "t");
             if (string.IsNullOrEmpty(title))
                 title = getValue(tokens, "ti");
@@ -346,13 +347,38 @@ namespace Layers
 
             if (viewmode == ViewMode.Table)
             {
-                Files.ForEach(x => x.IsVisible =
+                foreach (var file in Files)
+                {
+                    int matches = 0;
+                    foreach (var _t in query_strings)
+                    {
+                        var token = _t.ToLower().Trim();
 
+                        if (file.Mp3Fields.Artists.ToLower().Contains(token))
+                            matches++;
+                        if (file.Mp3Fields.AlbumArtists.ToLower().Contains(token))
+                            matches++;
+                        if (file.Mp3Fields.Album.ToLower().Contains(token))
+                            matches++;
+                        if (file.Mp3Fields.Title.ToLower().Contains(token))
+                            matches++;
+                        if (file.Mp3Fields.Year.ToString().Contains(token))
+                            matches++;
+                    }
+                    file.MatchCount = matches;
+                }
+
+                Files.ForEach(f => f.IsVisible = f.MatchCount > 0 || query_strings.All(q => string.IsNullOrWhiteSpace(q)));
+                Files = Files.OrderByDescending(f => f.MatchCount).ToList();
+
+                /*
+                Files.ForEach(x => x.IsVisible =
                 (string.IsNullOrEmpty(_thisQuery)) ||
                 (!string.IsNullOrEmpty(x.Title) &&
                 query_strings.Any(q => x.Title.ToLower().Contains(q)) ||
                 query_strings.Any(q => x.Mp3Fields.Artists.ToLower().Contains(q)) ||
                 query_strings.Any(q => x.Mp3Fields.Album.ToLower().Contains(q))));
+                */
 
                 Refresh(MediaLevel.Tracks);
             }
@@ -367,7 +393,7 @@ namespace Layers
                 Refresh(MediaLevel.Albums);
                 Refresh(MediaLevel.Tracks);
             }
-            else
+            else if (viewmode == ViewMode.Albums)
             {
                 Albums.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || (
                 x.AllArtist.Any(y => query_strings.Any(q => y.ToLower().Contains(q))) ||
@@ -375,6 +401,13 @@ namespace Layers
                 query_strings.Any(q => x.Album.ToLower().Contains(q))));
 
                 Refresh(MediaLevel.Albums);
+
+                var viewmodel = MainWindow.Instance.AlbumDetails.VM;
+                viewmodel.OrderBy(viewmodel.ViewType);
+            }
+            else if (viewmode == ViewMode.Favourites)
+            {
+
             }
 
             Raise("Filter");
@@ -524,7 +557,7 @@ namespace Layers
             }
             else if (level == MediaLevel.Albums)
             {
-                return; 
+                return;
 
                 if (selection.Length > 0)
                     Files.ForEach(x => x.IsVisible = selection.Any(album => album == x.Mp3Fields.Album &&

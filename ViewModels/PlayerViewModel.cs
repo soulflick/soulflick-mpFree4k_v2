@@ -15,11 +15,13 @@ namespace ViewModels
 {
     public class PlayerViewModel : Notify
     {
-        IPlayer IPlayer;
+        public IPlayer IPlayer;
 
         public PlayerViewModel(IPlayer Player)
         {
+            Instance = this;
             IPlayer = Player;
+            IPlayer.ViewModelChanged += (s, e) => OnDisplay(e);
         }
 
         private Models.PlaylistInfo _current;
@@ -35,7 +37,7 @@ namespace ViewModels
         {
             Instance = this;
             Rebuild();
-            IPlayer.ViewModelChanged += (s, e) => OnDisplay(e);
+            
         }
 
         private void OnDisplay(ViewModelChangedEventArgs e) => current = (Models.PlaylistInfo)e.value;
@@ -59,7 +61,7 @@ namespace ViewModels
 
         public void Rebuild()
         {
-            if (MediaPlayer != null)
+            if (MediaPlayer != null && IPlayer != null)
             {
                 MediaPlayer.PlayStateChanged -= IPlayer.MediaPlayer_PlayStateChanged;
                 MediaPlayer.Stop();
@@ -75,8 +77,11 @@ namespace ViewModels
             else
                 MediaPlayer = new CSCorePlugin();
 
-            MediaPlayer.SetVolume(IPlayer.Volume);
-            MediaPlayer.PlayStateChanged += IPlayer.MediaPlayer_PlayStateChanged;
+            if (IPlayer != null)
+            {
+                MediaPlayer.SetVolume(IPlayer.Volume);
+                MediaPlayer.PlayStateChanged += IPlayer.MediaPlayer_PlayStateChanged;
+            }
         }
 
         public void RememberTrack(PlaylistInfo t)
@@ -92,11 +97,11 @@ namespace ViewModels
             string posStr = Utilities.LibraryUtils.GetDurationString((int)MediaPlayer.Position);
 
             string posStrRemaining = Utilities.LibraryUtils.SecondsToDuration(trackLength - progress);
+
             IPlayer.dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Send, (Action)(() =>
             {
                 IPlayer.updateProgress((String.IsNullOrEmpty(posStr)) ? "00:00" : (remainingMode == RemainingMode.Elapsed) ? posStr : posStrRemaining, progress);
             }));
-
 
             RepeatMode repeatMode = IPlayer.PlayListVM.RepeatMode;
             if (MediaPlayer.SongEnded)

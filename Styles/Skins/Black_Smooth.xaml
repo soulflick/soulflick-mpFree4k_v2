@@ -34,7 +34,7 @@
     <Color x:Key="PlaylistInsertColor">#1A6F93</Color>
     <Color x:Key="GridSelectionTextColor">White</Color>
     <Color x:Key="MenuHoverColor">White</Color>
-    <Color x:Key="MenuSelectionColor">WhiteSmoke</Color>
+    <Color x:Key="MenuSelectionColor">#E0E0E0</Color>
 
     <Color x:Key="PlayerInactiveColor">#444444</Color>
     <Color x:Key="PlayerActiveColor">White</Color>

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace ViewModels
 {
@@ -49,7 +50,7 @@ namespace ViewModels
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         //public bool loaded;
-        private AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
+        public AlbumDetailsOrderType ViewType = AlbumDetailsOrderType.Year;
 
         private ObservableCollection<AlbumDetailGroup> _albumGroups = new ObservableCollection<AlbumDetailGroup>();
         public ObservableCollection<AlbumDetailGroup> AlbumGroups
@@ -65,8 +66,8 @@ namespace ViewModels
             }
         }
 
-        List<AlbumItem> _albums = new List<AlbumItem>();
-        public List<AlbumItem> Albums
+        ObservableCollection<AlbumItem> _albums = new ObservableCollection<AlbumItem>();
+        public ObservableCollection<AlbumItem> Albums
         {
             get => _albums;
             set
@@ -93,7 +94,7 @@ namespace ViewModels
             if (MainWindow.Instance.ViewMode != ViewMode.Albums) return;
 
             MainWindow.Instance.Cursor = Cursors.Wait;
-            
+
             AlbumGroups.Clear();
 
             List<AlbumDetailGroup> _groups = new List<AlbumDetailGroup>();
@@ -184,22 +185,22 @@ namespace ViewModels
             switch (ot)
             {
                 case AlbumDetailsOrderType.Album:
-                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
+                    Albums = new ObservableCollection<AlbumItem>(Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album));
                     break;
                 case AlbumDetailsOrderType.Artist:
-                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Artist).ToList();
+                    Albums = new ObservableCollection<AlbumItem>(Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Artist));
                     break;
                 case AlbumDetailsOrderType.Year:
-                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderByDescending(o => o.Year).ToList();
+                    Albums = new ObservableCollection<AlbumItem>(Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderByDescending(o => o.Year));
                     break;
                 case AlbumDetailsOrderType.All:
-                    Albums = Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album).ToList();
+                    Albums = new ObservableCollection<AlbumItem>(Library.Instance.Current.Albums.Where(a => a.IsVisible).OrderBy(o => o.Album));
                     break;
             }
 
             ViewType = ot;
 
-            getGroups(ot);
+            MainWindow.Instance.Dispatcher.Invoke(() => getGroups(ot));
 
         }
     }

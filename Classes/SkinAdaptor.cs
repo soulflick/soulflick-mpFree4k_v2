@@ -28,7 +28,6 @@ namespace Classes
             MainWindow.Instance.Favourites.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Clear();
-            //MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Clear();
             MainWindow.Instance.SmartPlayer.Spectrum.Resources.MergedDictionaries.Clear();
 
         }
@@ -51,9 +50,6 @@ namespace Classes
             MainWindow.Instance.Favourites.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.AlbumDetails.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Playlist.PlaylistStatus.Resources.MergedDictionaries.Add(resDict);
-            //MainWindow.Instance.Player.Spectrum.Resources.MergedDictionaries.Add(resDict);
-            MainWindow.Instance.Player.OnThemeChanged();
-            MainWindow.Instance.SmartPlayer.Spectrum.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.SmartPlayer.OnThemeChanged();
         }
 

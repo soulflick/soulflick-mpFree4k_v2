@@ -86,6 +86,8 @@ namespace Models
                 Raise(nameof(IsVisible));
             }
         }
+        public int MatchCount = 0;
+
         public string Title { get; set; }
         public string Path { get; set; }
         public string FileName { get; set; }

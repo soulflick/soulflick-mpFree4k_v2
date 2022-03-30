@@ -23,11 +23,15 @@
             <converters:BoolToOpacityConverter x:Key="bool2opacconv"/>
             <converters:StringToVisibilityConverter x:Key="strToVisConv"/>
 
+            <Style TargetType="{x:Type MenuItem}">
+                <Setter Property="Padding" Value="7"/>
+            </Style>
+            
             <Style TargetType="{x:Type ContextMenu}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
                 <Setter Property="Opacity" Value="1"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="10"/>
@@ -286,7 +290,7 @@
                                     SelectionMode="Single"
                                     Background="{DynamicResource FirstItemBackground}"
                                     PresentationTraceSources.TraceLevel="High"
-                                    ItemsSource="{Binding Albums, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ItemsSource="{Binding Albums, UpdateSourceTrigger=PropertyChanged}"
                                     BorderThickness="0"
                                     PreviewMouseUp="ListAlbums_PreviewMouseUp"
                                     PreviewMouseDown="ListAlbums_PreviewMouseDown"
@@ -316,9 +320,9 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="2" Width="330">
+                                        <Grid Margin="2" Width="315">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="100*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
@@ -327,7 +331,7 @@
 
 
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                Width="110" Height="110" Opacity="0.8"
+                                                Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" Opacity="0.8"
                                                 Margin="3"
                                                 Grid.RowSpan="2">
                                                 
@@ -340,7 +344,7 @@
                                                     CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
                                                 <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                     Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"
-                                                    Width="110" Height="110"/>
+                                                    Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
 
                                             </Grid>
 

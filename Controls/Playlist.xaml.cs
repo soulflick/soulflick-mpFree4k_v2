@@ -38,7 +38,7 @@ namespace Controls
             MainWindow.Instance.SmartPlayer.ValueChanged += Player_ValueChanged;
             Loaded += Playlist_Loaded;
             SizeChanged += Playlist_SizeChanged;
-            
+
             InitializeComponent();
 
             addCompleteTimer = new System.Timers.Timer(100);
@@ -362,21 +362,26 @@ namespace Controls
         {
             if (e.Key == Key.Delete)
             {
-                if (PlaylistView.SelectedItems == null ||
-                    PlaylistView.SelectedItems.Count == 0)
-                    return;
-
-                int[] remove_indices = new int[PlaylistView.SelectedItems.Count];
-                int idx = 0;
-                foreach (PlaylistInfo infoItm in PlaylistView.SelectedItems)
-                {
-                    remove_indices[idx] = infoItm._position - 1;
-                    idx++;
-                }
-                vm.Remove(remove_indices.OrderBy(x => x).ToArray());
-
-                vm.StatusVM.Update();
+                delete_selected();
             }
+        }
+
+        private void delete_selected()
+        {
+            if (PlaylistView.SelectedItems == null ||
+                PlaylistView.SelectedItems.Count == 0)
+                return;
+
+            int[] remove_indices = new int[PlaylistView.SelectedItems.Count];
+            int idx = 0;
+            foreach (PlaylistInfo infoItm in PlaylistView.SelectedItems)
+            {
+                remove_indices[idx] = infoItm._position - 1;
+                idx++;
+            }
+            vm.Remove(remove_indices.OrderBy(x => x).ToArray());
+
+            vm.StatusVM.Update();
         }
 
         private void PlaylistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -411,6 +416,32 @@ namespace Controls
                 drag_invalidate = false;
                 DragDrop.DoDragDrop(PlaylistView, new DataObject("PlaylistItemData", dragItems), DragDropEffects.Move);
             }
+        }
+
+        private void mnuCtxSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            PlaylistView.SelectAll();
+        }
+
+        private void mnuCtxRemove_Click(object sender, RoutedEventArgs e)
+        {
+            delete_selected();
+        }
+
+        private void mnuCtxPlay_Click(object sender, RoutedEventArgs e)
+        {
+            PlaylistInfo pi = PlaylistView.SelectedItem as PlaylistInfo;
+            if (pi == null) return;
+
+            vm.CurrentPlayPosition = pi._position - 1;
+            vm.Invoke(PlayState.PlayFromStart);
+            dragItems.Clear();
+            e.Handled = true;
+        }
+
+        private void mnuCtxUnSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            PlaylistView.UnselectAll();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Dialogs
 
         public SettingControl()
         {
-            this.DataContext = this;
+            DataContext = this;
 
             Loaded += SettingControl_Loaded;
 

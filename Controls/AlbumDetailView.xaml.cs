@@ -27,7 +27,7 @@ namespace Controls
         private bool mousedown_albums = false;
         private bool instance_loaded = false;
 
-        public AlbumDetailViewModel VM = null;
+        public AlbumDetailViewModel VM { get; set; }
         
         public AlbumDetailView()
         {

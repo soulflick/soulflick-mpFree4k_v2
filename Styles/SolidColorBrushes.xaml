@@ -58,6 +58,7 @@
     <sys:Double x:Key="FontSizeSmall">9</sys:Double>
     <sys:Double x:Key="FontSizeSmaller">8</sys:Double>
     <sys:Double x:Key="FontSizeSmallest">7</sys:Double>
+    <sys:Double x:Key="AlbumSize">100</sys:Double>
 
 </ResourceDictionary>
     

@@ -76,7 +76,7 @@
             <DataTemplate x:Key="TrackTile">
                 <Grid Margin="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="100*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -86,7 +86,7 @@
 
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
                           Margin="0"
-                          Width="110" Height="110"
+                          Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"
                           Grid.RowSpan="2"
                           Opacity="0.8">
                         <Grid.OpacityMask>
@@ -95,13 +95,13 @@
                         <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
                         <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding TrackImage, Converter={StaticResource noimgtodefconv}}" 
                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Width="110" Height="110"
+                               Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"
                                Opacity="{Binding HasTrackImage, Converter={StaticResource bool2opacconv}}"  />
 
                     </Grid>
 
 
-                    <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                    <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="10 3 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
@@ -148,7 +148,7 @@
                 <Border Margin="4" BorderBrush="WhiteSmoke" BorderThickness="0" HorizontalAlignment="Stretch">
                     <Grid Margin="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -158,22 +158,23 @@
 
 
                         <Grid VerticalAlignment="Top" HorizontalAlignment="Center"
-                              Width="110" Height="110" Opacity="0.8" Grid.Row="0"
+                              Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" Opacity="0.8" Grid.Row="0"
                               Grid.RowSpan="2">
                             <Grid.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                             </Grid.OpacityMask>
                             <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
                             <Image Source="{Binding TrackImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   Width="110" Height="110"/>
+                                   Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
 
                         </Grid>
                         
                         <TextBlock Text="{Binding Mp3Fields.Title}" Grid.Column="1" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" 
                                FontFamily="Verdana" VerticalAlignment="Center"
+                               Margin="10 3 0 0"
                                HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
 
-                        <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid Grid.Column="1" Grid.Row="1" Margin="10 3 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="100*"/>
@@ -257,11 +258,15 @@
                 </ContentControl>
             </DataTemplate>
 
+            <Style TargetType="{x:Type MenuItem}">
+                <Setter Property="Padding" Value="7"/>
+            </Style>
+
             <Style TargetType="{x:Type ContextMenu}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
                 <Setter Property="Opacity" Value="1"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="10"/>

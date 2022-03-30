@@ -25,7 +25,7 @@
             </LinearGradientBrush>
 
             <converters:FontWeightConverter x:Key="fontWeightConverter"/>
-            
+
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="Padding" Value="4"/>
@@ -54,6 +54,11 @@
                 <Setter Property="Foreground" Value="{DynamicResource FieldTextBrush}"/>
             </Style>
 
+            <Style TargetType="Run" x:Key="RunStyleHeader">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSizeBig}"/>
+            </Style>
+
             <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
                      StartPoint="0,0"
                      EndPoint="1,0">
@@ -80,6 +85,9 @@
 
             <Style TargetType="Label">
                 <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="Padding" Value="4"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
             </Style>
 
             <Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}">
@@ -469,7 +477,7 @@
                 <!-- Volume Slider -->
                 <RowDefinition Height="Auto"/>
                 <!-- Line Graph -->
-                <RowDefinition Height="95"/>
+                <RowDefinition Height="122"/>
                 <!-- Info -->
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
@@ -484,17 +492,9 @@
                             <Button Margin="1,0,1,0" Name="btnRewind" ToolTip="Rewind" Click="btnRewind_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/rewind.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <!--<Button Margin="1,0,1,0" Name="btnReverse" ToolTip="Reverse" Click="btnReverse_Click" Style="{StaticResource PlayerButtonStyle}">
-                                <Image Source="/MpFree4k;component/Images/play_reverse.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
-                            </Button>-->
                             <Button Margin="1,0,1,0" Name="btnStart" ToolTip="Play" Click="btnStart_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/play.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <!--
-                            <Button Margin="1,0,1,0" Name="btnPause" ToolTip="Pause" Click="btnPause_Click" Style="{StaticResource PlayerButtonStyle}">
-                                <Image Source="/MpFree4k;component/Images/pause.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
-                            </Button>
-                            -->
                             <Button Margin="1,0,1,0" Name="btnStop" ToolTip="Stop" Click="btnStop_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/stop.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
@@ -504,26 +504,14 @@
                             <Button Margin="1,0,5,0" Name="btnNext" ToolTip="Play next track" Click="btnNext_Click" Style="{StaticResource PlayerButtonRightStyle}">
                                 <Image Source="/MpFree4k;component/Images/next.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <!--
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=_This, Path=TouchButtonsVisibility}">
-                                <Button Name="btnPlayNow" ToolTip="Play selected tracks" Click="btnPlayNow_Click"  Style="{StaticResource PlayerButtonLeftStyle}" Margin="32,0,0,0">
-                                    <Image Source="/MpFree4k;component/Images/playnow.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
-                                </Button>
-                                <Button  Margin="1,0,0,0" Name="btnInsert" ToolTip="Insert selected tracks" Click="btnInsert_Click"  Style="{StaticResource PlayerButtonStyle}">
-                                    <Image Source="/MpFree4k;component/Images/insert.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
-                                </Button>
-                                <Button Margin="1,0,5,0" Name="btnAdd" ToolTip="Add selected tracks" Click="btnAdd_Click" Style="{StaticResource PlayerButtonRightStyle}">
-                                    <Image Source="/MpFree4k;component/Images/next.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
-                                </Button>
-                            </StackPanel>
-                            -->
+
                         </StackPanel>
                     </Border>
                 </Grid>
 
             </Grid>
 
-            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" Style="{StaticResource sliderGridStyle}" MinWidth="150">
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10 0 0 0" Style="{StaticResource sliderGridStyle}" MinWidth="150">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -548,7 +536,7 @@
                         </Image.Style>
                     </Image>
                 </ToggleButton>
-                <Label Content="0"  FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="1" Margin="3,0,4,0" Padding="0" VerticalAlignment="Center"/>
+                <Label Content="0"  FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="1" Margin="10,0,4,0" Padding="0" VerticalAlignment="Center"/>
                 <Slider Grid.Row="1" Margin="0,1,0,1" Value="50" Minimum="0" Maximum="100" x:Name="sldVolume" HorizontalAlignment="Stretch" Grid.Column="2"
                     ValueChanged="sldVolume_ValueChanged" VerticalAlignment="Center"
                     AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="0"
@@ -556,9 +544,9 @@
                 <Label Content="100" FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="3" Margin="4,0,5,0" Padding="0" VerticalAlignment="Center" Grid.ColumnSpan="2" />
             </Grid>
 
-            <Grid Name="grdTrackInfo" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,2,0,0">
+            <Grid Name="grdTrackInfo" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,2,0,0"
+                   Background="{DynamicResource FirstItemBackground}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100*"/>
                 </Grid.ColumnDefinitions>
@@ -569,39 +557,73 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" 
+                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="13 10 15 5"
+                        Background="{DynamicResource PlayerStartGradient}"
                     BorderBrush="WhiteSmoke">
 
-                    <Image x:Name="TrackImage"
-                           Source="{Binding ElementName=_This, Path=DefaultImage}"
-                       MouseDown="TrackImage_MouseDown" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                       Margin="5 5 15 5"/>
+                    <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
+
                     <Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <!--<Setter Property="Cursor" Value="Hand"/>-->
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
                 </Border>
 
-                <!--
-                <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
-                <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
-                -->
-                <Label Name="lblTrack" Grid.Column="1" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeBigger}" Margin="0 8 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <Label Name="lblArtist" Grid.Column="2" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeBig}" Margin="0" Padding="0 2 0 0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
-                <TextBlock Grid.Column="2" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Margin="0 2 0 0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
-                    <Run Name="lblAlbum" /><Run Text=" ("/><Run Name="lblYear"/><Run Text=")"/>
-                </TextBlock>
+                <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Margin="0 8 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Name="lblTrack" Grid.Row="0" Text="not started" FontSize="{DynamicResource FontSizeBigger}" Margin="0 8 0 0" 
+                           Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"
+                           TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock Name="lblArtist" Grid.Row="1" Text="" FontSize="{DynamicResource FontSizeBigger}" Margin="0 6 0 0" Padding="0" 
+                               VerticalAlignment="Center"
+                               MouseDown="lblArtist_MouseDown"
+                               TextTrimming="CharacterEllipsis">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock Name="lblAllAlbum" Grid.Row="2" FontSize="{DynamicResource FontSizeBigger}" Margin="0 6 0 0" Padding="0" VerticalAlignment="Center" 
+                               MouseDown="lblAllAlbum_MouseDown"
+                               TextTrimming="CharacterEllipsis">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <Run Style="{StaticResource RunStyleHeader}" Name="lblAlbum" /><Run Style="{StaticResource RunStyleHeader}" Text=" ("/><Run Style="{StaticResource RunStyleHeader}" Name="lblYear"/><Run Style="{StaticResource RunStyleHeader}" Text=")"/>
+                    </TextBlock>
+                </Grid>
             </Grid>
 
             <Border Grid.Row="4" Panel.ZIndex="999" BorderBrush="{DynamicResource PlayerButtonMouseOverBorderBrush}">
                 <controls:LinearSpectrum x:Name="Spectrum"
                                      MouseDown="Spectrum_MouseDown"
-                                     BorderBrush="#4A4A4A" BorderThickness="0.5" Margin="13,10,8,0"
+                                     BorderBrush="#3A3A3A" BorderThickness="0.5" Margin="13,10,8,0"
                                      ControlBackground="{DynamicResource SpectrumBackground}"
                                      BarStartBrush="{DynamicResource SpectrumStartBrush}"
                                      BarEndBrush="{DynamicResource SpectrumEndBrush}"
@@ -636,7 +658,7 @@
                                TextTrimming="CharacterEllipsis"
                                MouseDown="Path_MouseDown">
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Cursor" Value="Hand"/>
@@ -696,7 +718,7 @@
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" TextWrapping="Wrap">
                         <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.AlbumArtists}" FontSize="{DynamicResource FontSizeBigger}" MouseDown="RunArtist_MouseDown">
                             <Run.Style>
-                                <Style TargetType="Run">
+                                <Style TargetType="Run" BasedOn="{StaticResource {x:Type Run}}">
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Cursor" Value="Hand"/>
@@ -707,27 +729,38 @@
                             </Run.Style>
                         </Run>
                         <Run Text=" - " FontSize="{DynamicResource FontSizeBigger}"/>
-                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBigger}"/>
+                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBigger}" MouseDown="RunAlbum_MouseDown">
+                            <Run.Style>
+                                <Style TargetType="Run" BasedOn="{StaticResource {x:Type Run}}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Setter Property="TextDecorations" Value="Underline"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                        </Run>
                         <Run Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"/><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
                     </TextBlock>
 
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal">
-                        <TextBlock>
+                        <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Track}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.TrackCount}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </TextBlock>
 
-                        <TextBlock>
+                        <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text=" | "/>
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path= Info.Mp3Fields.Disc}"/>
+                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Disc}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.DiscCount}"/>
                         </TextBlock>
 
-                        <TextBlock>
+                        <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text=" | "/>
                             <Run Text="Disc Length " Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}"/>
@@ -745,13 +778,13 @@
                             <DataTemplate>
                                 <Grid MouseDown="Grid_MouseDown">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupTrack"/>
-                                        <ColumnDefinition Width="100*" SharedSizeGroup="SizeGroupName"/>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupTrack" MinWidth="35"/>
+                                        <ColumnDefinition Width="100*" SharedSizeGroup="SizeGroupName" MaxWidth="280"/>
                                         <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupLength"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Text="{Binding Track}" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
-                                               Margin="6,3,24,6" HorizontalAlignment="Right">
+                                               Margin="4" HorizontalAlignment="Right">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
                                                 <Binding Path="Track" />
@@ -763,7 +796,7 @@
                                     <TextBlock Text="{Binding Name}" Grid.Column="1"
                                                    HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
                                                    FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
-                                                   Margin="6,3,24,6">
+                                                   Margin="4 0 4 4">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
                                                 <Binding Path="Track" />
@@ -771,7 +804,7 @@
                                             </MultiBinding>
                                         </TextBlock.FontWeight>
                                         <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                                 <Style.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter Property="Cursor" Value="Hand"/>
@@ -783,7 +816,7 @@
                                     </TextBlock>
 
                                     <TextBlock Text="{Binding Length}" HorizontalAlignment="Right" Grid.Column="2"  FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
-                                                   Margin="6,3,6,6">
+                                                   Margin="4">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
                                                 <Binding Path="Track" />

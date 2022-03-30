@@ -40,11 +40,8 @@ namespace Controls
 
         public SmartPlayer()
         {
-            if (PlayerViewModel.Instance == null)
-                ViewModel = new PlayerViewModel(this);
-            else
-                ViewModel = PlayerViewModel.Instance;
-
+            ViewModel = new PlayerViewModel(this);
+           
             DataContext = ViewModel;
 
             InitializeComponent();
@@ -84,7 +81,6 @@ namespace Controls
             UpdatePositionMarker(progress);
         }
 
-
         public void Play(PlaylistInfo fileInfo, bool from_start = false)
         {
             if (fileInfo == null)
@@ -107,7 +103,7 @@ namespace Controls
             MediaPlayer.Stop();
             MediaPlayer.Position = 0;
             MediaPlayer.URL = fileInfo.Path;
-            lblTrack.Content = fileInfo.Path;
+            lblTrack.Text = fileInfo.Path;
 
             MediaPlayer.Init(fileInfo.Path);
 
@@ -235,12 +231,22 @@ namespace Controls
             }
         }
 
+        public uint TrackCount
+        {
+            get
+            {
+                uint count = Info?.Mp3Fields.TrackCount ?? 0;
+                if (count == 0) count = (uint)(AlbumTracks?.Count() ?? 0);
+                return count;
+            }
+        }
+
         private void Player_Loaded(object sender, RoutedEventArgs e)
         {
-            lblTrack.Content = "...";
-            lblArtist.Content = "...";
-            lblAlbum.Text = "...";
-            lblYear.Text = "-";
+            lblTrack.Text = "";
+            lblArtist.Text = "";
+            lblAlbum.Text = "";
+            lblYear.Text = "";
 
             //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");
@@ -283,8 +289,8 @@ namespace Controls
 
         void SetTrackInfo(PlaylistInfo itm)
         {
-            lblTrack.Content = "";
-            lblArtist.Content = "";
+            lblTrack.Text = "";
+            lblArtist.Text = "";
             lblAlbum.Text = "";
             lblYear.Text = "";
 
@@ -295,8 +301,8 @@ namespace Controls
             if (string.IsNullOrWhiteSpace(title))
                 title = itm.Path;
 
-            lblTrack.Content = title;
-            lblArtist.Content = itm.Artists;
+            lblTrack.Text = title;
+            lblArtist.Text = itm.Artists;
             lblAlbum.Text = itm.Album;
             lblYear.Text = itm.Year;
 
@@ -309,38 +315,9 @@ namespace Controls
             (Window.GetWindow(this) as MainWindow).Title = cstr;
         }
 
-        //private void Unplay(PlaylistItem pItm)
-        //{
-        //    playmode = Playmode.Unplay;
-        //    tPlayReverse = new Thread(() => reverse());
-        //    tPlayReverse.Start();
-        //}
-
-        //static void reverse()
-        //{
-        //    double position = _singleton.MediaPlayer.Position;
-        //    double end = position;
-
-        //    _singleton.MediaPlayer.Play();
-        //    while (!_singleton.stopreverse && position > 0.1)
-        //    {
-        //        Thread.Sleep(100);
-        //        _singleton.MediaPlayer.Forward(-0.2);
-        //        position = _singleton.MediaPlayer.Position;
-        //        _singleton.Dispatcher.BeginInvoke(new Action(() => _singleton.UpdatePositionMarker(position)));
-        //    }
-
-        //    _singleton.MediaPlayer.Position = end - 1;
-        //    return;
-        //}
-
-        
-
-        
-
         void setProgressSliderTicks(double duration)
         {
-            Player.Instance.sldTrackSlider.TickFrequency = 10; // (int)(duration / 30);
+            Player.Instance.sldTrackSlider.TickFrequency = 10;
             System.Windows.Media.DoubleCollection dbls = new System.Windows.Media.DoubleCollection();
             for (int i = 0; i <= (int)(duration / 30); i++)
                 dbls.Add(i * 30);
@@ -352,7 +329,6 @@ namespace Controls
             if (itm.Image != null)
             {
                 TrackImage.Source = itm.Image;
-                //(Window.GetWindow(this) as MainWindow).Player.TrackImageBig.Source = itm.Image;
                 return;
             }
 
@@ -360,12 +336,10 @@ namespace Controls
             {
                 TagLib.File _tmp = TagLib.File.Create(itm.Path);
                 TrackImage.Source = TagLibConvertPicture.GetImageFromTag(_tmp.Tag.Pictures);
-                //(Window.GetWindow(this) as MainWindow).Player.TrackImageBig.Source = TrackImage.Source;
             }
             catch
             {
                 TrackImage.Source = null;
-                //(Window.GetWindow(this) as MainWindow).Player.TrackImageBig.Source = null;
             }
 
             if (TrackImage.Source == null)
@@ -404,8 +378,6 @@ namespace Controls
 
         public void Stop()
         {
-            //tPlayReverse.Abort();
-
             for (int i = 0; i < ViewModel.PlayStates.Count; i++)
                 ViewModel.PlayStates[i] = false;
 
@@ -679,6 +651,7 @@ namespace Controls
                           };
 
             Raise(nameof(DiscLength));
+            Raise(nameof(TrackCount));
         }
 
         private void Path_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -701,12 +674,42 @@ namespace Controls
             PlaylistViewModel.Play(new FileViewInfo[]  { f_info });
         }
 
+        private void goToQuery(string key)
+        {
+            MainWindow.Instance.MainViews.SelectedIndex = 2;
+            MainWindow.Instance.FilterBox.Text = key;
+
+            var border = VisualTreeHelper.GetChild(MainWindow.Instance.TrackTable.TrackTable, 0) as Decorator;
+            if (border != null)
+            {
+                var scroll = border.Child as ScrollViewer;
+                if (scroll != null) scroll.ScrollToTop();
+            }
+        }
+
         private void RunArtist_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             string artist = (sender as System.Windows.Documents.Run).Text;
+            goToQuery(artist);
 
-            MainWindow.Instance.MainViews.SelectedIndex = 2;
-            MainWindow.Instance.FilterBox.Text = artist;
+        }
+
+        private void RunAlbum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string album = (sender as System.Windows.Documents.Run).Text;
+            goToQuery(album);
+        }
+
+        private void lblArtist_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string artist = (sender as TextBlock).Text;
+            goToQuery(artist);
+        }
+
+        private void lblAllAlbum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string album = (sender as TextBlock).Text;
+            goToQuery(album);
         }
     }
 }

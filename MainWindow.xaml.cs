@@ -275,7 +275,7 @@ namespace MpFree4k
                 PlaylistSerializer.Serialize(plsel.SelectedDefinition.Path, (Playlist.DataContext as PlaylistViewModel).Tracks);
             }
 
-            Player.Shutdown();
+            SmartPlayer.Shutdown();
             Application.Current.Shutdown();
         }
 

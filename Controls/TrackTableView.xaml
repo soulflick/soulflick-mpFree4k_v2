@@ -41,6 +41,7 @@
             </Style>
 
             <Style TargetType="{x:Type MenuItem}">
+                <Setter Property="Padding" Value="7"/>
                 <Setter Property="Background" Value="{DynamicResource ListViewItemBackground}"></Setter>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
                 <Style.Triggers>
@@ -57,7 +58,7 @@
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
                 <Setter Property="Opacity" Value="1"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="10"/>
@@ -65,7 +66,8 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
                             <Border Background="{DynamicResource ListViewItemBackground}" CornerRadius="1"
-                                BorderBrush="{DynamicResource PlayerButtonBorderDarkBrush}" BorderThickness="1" Opacity="1">
+                                BorderBrush="{DynamicResource PlayerButtonBorderDarkBrush}" BorderThickness="1" Opacity="1"
+                                    Margin="10">
                                 <StackPanel ClipToBounds="True" Orientation="Vertical" IsItemsHost="True" 
                                             Margin="0" Opacity="1"/>
                             </Border>
@@ -130,6 +132,7 @@
                     <MenuItem x:Name="mnuCtxPlayAll" Header="play all" Click="mnuCtxPlayAll_Click"/>
                     <Separator/>
                     <MenuItem x:Name="mnuCtxEdit"  Header="edit" Click="mnuCtxEdit_Click"/>
+                    <!--
                     <MenuItem Header="flag this track">
                         <MenuItem Header="OK" Name="mnuCtxFlagOK" Click="mnuCtxFlagOK_Click"/>
                         <MenuItem Header="Tagged" Name="mnuCtxFlagTagged" Click="mnuCtxFlagTagged_Click"/>
@@ -139,6 +142,7 @@
                         <MenuItem Header="Failures" Name="mnuCtxFlagFailures" Click="mnuCtxFlagFailures_Click"/>
                         <MenuItem Header="Unknown" Name="mnuCtxFlagUnknown" Click="mnuCtxFlagUnknown_Click"/>
                     </MenuItem>
+                    -->
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.CellStyle>

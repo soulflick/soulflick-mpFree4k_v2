@@ -23,11 +23,15 @@
                        Right="{StaticResource TrackTableMargin}" 
                        Bottom="{StaticResource TrackTableMargin}" />
 
+            <Style TargetType="{x:Type MenuItem}">
+                <Setter Property="Padding" Value="7"/>
+            </Style>
+            
             <Style TargetType="{x:Type ContextMenu}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
                 <Setter Property="Opacity" Value="1"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="10"/>
@@ -97,7 +101,7 @@
                 <DataTemplate>
                     <Grid Margin="2" Width="240">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -106,19 +110,19 @@
 
 
                         <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Width="110" Height="110" Opacity="0.8"
+                          Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" Opacity="0.8"
                           Grid.RowSpan="2">
                             <Grid.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                             </Grid.OpacityMask>
                             <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
                             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   Width="110" Height="110"/>
+                                   Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
 
                         </Grid>
 
 
-                        <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                        <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="10 3 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="100*"/>

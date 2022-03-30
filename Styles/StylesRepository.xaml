@@ -3,11 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
 
+
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeBig}"/>
         <Setter Property="Opacity" Value="1"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Margin" Value="10"/>

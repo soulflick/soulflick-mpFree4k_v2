@@ -91,7 +91,6 @@
                     <ComboBoxItem Content="Bigger" Tag="{x:Static enums:FontSize.Bigger}"/>
                     <ComboBoxItem Content="Biggest" Tag="{x:Static enums:FontSize.Biggest}"/>
                     <ComboBoxItem Content="Huge" Tag="{x:Static enums:FontSize.Huge}"/>
-                    <ComboBoxItem Content="Gonzo" Tag="{x:Static enums:FontSize.Gonzo}"/>
                         
                 </ComboBox>
 

@@ -16,6 +16,7 @@
     <sys:Double x:Key="FontSizeSmallest">27</sys:Double>
     <sys:Double x:Key="TrackTableImageSize">40</sys:Double>
     <sys:Double x:Key="TrackTableMargin">12</sys:Double>
+    <sys:Double x:Key="AlbumSize">160</sys:Double>
     
 </ResourceDictionary>
     

@@ -181,17 +181,15 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-
-                                <TabPanel 
-             Grid.Row="0"
-             Panel.ZIndex="1" 
-             Margin="0,0,4,-1" 
-             IsItemsHost="True"
-             Background="Transparent" />
+                                <TabPanel Grid.Row="0"
+                                    Panel.ZIndex="1" 
+                                    Margin="0,0,4,-1" 
+                                    IsItemsHost="True"
+                                    Background="Transparent" />
                                 <Border 
-             Grid.Row="1"
-             BorderBrush="Transparent" 
-                                        BorderThickness="0">
+                                    Grid.Row="1"
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="0">
                                     <ContentPresenter ContentSource="SelectedContent" />
                                 </Border>
                             </Grid>
@@ -207,17 +205,16 @@
                         <ControlTemplate TargetType="{x:Type TabItem}">
 
                             <Grid Height="Auto" Margin="1">
-                                <Border 
-             Name="Border"
-             Background="Transparent"
-             BorderBrush="Transparent" 
-             BorderThickness="0" 
-             CornerRadius="0" >
+                                <Border Name="Border"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="0" 
+                                    CornerRadius="0" >
                                     <ContentPresenter x:Name="ContentSite"
-               VerticalAlignment="Stretch"
-               HorizontalAlignment="Center"
-               ContentSource="Header"
-               Margin="12,2,12,2"/>
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="12,2,12,2"/>
                                 </Border>
                             </Grid>
 
@@ -237,7 +234,7 @@
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter Property="TextElement.FontWeight"
                                            TargetName="ContentSite" Value="Normal"/>
-
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource ListViewItemBackground}"/>
                                     <Setter Property="TextElement.Foreground" 
                                             TargetName="ContentSite" Value="{DynamicResource MenuSelectionBrush}"/>
                                 </Trigger>
@@ -571,9 +568,10 @@
         
         -->
 
-        <controls:SmartPlayer x:Name="SmartPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"/>
+        <controls:SmartPlayer x:Name="SmartPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                              BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 1 0"/>
 
-        <GridSplitter Grid.Column="1" Grid.RowSpan="3" Grid.Row="0" Width="5" Background="{DynamicResource PlayerStartGradient}" 
+        <GridSplitter Grid.Column="1" Grid.RowSpan="3" Grid.Row="0" Width="5" Background="{DynamicResource FirstItemBackground}" 
                       HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"
                       DragDelta="GridSplitter_DragDelta"
                       DragCompleted="GridSplitter_DragCompleted"/>
@@ -599,21 +597,21 @@
 
             </TabControl.Resources>
 
-            <TabItem Header="Artists">
+            <TabItem Header="Artists" Margin="-1 -2 0 0">
                 <controls:TableView x:Name="TableView" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Albums">
+            <TabItem Header="Albums" Margin="0 -2 0 0">
                 <controls:AlbumDetailView x:Name="AlbumDetails" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Tracks">
+            <TabItem Header="Tracks" Margin="0 -2 0 0">
                 <controls:TrackTableView x:Name="TrackTable" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Favorites">
+            <TabItem Header="Favorites" Margin="0 -2 0 0">
                 <controls:Favourites x:Name="Favourites" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
         </TabControl>
 
-        <GridSplitter Grid.Column="3" Grid.RowSpan="1" Grid.Row="2" Width="5" Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Column="3" Grid.RowSpan="1" Grid.Row="2" Width="5"  Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
 
         <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="4" Background="{DynamicResource PlaylistBackground}" Margin="0">
 
@@ -622,14 +620,109 @@
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
 
+            <controls:Playlist x:Name="Playlist" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                               Margin="-2 22 0 0" BorderThickness="2" BorderBrush="{DynamicResource PlaylistBackground}"/>
+
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="5" Background="{DynamicResource FirstItemBackground}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="15*" MinWidth="64"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="tbAmountFiltered" HorizontalAlignment="Left" FontSize="{DynamicResource FontSizeSmallest}"
+                       Foreground="{DynamicResource MenuTextBrush}"
+                       VerticalAlignment="Center" Margin="6,0,0,0"/>
+
+            <TextBox Grid.Column="1" x:Name="FilterBox" TextChanged="FilterBox_TextChanged" VerticalAlignment="Stretch" Height="Auto" 
+                     HorizontalAlignment="Stretch"
+                     VerticalContentAlignment="Center"
+                     Padding="3 6 2 3"
+                     Margin="3 7 3 3"
+                     Background="{DynamicResource ListViewItemBackground}"
+                     Foreground="{DynamicResource ListViewItemForeground}"
+                     BorderBrush="#cccccc" FontSize="{DynamicResource FontSizeLarge}">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <TextBlock>
+                                    type any text to match any fields on the track. you may combine all of these!
+                                    <LineBreak/>
+                                    type any combination of:
+                                    <LineBreak/>
+                                    ar|art|artist:name_to_search
+                                    <LineBreak/>
+                                    al|alb|album:album_to_search
+                                    <LineBreak/>
+                                    t|ti|title:title_to_search
+                                    <LineBreak/>
+                                    flag:[0..30] - show flagged files
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Resources>
+
+            </TextBox>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.ColumnSpan="5">
+            <ProgressBar x:Name="ProgressBar" Height="4" HorizontalAlignment="Stretch" Margin="-4,0,-4,0" BorderThickness="0"
+                         Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"
+                          Background="{DynamicResource FirstItemBackground}"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0" Grid.Column="5">
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
+                      Tag="settings"
+                      BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"
+                      MaxDropDownHeight="900"
+                      Background="Transparent"
+                      Opacity="0.8"
+                      SelectedIndex="0"
+                      HorizontalAlignment="Right"
+                      Grid.ColumnSpan="5"
+                      VerticalAlignment="Top">
+                <ComboBoxItem>
+                    <Grid Background="{DynamicResource PlaylistBackground}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Equalizer" Margin="6,6,6,2" MouseDown="btnEqualizer_MouseDown"/>
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Control Settings" MouseDown="btnSettings_MouseDown"/>
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library" MouseDown="btnLibraries_MouseDown"/>
+
+                        </StackPanel>
+
+                        <Grid Grid.Row="1" Background="{DynamicResource PlayerButtonBorderDarkBrush}">
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Info (about)" Margin="6,12,6,12" MouseDown="btnInfo_MouseDown"/>
+                        </Grid>
+                    </Grid>
+                </ComboBoxItem>
+            </ComboBox>
 
             <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" 
                       Margin="-2,0,0,0"
-                      Tag="Playlist"
+                      Tag="playlist"
                       HorizontalAlignment="Stretch"
                       BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"
                       MaxDropDownHeight="900"
-                      Background="{DynamicResource PlaylistBackground}"
+                      Background="Transparent"
+                      Opacity="0.8"
                       SelectedIndex="0">
 
 
@@ -713,100 +806,7 @@
                     </Grid>
                 </ComboBoxItem>
             </ComboBox>
-            
-            <controls:Playlist x:Name="Playlist" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                               Margin="-2 5 0 0" BorderThickness="2" BorderBrush="{DynamicResource PlaylistBackground}"/>
-
-        </Grid>
-
-        <Grid Grid.Row="3" Grid.ColumnSpan="5" Background="{DynamicResource FirstItemBackground}">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="15*" MinWidth="64"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock x:Name="tbAmountFiltered" HorizontalAlignment="Left" FontSize="{DynamicResource FontSizeSmallest}"
-                       Foreground="{DynamicResource MenuTextBrush}"
-                       VerticalAlignment="Center" Margin="6,0,0,0"/>
-
-            <TextBox Grid.Column="1" x:Name="FilterBox" TextChanged="FilterBox_TextChanged" VerticalAlignment="Stretch" Height="Auto" 
-                     HorizontalAlignment="Stretch"
-                     VerticalContentAlignment="Center"
-                     Padding="3 6 2 3"
-                     Margin="3 7 3 3"
-                     Background="{DynamicResource ListViewItemBackground}"
-                     Foreground="{DynamicResource ListViewItemForeground}"
-                     BorderBrush="#cccccc" FontSize="{DynamicResource FontSizeLarge}">
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="3"/>
-                        <Setter Property="ToolTip">
-                            <Setter.Value>
-                                <TextBlock>
-                                    type any text to match any fields on the track. you may combine all of these!
-                                    <LineBreak/>
-                                    type any combination of:
-                                    <LineBreak/>
-                                    ar|art|artist:name_to_search
-                                    <LineBreak/>
-                                    al|alb|album:album_to_search
-                                    <LineBreak/>
-                                    t|ti|title:title_to_search
-                                    <LineBreak/>
-                                    flag:[0..30] - show flagged files
-                                </TextBlock>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TextBox.Resources>
-
-            </TextBox>
-        </Grid>
-
-        <Grid Grid.Row="4" Grid.ColumnSpan="5">
-            <ProgressBar x:Name="ProgressBar" Height="4" HorizontalAlignment="Stretch" Margin="-4,0,-4,0" BorderThickness="0"
-                         Value="{Binding ElementName=_This, Path=ProgressValue, UpdateSourceTrigger=PropertyChanged}"
-                          Background="{DynamicResource FirstItemBackground}"/>
-        </Grid>
-
-        <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
-                      Tag="settings"
-                      BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"
-                      MaxDropDownHeight="900"
-                      Background="Transparent"
-                      Opacity="0.8"
-                      SelectedIndex="0"
-                      HorizontalAlignment="Right"
-                      Grid.ColumnSpan="5"
-                      VerticalAlignment="Top">
-            <ComboBoxItem>
-                <Grid Background="{DynamicResource PlaylistBackground}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
-                        <StackPanel.Resources>
-                            <Style TargetType="Label">
-                                <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
-                            </Style>
-                        </StackPanel.Resources>
-
-                        <Label Style="{StaticResource standardControlLabelStyle}" Content="Equalizer" Margin="6,6,6,2" MouseDown="btnEqualizer_MouseDown"/>
-                        <Label Style="{StaticResource standardControlLabelStyle}" Content="Control Settings" MouseDown="btnSettings_MouseDown"/>
-                        <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library" MouseDown="btnLibraries_MouseDown"/>
-
-                    </StackPanel>
-
-                    <Grid Grid.Row="1" Background="{DynamicResource PlayerButtonBorderDarkBrush}">
-                        <Label Style="{StaticResource standardControlLabelStyle}" Content="Info (about)" Margin="6,12,6,12" MouseDown="btnInfo_MouseDown"/>
-                    </Grid>
-                </Grid>
-            </ComboBoxItem>
-        </ComboBox>
+        </StackPanel>
 
     </Grid>
 
