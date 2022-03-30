@@ -612,7 +612,8 @@
             </Grid.RowDefinitions>
 
 
-            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,0"
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" 
+                      Margin="-2,0,0,0"
                       Tag="Playlist"
                       HorizontalAlignment="Stretch"
                       BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"

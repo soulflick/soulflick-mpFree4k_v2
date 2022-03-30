@@ -217,11 +217,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="{DynamicResource ListViewItemBackground}">
-        <ListView x:Name="ListArtists" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <ListView x:Name="ListArtists" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   PresentationTraceSources.TraceLevel="High"
                   ItemsSource="{Binding Artists, UpdateSourceTrigger=PropertyChanged}"
                   SelectionChanged="ListArtists_SelectionChanged"
                   BorderThickness="0"
+                  Margin="-2,0,-2,0"
                   Background="{DynamicResource PlayerStartGradient}"
                   SizeChanged="ListArtists_SizeChanged"
                   PreviewMouseUp="ListArtists_PreviewMouseUp"
@@ -239,6 +241,7 @@
                     <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
                     <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource ItemList}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     <Setter Property="Margin" Value="0"/>

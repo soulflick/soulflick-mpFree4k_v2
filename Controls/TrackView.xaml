@@ -298,6 +298,7 @@
                   ItemTemplate="{StaticResource SwitchTrackTemplate}"
                   Background="{DynamicResource PlayerStartGradient}"
                   BorderThickness="0"
+                  Margin="-2,0,-1.5,0"
                   SelectionChanged="ListTracks_SelectionChanged"
                   PreviewKeyDown="ListTracks_PreviewKeyDown"
                   PreviewMouseDown="ListTracks_PreviewMouseDown"

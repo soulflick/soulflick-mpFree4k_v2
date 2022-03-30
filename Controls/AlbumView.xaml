@@ -225,6 +225,7 @@
                   PreviewMouseMove="ListAlbums_PreviewMouseMove"
                   SizeChanged="ListAlbums_SizeChanged"
                   ScrollViewer.ScrollChanged="ListAlbums_ScrollChanged"
+                  Margin="-1.5,0,-1.5,0"
                   >
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">

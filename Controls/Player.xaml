@@ -530,9 +530,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <!--
                 <Label Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Artist:</Label>
                 <Label Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Padding="0" FontStyle="Italic" Margin="0,2,2,0" Foreground="{DynamicResource PlayerInactiveBrush}">Album:</Label>
-                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeBig}" Margin="0 2 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
+                -->
+                <Label Name="lblTrack" Grid.Column="0" Grid.Row="0" Content="not started" FontSize="{DynamicResource FontSizeBig}"  FontWeight="DemiBold" Margin="0 2 0 0" Padding="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Foreground="{DynamicResource PlayerActiveBrush}"/>
                 <Label Name="lblArtist" Grid.Column="1" Grid.Row="1" Content="" FontSize="{DynamicResource FontSizeBig}" Margin="0" Padding="0 2 0 0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}"/>
                 <TextBlock Grid.Column="1" Grid.Row="2" FontSize="{DynamicResource FontSizeBig}" Margin="0 2 0 0" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource PlayerActiveBrush}">
                     <Run Name="lblAlbum" /><Run Text=" ("/><Run Name="lblYear"/><Run Text=")"/>
