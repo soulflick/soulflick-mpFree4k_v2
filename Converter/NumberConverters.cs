@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MpFree4k.Classes;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -109,17 +110,9 @@ namespace Mpfree4k.Converters
 
         public object Convert(object value, Type t, object parameter, CultureInfo culture)
         {
-            if (DefaultAlbumImage == null)
-            {
-                string uri = @"pack://application:,,,/" + "MpFree4k" +
-                ";component/" + "Images/no_album_cover.jpg";
-
-                DefaultAlbumImage = new System.Windows.Media.Imaging.BitmapImage(
-                new System.Uri(uri, System.UriKind.Absolute));
-            }
 
             if (value == null)
-                return DefaultAlbumImage;
+                return StandardImage.DefaultAlbumImage;
 
             else return value;
         }

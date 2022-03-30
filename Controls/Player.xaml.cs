@@ -13,6 +13,7 @@ using Mpfree4k.Enums;
 using Configuration;
 using MpFree4k;
 using System.Windows.Media;
+using MpFree4k.Classes;
 
 namespace Controls
 {
@@ -451,17 +452,7 @@ namespace Controls
                 Play(ViewModel.current_track);
         }
 
-        public ImageSource DefaultImage  
-        {
-            get
-            {
-                if (defaultImage == null)
-                    defaultImage = new System.Windows.Media.Imaging.BitmapImage(new Uri(@"pack://application:,,,/" +
-                        System.Reflection.Assembly.GetCallingAssembly().GetName().Name + ";component/Images/no_album_cover.jpg", UriKind.Absolute));
-
-                return defaultImage;
-            }
-        }
+        public ImageSource DefaultImage => StandardImage.DefaultAlbumImage;
 
         public int Volume => 0; // (int)sldVolume.Value;
 

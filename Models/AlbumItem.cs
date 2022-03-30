@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MpFree4k.Classes;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -11,7 +12,7 @@ namespace Models
         protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
 
-        public static BitmapImage DefaultAlbumImage = null;
+        public static BitmapImage DefaultAlbumImage => StandardImage.DefaultAlbumImage;
         public uint Year { get; set; }
         public string Artist { get; set; }
         public List<string> AllArtist { get; set; }
@@ -52,15 +53,6 @@ namespace Models
 
         public AlbumItem()
         {
-            if (DefaultAlbumImage == null)
-            {
-                string uri = @"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg";
-
-                DefaultAlbumImage = new System.Windows.Media.Imaging.BitmapImage(
-                new System.Uri(uri, System.UriKind.Absolute));
-            }
         }
 
         private bool _isSpecialVisible = false;

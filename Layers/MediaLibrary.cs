@@ -12,12 +12,13 @@ using Configuration;
 using Models;
 using Mpfree4k.Enums;
 using MpFree4k;
+using MpFree4k.Classes;
 
 namespace Layers
 {
     public class MediaLibrary : INotifyPropertyChanged
     {
-        public static BitmapImage DefaultAlbumImage = null;
+        public static BitmapImage DefaultAlbumImage => StandardImage.DefaultAlbumImage;
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
         public string Name = "[not set]";
         public string LibPath = "[not set]";
@@ -31,11 +32,6 @@ namespace Layers
         public MediaLibrary()
         {
             current_dispatcher = Dispatcher.CurrentDispatcher;
-
-            DefaultAlbumImage = new BitmapImage(
-                new System.Uri(@"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
 
 

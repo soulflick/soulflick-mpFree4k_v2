@@ -38,11 +38,6 @@ namespace Models
 
         public SimpleAlbumItem()
         {
-            if (AlbumItem.DefaultAlbumImage == null)
-                DefaultAlbumImage = new System.Windows.Media.Imaging.BitmapImage(
-                new System.Uri(@"pack://application:,,,/" +
-                System.Reflection.Assembly.GetCallingAssembly().GetName().Name +
-                ";component/" + "Images/no_album_cover.jpg", System.UriKind.Absolute));
         }
 
         private bool _isVisible = true;

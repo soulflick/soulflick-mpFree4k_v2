@@ -3,6 +3,7 @@ using Mpfree4k.Enums;
 using System;
 using System.Windows;
 using Configuration;
+using MpFree4k.Classes;
 
 namespace Classes
 {
@@ -34,6 +35,8 @@ namespace Classes
 
         public static void AddSkin(ResourceDictionary resDict)
         {
+            StandardImage.Reload();
+
             Application.Current.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.Resources.MergedDictionaries.Add(resDict);
             MainWindow.Instance.TableView.Resources.MergedDictionaries.Add(resDict);

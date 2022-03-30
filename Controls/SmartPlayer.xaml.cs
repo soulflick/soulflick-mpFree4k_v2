@@ -19,6 +19,9 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Mpfree4k.Converters;
+using MpFree4k.Classes;
+using System.Windows.Media.Imaging;
 
 namespace Controls
 {
@@ -56,6 +59,8 @@ namespace Controls
             CheckSongTimer.AutoReset = true;
             CheckSongTimer.Elapsed += CheckSongTimer_Elapsed;
             Loaded += Player_Loaded;
+
+            DefaultImage = StandardImage.DefaultAlbumImage;
         }
 
         public PlaylistViewModel PlayListVM
@@ -68,8 +73,6 @@ namespace Controls
                 _playlistVM.PropertyChanged += _playlistVM_PropertyChanged;
             }
         }
-
-        public static ImageSource defaultImage = null;
 
         public double ButtonSize => (double)UserConfig.ControlSize;
 
@@ -367,7 +370,14 @@ namespace Controls
 
             if (TrackImage.Source == null)
             {
-                TrackImage.Source = DefaultImage;
+                try
+                {
+                    MainWindow.mainDispatcher.Invoke(() => TrackImage.Source = DefaultImage);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
             }
         }
        
@@ -439,17 +449,7 @@ namespace Controls
                 Play(ViewModel.current_track);
         }
 
-        public ImageSource DefaultImage  
-        {
-            get
-            {
-                if (defaultImage == null)
-                    defaultImage = new System.Windows.Media.Imaging.BitmapImage(new Uri(@"pack://application:,,,/" +
-                        System.Reflection.Assembly.GetCallingAssembly().GetName().Name + ";component/Images/no_album_cover.jpg", UriKind.Absolute));
-
-                return defaultImage;
-            }
-        }
+        public BitmapImage DefaultImage { get; set; }
 
         public int Volume => (int)sldVolume.Value;
 

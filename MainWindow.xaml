@@ -554,11 +554,11 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="420"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="80*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="390"/>
         </Grid.ColumnDefinitions>
 
         <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>

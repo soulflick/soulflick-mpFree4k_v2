@@ -445,6 +445,7 @@
     </UserControl.Resources>
 
     <Grid>
+        <!--
         <Rectangle VerticalAlignment="Stretch">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
@@ -453,6 +454,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
+        -->
         <Grid VerticalAlignment="Stretch" ZIndex="1">
             <Grid.Background>
                 <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
@@ -570,7 +572,8 @@
                 <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" 
                     BorderBrush="WhiteSmoke">
 
-                    <Image x:Name="TrackImage" Source="/MpFree4k;component/Images/no_album_cover.jpg" 
+                    <Image x:Name="TrackImage"
+                           Source="{Binding ElementName=_This, Path=DefaultImage}"
                        MouseDown="TrackImage_MouseDown" VerticalAlignment="Center" HorizontalAlignment="Center" 
                        Margin="5 5 15 5"/>
                     <Border.Style>
