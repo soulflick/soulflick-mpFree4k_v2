@@ -23,7 +23,7 @@ Website: www.soulflick.com
 
 -----------------------------------------------------------------------------
 
-![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/favourites.png?raw=true)
+![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/favorites.png?raw=true)
 
 -----------------------------------------------------------------------------
 
@@ -32,8 +32,8 @@ Website: www.soulflick.com
 - Export playlist to drive location
 - Scale Fonts from "Very Small" to "Huge", which scales the interface, depending 
   on your screen resolution.
-- Select Padding to use the Player on tables
-- Interoperability between playing tracks and corresponding albums
+- Select Padding to use the Player on tablets.
+- Interoperability between playing tracks and corresponding albums.
 - Five pre-defined skins: from "White", over "Blue" to "Black".
 - All information about your consumation is kept locally to allow yourself to
   define your most favourite songs and albums.
