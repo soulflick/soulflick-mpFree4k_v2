@@ -718,15 +718,11 @@ namespace Controls
 
         private void goToQuery(string key)
         {
-            MainWindow.Instance.MainViews.SelectedIndex = 2;
-            MainWindow.Instance.FilterBox.Text = key;
+            var main = MainWindow.Instance;
 
-            var border = VisualTreeHelper.GetChild(MainWindow.Instance.TrackTable.TrackTable, 0) as Decorator;
-            if (border != null)
-            {
-                var scroll = border.Child as ScrollViewer;
-                if (scroll != null) scroll.ScrollToTop();
-            }
+            main.MainViews.SelectedIndex = 2;
+            main.FilterBox.Text = key;
+            main.TrackTable.ScrollToTop();
         }
 
         private void RunArtist_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -751,6 +747,8 @@ namespace Controls
         private void lblAllAlbum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             string album = (sender as TextBlock).Text;
+            if (album.Contains('(')) album = album.Remove(album.IndexOf('('), 1);
+            if (album.Contains(')')) album = album.Remove(album.IndexOf(')'), 1);
             goToQuery(album);
         }
     }

@@ -520,7 +520,7 @@
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
-                <ToggleButton x:Name="btnMute" Width="15" Height="15" Margin="3,-4,0,0" Padding="0" Checked="btnMute_Checked" Unchecked="btnMute_Unchecked">
+                <ToggleButton x:Name="btnMute" Width="15" Height="15" Margin="10,-2,0,0" Padding="0" Checked="btnMute_Checked" Unchecked="btnMute_Unchecked">
                     <Image Width="12" Height="12">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
@@ -557,26 +557,36 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="13 10 15 5"
-                        Background="{DynamicResource PlayerStartGradient}"
-                    BorderBrush="WhiteSmoke">
-
-                    <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage}" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                           Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" MouseDown="TrackImage_MouseDown"
-                           >
-                        <Image.Style>
-                            <Style TargetType="Image">
-                                <Setter Property="Opacity" Value="0.92"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="1"/>
-                                        <Setter Property="Cursor" Value="Hand"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Image.Style>
-                    </Image>
-
+                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="13 10 15 5" BorderBrush="Transparent" CornerRadius="4">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="5" Opacity=".7" ShadowDepth="4" />
+                    </Border.Effect>
+                    <Border Name="ReceiverColor" BorderBrush="Transparent" BorderThickness="4.5" CornerRadius="0">
+                        <Grid>
+                            <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness="0.5" CornerRadius="4">
+                            </Border>
+                            <StackPanel>
+                                <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                    Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" MouseDown="TrackImage_MouseDown">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Opacity" Value="0.92"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <StackPanel.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                </StackPanel.OpacityMask>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    
                     <Border.Style>
                         <Style TargetType="Border">
                             <Style.Triggers>

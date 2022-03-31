@@ -343,17 +343,15 @@ namespace Layers
             List<string> query_strings = new List<string>();
             _thisQuery.Split(" ".ToCharArray()).ToList().
                 Where(x => !string.IsNullOrEmpty(x)).ToList()
-                .ForEach(f => query_strings.Add(f.ToLower()));
+                .ForEach(f => query_strings.Add(f.Trim().ToLower()));
 
             if (viewmode == ViewMode.Table)
             {
                 foreach (var file in Files)
                 {
                     int matches = 0;
-                    foreach (var _t in query_strings)
+                    foreach (var token in query_strings)
                     {
-                        var token = _t.ToLower().Trim();
-
                         if (file.Mp3Fields.Artists.ToLower().Contains(token))
                             matches++;
                         if (file.Mp3Fields.AlbumArtists.ToLower().Contains(token))
@@ -371,14 +369,7 @@ namespace Layers
                 Files.ForEach(f => f.IsVisible = f.MatchCount > 0 || query_strings.All(q => string.IsNullOrWhiteSpace(q)));
                 Files = Files.OrderByDescending(f => f.MatchCount).ToList();
 
-                /*
-                Files.ForEach(x => x.IsVisible =
-                (string.IsNullOrEmpty(_thisQuery)) ||
-                (!string.IsNullOrEmpty(x.Title) &&
-                query_strings.Any(q => x.Title.ToLower().Contains(q)) ||
-                query_strings.Any(q => x.Mp3Fields.Artists.ToLower().Contains(q)) ||
-                query_strings.Any(q => x.Mp3Fields.Album.ToLower().Contains(q))));
-                */
+                MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.TrackTable.ScrollToTop()); ;
 
                 Refresh(MediaLevel.Tracks);
             }
@@ -407,7 +398,29 @@ namespace Layers
             }
             else if (viewmode == ViewMode.Favourites)
             {
+                var favourites = MainWindow.Instance.Favourites;
+                var filtered = new List<FileViewInfo>();
 
+                foreach (var fav in favourites.VM.LoadedTracks)
+                {
+                    if (string.IsNullOrWhiteSpace(_thisQuery) ||
+                        query_strings.Any(q => fav.Title.ToLower().Contains(q)) ||
+                        query_strings.Any(q => fav.Mp3Fields.Album.ToLower().Contains(q)) ||
+                        query_strings.Any(q => fav.Mp3Fields.AlbumArtists.ToLower().Contains(q)))
+                        
+                    filtered.Add(fav);
+                }
+
+                favourites.Dispatcher.Invoke(() => {
+
+                    favourites.VM.FavouriteTracks.Clear();
+                    foreach (var f in filtered)
+                        favourites.VM.FavouriteTracks.Add(f);
+
+                    favourites.Raise("FavouriteTracks");
+                    favourites.VM.Raise("FavouriteTracks");
+
+                });
             }
 
             Raise("Filter");

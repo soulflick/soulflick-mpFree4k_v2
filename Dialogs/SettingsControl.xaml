@@ -108,7 +108,7 @@
 
                 <TextBlock Text="Control Padding:" Grid.Row="4" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 
-                <Slider Name="sldPadding" Grid.Row="5" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldPadding_ValueChanged"/>
+                <Slider Name="sldPadding" Grid.Row="5" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldPadding_ValueChanged" Value="5"/>
 
                 <TextBlock Text="Control Sizes:" Grid.Row="6" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 

@@ -22,7 +22,7 @@ namespace Controls
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         public Thickness TableMargin { get; set; } = new Thickness(30);
 
-        FavouritesViewModel VM = null;
+        public FavouritesViewModel VM { get; set; } = null;
         private List<SimpleAlbumItem> dragItems_albums = new List<SimpleAlbumItem>();
         private List<FileViewInfo> dragItems_tracks = new List<FileViewInfo>();
         private SelectedControl SelectedControl = SelectedControl.None;

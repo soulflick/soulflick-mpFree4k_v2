@@ -64,6 +64,16 @@ namespace Controls
             return TrackTable.SelectedItems[0] as FileViewInfo;
         }
 
+        public void ScrollToTop()
+        {
+            var border = System.Windows.Media.VisualTreeHelper.GetChild(TrackTable, 0) as Decorator;
+            if (border != null)
+            {
+                var scroll = border.Child as ScrollViewer;
+                if (scroll != null) scroll.ScrollToTop();
+            }
+        }
+
         private void playSelected()
         {
             if (TrackTable.SelectedItem == null)

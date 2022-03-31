@@ -569,7 +569,7 @@
         -->
 
         <controls:SmartPlayer x:Name="SmartPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"
-                              BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 1 0"/>
+                              BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 0.8 0"/>
 
         <GridSplitter Grid.Column="1" Grid.RowSpan="4" Grid.Row="0" Width="5" Background="{DynamicResource FirstItemBackground}" 
                       HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"

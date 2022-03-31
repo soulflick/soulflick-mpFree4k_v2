@@ -62,16 +62,16 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Width="Auto" Height="Auto" Margin="12,12,8,0" VerticalAlignment="Top"
-                        BorderBrush="SteelBlue" BorderThickness=".5" CornerRadius="18">
+                        BorderBrush="#FF3B5998" BorderThickness="0" CornerRadius="0">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="5" Opacity=".5" ShadowDepth="3" />
+                        <DropShadowEffect BlurRadius="6" Opacity=".6" ShadowDepth="6" />
                     </Border.Effect>
-                    <Border Name="ReceiverColor" BorderBrush="SteelBlue" BorderThickness="6" CornerRadius="15">
+                    <Border Name="ReceiverColor" BorderBrush="Transparent" BorderThickness="4.5" CornerRadius="0">
                         <Grid>
-                            <Border Name="Mask" Background="White" BorderBrush="#FF3B5998" BorderThickness=".5" CornerRadius="13">
+                            <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness=".5" CornerRadius="9">
                             </Border>
                             <StackPanel>
-                                <Image x:Name="AlbumImage" Width="Auto" Height="Auto" MaxHeight="210" MaxWidth="210"/>
+                                <Image x:Name="AlbumImage" Width="Auto" Height="Auto" MaxHeight="230" MaxWidth="230"/>
                                 <StackPanel.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=Mask}" />
                                 </StackPanel.OpacityMask>
@@ -199,7 +199,7 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupTrack"/>
-                                                <ColumnDefinition Width="100*" SharedSizeGroup="SizeGroupName"/>
+                                                <ColumnDefinition Width="100*" SharedSizeGroup="SizeGroupName" MinWidth="250"/>
                                                 <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupLength"/>
                                             </Grid.ColumnDefinitions>
 

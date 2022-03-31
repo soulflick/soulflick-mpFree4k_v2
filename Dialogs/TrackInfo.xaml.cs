@@ -1,5 +1,6 @@
 ﻿using Classes;
 using Models;
+using MpFree4k.Classes;
 using MpFree4k.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,6 +94,16 @@ namespace Dialogs
         {
             Info = info;
             AlbumImage.Source = ImageConnector.GetImageFromFile(Info.Path);
+
+            if (AlbumImage.Source == null)
+            {
+                AlbumImage.Source = StandardImage.DefaultAlbumImage;
+                AlbumImage.Opacity = 0.4;
+            }
+            else
+            {
+                AlbumImage.Opacity = 1;
+            }
 
             if (info._Handle != null)
             {

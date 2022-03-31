@@ -195,20 +195,36 @@
                 <DataGridTemplateColumn Header="" Width="Auto" MinWidth="{DynamicResource TrackTableImageSize}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
-                                  Margin="{DynamicResource ControlPaddingMargin}"
-                                  Width="28" Height="Auto" Opacity="0.8"
-                                  Grid.RowSpan="2">
-                                <Grid.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
-                                </Grid.OpacityMask>
-                                <Border x:Name="ImgBorder" CornerRadius="1" Background="{DynamicResource ImageBackgroundBrush}" 
-                                        Opacity="{Binding HasTrackImage, Converter={StaticResource bool2opacconv}}" />
-                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding TrackImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                   Width="{DynamicResource TrackTableImageSize}" Height="{DynamicResource TrackTableImageSize}"
-                                       />
-
-                            </Grid>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="{DynamicResource ControlPaddingMargin}" BorderBrush="Transparent" CornerRadius="2">
+                                <!--<Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity=".7" ShadowDepth="4" />
+                                </Border.Effect>-->
+                                <Border Name="ReceiverColor" BorderBrush="Transparent" BorderThickness="4.5" CornerRadius="0">
+                                    <Grid>
+                                        <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness="0.5" CornerRadius="2">
+                                        </Border>
+                                        <StackPanel>
+                                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding TrackImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                Width="{DynamicResource TrackTableImageSize}" Height="{DynamicResource TrackTableImageSize}">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Opacity" Value="0.92"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <StackPanel.OpacityMask>
+                                                <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                            </StackPanel.OpacityMask>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

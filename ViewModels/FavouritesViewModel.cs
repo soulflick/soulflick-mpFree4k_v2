@@ -5,6 +5,7 @@ using Models;
 using MpFree4k;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -30,8 +31,10 @@ namespace ViewModels
             }
         }
 
-        private List<FileViewInfo> _favouriteTracks = null;
-        public List<FileViewInfo> FavouriteTracks
+        public List<FileViewInfo> LoadedTracks = new List<FileViewInfo>();
+
+        private ObservableCollection<FileViewInfo> _favouriteTracks = null;
+        public ObservableCollection<FileViewInfo> FavouriteTracks
         {
             get => _favouriteTracks;
             set
@@ -77,7 +80,12 @@ namespace ViewModels
 
                     _tsx.Add(fin);
                 }
-                FavouriteTracks = _tsx;
+
+                LoadedTracks.Clear();
+                LoadedTracks.AddRange(_tsx);
+
+                FavouriteTracks = new ObservableCollection<FileViewInfo>(_tsx);
+                
                 MainWindow.SetProgress(0);
 
                 TimeSpan span = TimeSpan.FromSeconds(_tsx.Sum(t => t.Mp3Fields.DurationValue));
