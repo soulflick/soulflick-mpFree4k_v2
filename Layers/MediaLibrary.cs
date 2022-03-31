@@ -389,7 +389,8 @@ namespace Layers
                 Albums.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || (
                 x.AllArtist.Any(y => query_strings.Any(q => y.ToLower().Contains(q))) ||
                 query_strings.Any(q => x.Artist.ToLower().Contains(q)) ||
-                query_strings.Any(q => x.Album.ToLower().Contains(q))));
+                query_strings.Any(q => x.Album.ToLower().Contains(q)) ||
+                query_strings.Any(q => x.Year.ToString().Contains(q))));
 
                 Refresh(MediaLevel.Albums);
 

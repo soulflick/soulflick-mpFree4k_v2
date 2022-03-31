@@ -83,7 +83,12 @@ namespace Plugins
             {
                 _position = value;
                 TimeSpan pos = new TimeSpan(0, 0, 0, Math.Max(0, (int)value), Math.Max(0, (int)(value % 1) * 1000));
-                sampleSource?.SetPosition(pos);
+                try
+                {
+                    sampleSource?.SetPosition(pos);
+                }
+                catch { }
+                
             }
         }
 

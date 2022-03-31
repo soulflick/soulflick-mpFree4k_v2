@@ -767,7 +767,18 @@
                                 </Style>
                             </Run.Style>
                         </Run>
-                        <Run Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"/><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
+                        <Run Name="runYear" Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run 
+                            Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"
+                            MouseDown="Run_MouseDown"><Run.Style>
+                            <Style TargetType="Run">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Run.Style></Run><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
                     </TextBlock>
 
                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal">

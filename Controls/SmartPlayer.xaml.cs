@@ -747,9 +747,16 @@ namespace Controls
         private void lblAllAlbum_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             string album = (sender as TextBlock).Text;
-            if (album.Contains('(')) album = album.Remove(album.IndexOf('('), 1);
-            if (album.Contains(')')) album = album.Remove(album.IndexOf(')'), 1);
+
+            while (album.Contains('(')) album = album.Remove(album.IndexOf('('), 1);
+            while (album.Contains(')')) album = album.Remove(album.IndexOf(')'), 1);
             goToQuery(album);
+        }
+
+        private void Run_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string year = (sender as System.Windows.Documents.Run).Text.ToString();
+            goToQuery(year);
         }
     }
 }
