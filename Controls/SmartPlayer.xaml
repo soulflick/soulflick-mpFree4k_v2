@@ -701,26 +701,26 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Content="Channels" FontSize="{DynamicResource FontSizeSmall}"/>
+                    <Label Content="Channels" FontSize="{DynamicResource FontSizeSmall}" Margin="5,0,0,0"/>
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="2" Content="Bitrate" Margin="5,0" />
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="2" Content="Bitrate" Margin="5,0,0,0" />
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="3" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="4" Content="Sample Rate" Margin="5,0" />
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="4" Content="Sample Rate" Margin="5,0,0,0" />
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="5" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="0" Content="Bits per Sample" />
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="0" Content="Bits per Sample" Margin="5,0,0,0"/>
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0,0,0"/>
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="0,0" />
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="5,0,0,0" />
                     <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="0" Content="Description" Margin="0,0" />
-                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="0" Content="Description" Margin="5,0,0,0"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Margin="5,0,0,0" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
                 </Grid>
 

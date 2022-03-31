@@ -215,7 +215,7 @@
                 <DataGridTemplateColumn Header="Title" Width="20*" SortMemberPath="Title">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}">
+                            <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
@@ -252,14 +252,14 @@
                 <DataGridTemplateColumn Header="Artist" Width="20*" SortMemberPath="Mp3Fields.Artists">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Artists}" ToolTip="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Album" Width="20*" SortMemberPath="Mp3Fields.Album">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Album}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Album}" ToolTip="{Binding Mp3Fields.Album}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

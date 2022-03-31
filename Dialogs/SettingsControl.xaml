@@ -8,15 +8,20 @@
              Background="White"
              BorderBrush="Gray"
              BorderThickness="1"
+        
              d:DesignHeight="350" d:DesignWidth="650"
              Width="420"
-             MaxWidth="640"
-             Height="580"
+             Height="700"
+             MinWidth="310"
+             MaxWidth="420"
+             MinHeight="700"
+             MaxHeight="700"
+        
              x:Name="_This"
-        Title="Player Settings- soulflick"
-        Topmost="False"
-        Closing="_This_Closing"
-        WindowStartupLocation="CenterOwner">
+             Title="Player Settings- soulflick"
+             Topmost="False"
+             Closing="_This_Closing"
+             WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -48,7 +53,7 @@
 
         <Grid Grid.Row="3" Height="1" Background="#DDDDDD"/>
 
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="4" Margin="16">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -79,7 +84,7 @@
 
                 </ComboBox>
 
-                <TextBlock Text="Font Size:" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,6,3,3" Grid.Row="2"/>
+                <TextBlock Text="Font Size:" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,16,3,0" Grid.Row="2"/>
 
                 <Slider Name="sldFontSize" Grid.Row="3" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="0" Maximum="8" 
                         IsSnapToTickEnabled="True" TickFrequency="1"/>
@@ -101,14 +106,15 @@
                 </ComboBox>
                 -->
 
-                <TextBlock Text="Control Padding:" Grid.Row="4" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,3"/>
+                <TextBlock Text="Control Padding:" Grid.Row="4" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 
                 <Slider Name="sldPadding" Grid.Row="5" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldPadding_ValueChanged"/>
 
+                <TextBlock Text="Control Sizes:" Grid.Row="6" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 
+                <Slider Name="sldControlSizes" Grid.Row="7" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="0" Maximum="4" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldControlSizes_ValueChanged"/>
 
-                <TextBlock Text="Control Sizes:" Grid.Row="6" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,3"/>
-
+                <!--
                 <ComboBox x:Name="comboControlSize" Grid.Column="1" Grid.Row="7" FontSize="{DynamicResource FontSizeBig}"
                           SelectionChanged="comboControlSize_SelectionChanged"
                           PreviewMouseDown="comboBox_PreviewMouseDown">
@@ -118,6 +124,7 @@
                     <ComboBoxItem Content="Biggest" Tag="{x:Static enums:ControlSize.Biggest}"/>
                     <ComboBoxItem Content="Huge" Tag="{x:Static enums:ControlSize.Huge}"/>
                 </ComboBox>
+                -->
 
                 <TextBlock Text="Active Skin:" Grid.Row="8" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,3"/>
 
@@ -130,7 +137,7 @@
                     <ComboBoxItem Content="Black" Tag="{x:Static enums:SkinColors.Black_Smooth}"/>
                 </ComboBox>
 
-                <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Grid.Row="10" Margin="3,8,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Grid.Row="10" Margin="3,24,0,0" FontSize="{DynamicResource FontSizeBig}"/>
 
                 <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" Grid.Row="11" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
 
@@ -142,7 +149,7 @@
 
                 <Grid Grid.Row="15" Height="1" Background="LightGray"/>
                 
-                <Grid Grid.Row="16" Margin="0,4,0,0">
+                <Grid Grid.Row="16" Margin="0,16,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

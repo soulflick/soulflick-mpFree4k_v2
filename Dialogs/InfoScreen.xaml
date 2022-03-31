@@ -10,12 +10,12 @@
              d:DesignHeight="350" d:DesignWidth="650"
              Width="420"
              MaxWidth="1024"
-             Height="Auto"
+             Height="420"
              x:Name="_This"
-        Topmost="True"
-        Title="Library Selection - soulflick"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+             Topmost="True"
+             Title="Library Selection - soulflick"
+             ResizeMode="NoResize"
+             WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -64,7 +64,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Background="WhiteSmoke">
-            <TextBlock Margin="8" FontSize="{DynamicResource FontSizeBigger}"><Run Text="Mp" FontStyle="Normal"/><Run Text="Free" FontStyle="Italic"/><Run Foreground="SteelBlue" Text="4k"/><Run FontSize="{DynamicResource FontSizeSmall}" Text=" 2.0"/></TextBlock>
+            <TextBlock Margin="8" FontSize="{DynamicResource FontSizeBigger}"><Run Text="Mp" FontStyle="Normal"/><Run Text="Free" FontStyle="Italic"/><Run Foreground="SteelBlue" Text="4k"/><Run FontSize="{DynamicResource FontSizeSmall}" Text=" 2.4"/></TextBlock>
         </Grid>
 
         <Grid Grid.Row="1" Height="1" Background="Gray"/>
@@ -82,20 +82,20 @@
 
         <StackPanel Grid.Row="4" Margin="10" HorizontalAlignment="Stretch">
 
-            
-            <TextBlock Text="you are free to edit or distribute this software for non-commercial use.&#10;&#10;If so, please contact the author: mail@soulflick.com&#10;" HorizontalAlignment="Stretch"/>
 
-            <TextBlock FontWeight="Bold" Text="This software uses the following Libraries:" Margin="10,0,10,3"/>
-            <TextBlock Margin="10,0,10,3">
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" Text="you are free to edit or distribute this software&#10;for non-commercial use.&#10;&#10;If so, please contact the author: mail@soulflick.com&#10;" HorizontalAlignment="Stretch"/>
+
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontWeight="Bold" Text="This software uses the following Libraries:" Margin="10,0,10,3"/>
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" Margin="10,0,10,3">
                     <Hyperlink NavigateUri="https://github.com/mono/taglib-sharp" RequestNavigate="Hyperlink_RequestNavigate">TagLib Sharp</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="10,0,10,3">
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" Margin="10,0,10,3">
                     <Hyperlink NavigateUri="https://github.com/filoe/cscore" RequestNavigate="Hyperlink_RequestNavigate">CSCore Media Plugin</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="10,0,10,3">
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" Margin="10,0,10,3">
                     <Hyperlink NavigateUri="https://www.nuget.org/packages/WMPLib/" RequestNavigate="Hyperlink_RequestNavigate">Windows Media Player API</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="10,0,10,3">
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" Margin="10,0,10,3">
                     <Hyperlink NavigateUri="https://github.com/lyltj2010/TinySQL" RequestNavigate="Hyperlink_RequestNavigate">TinySQL</Hyperlink>
             </TextBlock>
 

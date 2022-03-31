@@ -47,18 +47,18 @@ namespace Dialogs
             comboPluginType.SelectedIndex = (int)UserConfig.PluginType;
             sldPadding.Value = (int)UserConfig.PaddingType;
 
-            bool found = false;
-            for (int i = 0; i < comboControlSize.Items.Count; i++)
+            Array sizes = Enum.GetValues(typeof(ControlSize));
+
+            int s = -1;
+            foreach (int size in sizes)
             {
-                if (((int)(comboControlSize.Items[i] as ComboBoxItem).Tag) == (int)UserConfig.ControlSize)
+                s++;
+                if (size == (int)UserConfig.ControlSize)
                 {
-                    comboControlSize.SelectedIndex = i;
-                    found = true;
+                    sldControlSizes.Value = s;
                     break;
                 }
             }
-            if (!found)
-                comboControlSize.SelectedIndex = 1;
 
             comboSkins.SelectionChanged += ComboBoxSkin_SelectionChanged;
             sldFontSize.ValueChanged += SldFontSize_ValueChanged;
@@ -406,6 +406,30 @@ namespace Dialogs
 
             SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
             SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
+        }
+
+        private void sldControlSizes_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int index = (int)sldControlSizes.Value;
+            int control_size = 16;
+
+            Array sizes = Enum.GetValues(typeof(ControlSize));
+            int s = -1;
+
+            foreach (int size in sizes)
+            {
+                s++;
+                if (s == index)
+                {
+                    control_size = size;
+                    break;
+                }
+            }
+
+            ControlSize csize = (ControlSize)control_size;
+            UserConfig.ControlSize = csize;
+            MainWindow.Instance.Player.Raise("ButtonSize");
+            MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
     }
 }

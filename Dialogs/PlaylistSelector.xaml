@@ -8,13 +8,18 @@
              BorderBrush="Gray"
              BorderThickness="1"
              d:DesignHeight="350" d:DesignWidth="650"
-             Width="420"
-             MaxWidth="1024"
-             Height="520"
+             
+             Width="480"
+             Height="700"
+             MinWidth="380"
+             MaxWidth="700"
+             MinHeight="700"
+             MaxHeight="900"
+        
              x:Name="_This"
-        Title="Playlist Selection - soulflick"
-        Topmost="True"
-        WindowStartupLocation="CenterOwner">
+             Title="Playlist Selection - soulflick"
+             Topmost="True"
+             WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -75,7 +80,7 @@
 
         <Grid Grid.Row="3" Height="1" Background="#DDDDDD"/>
 
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="4" Margin="16">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -121,7 +126,7 @@
                 </Grid>
 
                 <Grid Grid.Row="2">
-                    <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Margin="10,0,10,0"><Run Text="Path: "/><Run Text="{Binding ElementName=_This, Path=CurrentDefinition.Path}" Foreground="SteelBlue"/></TextBlock>
+                    <TextBlock FontSize="{DynamicResource FontSizeSmaller}" Margin="10,16,10,0"><Run Text="Path: "/><Run Text="{Binding ElementName=_This, Path=CurrentDefinition.Path}" Foreground="SteelBlue"/></TextBlock>
                 </Grid>
 
                 <Grid Grid.Row="4" Background="#D0D0D0" Height="1"/>

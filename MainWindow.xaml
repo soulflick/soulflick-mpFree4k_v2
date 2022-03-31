@@ -640,8 +640,8 @@
             <TextBox Grid.Column="1" x:Name="FilterBox" TextChanged="FilterBox_TextChanged" VerticalAlignment="Stretch" Height="Auto" 
                      HorizontalAlignment="Stretch"
                      VerticalContentAlignment="Center"
-                     Padding="3 6 2 3"
-                     Margin="3 7 3 3"
+                     Padding="8"
+                     Margin="8"
                      Background="{DynamicResource ListViewItemBackground}"
                      Foreground="{DynamicResource ListViewItemForeground}"
                      BorderBrush="#cccccc" FontSize="{DynamicResource FontSizeLarge}">
@@ -678,7 +678,8 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0" Grid.Column="5">
-            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,0,4"
+            <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}"
+                      Margin="0"
                       Tag="settings"
                       BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"
                       MaxDropDownHeight="900"
@@ -716,7 +717,7 @@
             </ComboBox>
 
             <ComboBox FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource MenuTextBrush}" 
-                      Margin="-2,0,0,4"
+                      Margin="0"
                       Tag="playlist"
                       HorizontalAlignment="Stretch"
                       BorderBrush="{DynamicResource MenuBrush}" BorderThickness="0"
