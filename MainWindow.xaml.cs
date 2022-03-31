@@ -155,6 +155,7 @@ namespace MpFree4k
             }
 
             SkinAdaptor.ApplySkin(this, UserConfig.Skin, UserConfig.FontSize);
+            SkinAdaptor.ApplyPadding(this, UserConfig.PaddingType);
 
             plsel = new PlaylistSelector(Playlist.DataContext as PlaylistViewModel);
             if (plsel.SelectedDefinition != null)

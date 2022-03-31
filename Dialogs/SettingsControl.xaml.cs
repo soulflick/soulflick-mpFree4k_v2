@@ -42,9 +42,10 @@ namespace Dialogs
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            comboSizes.SelectedIndex = (int)UserConfig.FontSize;
+            sldFontSize.Value = (int)UserConfig.FontSize;
             comboSkins.SelectedIndex = (int)UserConfig.Skin;
             comboPluginType.SelectedIndex = (int)UserConfig.PluginType;
+            sldPadding.Value = (int)UserConfig.PaddingType;
 
             bool found = false;
             for (int i = 0; i < comboControlSize.Items.Count; i++)
@@ -60,8 +61,22 @@ namespace Dialogs
                 comboControlSize.SelectedIndex = 1;
 
             comboSkins.SelectionChanged += ComboBoxSkin_SelectionChanged;
-            comboSizes.SelectionChanged += ComboSizes_SelectionChanged;
+            sldFontSize.ValueChanged += SldFontSize_ValueChanged;
             comboPluginType.SelectionChanged += comboPluginType_SelectionChanged;
+        }
+
+        private void SldFontSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            FontSize size = (FontSize)sldFontSize.Value;
+            UserConfig.FontSize = size;
+            
+            if (MainWindow.Instance.TableView.ArtistView != null)
+                SkinAdaptor.ApplyFontSize(MainWindow.Instance, size);
+            
+            SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
+
+            MainWindow.Instance.Player.Raise("ButtonSize");
+            MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
 
         private void ComboSizes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -77,7 +92,7 @@ namespace Dialogs
             UserConfig.FontSize = size;
             if (MainWindow.Instance.TableView.ArtistView != null)
                 SkinAdaptor.ApplyFontSize(MainWindow.Instance, size);
-
+            SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
             MainWindow.Instance.Player.Raise("ButtonSize");
             MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
 
@@ -130,6 +145,18 @@ namespace Dialogs
                         if (Enum.IsDefined(typeof(ControlSize), a))
                         {
                             UserConfig.ControlSize = (ControlSize)a;
+                        }
+                    }
+                }
+
+                else if (key_str == "controlpadding")
+                {
+                    int a = 0;
+                    if (int.TryParse(key_val, out a))
+                    {
+                        if (Enum.IsDefined(typeof(PaddingType), a))
+                        {
+                            UserConfig.PaddingType = (PaddingType)a;
                         }
                     }
                 }
@@ -235,6 +262,7 @@ namespace Dialogs
                     if (bool.TryParse(key_val, out _true))
                         UserConfig.OpenSmallWindowWhenMinimized = _true;
                 }
+
             }
         }
 
@@ -282,6 +310,7 @@ namespace Dialogs
             doc += "\t\t<setting name=\"skin\" value=\"" + UserConfig.Skin.ToString() + "\"/>\n";
             doc += "\t\t<setting name=\"fontsize\" value=\"" + (int)UserConfig.FontSize + "\"/>\n";
             doc += "\t\t<setting name=\"controlsize\" value=\"" + (int)UserConfig.ControlSize + "\"/>\n";
+            doc += "\t\t<setting name=\"controlpadding\" value=\"" + (int)UserConfig.PaddingType + "\"/>\n";
             doc += "\t\t<setting name=\"artistviewtype\" value=\"" + (int)UserConfig.ArtistViewType + "\"/>\n";
             doc += "\t\t<setting name=\"albumviewtype\" value=\"" + (int)UserConfig.AlbumViewType + "\"/>\n";
             doc += "\t\t<setting name=\"trackviewtype\" value=\"" + (int)UserConfig.TrackViewType + "\"/>\n";
@@ -363,5 +392,20 @@ namespace Dialogs
         private void showSmallView_Checked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = true;
 
         private void showSmallView_Unchecked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = false;
+
+        private void sldPadding_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int amount = (int)sldPadding.Value;
+            UserConfig.PaddingType = (PaddingType)amount;
+
+            ComboBoxItem ci =  comboSkins?.SelectedItem as ComboBoxItem;
+            if (ci == null)
+                return;
+
+            SkinColors selected_Color = (SkinColors)ci.Tag;
+
+            SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
+            SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
+        }
     }
 }

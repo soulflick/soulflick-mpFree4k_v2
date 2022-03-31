@@ -249,7 +249,16 @@ namespace Controls
             var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
             selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
 
-            PlaylistViewModel.Play(selection.ToArray());
+            var selection_filtered = new List<FileViewInfo>();
+            foreach (var sel in selection)
+            {
+                if (selection_filtered.Any(s => s.Mp3Fields.Album == sel.Mp3Fields.Album && s.Mp3Fields.Title == sel.Mp3Fields.Title))
+                    continue;
+                else
+                    selection_filtered.Add(sel);
+            }
+
+            PlaylistViewModel.Play(selection_filtered.ToArray());
         }
 
         private void mnuCtxAddThisArtist_Click(object sender, RoutedEventArgs e)
@@ -264,7 +273,16 @@ namespace Controls
             var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
             selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
 
-            PlaylistViewModel.AddTracks(selection.ToArray());
+            var selection_filtered = new List<FileViewInfo>();
+            foreach (var sel in selection)
+            {
+                if (selection_filtered.Any(s => s.Mp3Fields.Album == sel.Mp3Fields.Album && s.Mp3Fields.Title == sel.Mp3Fields.Title))
+                    continue;
+                else
+                    selection_filtered.Add(sel);
+            }
+
+            PlaylistViewModel.AddTracks(selection_filtered.ToArray());
         }
 
         private void mnuCtxFlagOK_Click(object sender, RoutedEventArgs e)
@@ -314,7 +332,16 @@ namespace Controls
             var selection = ViewModel.LibraryTracks.Where(track => artists.Contains(track.Mp3Fields.AlbumArtists)).Distinct();
             selection = selection.DistinctBy(y => y.Mp3Fields.FileName);
 
-            PlaylistViewModel.Insert(selection.ToArray());
+            var selection_filtered = new List<FileViewInfo>();
+            foreach (var sel in selection)
+            {
+                if (selection_filtered.Any(s => s.Mp3Fields.Album == sel.Mp3Fields.Album && s.Mp3Fields.Title == sel.Mp3Fields.Title))
+                    continue;
+                else
+                    selection_filtered.Add(sel);
+            }
+
+            PlaylistViewModel.Insert(selection_filtered.ToArray());
         }
     }
 }

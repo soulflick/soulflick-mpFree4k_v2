@@ -120,7 +120,7 @@ namespace ViewModels
             }
         }
 
-        public void onStart()
+        public void Play()
         {
             if (playmode == Playmode.Unplay)
             {

@@ -19,7 +19,6 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Mpfree4k.Converters;
 using MpFree4k.Classes;
 using System.Windows.Media.Imaging;
 
@@ -86,6 +85,7 @@ namespace Controls
             if (fileInfo == null)
             {
                 Stop();
+                setPlayImage(true);
                 return;
             }
 
@@ -174,6 +174,8 @@ namespace Controls
                     PlayListVM.RepeatMode != RepeatMode.RepeatOne)
                     Next();
             }
+
+            setPlayImage(false);
         }
 
         private bool _isCheckedState = false;
@@ -237,7 +239,32 @@ namespace Controls
             {
                 uint count = Info?.Mp3Fields.TrackCount ?? 0;
                 if (count == 0) count = (uint)(AlbumTracks?.Count() ?? 0);
+
+                int max_track = AlbumTracks.Max(t => t.Track);
+                if (max_track > count) count = (uint)max_track;
                 return count;
+            }
+        }
+
+        public uint CurrentDisc
+        {
+            get
+            {
+                if (Info == null) return 0;
+                uint disc = Info?.Mp3Fields.Disc ?? 1;
+                if (disc == 0) disc = 1;
+                return disc;
+            }
+        }
+
+        public uint DiscCount
+        {
+            get
+            {
+                if (Info == null) return 0;
+                uint discs = Info?.Mp3Fields.DiscCount ?? 1;
+                if (discs == 0) discs = 1;
+                return discs;
             }
         }
 
@@ -389,6 +416,8 @@ namespace Controls
                 Player.Instance.lblProgress.Content = "00:00";
             }));
             CheckSongTimer.Stop();
+
+            setPlayImage(true);
         }
 
         public void Next()
@@ -417,8 +446,7 @@ namespace Controls
         {
             ViewModel.current_track = PlayListVM.GetPrevious();
             ShowWindowTitleByFile(ViewModel.current_track);
-            if (MediaPlayer.IsPlaying)
-                Play(ViewModel.current_track);
+            Play(ViewModel.current_track);
         }
 
         public BitmapImage DefaultImage { get; set; }
@@ -455,12 +483,26 @@ namespace Controls
                 MediaPlayer.Position -= ViewModel.forward;
         }
 
+        private void setPlayImage(bool play)
+        {
+            if (play)
+                imgPlayButton.Source = StandardImage.GetImage(@"pack://application:,,,/MpFree4k;component/Images/play.gif");
+            else
+                imgPlayButton.Source = StandardImage.GetImage(@"pack://application:,,,/MpFree4k;component/Images/pause.gif");                
+        }
+
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            if (MediaPlayer.IsPaused)
-                ViewModel.onStart();
-            else
+            if (MediaPlayer.IsPlaying)
+            {
                 Pause();
+                setPlayImage(true);
+            }
+            else
+            {
+                setPlayImage(false);
+                ViewModel.Play();
+            }
         }
 
         private void btnReverse_Click(object sender, RoutedEventArgs e)
@@ -468,8 +510,6 @@ namespace Controls
             ViewModel.current_track = PlayListVM.GetCurrent();
             //Unplay(current_track);
         }
-
-        private void btnPause_Click(object sender, RoutedEventArgs e) => Pause();
 
         private void btnStop_Click(object sender, RoutedEventArgs e) => Stop();
 
@@ -652,6 +692,8 @@ namespace Controls
 
             Raise(nameof(DiscLength));
             Raise(nameof(TrackCount));
+            Raise(nameof(CurrentDisc));
+            Raise(nameof(DiscCount));
         }
 
         private void Path_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

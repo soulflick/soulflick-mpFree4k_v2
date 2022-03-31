@@ -242,6 +242,7 @@
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Margin" Value="2"/>
                         <Setter Property="Foreground" Value="{DynamicResource ListItemForeground}"/>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -283,7 +284,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
-                                  Margin="2" Opacity="0.8" Grid.RowSpan="2">
+                                    Margin="{DynamicResource ControlPaddingMargin}" Opacity="0.8" Grid.RowSpan="2">
                                     <Grid.OpacityMask>
                                         <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                                     </Grid.OpacityMask>

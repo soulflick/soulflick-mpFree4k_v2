@@ -80,7 +80,7 @@
                     </Border>
                 </Border>
 
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Margin="16 0 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -96,7 +96,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="{Binding Info.Title}" Grid.ColumnSpan="2" Style="{StaticResource TextBlockHeaderStyle}"
-                               HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
+                               HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" Margin="0 10 10 10"/>
 
                     <TextBlock Text="{Binding Info.Path}" Margin="0,0,0,8" Grid.Row="1" Grid.ColumnSpan="2" 
                                FontSize="{DynamicResource FontSizeSmaller}"
@@ -133,26 +133,26 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Label Content="Channels" />
-                        <TextBlock Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Content="Channels" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Column="2" Content="Bitrate" Margin="5,0" />
-                        <TextBlock Grid.Column="3" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="2" Content="Bitrate" Margin="5,0" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="3" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Column="4" Content="Sample Rate" Margin="5,0" />
-                        <TextBlock Grid.Column="5" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="4" Content="Sample Rate" Margin="5,0" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="5" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Row="1" Grid.Column="0" Content="Bits per Sample" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="0" Content="Bits per Sample" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0"/>
-                        <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0"/>
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="5,0" />
-                        <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="5,0" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label Grid.Row="3" Grid.Column="0" Content="Description" Margin="5,0" />
-                        <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="0" Content="Description" Margin="5,0" />
+                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
                     </Grid>
 
@@ -168,15 +168,15 @@
                             <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding Info.Mp3Fields.Track}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding Info.Mp3Fields.TrackCount}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}"/>
                         </TextBlock>
 
                         <TextBlock>
                             <Run Text=" | "/>
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding Info.Mp3Fields.Disc}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding Info.Mp3Fields.DiscCount}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}"/>
                         </TextBlock>
 
                         <TextBlock>

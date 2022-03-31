@@ -39,6 +39,41 @@ namespace Dialogs
 
         public IEnumerable<SimpleTrackItem> AlbumTracks { get; set; }
 
+        public uint TrackCount
+        {
+            get
+            {
+                uint count = Info?.Mp3Fields.TrackCount ?? 0;
+                if (count == 0) count = (uint)(AlbumTracks?.Count() ?? 0);
+                int max_track = AlbumTracks.Max(t => t.Track);
+                if (max_track > count) count = (uint)max_track;
+                return count;
+            }
+        }
+
+        public uint CurrentDisc
+        {
+            get
+            {
+                if (Info == null) return 0;
+                uint disc = Info?.Mp3Fields.Disc ?? 1;
+                if (disc == 0) disc = 1;
+                return disc;
+            }
+        }
+
+        public uint DiscCount
+        {
+            get
+            {
+                if (Info == null) return 0;
+                uint discs = Info?.Mp3Fields.DiscCount ?? 1;
+                if (discs == 0) discs = 1;
+                return discs;
+            }
+        }
+
+
         public string DiscLength
         {
             get
@@ -97,6 +132,9 @@ namespace Dialogs
                             };
 
             Raise(nameof(DiscLength));
+            Raise(nameof(TrackCount));
+            Raise(nameof(CurrentDisc));
+            Raise(nameof(DiscCount));
 
         }
 

@@ -86,7 +86,7 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="PlaylistItemList">
-                <Grid Margin="2">
+                <Grid Margin="{DynamicResource ControlPaddingMargin}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="34"/>
                         <ColumnDefinition Width="100*"/>

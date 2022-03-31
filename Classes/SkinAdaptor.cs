@@ -32,7 +32,7 @@ namespace Classes
 
         }
 
-        public static void AddSkin(ResourceDictionary resDict)
+        public static void AddDict(ResourceDictionary resDict)
         {
             StandardImage.Reload();
 
@@ -103,7 +103,7 @@ namespace Classes
 
             ResourceDictionary langDict = Application.LoadComponent(langDictUri) as ResourceDictionary;
 
-            AddSkin(langDict);
+            AddDict(langDict);
         }
 
         public static void ApplySkin(string uri)
@@ -113,7 +113,7 @@ namespace Classes
             Uri langDictUri = new Uri(uri, UriKind.Relative);
             ResourceDictionary langDict = Application.LoadComponent(langDictUri) as ResourceDictionary;
             
-            AddSkin(langDict);
+            AddDict(langDict);
         }
 
         public static void ApplyFontSize(MainWindow main, FontSize size)
@@ -134,16 +134,26 @@ namespace Classes
             Uri colors_uri = new Uri(colors, UriKind.Relative);
             ResourceDictionary brushes_dict = Application.LoadComponent(colors_uri) as ResourceDictionary;
 
-            AddSkin(brushes_dict);
+            AddDict(brushes_dict);
 
             Uri size_uri = GetSizeURI(size);
             ResourceDictionary sizes_dict = Application.LoadComponent(size_uri) as ResourceDictionary;
 
-            AddSkin(sizes_dict);
+            AddDict(sizes_dict);
 
             ActiveSkin = skin;
 
             //Application.Current.Resources.MergedDictionaries[0].Values.ToString();
+        }
+
+        public static void ApplyPadding(MainWindow main, PaddingType type)
+        {
+            ResourceDictionary orig_dict = Application.Current.Resources;
+
+            string dict_str = @"Styles\Padding\Padding" + type.ToString() + ".xaml";
+            Uri padding_uri = new Uri(dict_str, UriKind.Relative);
+            ResourceDictionary padding_dict = Application.LoadComponent(padding_uri) as ResourceDictionary;
+            AddDict(padding_dict);
         }
 
         public static void ApplySkinFromFile(MainWindow main, string skinFile)

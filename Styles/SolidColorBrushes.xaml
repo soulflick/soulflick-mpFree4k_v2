@@ -59,6 +59,8 @@
     <sys:Double x:Key="FontSizeSmaller">8</sys:Double>
     <sys:Double x:Key="FontSizeSmallest">7</sys:Double>
     <sys:Double x:Key="AlbumSize">100</sys:Double>
+    <sys:Double x:Key="ControlPadding">2</sys:Double>
+    <Thickness x:Key="ControlPaddingMargin">2</Thickness>
 
 </ResourceDictionary>
     

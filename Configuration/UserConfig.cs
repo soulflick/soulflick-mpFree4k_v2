@@ -40,12 +40,13 @@ namespace Configuration
         }
 
         public static PluginTypes PluginType = PluginTypes.CSCore;
-        public static SkinColors Skin = SkinColors.Black_Smooth;
+        public static SkinColors Skin { get; set; } = SkinColors.Black_Smooth;
         public static FontSize FontSize = FontSize.Normal;
         public static ControlSize ControlSize = ControlSize.Bigger;
         public static ArtistViewType ArtistViewType = ArtistViewType.Plain;
         public static AlbumViewType AlbumViewType = AlbumViewType.Detail;
         public static TrackViewType TrackViewType = TrackViewType.List;
+        public static PaddingType PaddingType = PaddingType.One;
         public static int NumberRecentAlbums = 15;
         public static int NumberRecentTracks = 800;
 

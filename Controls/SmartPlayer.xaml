@@ -56,7 +56,7 @@
 
             <Style TargetType="Run" x:Key="RunStyleHeader">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
-                <Setter Property="FontSize" Value="{StaticResource FontSizeBig}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSizeBigger}"/>
             </Style>
 
             <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
@@ -492,8 +492,8 @@
                             <Button Margin="1,0,1,0" Name="btnRewind" ToolTip="Rewind" Click="btnRewind_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/rewind.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
-                            <Button Margin="1,0,1,0" Name="btnStart" ToolTip="Play" Click="btnStart_Click" Style="{StaticResource PlayerButtonStyle}">
-                                <Image Source="/MpFree4k;component/Images/play.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
+                            <Button Margin="1,0,1,0" Name="btnStart" ToolTip="Play / Pause" Click="btnStart_Click" Style="{StaticResource PlayerButtonStyle}">
+                                <Image Name="imgPlayButton" Source="/MpFree4k;component/Images/play.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
                             </Button>
                             <Button Margin="1,0,1,0" Name="btnStop" ToolTip="Stop" Click="btnStop_Click" Style="{StaticResource PlayerButtonStyle}">
                                 <Image Source="/MpFree4k;component/Images/stop.gif" Stretch="None" VerticalAlignment="Center" Width="16" UseLayoutRounding="True" HorizontalAlignment="Center" Height="16" Opacity="0.9"/>
@@ -562,7 +562,20 @@
                     BorderBrush="WhiteSmoke">
 
                     <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage}" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                           Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
+                           Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" MouseDown="TrackImage_MouseDown"
+                           >
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Opacity" Value="0.92"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
 
                     <Border.Style>
                         <Style TargetType="Border">
@@ -688,26 +701,26 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Label Content="Channels" />
-                    <TextBlock Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label Content="Channels" FontSize="{DynamicResource FontSizeSmall}"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Column="2" Content="Bitrate" Margin="5,0" />
-                    <TextBlock Grid.Column="3" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="2" Content="Bitrate" Margin="5,0" />
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="3" x:Name="tbBitrate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Column="4" Content="Sample Rate" Margin="5,0" />
-                    <TextBlock Grid.Column="5" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="4" Content="Sample Rate" Margin="5,0" />
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="5" x:Name="tbSampleRate" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="Bits per Sample" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="0" Content="Bits per Sample" />
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0"/>
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="0,0" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="0,0" />
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    <Label Grid.Row="3" Grid.Column="0" Content="Description" Margin="0,0" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                    <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="0" Content="Description" Margin="0,0" />
+                    <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
                 </Grid>
 
@@ -751,15 +764,15 @@
                             <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Track}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}"/>
                         </TextBlock>
 
                         <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text=" | "/>
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Disc}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.DiscCount}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}"/>
                         </TextBlock>
 
                         <TextBlock FontSize="{DynamicResource FontSizeNormal}">
