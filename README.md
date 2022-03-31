@@ -9,6 +9,14 @@ Version: 2.4 / 2022
 Author : soulflick
 Website: www.soulflick.com
 
+=============================================================================
+
+# Download
+
+Download zipped binaries. Just extract it. No installation necessary.
+ 
+ https://github.com/soulflick/soulflick-mpFree4k_v2/tree/main/__Release
+
 -----------------------------------------------------------------------------
 
 ![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/artists.png?raw=true)
