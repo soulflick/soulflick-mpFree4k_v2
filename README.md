@@ -9,8 +9,6 @@ Version: 2.4 / 2022
 Author : soulflick
 Website: www.soulflick.com
 
-=============================================================================
-
 # Download
 
 Download zipped binaries. Just extract it. No installation necessary.
