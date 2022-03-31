@@ -4,13 +4,6 @@ namespace Configuration
 {
     public static class UserConfig
     {
-        private static bool _showTouchButtons = true;
-        public static bool ShowTouchButtons
-        {
-            get => _showTouchButtons;
-            set => _showTouchButtons = value;
-        }
-
         private static bool _showFullAlbum = true;
         public static bool ShowFullAlbum 
         { 
@@ -30,13 +23,6 @@ namespace Configuration
         {
             get => _rememberSelectedAlbum;
             set => _rememberSelectedAlbum = value;
-        }
-
-        private static bool _openSmallWindowWhenMinimized = false;
-        public static bool OpenSmallWindowWhenMinimized
-        {
-            get => _openSmallWindowWhenMinimized;
-            set => _openSmallWindowWhenMinimized = value;
         }
 
         public static PluginTypes PluginType = PluginTypes.CSCore;

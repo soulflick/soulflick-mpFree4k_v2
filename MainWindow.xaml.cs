@@ -166,10 +166,7 @@ namespace MpFree4k
             TableView.ArtistView.SetMediaLibrary(Library.Current);
             TableView.TrackView.SetMediaLibrary(Library.Current);
             TrackTable.SetMediaLibrary(Library.Current);
-            //Player.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
             SmartPlayer.PlayListVM = Playlist.DataContext as ViewModels.PlaylistViewModel;
-            Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
-            SmartPlayer.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             delegateUpdateProgress = new updateProgress(updateProgressFunc);
 
@@ -192,14 +189,8 @@ namespace MpFree4k
             
         }
 
-        SmallView smallView = new SmallView();
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (WindowState == WindowState.Minimized && UserConfig.OpenSmallWindowWhenMinimized)
-            {
-                smallView = new SmallView();
-                smallView.Show();
-            }
         }
 
         private void Query_timer_Elapsed(object sender, ElapsedEventArgs e)

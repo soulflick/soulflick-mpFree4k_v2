@@ -36,8 +36,6 @@ namespace Dialogs
             autoSavePlaylist.IsChecked = UserConfig.AutoSavePlaylist;
             showAlbumArtists.IsChecked = UserConfig.ShowFullAlbum;
             rememberSelected.IsChecked = UserConfig.RememberSelectedAlbums;
-            showTouchButtons.IsChecked = UserConfig.ShowTouchButtons;
-            showSmallView.IsChecked = UserConfig.OpenSmallWindowWhenMinimized;
         }
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
@@ -204,13 +202,6 @@ namespace Dialogs
                         UserConfig.AutoSavePlaylist = _true;
                 }
 
-                else if (key_str == "showtouchbuttons")
-                {
-                    bool _true = false;
-                    if (bool.TryParse(key_val, out _true))
-                        UserConfig.ShowTouchButtons = _true;
-                }
-
                 else if (key_str == "showfullalbum")
                 {
                     bool _true = false;
@@ -256,13 +247,6 @@ namespace Dialogs
                         }
                     }
                 }
-                else if (key_str == "showMiniView")
-                {
-                    bool _true = false;
-                    if (bool.TryParse(key_val, out _true))
-                        UserConfig.OpenSmallWindowWhenMinimized = _true;
-                }
-
             }
         }
 
@@ -296,9 +280,6 @@ namespace Dialogs
             UserConfig.ShowFullAlbum = showAlbumArtists.IsChecked == true;
             UserConfig.AutoSavePlaylist = autoSavePlaylist.IsChecked == true;
             UserConfig.RememberSelectedAlbums = rememberSelected.IsChecked == true;
-            UserConfig.ShowTouchButtons = showTouchButtons.IsChecked == true;
-            MainWindow.Instance.Player.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
-            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = UserConfig.ShowTouchButtons ? Visibility.Visible : Visibility.Collapsed;
 
             WriteUserConfig();
         }
@@ -319,8 +300,6 @@ namespace Dialogs
             doc += "\t\t<setting name=\"rememberalbums\" value=\"" + (bool)UserConfig.RememberSelectedAlbums + "\"/>\n";
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
-            doc += "\t\t<setting name=\"showtouchbuttons\" value=\"" + UserConfig.ShowTouchButtons + "\"/>\n";
-            doc += "\t\t<setting name=\"showMiniView\" value=\"" + UserConfig.OpenSmallWindowWhenMinimized + "\"/>\n";
             doc += "\t</settings>\n</xml>";
 
             File.WriteAllText(settingsFile, doc);
@@ -370,28 +349,6 @@ namespace Dialogs
                 PlayerViewModel.Instance.Rebuild();
             }
         }
-
-        private void showTouchButtons_Checked(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.Instance.Player == null)
-                return;
-
-            MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void showTouchButtons_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.Instance.Player == null)
-                return;
-
-            MainWindow.Instance.Player.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-            MainWindow.Instance.SmartPlayer.TouchButtonsVisibility = (sender as CheckBox).IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void showSmallView_Checked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = true;
-
-        private void showSmallView_Unchecked(object sender, RoutedEventArgs e) => UserConfig.OpenSmallWindowWhenMinimized = false;
 
         private void sldPadding_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

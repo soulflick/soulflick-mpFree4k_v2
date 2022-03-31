@@ -453,6 +453,10 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
+        </Grid.Background>
+        
         <!--
         <Rectangle VerticalAlignment="Stretch">
             <Rectangle.Fill>
@@ -464,9 +468,7 @@
         </Rectangle>
         -->
         <Grid VerticalAlignment="Stretch" ZIndex="1">
-            <Grid.Background>
-                <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
-            </Grid.Background>
+            
             <Grid.RowDefinitions>
                 <!-- Image and Labels -->
                 <RowDefinition Height="Auto"/>
@@ -544,8 +546,7 @@
                 <Label Content="100" FontSize="{DynamicResource FontSizeSmallest}" Grid.Column="3" Margin="4,0,5,0" Padding="0" VerticalAlignment="Center" Grid.ColumnSpan="2" />
             </Grid>
 
-            <Grid Name="grdTrackInfo" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,2,0,0"
-                   Background="{DynamicResource FirstItemBackground}">
+            <Grid Name="grdTrackInfo" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,2,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100*"/>
