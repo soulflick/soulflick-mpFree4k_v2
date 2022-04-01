@@ -32,7 +32,7 @@
 
         <Style TargetType="TextBlock" x:Key="TextBlockKeyStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Foreground" Value="{DynamicResource FieldTextBrush}"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
 
         <Style TargetType="Run">
@@ -49,7 +49,7 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Window.Resources>
 
@@ -133,7 +133,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Label FontSize="{DynamicResource FontSizeSmall}" Content="Channels" />
+                        <Label FontSize="{DynamicResource FontSizeSmall}" Content="Channels" Margin="5,0,0,0"/>
                         <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Column="1" x:Name="tbChannels" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
                         <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Column="2" Content="Bitrate" Margin="5,0,0,0" />

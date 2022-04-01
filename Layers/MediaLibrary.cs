@@ -367,7 +367,7 @@ namespace Layers
                 }
 
                 Files.ForEach(f => f.IsVisible = f.MatchCount > 0 || query_strings.All(q => string.IsNullOrWhiteSpace(q)));
-                Files = Files.OrderByDescending(f => f.MatchCount).ToList();
+                Files = Files.OrderByDescending(f => f.MatchCount).ThenBy(f => f.Mp3Fields.AlbumArtists).ThenBy(f => f.Mp3Fields.Album).ThenBy(f => f.Mp3Fields.Track) .ToList();
 
                 MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.TrackTable.ScrollToTop()); ;
 
