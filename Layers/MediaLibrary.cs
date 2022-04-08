@@ -350,18 +350,42 @@ namespace Layers
                 foreach (var file in Files)
                 {
                     int matches = 0;
+                    bool matched_all = false;
                     foreach (var token in query_strings)
                     {
+                        bool matched = false;
+
                         if (file.Mp3Fields.Artists.ToLower().Contains(token))
+                        {
+                            matched = true;
                             matches++;
+                        }
                         if (file.Mp3Fields.AlbumArtists.ToLower().Contains(token))
+                        {
+                            matched = true;
                             matches++;
+                        }
                         if (file.Mp3Fields.Album.ToLower().Contains(token))
+                        {
+                            matched = true;
                             matches++;
+                        }
                         if (file.Mp3Fields.Title.ToLower().Contains(token))
+                        {
+                            matched = true;
                             matches++;
+                        }
                         if (file.Mp3Fields.Year.ToString().Contains(token))
+                        {
+                            matched = true;
                             matches++;
+                        }
+
+                        if (!matched)
+                        {
+                            matches = 0;
+                            break;
+                        }
                     }
                     file.MatchCount = matches;
                 }

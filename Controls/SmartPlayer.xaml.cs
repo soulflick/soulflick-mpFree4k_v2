@@ -698,6 +698,9 @@ namespace Controls
 
         private void Path_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (Info == null)
+                return;
+
             try
             {
                 Process.Start("explorer.exe", Path.GetDirectoryName(Info.Path));
