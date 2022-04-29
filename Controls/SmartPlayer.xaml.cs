@@ -270,10 +270,10 @@ namespace Controls
 
         private void Player_Loaded(object sender, RoutedEventArgs e)
         {
-            lblTrack.Text = "";
-            lblArtist.Text = "";
-            lblAlbum.Text = "";
-            lblYear.Text = "";
+            lblTrack.Text = "not started";
+            lblArtist.Text = "not started";
+            lblAlbum.Text = "not started";
+            lblYear.Text = "not started";
 
             //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");

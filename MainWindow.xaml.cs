@@ -13,7 +13,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Linq;
-using MpFree4k.Windows;
 using Models;
 using Configuration;
 
@@ -186,7 +185,8 @@ namespace MpFree4k
             Width += 1;
 
             StateChanged += MainWindow_StateChanged;
-            
+
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void MainWindow_StateChanged(object sender, EventArgs e)

@@ -410,11 +410,25 @@ namespace Layers
             }
             else if (viewmode == ViewMode.Albums)
             {
-                Albums.ForEach(x => x.IsVisible = string.IsNullOrEmpty(_thisQuery) || (
-                x.AllArtist.Any(y => query_strings.Any(q => y.ToLower().Contains(q))) ||
-                query_strings.Any(q => x.Artist.ToLower().Contains(q)) ||
-                query_strings.Any(q => x.Album.ToLower().Contains(q)) ||
-                query_strings.Any(q => x.Year.ToString().Contains(q))));
+                foreach (var album in Albums)
+                {
+                    if (string.IsNullOrEmpty(_thisQuery))
+                    {
+                        album.IsVisible = true;
+                        continue;
+                    }
+                    album.IsVisible = true;
+                    foreach (var token in query_strings)
+                    {
+                        if (!album.Artist.ToLower().Contains(token) &&
+                            !album.Album.ToLower().Contains(token) &&
+                            !album.Year.ToString().Contains(token))
+                        {
+                            album.IsVisible = false;
+                            break;
+                        }
+                    }
+                }
 
                 Refresh(MediaLevel.Albums);
 

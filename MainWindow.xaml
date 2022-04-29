@@ -11,10 +11,9 @@
         Loaded="_This_Loaded"
         mc:Ignorable="d"
         x:Name="_This"
-        WindowStartupLocation="CenterScreen"
         Title="MpFree4k - soulflick" 
-        Height="1028" 
-        Width="1650"
+        Height="768" 
+        Width="1280"
         Background="{DynamicResource PrimaryBackground}"
         SnapsToDevicePixels="True">
     <Window.Resources>
@@ -551,7 +550,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="320"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="80*"/>
             <ColumnDefinition Width="5"/>
