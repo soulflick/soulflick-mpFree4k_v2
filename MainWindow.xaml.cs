@@ -399,6 +399,19 @@ namespace MpFree4k
             info.ShowDialog();
         }
 
+        private void btnSmallView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            WindowState = WindowState.Normal;
+            Width = 700;
+            cdLibrary.Width = new GridLength(1);
+        }
+
+        private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Width = 1200;
+            cdLibrary.Width = new GridLength(600);
+        }
+
         bool paused = false;
         private void GridSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -408,6 +421,10 @@ namespace MpFree4k
         private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
            
+        }
+
+        private void grdSpltPlaylist_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
         }
     }
 }

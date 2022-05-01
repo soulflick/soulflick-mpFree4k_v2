@@ -550,22 +550,14 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320" MinWidth="5"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="80*" MinWidth="1"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="390" MinWidth="5"/>
+            <ColumnDefinition Width="320" MinWidth="1" Name="cdPlayer"/>
+            <ColumnDefinition Width="5" Name="cdSplitterMain" MinWidth="5"/>
+            <ColumnDefinition Width="80*" MinWidth="1" Name="cdLibrary"/>
+            <ColumnDefinition Width="5" Name="cdSplitterPlaylist" MinWidth="5" MaxWidth="5"/>
+            <ColumnDefinition Width="23*" Name="cdPlaylist"/>
         </Grid.ColumnDefinitions>
 
         <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>
-
-        <!-- 
-        <GridSplitter Grid.Row="1" Height="10" Grid.ColumnSpan="4"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                      ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
-                      Background="{DynamicResource FirstItemBackground}"/>
-        
-        -->
 
         <controls:SmartPlayer x:Name="SmartPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"
                               BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 0.8 0"/>
@@ -610,7 +602,7 @@
             </TabItem>
         </TabControl>
 
-        <GridSplitter Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Width="5"  Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Name="grdSpltPlaylist" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Width="5"  Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" DragDelta="grdSpltPlaylist_DragDelta"/>
 
         <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="4" Background="{DynamicResource PlaylistBackground}" Margin="0">
 
@@ -705,6 +697,9 @@
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Equalizer" Margin="6,6,6,2" MouseDown="btnEqualizer_MouseDown"/>
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Control Settings" MouseDown="btnSettings_MouseDown"/>
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library" MouseDown="btnLibraries_MouseDown"/>
+
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Small View" MouseDown="btnSmallView_MouseDown" Margin="6,16,6,0"/>
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Full View" MouseDown="btFullView_MouseDown" Margin="6,0,6,2"/>
 
                         </StackPanel>
 
