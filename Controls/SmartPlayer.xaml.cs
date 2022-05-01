@@ -770,10 +770,13 @@ namespace Controls
         private void goToQuery(string key)
         {
             var main = MainWindow.Instance;
-
-            main.MainViews.SelectedIndex = 2;
+            int tab = main.MainViews.SelectedIndex;
             main.FilterBox.Text = key;
-            main.TrackTable.ScrollToTop();
+
+            if (tab == (int)MainWindow.MainTabs.Albums)
+                main.AlbumDetails.ScrollToTop();
+            else if (tab == (int)MainWindow.MainTabs.Tracks)
+                main.TrackTable.ScrollToTop();
         }
 
         private void RunArtist_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -20,6 +20,11 @@ namespace MpFree4k
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public enum MainTabs
+        {
+            Artists, Albums, Tracks, Favourites
+        }
+
         public static MainWindow Instance = null;
         public SettingControl setctrl = null;
         public delegate void updateProgress(double percent);

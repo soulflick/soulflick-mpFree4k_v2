@@ -96,6 +96,15 @@ namespace Controls
 
         }
 
+        public void ScrollToTop()
+        {
+            var border = System.Windows.Media.VisualTreeHelper.GetChild(ListGroups, 0) as Decorator;
+            if (border != null)
+            {
+                var scroll = border.Child as ScrollViewer;
+                if (scroll != null) scroll.ScrollToTop();
+            }
+        }
 
         private void ListAlbums_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
