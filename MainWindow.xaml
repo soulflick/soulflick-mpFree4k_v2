@@ -550,11 +550,11 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="320" MinWidth="5"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*" MinWidth="1"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="390"/>
+            <ColumnDefinition Width="390" MinWidth="5"/>
         </Grid.ColumnDefinitions>
 
         <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>
