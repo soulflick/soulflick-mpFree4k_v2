@@ -33,6 +33,13 @@ Download zipped binaries. Just extract it. No installation necessary.
 
 -----------------------------------------------------------------------------
 
+Version 2.5
+
+- Extended Search
+- Drop Files from Windows Explorer into Playlist
+
+Overall Features
+
 - Manage any music library by defining root folders, which contain your media.
 - Manage your playlists
 - Export playlist to drive location
