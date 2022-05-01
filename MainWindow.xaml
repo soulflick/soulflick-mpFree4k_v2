@@ -596,16 +596,16 @@
 
             </TabControl.Resources>
 
-            <TabItem Header="Artists" Margin="-1 -2 0 0">
+            <TabItem Header="Artists" Margin="-1 -2 0 0" FontSize="{DynamicResource FontSizeBig}">
                 <controls:TableView x:Name="TableView" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Albums" Margin="0 -2 0 0">
+            <TabItem Header="Albums" Margin="0 -2 0 0" FontSize="{DynamicResource FontSizeBig}">
                 <controls:AlbumDetailView x:Name="AlbumDetails" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Tracks" Margin="0 -2 0 0">
+            <TabItem Header="Tracks" Margin="0 -2 0 0" FontSize="{DynamicResource FontSizeBig}">
                 <controls:TrackTableView x:Name="TrackTable" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
-            <TabItem Header="Favorites" Margin="0 -2 0 0">
+            <TabItem Header="Favorites" Margin="0 -2 0 0" FontSize="{DynamicResource FontSizeBig}">
                 <controls:Favourites x:Name="Favourites" Background="{DynamicResource SecondBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </TabItem>
         </TabControl>

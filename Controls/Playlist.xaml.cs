@@ -185,7 +185,15 @@ namespace Controls
             if (lvi != null)
                 pos = (lvi.DataContext as PlaylistInfo).Position - 1;
 
-            if (e.Data.GetDataPresent("MediaLibraryItemData"))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                addDropFiles(files, pos);
+                dragItems.Clear();
+
+                return;
+            }
+            else if (e.Data.GetDataPresent("MediaLibraryItemData"))
             {
                 IList data = e.Data.GetData("MediaLibraryItemData") as IList;
                 if (data == null || data.Count == 0)
@@ -357,6 +365,26 @@ namespace Controls
 
             }
         }
+
+        void addDropFiles(string[] files, int pos)
+        {
+            List<PlaylistInfo> plItems = new List<PlaylistInfo>();
+            foreach (var file in files)
+            {
+                var ext = System.IO.Path.GetExtension(file);
+                if (!Configuration.Config.media_extensions.Contains(ext))
+                    continue;
+
+                FileViewInfo f_Sel = new FileViewInfo(file);
+                PlaylistInfo p_i = new PlaylistInfo();
+                PlaylistHelpers.CreateFromMediaItem(p_i, f_Sel);
+                plItems.Add(p_i);
+            }
+
+            vm.Add(plItems, pos);
+            vm.StatusVM.Update();
+        }
+
 
         private void PlaylistView_PreviewKeyDown(object sender, KeyEventArgs e)
         {

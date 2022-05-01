@@ -15,7 +15,6 @@ using Mpfree4k.Enums;
 using Configuration;
 using MpFree4k;
 using Layers;
-using System.Windows.Media;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -103,7 +102,7 @@ namespace Controls
             MediaPlayer.Stop();
             MediaPlayer.Position = 0;
             MediaPlayer.URL = fileInfo.Path;
-            lblTrack.Text = fileInfo.Path;
+            CurrentTitle = fileInfo.Path;
 
             MediaPlayer.Init(fileInfo.Path);
 
@@ -268,12 +267,59 @@ namespace Controls
             }
         }
 
+        private string _currentTitle = "";
+        public string CurrentTitle
+        {
+            get => _currentTitle;
+            set
+            {
+                _currentTitle = value;
+                Raise(nameof(CurrentTitle));
+            }
+        }
+
+        private string _currentAlbum = "";
+        public string CurrentAlbum
+        {
+            get => _currentAlbum;
+            set
+            {
+                _currentAlbum = value;
+                Raise(nameof(CurrentAlbum));
+            }
+        }
+
+        private string _currentArtist = "";
+        public string CurrentArtist
+        {
+            get => _currentArtist;
+            set
+            {
+                _currentArtist = value;
+                Raise(nameof(CurrentArtist));
+            }
+        }
+
         private void Player_Loaded(object sender, RoutedEventArgs e)
         {
-            lblTrack.Text = "not started";
-            lblArtist.Text = "not started";
-            lblAlbum.Text = "not started";
+            CurrentTitle = "not started";
+            CurrentAlbum = "not started";
+            CurrentArtist = "not started";
             lblYear.Text = "not started";
+
+            Info = new FileViewInfo
+            {
+                FileName = "-",
+                Title = "-"
+            };
+
+            Info.Mp3Fields = new Mp3Fields
+            {
+                Artists = "-",
+                Album = "-",
+                Year = 0,
+                Title = "-"
+            };
 
             //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");
@@ -316,10 +362,10 @@ namespace Controls
 
         void SetTrackInfo(PlaylistInfo itm)
         {
-            lblTrack.Text = "";
-            lblArtist.Text = "";
-            lblAlbum.Text = "";
-            lblYear.Text = "";
+            CurrentTitle = "not started";
+            CurrentAlbum = "not started";
+            CurrentArtist = "not started";
+            lblYear.Text = "0";
 
             if (itm == null)
                 return;
@@ -328,8 +374,10 @@ namespace Controls
             if (string.IsNullOrWhiteSpace(title))
                 title = itm.Path;
 
-            lblTrack.Text = title;
-            lblArtist.Text = itm.Artists;
+
+            CurrentTitle = itm.Title;
+            CurrentAlbum = itm.Album;
+            CurrentArtist = itm.Artists;
             lblAlbum.Text = itm.Album;
             lblYear.Text = itm.Year;
 
