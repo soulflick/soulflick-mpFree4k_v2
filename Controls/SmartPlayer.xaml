@@ -28,13 +28,13 @@
 
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
-                <Setter Property="Padding" Value="4"/>
+                <Setter Property="Padding" Value="4 0 0 0"/>
                 <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
             </Style>
 
             <Style TargetType="TextBlock" x:Key="TextBlockHeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
-                <Setter Property="Padding" Value="0,8,8,0"/>
+                <Setter Property="Padding" Value="0,8,4,0"/>
                 <Setter Property="FontSize" Value="{StaticResource FontSizeBigger}"/>
                 <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
             </Style>
@@ -700,7 +700,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <Grid Grid.Row="1" HorizontalAlignment="Left" Margin="5 10 0 0">
+                <Grid Grid.Row="1" HorizontalAlignment="Left" Margin="10 10 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="33*"/>
@@ -740,7 +740,7 @@
 
                 </Grid>
 
-                <Grid Grid.Row="2" Margin="10,4,0,0">
+                <Grid Grid.Row="2" Margin="10,17,0,6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -786,24 +786,24 @@
                         </Run.Style></Run><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
                     </TextBlock>
 
-                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal">
+                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2"  Orientation="Horizontal" Margin="0 10 0 0">
                         <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Track}"/>
-                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}"/>
+                            <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Track}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
 
                         <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}"/>
-                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
 
                         <TextBlock FontSize="{DynamicResource FontSizeNormal}">
                             <Run Text="Disc Length " Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
                     </WrapPanel>
                 </Grid>

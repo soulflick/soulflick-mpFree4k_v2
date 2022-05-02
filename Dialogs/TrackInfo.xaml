@@ -166,23 +166,23 @@
                     <StackPanel Grid.Row="4" Grid.ColumnSpan="2"  Orientation="Horizontal">
                         <TextBlock>
                             <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding Info.Mp3Fields.Track}"/>
-                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}"/>
+                            <Run Text="{Binding Info.Mp3Fields.Track}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
 
                         <TextBlock>
-                            <Run Text=" | "/>
+                            <Run Text=" "/>
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}"/>
-                            <Run Text="of" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
 
                         <TextBlock>
-                            <Run Text=" | "/>
+                            <Run Text=" "/>
                             <Run Text="Disc Length " Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}"/>
+                            <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
                     </StackPanel>
 
