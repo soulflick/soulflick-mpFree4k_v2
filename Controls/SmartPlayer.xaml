@@ -808,10 +808,10 @@
                     </WrapPanel>
                 </Grid>
 
-                <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="Tracks from this Album:" Margin="10,10,0,0"/>
+                <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="Tracks from this Album:" Margin="10,13,0,8"/>
 
                 <ScrollViewer Grid.Row="4" CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                    <ItemsControl Grid.ColumnSpan="3" ItemsSource="{Binding ElementName=_This, Path=AlbumTracks}" Margin="24,8,24,8" 
+                    <ItemsControl Grid.ColumnSpan="3" ItemsSource="{Binding ElementName=_This, Path=AlbumTracks}" Margin="14,8,24,8" 
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
@@ -836,7 +836,7 @@
                                     <TextBlock Text="{Binding Name}" Grid.Column="1"
                                                    HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
                                                    FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
-                                                   Margin="4 0 4 4">
+                                                   Margin="4">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
                                                 <Binding Path="Track" />
