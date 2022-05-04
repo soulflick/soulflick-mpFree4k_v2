@@ -408,8 +408,9 @@ namespace MpFree4k
 
         private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Width = 1200;
-            cdLibrary.Width = new GridLength(600);
+            Width = System.Windows.SystemParameters.PrimaryScreenWidth * 0.75;
+            cdLibrary.Width = new GridLength(60, GridUnitType.Star);
+            cdPlaylist.Width = new GridLength(25, GridUnitType.Star);
         }
 
         bool paused = false;
