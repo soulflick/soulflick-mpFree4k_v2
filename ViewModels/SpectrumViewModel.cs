@@ -218,9 +218,12 @@ namespace Equalizer
             else
                 _soundOut = new DirectSoundOut();
 
-            _soundOut.Initialize(source);
-
-            _waveTimer.Start();
+            try
+            {
+                _soundOut.Initialize(source);
+                _waveTimer.Start();
+            }
+            catch {; }
         }
 
         private void SetEqualizer(CSCore.Streams.Effects.Equalizer newEQ)

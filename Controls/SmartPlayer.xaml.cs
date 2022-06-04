@@ -239,7 +239,7 @@ namespace Controls
                 uint count = Info?.Mp3Fields.TrackCount ?? 0;
                 if (count == 0) count = (uint)(AlbumTracks?.Count() ?? 0);
 
-                int max_track = AlbumTracks.Max(t => t.Track);
+                int max_track = AlbumTracks?.Max(t => t.Track) ?? 0;
                 if (max_track > count) count = (uint)max_track;
                 return count;
             }
