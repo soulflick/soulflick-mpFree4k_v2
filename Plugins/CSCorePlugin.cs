@@ -3,6 +3,7 @@ using CSCore.SoundOut;
 using Interfaces;
 using System;
 using Equalizer;
+using System.Windows;
 
 namespace Plugins
 {
@@ -134,7 +135,16 @@ namespace Plugins
             if (_soundOut != null)
             {
                 _volume = value;
-                _soundOut.Volume = (float)value / 100;
+                try
+                {
+                    _soundOut.Volume = (float)value / 100;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message + "\n\nPlease check your local system sound output device.");
+                    MpFree4k.MainWindow.Instance.Close();
+                }
+                    
             }
         }
 
