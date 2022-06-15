@@ -124,7 +124,17 @@ namespace Plugins
 
             MediaPlayer = source;
             Duration = sampleSource?.GetLength().TotalMilliseconds / 1000 ?? 0;
-            SetVolume(_volume);
+
+            try
+            {
+                SetVolume(_volume);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message + "\n\nPlease check your local system sound output device.\nYou may restart the application.");
+                throw;
+            }
+
             _position = 0;
         }
 
@@ -135,16 +145,7 @@ namespace Plugins
             if (_soundOut != null)
             {
                 _volume = value;
-                try
-                {
-                    _soundOut.Volume = (float)value / 100;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message + "\n\nPlease check your local system sound output device.");
-                    MpFree4k.MainWindow.Instance.Close();
-                }
-                    
+                _soundOut.Volume = (float)value / 100;    
             }
         }
 

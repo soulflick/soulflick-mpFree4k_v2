@@ -38,6 +38,7 @@
             <RowDefinition Height="80"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="100*"/>
+            <RowDefinition Height="38"/>
 
         </Grid.RowDefinitions>
 
@@ -162,6 +163,15 @@
                     <TextBox x:Name="tbNumTracks" TextChanged="tbNumTracks_TextChanged" Text="800" Grid.Column="1" Width="60" Margin="3" Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" HorizontalAlignment="Left"/>
                 </Grid>
             </Grid>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource FirstColorLightBrush}" Opacity="0.4"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="2">
+                <Button x:Name="btnOK" Content="Close" Width="120" Margin="2" Background="White" Click="btnOK_Click"/>
+            </StackPanel>
         </Grid>
 
     </Grid>

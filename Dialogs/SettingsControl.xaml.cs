@@ -388,5 +388,10 @@ namespace Dialogs
             MainWindow.Instance.Player.Raise("ButtonSize");
             MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

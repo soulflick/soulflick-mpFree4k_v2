@@ -1,6 +1,7 @@
 ﻿using Classes;
 using Dialogs;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Layers
 {
@@ -52,8 +53,10 @@ namespace Layers
 
         public void Load()
         {
+            MpFree4k.MainWindow.Instance.Cursor = Cursors.Wait;
             if (!string.IsNullOrEmpty(Current.LibPath))
                 Current.Load();
+            MpFree4k.MainWindow.Instance.Cursor = Cursors.Arrow;
         }
 
         public static void LoadFrom(MediaLibraryDefinition def)

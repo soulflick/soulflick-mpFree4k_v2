@@ -54,6 +54,7 @@ namespace Dialogs
     public partial class LibrarySelector : Window, INotifyPropertyChanged
     {
         string libfile = "MediaLibraries.xml";
+        const string dummy_name = "Enter Your Library's Name Here";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -64,7 +65,7 @@ namespace Dialogs
 
         public LibrarySelector()
         {
-            this.DataContext = this;
+            DataContext = this;
             InitializeComponent();
 
             ReadLibraries();
@@ -152,8 +153,17 @@ namespace Dialogs
 
         private void ReloadLibraries()
         {
+            var list_ordered = LibDefs.OrderBy(l => l.Name).ToList();
+
             ListLibraries.ItemsSource = null;
-            ListLibraries.ItemsSource = LibDefs.OrderBy(l => l.Name);
+            ListLibraries.ItemsSource = list_ordered;
+
+            var standard = list_ordered.FirstOrDefault(def => def.AutoSelect);
+            if (standard != null)
+            {
+                int idx = list_ordered.IndexOf(standard);
+                ListLibraries.SelectedIndex = idx;
+            }
 
             SaveLibs();
         }
@@ -222,18 +232,33 @@ namespace Dialogs
 
        private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            OK();
+        }
+
+        void OK()
+        {
             SaveLibs();
 
-            if ((sender as ListView).SelectedItem == null)
+            if (ListLibraries.SelectedItem == null)
+            {
+                Close();
                 return;
+            }
 
-            MediaLibraryDefinition def = (sender as ListView).SelectedItem as MediaLibraryDefinition;
+            MediaLibraryDefinition def = ListLibraries.SelectedItem as MediaLibraryDefinition;
 
             SelectedLib = def;
             DialogSelection = def;
 
             Config.MediaHasChanged = true;
-            this.Close();
+            Close();
+        }
+
+        void Cancel()
+        {
+            SaveLibs();
+            Config.MediaHasChanged = true;
+            Close();
         }
 
         private void cbDefault_Click(object sender, RoutedEventArgs e)
@@ -263,6 +288,28 @@ namespace Dialogs
             }
 
             SaveLibs();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Cancel();
+        }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            OK();
+        }
+
+        private void tbLibraryName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbLibraryName.Text == dummy_name)
+                tbLibraryName.Text = "";
+        }
+
+        private void tbLibraryName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbLibraryName.Text == "")
+                tbLibraryName.Text = dummy_name;
         }
     }
 }

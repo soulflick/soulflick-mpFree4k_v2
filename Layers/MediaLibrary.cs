@@ -14,6 +14,7 @@ using Mpfree4k.Enums;
 using MpFree4k;
 using MpFree4k.Classes;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Layers
 {
@@ -638,6 +639,12 @@ namespace Layers
             t_load = new Task(() => Load(LibPath));
             Thread t = new Thread(() =>
             {
+                MainWindow.mainDispatcher.BeginInvoke(
+                     DispatcherPriority.Render, (Action)(() =>
+                     {
+                         MainWindow.Instance.Cursor = Cursors.Wait;
+                     }));     
+
                 while (!t_load.IsCompleted)
                 {
                     Thread.Sleep(Config.update_timeout);
@@ -697,7 +704,12 @@ namespace Layers
                         StatusText = "done (" + Files.Count.ToString() + ")";
                     }));
 
-                MainWindow.SetProgress(0);
+                MainWindow.mainDispatcher.BeginInvoke(
+                     DispatcherPriority.Render, (Action)(() =>
+                     {
+                         MainWindow.SetProgress(0);
+                         MainWindow.Instance.Cursor = Cursors.Arrow;
+                     }));
             });
             t_load.Start();
             t.Start();

@@ -10,7 +10,7 @@
              d:DesignHeight="350" d:DesignWidth="650"
              Width="420"
              MaxWidth="1024"
-             Height="420"
+             Height="460"
              x:Name="_This"
              Topmost="True"
              Title="Library Selection - soulflick"
@@ -60,6 +60,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="100*"/>
+            <RowDefinition Height="38"/>
 
         </Grid.RowDefinitions>
 
@@ -101,6 +102,14 @@
 
         </StackPanel>
 
-
+        <Grid Grid.Row="5">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource FirstColorLightBrush}" Opacity="0.4"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="2">
+                <Button x:Name="btnOK" Content="Close" Width="120" Margin="2" Background="White" Click="btnOK_Click"/>
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </Window>

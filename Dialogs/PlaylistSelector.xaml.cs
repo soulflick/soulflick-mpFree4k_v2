@@ -54,6 +54,7 @@ namespace Dialogs
     public partial class PlaylistSelector : Window, INotifyPropertyChanged
     {
         string libfile = "Playlists.xml";
+        private const string dummy_name = "Enter Your Playlist Name Here";
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
@@ -117,8 +118,17 @@ namespace Dialogs
 
         void reloadPlaylists()
         {
+            var list_ordered = PlaylistDefs.OrderBy(l => l.Name).ToList();
+
             ListLibraries.ItemsSource = null;
-            ListLibraries.ItemsSource = PlaylistDefs.OrderBy(l => l.Name);
+            ListLibraries.ItemsSource = list_ordered;
+
+            var standard = list_ordered.FirstOrDefault(def => def.AutoSelect);
+            if (standard != null)
+            {
+                int idx = list_ordered.IndexOf(standard);
+                ListLibraries.SelectedIndex = idx;
+            }
             SavePlaylistXML();
         }
 
@@ -266,12 +276,20 @@ namespace Dialogs
 
         private void ListLibraries_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            OK();
+        }
+
+        void OK()
+        {
             SavePlaylistXML();
 
-            if ((sender as ListView).SelectedItem == null)
+            if (ListLibraries.SelectedItem == null)
+            {
+                Close();
                 return;
+            }
 
-            PlaylistDefinition def = (sender as ListView).SelectedItem as PlaylistDefinition;
+            PlaylistDefinition def = ListLibraries.SelectedItem as PlaylistDefinition;
             SelectedDefinition = def;
             DialogSelection = def;
 
@@ -280,6 +298,11 @@ namespace Dialogs
             Close();
         }
 
+        void Cancel()
+        {
+            SavePlaylistXML();
+            Close();
+        }
 
         private void cbDefault_Click(object sender, RoutedEventArgs e)
         {
@@ -300,6 +323,28 @@ namespace Dialogs
                     _d.AutoSelect = false;
 
             SavePlaylistXML();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Cancel();
+        }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            OK();
+        }
+
+        private void tbLibraryName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbLibraryName.Text == dummy_name)
+                tbLibraryName.Text = "";
+        }
+
+        private void tbLibraryName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbLibraryName.Text == "")
+                tbLibraryName.Text = dummy_name;
         }
     }
 }

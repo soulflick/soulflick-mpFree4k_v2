@@ -104,7 +104,14 @@ namespace Controls
             MediaPlayer.URL = fileInfo.Path;
             CurrentTitle = fileInfo.Path;
 
-            MediaPlayer.Init(fileInfo.Path);
+            try
+            {
+                MediaPlayer.Init(fileInfo.Path);
+            }
+            catch
+            {
+                return;
+            }
 
             if (MediaPlayer.Duration == 0)
             {
