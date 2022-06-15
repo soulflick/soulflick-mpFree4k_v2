@@ -9,7 +9,7 @@
              x:Name="_This"
              VerticalAlignment="Center"
              HorizontalAlignment="Stretch"
-             VerticalContentAlignment="Stretch">
+             VerticalContentAlignment="Stretch" d:DesignWidth="268">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -700,12 +700,12 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <Grid Grid.Row="1" HorizontalAlignment="Left" Margin="10 10 0 0">
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 10 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="33*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="33*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="33*"/>
                     </Grid.ColumnDefinitions>
