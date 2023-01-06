@@ -207,8 +207,8 @@
                                                    Margin="6,3,24,6" HorizontalAlignment="Right">
                                                 <TextBlock.FontWeight>
                                                     <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Track" />
-                                                        <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                        <Binding Path="Path" />
+                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                                     </MultiBinding>
                                                 </TextBlock.FontWeight>
                                             </TextBlock>
@@ -219,8 +219,8 @@
                                                    Margin="6,3,24,6">
                                                 <TextBlock.FontWeight>
                                                     <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Track" />
-                                                        <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                        <Binding Path="Path" />
+                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                                     </MultiBinding>
                                                 </TextBlock.FontWeight>
                                             </TextBlock>
@@ -229,8 +229,8 @@
                                                    Margin="6,3,6,6">
                                                 <TextBlock.FontWeight>
                                                     <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Track" />
-                                                        <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                        <Binding Path="Path" />
+                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                                     </MultiBinding>
                                                 </TextBlock.FontWeight>
                                             </TextBlock>

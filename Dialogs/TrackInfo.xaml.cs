@@ -46,7 +46,7 @@ namespace Dialogs
             {
                 uint count = Info?.Mp3Fields.TrackCount ?? 0;
                 if (count == 0) count = (uint)(AlbumTracks?.Count() ?? 0);
-                int max_track = AlbumTracks.Max(t => t.Track);
+                int max_track = AlbumTracks?.Max(t => t.Track) ?? 0;
                 if (max_track > count) count = (uint)max_track;
                 return count;
             }
@@ -139,7 +139,8 @@ namespace Dialogs
                               Length = track.Mp3Fields.Duration,
                               Name = track.Title,
                               Track = (int)track.Mp3Fields.Track,
-                              DurationValue = (double)track.Mp3Fields.DurationValue
+                              DurationValue = (double)track.Mp3Fields.DurationValue,
+                              Path = track.Mp3Fields.FileName
                             };
 
             Raise(nameof(DiscLength));

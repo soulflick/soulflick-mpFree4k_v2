@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -12,13 +13,29 @@ namespace Mpfree4k.Converters
             if (values.Length != 2)
                 return FontWeights.Normal;
 
-            if (int.TryParse(values[0].ToString(), out int track) &&
-                int.TryParse(values[1].ToString(), out int position) &&
-                track == position)
-                return FontWeights.Bold;
+            string title = values[0]?.ToString();
+            string fieldtitle = values[1]?.ToString();
 
-            return FontWeights.Normal;
+            return (title == fieldtitle) ? FontWeights.Bold : FontWeights.Normal;
+        }
 
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class TrackColorConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values.Length != 2)
+                return FontWeights.Normal;
+
+            string title = values[0]?.ToString();
+            string fieldtitle = values[1]?.ToString();
+
+            return (title == fieldtitle) ? Brushes.White : Brushes.Gainsboro;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

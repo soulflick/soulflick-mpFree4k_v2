@@ -25,7 +25,8 @@
             </LinearGradientBrush>
 
             <converters:FontWeightConverter x:Key="fontWeightConverter"/>
-
+            <converters:TrackColorConverter x:Key="trackColorConverter"/>
+            
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="Padding" Value="4 0 0 0"/>
@@ -827,20 +828,21 @@
                                                Margin="4" HorizontalAlignment="Right">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                <Binding Path="Track" />
-                                                <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                <Binding Path="Path" />
+                                                <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                             </MultiBinding>
                                         </TextBlock.FontWeight>
                                     </TextBlock>
 
                                     <TextBlock Text="{Binding Name}" Grid.Column="1"
                                                    HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
-                                                   FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
+                                                   FontSize="{DynamicResource FontSizeNormal}"
+                                                   Foreground="{DynamicResource MenuTextBrush}"
                                                    Margin="4">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                <Binding Path="Track" />
-                                                <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                <Binding Path="Path" />
+                                                <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                             </MultiBinding>
                                         </TextBlock.FontWeight>
                                         <TextBlock.Style>
@@ -859,8 +861,8 @@
                                                    Margin="4">
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                <Binding Path="Track" />
-                                                <Binding Path="Info.Mp3Fields.Track" ElementName="_This"/>
+                                                <Binding Path="Path" />
+                                                <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
                                             </MultiBinding>
                                         </TextBlock.FontWeight>
                                     </TextBlock>

@@ -28,7 +28,7 @@ namespace Dialogs
             }
         }
 
-        private string _name = "Enter Your Library's Name Here";
+        private string _name = "Default Library";
         public string Name
         {
             get => _name;
@@ -195,8 +195,12 @@ namespace Dialogs
                     Name = Sanitize(_currentDefinition.Name),
                     Path = _currentDefinition.Path
                 });
+
                 _currentDefinition.Name = "";
                 _currentDefinition.Path = "";
+
+                if (LibDefs.Count == 1)
+                    LibDefs[0].AutoSelect = true;
 
                 Raise(nameof(LibDefs));
 

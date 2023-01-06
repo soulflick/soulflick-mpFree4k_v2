@@ -100,33 +100,33 @@
 
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100*" MaxWidth="600"/>
+                        <ColumnDefinition Width="88*" MaxWidth="600"/>
+                        <ColumnDefinition Width="281*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="tbLibraryName" Text="{Binding ElementName=_This, Path=CurrentDefinition.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                             Grid.Row="1" FontSize="{DynamicResource FontSizeBig}" 
+                    <TextBox x:Name="tbLibraryName" Text="{Binding ElementName=_This, Path=CurrentDefinition.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="{DynamicResource FontSizeBig}" 
                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                              Margin="10,3,0,3" BorderBrush="#D0D0D0"
                              GotFocus="tbLibraryName_GotFocus"
-                             LostFocus="tbLibraryName_LostFocus"
+                             LostFocus="tbLibraryName_LostFocus" Grid.ColumnSpan="2"
                              />
-                    <Button x:Name="btnBrowse" Grid.Column="1" Width="32" Margin="-1,3,0,3"
+                    <Button x:Name="btnBrowse" Grid.Column="1" Width="32" Margin="280.114,3,0,3"
                             HorizontalAlignment="Left"
                             BorderBrush="#D0D0D0"
                             Background="WhiteSmoke" BorderThickness="1"
                             ToolTip="Specify a local folder as a media root"
-                            Click="btnBrowse_Click">
+                            Click="btnBrowse_Click" Grid.ColumnSpan="2">
                         <Image Source="{StaticResource icon_browse}"/>
                     </Button>
 
-                    <Button x:Name="btnAddLib" Grid.Column="2" Width="32" Margin="-1,3,10,3"
+                    <Button x:Name="btnAddLib" Grid.Column="2" Width="32" Margin="30,3,0,3"
                             HorizontalAlignment="Left"
                             BorderBrush="#D0D0D0"
                             Background="WhiteSmoke" BorderThickness="1"
                             ToolTip="Save your current library definition"
-                            Click="btnAdd_Click">
+                            Click="btnAdd_Click" Grid.ColumnSpan="2">
                         <Image Source="{StaticResource icon_plus}"/>
                     </Button>
                 </Grid>

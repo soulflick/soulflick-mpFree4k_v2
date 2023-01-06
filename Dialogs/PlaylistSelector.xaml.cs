@@ -28,7 +28,7 @@ namespace Dialogs
             }
         }
 
-        private string _name = "Enter Your Playlist Name Here";
+        private string _name = "Default Playlist";
         public string Name
         {
             get => _name;
@@ -214,6 +214,9 @@ namespace Dialogs
                     };
                     PlaylistDefs.Add(pDef);
                 }
+
+                if (PlaylistDefs.Count == 1)
+                    PlaylistDefs[0].AutoSelect = true;
 
                 serialize(pDef);
 

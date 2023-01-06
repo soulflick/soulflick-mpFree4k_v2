@@ -131,7 +131,7 @@ namespace Plugins
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message + "\n\nPlease check your local system sound output device.\nYou may restart the application.");
+                MessageBox.Show(e.Message + "\n\nPlease check your local system sound output device.");
                 throw;
             }
 
