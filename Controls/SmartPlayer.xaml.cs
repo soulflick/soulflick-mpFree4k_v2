@@ -266,6 +266,18 @@ namespace Controls
             }
         }
 
+        private string _currentYear = "-";
+        public string CurrentYear
+        {
+            set
+            {
+                _currentYear = value;
+                Raise(nameof(CurrentYear));
+                Raise(nameof(SearchCurrentYearToolTip));
+            }
+            get => _currentYear;
+        }
+
         public uint DiscCount
         {
             get
@@ -296,6 +308,7 @@ namespace Controls
             {
                 _currentAlbum = value;
                 Raise(nameof(CurrentAlbum));
+                Raise(nameof(SearchAlbumToolTip));
             }
         }
 
@@ -307,7 +320,23 @@ namespace Controls
             {
                 _currentArtist = value;
                 Raise(nameof(CurrentArtist));
+                Raise(nameof(SearchAlbumArtistToolTip));
             }
+        }
+
+        public string SearchAlbumArtistToolTip
+        {
+            get => "Search for artist: " + CurrentArtist;
+        }
+
+        public string SearchAlbumToolTip
+        {
+            get => "Search for album: " + CurrentAlbum;
+        }
+
+        public string SearchCurrentYearToolTip
+        {
+            get => "Search for year: " + CurrentYear;
         }
 
         private void Player_Loaded(object sender, RoutedEventArgs e)
@@ -388,6 +417,7 @@ namespace Controls
             CurrentTitle = itm.Title;
             CurrentAlbum = itm.Album;
             CurrentArtist = itm.Artists;
+            CurrentYear = itm.Year;
             lblAlbum.Text = itm.Album;
             lblYear.Text = itm.Year;
 

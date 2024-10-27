@@ -74,7 +74,6 @@ namespace Dialogs
             }
         }
 
-
         public string DiscLength
         {
             get
@@ -111,7 +110,7 @@ namespace Dialogs
                 tbBitsPerSample.Text = info._Handle.Properties.BitsPerSample.ToString();
                 tbChannels.Text = info._Handle.Properties.AudioChannels.ToString();
                 tbDescription.Text = info._Handle.Properties.Description;
-                tbDuration.Text = info._Handle.Properties.Duration.ToString(@"hh\:mm\:ss");
+                // tbDuration.Text = info._Handle.Properties.Duration.ToString(@"hh\:mm\:ss");
                 tbSampleRate.Text = info._Handle.Properties.AudioSampleRate.ToString();
 
                 tbCodecs.Text = string.Empty;

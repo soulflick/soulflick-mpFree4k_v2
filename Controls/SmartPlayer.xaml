@@ -617,7 +617,7 @@
                                VerticalAlignment="Center"
                                MouseDown="lblArtist_MouseDown"
                                TextTrimming="CharacterEllipsis"
-                               ToolTip="{Binding ElementName=_This, Path=CurrentArtist}">
+                               ToolTip="{Binding ElementName=_This, Path=SearchAlbumArtistToolTip}">
                         
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -645,13 +645,14 @@
                             </Style>
                         </TextBlock.Style>
                         <Run Style="{StaticResource RunStyleHeader}" Name="lblAlbum" Text="{Binding ElementName=_This, Path=CurrentAlbum}" 
-                             ToolTip="{Binding ElementName=_This, Path=CurrentAlbum}"/><Run Style="{StaticResource RunStyleHeader}" Text=" ("/><Run Style="{StaticResource RunStyleHeader}" Name="lblYear"/><Run Style="{StaticResource RunStyleHeader}" Text=")"/>
+                             ToolTip="{Binding ElementName=_This, Path=SearchAlbumToolTip}"/><Run Style="{StaticResource RunStyleHeader}" Text=" ("/><Run Style="{StaticResource RunStyleHeader}" Name="lblYear"/><Run Style="{StaticResource RunStyleHeader}" Text=")"/>
                     </TextBlock>
                 </Grid>
             </Grid>
 
             <Border Grid.Row="3" Panel.ZIndex="999" BorderBrush="{DynamicResource PlayerButtonMouseOverBorderBrush}">
                 <controls:LinearSpectrum x:Name="Spectrum"
+                                         ToolTip="click to switch appearance"
                                      MouseDown="Spectrum_MouseDown"
                                      BorderBrush="#3A3A3A" BorderThickness="0.5" Margin="13,10,8,0"
                                      ControlBackground="{DynamicResource SpectrumBackground}"
@@ -748,7 +749,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" TextWrapping="Wrap">
-                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.AlbumArtists}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunArtist_MouseDown">
+                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.AlbumArtists}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunArtist_MouseDown"
+                             ToolTip="{Binding ElementName=_This, Path=SearchAlbumArtistToolTip}">
                             <Run.Style>
                                 <Style TargetType="Run" BasedOn="{StaticResource {x:Type Run}}">
                                     <Style.Triggers>
@@ -761,7 +763,8 @@
                             </Run.Style>
                         </Run>
                         <Run Text=" - " FontSize="{DynamicResource FontSizeBig}"/>
-                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunAlbum_MouseDown">
+                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunAlbum_MouseDown"
+                             ToolTip="{Binding ElementName=_This, Path=SearchAlbumToolTip}">
                             <Run.Style>
                                 <Style TargetType="Run" BasedOn="{StaticResource {x:Type Run}}">
                                     <Style.Triggers>
@@ -775,7 +778,8 @@
                         </Run>
                         <Run Name="runYear" Text=" (" FontSize="{DynamicResource FontSizeBig}"/><Run 
                             Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBig}"
-                            MouseDown="Run_MouseDown"><Run.Style>
+                            MouseDown="Run_MouseDown" ToolTip="{Binding ElementName=_This, Path=SearchCurrentYearToolTip}">
+                            <Run.Style>
                             <Style TargetType="Run">
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -839,6 +843,12 @@
                                                    FontSize="{DynamicResource FontSizeNormal}"
                                                    Foreground="{DynamicResource MenuTextBrush}"
                                                    Margin="4">
+                                        <TextBlock.ToolTip>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Play track: "/>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
+                                        </TextBlock.ToolTip>
                                         <TextBlock.FontWeight>
                                             <MultiBinding Converter="{StaticResource fontWeightConverter}">
                                                 <Binding Path="Path" />

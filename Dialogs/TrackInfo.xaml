@@ -10,12 +10,13 @@
         Background="{DynamicResource MenuBrush}"
         Height="800"
         Width="720"
-        Title="Info - soulflick"
+        Title=" Album Info - mpFree4k - soulflick"
         Name="_This">
 
     <Window.Resources>
 
         <converters:FontWeightConverter x:Key="fontWeightConverter"/>
+        <converters:PathNameConverter x:Key="convPathname"/>
 
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -53,7 +54,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource  MenuBrush}">
+    <Grid Background="{DynamicResource  MenuBrush}" Margin="0 5 0 0">
         <Border Margin="4" Background="{DynamicResource PlaylistItemBackground}" BorderBrush="#333333" BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -80,7 +81,7 @@
                     </Border>
                 </Border>
 
-                <Grid Grid.Column="1" Margin="16 0 0 0">
+                <Grid Grid.Column="1" Margin="16 12 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -95,10 +96,14 @@
                         <ColumnDefinition Width="100*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="{Binding Info.Title}" Grid.ColumnSpan="2" Style="{StaticResource TextBlockHeaderStyle}"
-                               HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" Margin="0 10 10 10"/>
+                    <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Stretch" TextWrapping="Wrap">
+                        <Run Text="{Binding Info.Mp3Fields.AlbumArtists}" FontSize="{DynamicResource FontSizeBigger}"/>
+                        <Run Text=" - " FontSize="{DynamicResource FontSizeBigger}"/>
+                        <Run Text="{Binding Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBigger}"/>
+                        <Run Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run Text="{Binding Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"/><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
+                    </TextBlock>
 
-                    <TextBlock Text="{Binding Info.Path}" Margin="0,0,0,8" Grid.Row="1" Grid.ColumnSpan="2" 
+                    <TextBlock Text="{Binding Info.Path, Converter={StaticResource convPathname}}" Margin="0,0,0,8" Grid.Row="1" Grid.ColumnSpan="2" 
                                FontSize="{DynamicResource FontSizeSmaller}"
                                Foreground="{DynamicResource MenuDisabledTextBrush}"
                                HorizontalAlignment="Stretch"
@@ -131,6 +136,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Label FontSize="{DynamicResource FontSizeSmall}" Content="Channels" Margin="5,0,0,0"/>
@@ -145,47 +151,37 @@
                         <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="0" Content="Bits per Sample"  Margin="5,0,0,0"/>
                         <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="1" x:Name="tbBitsPerSample" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="2" Content="Duration" Margin="5,0,0,0"/>
-                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" x:Name="tbDuration" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
-
-                        <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="0" Content="Codecs" Margin="5,0,0,0" />
-                        <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
-
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3">
+                            <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="4" Content="Codecs" Margin="5,0,0,0" />
+                            <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="5" x:Name="tbCodecs" Text="" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
+                        </StackPanel>
+                        
                         <Label FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="0" Content="Description" Margin="5,0,0,0" />
                         <TextBlock FontSize="{DynamicResource FontSizeSmall}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" x:Name="tbDescription" Margin="5,0,0,0" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource FirstColorNormal}"/>
 
-                    </Grid>
-
-                    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" TextWrapping="Wrap">
-                        <Run Text="{Binding Info.Mp3Fields.AlbumArtists}" FontSize="{DynamicResource FontSizeBigger}"/>
-                        <Run Text=" - " FontSize="{DynamicResource FontSizeBigger}"/>
-                        <Run Text="{Binding Info.Mp3Fields.Album}" FontSize="{DynamicResource FontSizeBigger}"/>
-                        <Run Text=" (" FontSize="{DynamicResource FontSizeBigger}"/><Run Text="{Binding Info.Mp3Fields.Year}" FontSize="{DynamicResource FontSizeBigger}"/><Run Text=")" FontSize="{DynamicResource FontSizeBigger}"/>
-                    </TextBlock>
-
-                    <StackPanel Grid.Row="4" Grid.ColumnSpan="2"  Orientation="Horizontal">
-                        <TextBlock>
-                            <Run Text="Track" Style="{StaticResource RunKeyStyle}"/>
-                            <Run Text="{Binding Info.Mp3Fields.Track}" Foreground="{DynamicResource FirstColorNormal}"/>
-                            <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
-                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
-                        </TextBlock>
-
-                        <TextBlock>
-                            <Run Text=" "/>
+                        <TextBlock Grid.Row="4" Margin="0 0 0 0">
                             <Run Text="Disc" Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=CurrentDisc, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                             <Run Text="of" Style="{StaticResource RunKeyStyle}" Foreground="{DynamicResource FirstColorNormal}"/>
                             <Run Text="{Binding ElementName=_This, Path=DiscCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
                         </TextBlock>
 
-                        <TextBlock>
-                            <Run Text=" "/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" Margin="5 0 0 0">
+                            <TextBlock>
                             <Run Text="Disc Length " Style="{StaticResource RunKeyStyle}"/>
                             <Run Text="{Binding ElementName=_This, Path=DiscLength, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
-                        </TextBlock>
-                    </StackPanel>
+                            </TextBlock>
 
+                            <TextBlock Margin="5 0 0 0">
+                            <Run Text="Tracks " Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding ElementName=_This, Path=TrackCount, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                    </Grid>
+
+   
+                    
                     <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Text="Tracks from this Album:" Margin="0,24,0,0"/>
 
                     <Grid Grid.Row="6" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" VerticalAlignment="Stretch">
@@ -205,34 +201,21 @@
 
                                             <TextBlock Text="{Binding Track}" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
                                                    Margin="6,3,24,6" HorizontalAlignment="Right">
-                                                <TextBlock.FontWeight>
-                                                    <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Path" />
-                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
-                                                    </MultiBinding>
-                                                </TextBlock.FontWeight>
+                                                <TextBlock.ToolTip>
+                                                    <TextBlock>
+                                                        <Run Text="{Binding Track}"/>
+                                                    </TextBlock>
+                                                </TextBlock.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock Text="{Binding Name}" Grid.Column="1" 
                                                    HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
                                                    FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
                                                    Margin="6,3,24,6">
-                                                <TextBlock.FontWeight>
-                                                    <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Path" />
-                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
-                                                    </MultiBinding>
-                                                </TextBlock.FontWeight>
                                             </TextBlock>
 
                                             <TextBlock Text="{Binding Length}" HorizontalAlignment="Right" Grid.Column="2"  FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
                                                    Margin="6,3,6,6">
-                                                <TextBlock.FontWeight>
-                                                    <MultiBinding Converter="{StaticResource fontWeightConverter}">
-                                                        <Binding Path="Path" />
-                                                        <Binding Path="Info.Mp3Fields.FileName" ElementName="_This"/>
-                                                    </MultiBinding>
-                                                </TextBlock.FontWeight>
                                             </TextBlock>
 
                                         </Grid>
