@@ -5,7 +5,7 @@ mpFree4k v2.4 (2022)
 =============================================================================
 
 Free Scalable Offline Windows MP3 Player for all Screens
-Version: 2.4 / 2022
+Version: 2.5.1 / 2025
 Author : soulflick
 Website: www.soulflick.com
 
@@ -32,6 +32,11 @@ Download zipped binaries. Just extract it. No installation necessary.
 ![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/favorites.png?raw=true)
 
 -----------------------------------------------------------------------------
+
+Version 2.5.1
+
+- Many Improvements
+- CD Booklet Style
 
 Version 2.5
 
