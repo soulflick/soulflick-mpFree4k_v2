@@ -31,6 +31,32 @@ namespace ViewModels
             }
         }
 
+        private bool _showPathInLibrary = false;
+        public bool ShowPathInLibrary
+        {
+            get => _showPathInLibrary;
+            set
+            {
+                _showPathInLibrary = value;
+                Raise(nameof(ShowPathInLibrary));
+
+                if (DataGrid != null)
+                    _dataGrid.Columns[1].Visibility = ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+
+            }
+        }
+
+        private System.Windows.Controls.DataGrid _dataGrid = null;
+        public System.Windows.Controls.DataGrid DataGrid
+        {
+            get => _dataGrid;
+            set
+            {
+                _dataGrid = value;
+                _dataGrid.Columns[1].Visibility = ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            }
+        }
+
         public IEnumerable<FileViewInfo> LibraryTracks => MediaLibrary.Files;
 
         private List<FileViewInfo> _tracks = new List<FileViewInfo>();

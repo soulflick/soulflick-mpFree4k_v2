@@ -15,11 +15,21 @@ namespace Models
 
         public void SetFlag(FlagType flag)
         {
-            Flag = flag; Raise(nameof(Flag));
+            Flag = flag;
+            Raise(nameof(Flag));
             Mp3Fields.Flag = flag;
         }
-        public FlagType Flag { get; set; } = 0;
 
+        private FlagType _flag = 0;
+        public FlagType Flag
+        {
+            get => _flag;
+            set
+            {
+                _flag = value;
+                Raise(nameof(Flag));
+            }
+        }
         bool _isPlaying = false;
         public bool IsPlaying 
         { 
@@ -31,7 +41,10 @@ namespace Models
         public bool HandleError 
         { 
             get => _handleError; 
-            set { _handleError = value; Raise(nameof(HandleError)); } 
+            set { 
+                _handleError = value;
+                Raise(nameof(HandleError));
+            } 
         }
 
         public bool HasChanged { get; set; }
@@ -42,7 +55,8 @@ namespace Models
             get => _isSelected;
             set
             {
-                _isSelected = value; Raise(nameof(IsSelected));
+                _isSelected = value;
+                Raise(nameof(IsSelected));
             }
         }
 
@@ -88,10 +102,21 @@ namespace Models
         }
         public int MatchCount = 0;
 
-        public string Title { get; set; }
+        private string _title = string.Empty;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                Raise(nameof(Title));
+            }
+        }
+
         public string Path { get; set; }
         public string FileName { get; set; }
         public string Label { get; set; }
+
         public TagLib.File _Handle { get; set; }
 
         private System.Windows.Media.Imaging.BitmapImage _image = null;
@@ -132,6 +157,7 @@ namespace Models
             }
 
             Path = path;
+            Mp3Fields.FileName = path;
             Label = path.Substring(path.LastIndexOf(@"\") + 1);
 
             try
@@ -140,6 +166,7 @@ namespace Models
             }
             catch
             {
+                SetFlag(FlagType.Failures);
                 HandleError = true;
             }
         }

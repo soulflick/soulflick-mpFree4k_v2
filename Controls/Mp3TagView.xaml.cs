@@ -55,6 +55,7 @@ namespace Controls
         {
             CurrentTag.Mp3Fields.HasChanged = true;
             CurrentTag.save();
+            CurrentTag.CreateFileHandle();
         }
 
         public void SetCurrentTag()

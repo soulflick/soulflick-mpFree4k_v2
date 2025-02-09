@@ -8,14 +8,13 @@
              Background="White"
              BorderBrush="Gray"
              BorderThickness="1"
-        
-             d:DesignHeight="350" d:DesignWidth="650"
+
              Width="420"
-             Height="700"
+             Height="740"
              MinWidth="310"
              MaxWidth="420"
-             MinHeight="700"
-             MaxHeight="700"
+             MinHeight="740"
+             MaxHeight="740"
         
              x:Name="_This"
              Title="Player Settings- soulflick"
@@ -49,7 +48,7 @@
         <Grid Grid.Row="1" Height="1" Background="Gray"/>
 
         <Grid Grid.Row="2">
-            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontStyle="Oblique" Text="Free MP3 Player for any Screen.&#10;Freeware&#10;2022 by soulflick.com" Margin="10,12,10,10"/>
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontStyle="Oblique" Text="Free MP3 Player for any Screen.&#10;Freeware&#10;2025 by soulflick.com" Margin="10,12,10,10"/>
         </Grid>
 
         <Grid Grid.Row="3" Height="1" Background="#DDDDDD"/>
@@ -138,12 +137,16 @@
                     <ComboBoxItem Content="Black" Tag="{x:Static enums:SkinColors.Black_Smooth}"/>
                 </ComboBox>
 
-                <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Grid.Row="10" Margin="3,24,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                <StackPanel Grid.Row="10" Grid.RowSpan="3" Orientation="Vertical">
 
-                <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" Grid.Row="11" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Margin="3,24,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="rememberSelected" Content="Keep album selection on filter" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="showPathInPlaylist" Content="Show Path in Playlist" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="showPathInLibrary" Content="Show Path in Track View" Margin="3 6 0 10" FontSize="{DynamicResource FontSizeBig}"/>
 
-                <CheckBox x:Name="rememberSelected" Content="Keep album selection on filter" Grid.Row="12" Margin="3,6,0,10" FontSize="{DynamicResource FontSizeBig}"/>
-
+                </StackPanel>
+                
                 <Grid Grid.Row="15" Height="1" Background="LightGray"/>
                 
                 <Grid Grid.Row="16" Margin="0,10,0,0">

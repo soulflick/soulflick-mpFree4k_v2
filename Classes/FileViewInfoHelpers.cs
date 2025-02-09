@@ -77,11 +77,16 @@ namespace Classes
             {
                 File.SetAttributes(info.Path, FileAttributes.Normal);
                 info._Handle.Save();
+                ReadMp3Fields(info);
+                info.Mp3Fields.HasChanged = false;
                 success = true;
+                info.SetFlag(Mpfree4k.Enums.FlagType.OK);
             }
-            catch (Exception exc) { ; }
-            ReadMp3Fields(info);
-            info.Mp3Fields.HasChanged = false;
+            catch (Exception exc) 
+            {
+                info.SetFlag(Mpfree4k.Enums.FlagType.Failures);
+            }
+    
             return success;
         }
 
@@ -102,15 +107,18 @@ namespace Classes
                 //ReadTagImage(info);
 
                 info.HandleError = false;
+                info.Mp3Fields.FileName = info.FileName;
                 ReadMp3Fields(info);
                 info.HasChanged = false;
                 info.Mp3Fields.HasChanged = false;
+                info.SetFlag(Mpfree4k.Enums.FlagType.OK);
                 return true;
             }
             catch (Exception exc)
             {
                 info.HasChanged = false;
                 info.HandleError = true;
+                info.SetFlag(Mpfree4k.Enums.FlagType.Failures);
                 return false;
             }
         }

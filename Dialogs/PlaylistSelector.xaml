@@ -76,7 +76,7 @@
         <Grid Grid.Row="1" Height="1" Background="Gray"/>
 
         <Grid Grid.Row="2">
-            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontStyle="Oblique" Text="Free MP3 Player for any Screen.&#10;Freeware&#10;2022 by soulflick.com" Margin="10,12,10,10"/>
+            <TextBlock FontSize="{DynamicResource FontSizeNormal}" FontStyle="Oblique" Text="Free MP3 Player for any Screen.&#10;Freeware&#10;2025 by soulflick.com" Margin="10,12,10,10"/>
         </Grid>
 
         <Grid Grid.Row="3" Height="1" Background="#DDDDDD"/>

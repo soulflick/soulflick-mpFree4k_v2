@@ -353,5 +353,10 @@ namespace Controls
 
             PlaylistViewModel.Insert(selection_filtered.ToArray());
         }
+
+        private void TrackTable_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DataGrid = sender as DataGrid;
+        }
     }
 }

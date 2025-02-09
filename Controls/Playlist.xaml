@@ -17,11 +17,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/FontSizes/FontSizesNormal.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MpFree4k;component/Styles/Skins/White.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <converters:AddConverter x:Key="convadd"/>
+            <converters:BoolToVisibilityConverter x:Key="bool2visconv"/>
 
             <Style TargetType="{x:Type MenuItem}">
-                <Setter Property="Padding" Value="7"/>
+                <Setter Property="Padding" Value="4"/>
             </Style>
 
             <Style TargetType="{x:Type ContextMenu}">
@@ -95,6 +96,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
 
@@ -120,6 +122,7 @@
                                Foreground="{DynamicResource ListItemForeground}" 
                                FontFamily="Verdana" VerticalAlignment="Center"
                                HorizontalAlignment="Stretch"
+                               ToolTip="{Binding Title}"
                                TextTrimming="CharacterEllipsis">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -139,14 +142,19 @@
                           Margin="0,1,0,2">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
-                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmallest}"/>
+                                <Setter Property="FontSize" Value="{DynamicResource FontSizeSmall}"/>
                                 <Setter Property="Foreground" Value="{DynamicResource FirstColorNormal}"/>
                             </Style>
                         </Grid.Resources>
 
-                        <TextBlock HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"><Run Text="{Binding Artists}"/><Run Text=" - "/><Run Text="{Binding Album}"/><Run
+                        <TextBlock HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" ToolTip="{Binding Album}"><Run Text="{Binding Artists}"/><Run Text=" - "/><Run Text="{Binding Album}"/><Run
                             Text=" - "/><Run Text="{Binding Track}"/><Run Text=" ["/><Run Text="{Binding Year}"/><Run Text="]"/></TextBlock>
                     </Grid>
+
+                    <TextBlock Text="{Binding Path}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" FontSize="{DynamicResource FontSizeSmallest}"
+                                   Foreground="{DynamicResource MenuDisabledTextBrush}" FontFamily="Verdana"
+                                    ToolTip="{Binding Path}"
+                                   Visibility="{Binding ElementName=_This, Path=DataContext.ShowPathInPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource bool2visconv}}"/>
 
                 </Grid>
             </DataTemplate>
@@ -163,12 +171,17 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Image Grid.RowSpan="3" Source="{Binding FirstAlbum}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
 
                         <TextBlock Text="{Binding Artists}" Grid.Column="1" FontSize="{DynamicResource FontSizeBigger}" Foreground="{DynamicResource FirstColorNormal}" FontFamily="Verdana"/>
+<!--
+                        <TextBlock Text="{Binding Path}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" FontSize="{DynamicResource FontSizeSmallest}"
+                                   Foreground="{DynamicResource FirstColorNormal}" FontFamily="Verdana"
+                                   Visibility="{Binding ElementName=_This, Path=DataContext.ShowPathInPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource bool2visconv}}"/> -->
 
                     </Grid>
                 </Border>
@@ -212,6 +225,8 @@
                     <MenuItem x:Name="mnuCtxRemove" Header="remove" Click="mnuCtxRemove_Click"/>
                     <MenuItem x:Name="mnuCtxSelectAll" Header="select all" Click="mnuCtxSelectAll_Click"/>
                     <MenuItem x:Name="mnuCtxUnSelectAll" Header="unselect all" Click="mnuCtxUnSelectAll_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="mnuCtxEditItem" Header="edit selected" Click="mnuCtxEditItem_Click"/>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.ItemContainerStyle>

@@ -36,6 +36,8 @@ namespace Dialogs
             autoSavePlaylist.IsChecked = UserConfig.AutoSavePlaylist;
             showAlbumArtists.IsChecked = UserConfig.ShowFullAlbum;
             rememberSelected.IsChecked = UserConfig.RememberSelectedAlbums;
+            showPathInPlaylist.IsChecked = UserConfig.ShowPathInPlaylist;
+            showPathInLibrary.IsChecked = UserConfig.ShowPathInLibrary;
         }
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
@@ -216,6 +218,20 @@ namespace Dialogs
                         UserConfig.RememberSelectedAlbums = _true;
                 }
 
+                else if (key_str == "showpathinplaylist")
+                {
+                    bool _true = false;
+                    if (bool.TryParse(key_val, out _true))
+                        UserConfig.ShowPathInPlaylist = _true;
+                }
+
+                else if (key_str == "showpathinlibrary")
+                {
+                    bool _true = false;
+                    if (bool.TryParse(key_val, out _true))
+                        UserConfig.ShowPathInLibrary = _true;
+                }
+
                 else if (key_str == "numbertracks")
                 {
                     int a = 0;
@@ -280,8 +296,13 @@ namespace Dialogs
             UserConfig.ShowFullAlbum = showAlbumArtists.IsChecked == true;
             UserConfig.AutoSavePlaylist = autoSavePlaylist.IsChecked == true;
             UserConfig.RememberSelectedAlbums = rememberSelected.IsChecked == true;
+            UserConfig.ShowPathInPlaylist = showPathInPlaylist.IsChecked == true;
+            UserConfig.ShowPathInLibrary = showPathInLibrary.IsChecked == true;
 
             WriteUserConfig();
+
+            PlaylistViewModel.Instance.ShowPathInPlaylist = UserConfig.ShowPathInPlaylist;
+            TrackTableViewModel.Instance.ShowPathInLibrary = UserConfig.ShowPathInLibrary;
         }
 
         public static void WriteUserConfig()
@@ -298,6 +319,8 @@ namespace Dialogs
             doc += "\t\t<setting name=\"autosaveplaylist\" value=\"" + (bool)UserConfig.AutoSavePlaylist + "\"/>\n";
             doc += "\t\t<setting name=\"showfullalbum\" value=\"" + (bool)UserConfig.ShowFullAlbum + "\"/>\n";
             doc += "\t\t<setting name=\"rememberalbums\" value=\"" + (bool)UserConfig.RememberSelectedAlbums + "\"/>\n";
+            doc += "\t\t<setting name=\"showpathinplaylist\" value=\"" + (bool)UserConfig.ShowPathInPlaylist + "\"/>\n";
+            doc += "\t\t<setting name=\"showpathinlibrary\" value=\"" + (bool)UserConfig.ShowPathInLibrary + "\"/>\n";
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
             doc += "\t</settings>\n</xml>";
@@ -389,9 +412,6 @@ namespace Dialogs
             MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void btnOK_Click(object sender, RoutedEventArgs e) => Close();
     }
 }

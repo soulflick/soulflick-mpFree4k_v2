@@ -471,5 +471,21 @@ namespace Controls
         {
             PlaylistView.UnselectAll();
         }
+
+        private void mnuCtxEditItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlaylistView.SelectedItems == null) return;
+            var selected = new List<PlaylistInfo>();
+
+            foreach (PlaylistInfo pli in PlaylistView.SelectedItems) selected.Add(pli);
+            FileViewInfo[] infos = TracksViewModel.Instance.Tracks.Where(t => selected.Any(s => s.Path.Equals(t.Path))).ToArray();
+
+            if (infos.Length != selected.Count)
+                MessageBox.Show("Some of the selected Tracks could not be found in the Library");
+
+            if (infos.Length == 0) return;
+            Dialogs.TracksEditor editor = new Dialogs.TracksEditor(infos);
+            editor.ShowDialog();
+        }
     }
 }

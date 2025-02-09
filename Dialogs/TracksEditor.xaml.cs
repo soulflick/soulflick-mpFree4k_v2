@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ViewModels;
 
 namespace Dialogs
 {
@@ -54,7 +55,12 @@ namespace Dialogs
 
         private void btnOkay_Click(object sender, RoutedEventArgs e)
         {
-            FileInfos.ToList().ForEach(file => file.save());
+            FileInfos.ToList().ForEach(file =>
+            {
+                file.save();
+                file.CreateFileHandle();
+                PlaylistViewModel.Instance.UpdateFile(file);
+            });
             Close();
         }
     }

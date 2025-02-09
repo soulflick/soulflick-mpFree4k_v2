@@ -25,6 +25,20 @@ namespace Configuration
             set => _rememberSelectedAlbum = value;
         }
 
+        private static bool _showPathInPlaylist = false;
+        public static bool ShowPathInPlaylist
+        {
+            get => _showPathInPlaylist;
+            set => _showPathInPlaylist = value;
+        }
+
+        private static bool _showPathInLibrary = false;
+        public static bool ShowPathInLibrary
+        {
+            get => _showPathInLibrary;
+            set => _showPathInLibrary = value;
+        }
+
         public static PluginTypes PluginType = PluginTypes.CSCore;
         public static SkinColors Skin { get; set; } = SkinColors.Black_Smooth;
         public static FontSize FontSize = FontSize.Normal;

@@ -71,6 +71,17 @@ namespace ViewModels
             Raise(nameof(Tracks));
         }
 
+        private bool _showPathInPlaylist = false;
+        public bool ShowPathInPlaylist
+        {
+            get => _showPathInPlaylist;
+            set
+            {
+                _showPathInPlaylist = value;
+                Raise(nameof(ShowPathInPlaylist));
+            }
+        }
+
         public static void AddTracks(FileViewInfo[] infos) => Instance.Add(infos);
 
         public void Add(FileViewInfo[] infos)
@@ -174,6 +185,11 @@ namespace ViewModels
 
                 Tracks.Insert(position, item);
             });
+        }
+
+        public void UpdateFile(FileViewInfo info)
+        {
+            Tracks.Where(t => t.Path == info.Path).ToList().ForEach(t => Classes.PlaylistHelpers.CreateFromMediaItem(t, info));
         }
 
         public void FinalizeAdd(int startpos = 0)

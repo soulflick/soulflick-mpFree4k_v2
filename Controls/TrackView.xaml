@@ -121,7 +121,6 @@
                                HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"
                                ToolTip="{Binding Album}"/>
 
-
                         <TextBlock Text="Genre:" Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}"  Margin="0,0,4,0"/>
                         <TextBlock Text="{Binding Mp3Fields.Genres}" Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 

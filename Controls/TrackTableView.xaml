@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Mpfree4k.Converters"
+             xmlns:viewmodel="clr-namespace:ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="_This"
              Loaded="_This_Loaded">
+
     <UserControl.Resources>
 
         <ResourceDictionary>
@@ -19,6 +21,7 @@
 
             <converters:BoolToOpacityConverter x:Key="bool2opacconv"/>
             <converters:AddConverter x:Key="addconv"/>
+            <converters:BoolToVisibilityConverter x:Key="bool2visconv"/>
 
             <Thickness x:Key="MarginResource" Left="{StaticResource TrackTableMargin}"
                        Top="{StaticResource TrackTableMargin}" 
@@ -97,6 +100,7 @@
                   PreviewMouseMove="TrackTable_PreviewMouseMove"
                   PreviewMouseDoubleClick="TrackTable_PreviewMouseDoubleClick"
                   PreviewMouseUp="TrackTable_PreviewMouseUp"
+                  Loaded="TrackTable_Loaded"
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -196,9 +200,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Left" Margin="{DynamicResource ControlPaddingMargin}" BorderBrush="Transparent" CornerRadius="2">
-                                <!--<Border.Effect>
-                                    <DropShadowEffect BlurRadius="5" Opacity=".7" ShadowDepth="4" />
-                                </Border.Effect>-->
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="2" Opacity=".7" ShadowDepth="1" />
+                                </Border.Effect>
                                 <Border Name="ReceiverColor" BorderBrush="Transparent" BorderThickness="4.5" CornerRadius="0">
                                     <Grid>
                                         <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness="0.5" CornerRadius="2">
@@ -228,32 +232,43 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="dgColLocation" Header="Location" Width="20*" SortMemberPath="Path"
+                                    Visibility="{Binding ElementName=_This, Path=DataContext.ShowPathInLibrary, Converter={StaticResource bool2visconv}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}" FontSize="{DynamicResource FontSizeSmaller}"
+                                       Margin="3"
+                                    Foreground="{DynamicResource MenuDisabledTextBrush}" ToolTip="{Binding Path}"
+                               HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Title" Width="20*" SortMemberPath="Title">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}">
+                            <TextBlock Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Title}" Margin="{Binding ElementName=_This, Path=TableMargin, UpdateSourceTrigger=Default}" FontSize="{DynamicResource FontSizeNormal}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Flag}" Value="0">
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                                 <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="1">
-                                                <Setter Property="Foreground" Value="Violet"/>
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
+                                                <Setter Property="Foreground" Value="DarkViolet"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="2">
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
                                                 <Setter Property="Foreground" Value="Gray"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="3">
-                                                <Setter Property="Foreground" Value="Green"/>
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="3">
+                                                <Setter Property="Foreground" Value="DarkGreen"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="4">
-                                                <Setter Property="Foreground" Value="Blue"/>
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="4">
+                                                <Setter Property="Foreground" Value="DarkBlue"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="5">
-                                                <Setter Property="Foreground" Value="Red"/>
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="5">
+                                                <Setter Property="Foreground" Value="DarkRed"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Flag}" Value="6">
+                                            <DataTrigger Binding="{Binding Flag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="6">
                                                 <Setter Property="Foreground" Value="Orange"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -268,21 +283,21 @@
                 <DataGridTemplateColumn Header="Artist" Width="20*" SortMemberPath="Mp3Fields.Artists">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Artists}" ToolTip="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Album" Width="20*" SortMemberPath="Mp3Fields.Album">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Album}" ToolTip="{Binding Mp3Fields.Album}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Mp3Fields.Album}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Track" Width="Auto" SortMemberPath="Mp3Fields.Track">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Track}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
+                            <TextBlock Text="{Binding Mp3Fields.Track, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
                                        HorizontalAlignment="Right"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -290,7 +305,7 @@
                 <DataGridTemplateColumn Header="Year" Width="Auto" SortMemberPath="Mp3Fields.Year">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Year}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
+                            <TextBlock Text="{Binding Mp3Fields.Year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"
                                        HorizontalAlignment="Right"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -298,21 +313,21 @@
                 <DataGridTemplateColumn Header="Genre" Width="Auto" SortMemberPath="Mp3Fields.Genres">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Genres}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Genres, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Length" Width="Auto" SortMemberPath="Mp3Fields.DurationValue" MinWidth="68">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Duration}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Bitrate" Width="Auto" SortMemberPath="Mp3Fields.BitrateValue" MinWidth="68">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.BitrateValue}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.BitrateValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

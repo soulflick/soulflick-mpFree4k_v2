@@ -37,6 +37,8 @@ namespace MpFree4k
         public void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         private string _query = "";
+        public string FilterHint => "type to search for tracks";
+
         Timer query_timer = new Timer(300);
 
         private ViewMode _viewMode = ViewMode.Details;
@@ -160,6 +162,8 @@ namespace MpFree4k
 
             SkinAdaptor.ApplySkin(this, UserConfig.Skin, UserConfig.FontSize);
             SkinAdaptor.ApplyPadding(this, UserConfig.PaddingType);
+            PlaylistViewModel.Instance.ShowPathInPlaylist = UserConfig.ShowPathInPlaylist;
+            TrackTableViewModel.Instance.ShowPathInLibrary = UserConfig.ShowPathInLibrary;
 
             plsel = new PlaylistSelector(Playlist.DataContext as PlaylistViewModel);
             if (plsel.SelectedDefinition != null)
@@ -208,9 +212,15 @@ namespace MpFree4k
 
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (FilterBox.Text == FilterHint) return;
+
             _query = (sender as TextBox).Text;
             query_timer.Stop();
             query_timer.Start();
+            if (string.IsNullOrEmpty(_query))
+            {
+                FilterBox.Text = FilterHint;
+            }
 
         }
 
@@ -404,6 +414,9 @@ namespace MpFree4k
             WindowState = WindowState.Normal;
             Width = 700;
             cdLibrary.Width = new GridLength(1);
+
+            Left = (SystemParameters.PrimaryScreenWidth / 2) - (ActualWidth / 2);
+            Top = (SystemParameters.PrimaryScreenHeight / 2) - (ActualHeight / 2);
         }
 
         private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)
@@ -411,6 +424,9 @@ namespace MpFree4k
             Width = System.Windows.SystemParameters.PrimaryScreenWidth * 0.75;
             cdLibrary.Width = new GridLength(60, GridUnitType.Star);
             cdPlaylist.Width = new GridLength(25, GridUnitType.Star);
+
+            Left = (SystemParameters.PrimaryScreenWidth / 2) - (ActualWidth / 2);
+            Top = (SystemParameters.PrimaryScreenHeight / 2) - (ActualHeight / 2);
         }
 
         bool paused = false;
@@ -426,6 +442,26 @@ namespace MpFree4k
 
         private void grdSpltPlaylist_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
+        }
+
+        private void FilterBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (FilterBox.Text == FilterHint)
+            {
+                FilterBox.TextChanged -= FilterBox_TextChanged;
+                FilterBox.Text = "";
+                FilterBox.TextChanged += FilterBox_TextChanged;
+            }
+        }
+
+        private void FilterBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (FilterBox.Text == "")
+            {
+                FilterBox.TextChanged -= FilterBox_TextChanged;
+                FilterBox.Text = FilterHint;
+                FilterBox.TextChanged += FilterBox_TextChanged;
+            }
         }
     }
 }

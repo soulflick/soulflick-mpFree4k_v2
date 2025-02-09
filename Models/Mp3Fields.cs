@@ -9,7 +9,7 @@ namespace Models
     public class Mp3Fields : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void Raise(string info)=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        protected void Raise(string info) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 
         public bool HasChanged = false;
 
@@ -36,7 +36,8 @@ namespace Models
             {
                 if (_filename == value) return;
                 _filename = value; 
-                HasChanged = true;   
+                HasChanged = true;
+                Raise(nameof(FileName));
             }
         }
 
@@ -47,7 +48,9 @@ namespace Models
             set {
                 string val = value.Replace("\n", " ");
                 if (_album == val) return;
-                _album = val; HasChanged = true; 
+                _album = val;
+                HasChanged = true;
+                Raise(nameof(Album));
             }
         }
 
@@ -58,7 +61,9 @@ namespace Models
             set 
             {
                 if (_disc == value) return;
-                _disc = value; HasChanged = true; 
+                _disc = value;
+                HasChanged = true;
+                Raise(nameof(Disc));
             } 
         }
         
@@ -69,7 +74,9 @@ namespace Models
             set 
             {
                 if (_discCount == value) return;
-                _discCount = value; HasChanged = true; 
+                _discCount = value;
+                HasChanged = true;
+                Raise(nameof(DiscCount));
             }
         }
         
@@ -80,7 +87,9 @@ namespace Models
             set 
             {
                 if (_year == value) return;
-                _year = value; HasChanged = true; 
+                _year = value;
+                HasChanged = true;
+                Raise(nameof(Year));
             }
         }
         
@@ -92,7 +101,9 @@ namespace Models
             {
                 string val = value.Replace("\n", " ");
                 if (_title == val) return;
-                _title = val; HasChanged = true;
+                _title = val;
+                HasChanged = true;
+                Raise(nameof(Title));
             }
         }
         
@@ -103,7 +114,9 @@ namespace Models
             set
             {
                 if (_track == value) return;
-                _track = value; HasChanged = true;
+                _track = value;
+                HasChanged = true;
+                Raise(nameof(Track));
             }
         }
         
@@ -114,7 +127,9 @@ namespace Models
             set 
             {
                 if (_trackCount == value) return;
-                _trackCount = value; HasChanged = true;
+                _trackCount = value;
+                HasChanged = true;
+                Raise(nameof(TrackCount));
             }
         }
         
@@ -126,7 +141,9 @@ namespace Models
             {
                 string val = value.Replace("\n", " ");
                 if (_artists == val) return;
-                _artists = val; HasChanged = true;
+                _artists = val;
+                HasChanged = true;
+                Raise(nameof(Artists));
             }
         }
         
@@ -138,7 +155,9 @@ namespace Models
             {
                 string val = value.Replace("\n", " ");
                 if (_albumArtists == val) return;
-                _albumArtists = val; HasChanged = true;
+                _albumArtists = val;
+                HasChanged = true;
+                Raise(nameof(AlbumArtists));
             }
         }
         
@@ -150,7 +169,9 @@ namespace Models
             {
                 string val = value.Replace("\n", " ");
                 if (_performers == val) return;
-                _performers = val; HasChanged = true;
+                _performers = val;
+                HasChanged = true;
+                Raise(nameof(Performers));
             }
         }
         
@@ -161,7 +182,9 @@ namespace Models
             set 
             {
                 if (_composers == value) return;
-                _composers = value; HasChanged = true;
+                _composers = value;
+                HasChanged = true;
+                Raise(nameof(Composers));
             }
         }
         
@@ -172,7 +195,9 @@ namespace Models
             set 
             {
                 if (_copyright == value) return;
-                _copyright = value; HasChanged = true;
+                _copyright = value;
+                HasChanged = true;
+                Raise(nameof(Copyright));
             }
         }
         
@@ -183,7 +208,9 @@ namespace Models
             set
             {
                 if (_comment == value) return;
-                _comment = value; HasChanged = true;
+                _comment = value;
+                HasChanged = true;
+                Raise(nameof(Comment));
             }
         }
         
@@ -194,7 +221,9 @@ namespace Models
             set 
             {
                 if (_genres == value) return;
-                _genres = value.Replace("\n", ", "); HasChanged = true;
+                _genres = value.Replace("\n", ", ");
+                HasChanged = true;
+                Raise(nameof(Genres));
             }
         }
 
@@ -206,7 +235,9 @@ namespace Models
             {
                 if (_bitrate == value) return;
                 BitrateValue = Convert.ToInt64(value);
-                _bitrate = value; HasChanged = true;
+                _bitrate = value;
+                HasChanged = true;
+                Raise(nameof(Bitrate));
             }
         }
 

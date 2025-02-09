@@ -20,7 +20,7 @@
     <Color x:Key="FirstColorLightBrush">LightSteelBlue</Color>
     <Color x:Key="PrimaryBackgroundBrush">#FAFAFA</Color>
     <Color x:Key="SecondBackgroundBrush">#F0F0F0</Color>
-    <Color x:Key="StandardTextForeground">#4000000</Color>
+    <Color x:Key="StandardTextForeground">#000000</Color>
 
     <Color x:Key="ListViewItemBackgroundBrush">#FAFAFA</Color>
     <Color x:Key="ListViewItemForegroundBrush">#000000</Color>
