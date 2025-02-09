@@ -33,6 +33,13 @@ Download zipped binaries. Just extract it. No installation necessary.
 
 -----------------------------------------------------------------------------
 
+Version 2.5.2
+
+- Edit Tags from Playlist
+- Dynamic Reload of Tracks when edited.
+- Added Path information in Playlist and TrackView
+- Highlight of broken files
+
 Version 2.5.1
 
 - Many Improvements
