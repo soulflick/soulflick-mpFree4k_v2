@@ -53,7 +53,8 @@ namespace ViewModels
             set
             {
                 _dataGrid = value;
-                _dataGrid.Columns[1].Visibility = ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                _dataGrid.Columns.FirstOrDefault(c => (string)c.Header == "File").Visibility = 
+                    ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 

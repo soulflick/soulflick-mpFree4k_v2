@@ -56,6 +56,7 @@ namespace Controls
             CurrentTag.Mp3Fields.HasChanged = true;
             CurrentTag.save();
             CurrentTag.CreateFileHandle();
+            ViewModels.PlaylistViewModel.Instance.UpdateFile(CurrentTag);
         }
 
         public void SetCurrentTag()

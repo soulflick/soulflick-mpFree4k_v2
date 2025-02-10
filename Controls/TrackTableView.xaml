@@ -22,6 +22,7 @@
             <converters:BoolToOpacityConverter x:Key="bool2opacconv"/>
             <converters:AddConverter x:Key="addconv"/>
             <converters:BoolToVisibilityConverter x:Key="bool2visconv"/>
+            <converters:PathToFilenameConverter x:Key="path2filenameconv"/>
 
             <Thickness x:Key="MarginResource" Left="{StaticResource TrackTableMargin}"
                        Top="{StaticResource TrackTableMargin}" 
@@ -232,13 +233,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn x:Name="dgColLocation" Header="Location" Width="20*" SortMemberPath="Path"
+                <DataGridTemplateColumn x:Name="dgColLocation" Header="File" Width="20*" SortMemberPath="Path"
                                     Visibility="{Binding ElementName=_This, Path=DataContext.ShowPathInLibrary, Converter={StaticResource bool2visconv}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path}" FontSize="{DynamicResource FontSizeSmaller}"
+                            <TextBlock Text="{Binding Path, Converter={StaticResource path2filenameconv}}" FontSize="{DynamicResource FontSizeSmaller}"
                                        Margin="3"
-                                    Foreground="{DynamicResource MenuDisabledTextBrush}" ToolTip="{Binding Path}"
+                                       Foreground="{DynamicResource MenuDisabledTextBrush}" ToolTip="{Binding Path}"
                                HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

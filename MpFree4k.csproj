@@ -147,6 +147,7 @@
     <Compile Include="Controls\SmartPlayer.xaml.cs">
       <DependentUpon>SmartPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\PathToFilenameConverter.cs" />
     <Compile Include="Converter\PathNameConverter.cs" />
     <Compile Include="Converter\SizeToMarginConverter.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
