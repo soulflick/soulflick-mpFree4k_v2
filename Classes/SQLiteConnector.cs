@@ -216,7 +216,7 @@ namespace Classes
 
         private void InsertAlbumTrack(int id, string track)
         {
-            string sql = String.Format(sql_insert_album_track, id.ToString(), sanitize(track));
+            string sql = string.Format(sql_insert_album_track, id.ToString(), sanitize(track));
             SQLiteCommand command = new SQLiteCommand(sql, sqlcon);
             command.ExecuteNonQuery();
         }
@@ -301,7 +301,7 @@ namespace Classes
                     if (!int.TryParse(reader["id"].ToString(), out id) || reader["name"].ToString() == "")
                         continue;
 
-                    albums.Add(new Tuple<string, string, int>(reader["name"].ToString(), reader["year"].ToString(), id));
+                    albums.Add(new Tuple<string, string, int>(desanitize(reader["name"].ToString()), reader["year"].ToString(), id));
 
                 }
             }

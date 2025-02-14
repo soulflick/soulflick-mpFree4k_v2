@@ -80,8 +80,12 @@
                         <Grid.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                         </Grid.OpacityMask>
-                        <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" />
-                        <Image Source="{Binding AlbumImage}"/>
+                        <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="2" Opacity=".7" ShadowDepth="1" />
+                            </Border.Effect>
+                            <Image Source="{Binding AlbumImage}"/>
+                        </Border>
                     </Grid>
 
                     <TextBlock Text="{Binding Album}" Grid.Column="1" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" 
@@ -113,10 +117,14 @@
                         <Grid.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                         </Grid.OpacityMask>
-                        <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
-                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="2" Opacity=".7" ShadowDepth="2" />
+                            </Border.Effect>
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"    
                                Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
+                        </Border>
 
                     </Grid>
 
@@ -240,7 +248,6 @@
                     <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource AlbumItemList}"/>
-                    <!--<Setter Property="IsSelected" Value="{Binding IsSelected}"/>-->
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Padding" Value="7"/>

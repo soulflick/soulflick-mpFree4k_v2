@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Mpfree4k.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="_This">
     <UserControl.Resources>
         <ResourceDictionary>
 
@@ -91,7 +92,7 @@
                     <Setter Property="ContextMenu" Value="{StaticResource AlbumContextMenu}"/>
                     <Setter Property="Background" Value="{DynamicResource ListViewItemBackground}"/>
                     <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
-                    <Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>
+                    <!--<Setter Property="MaxWidth" Value="{Binding ElementName=_This, Path=ListWidth}"/>-->
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     <Setter Property="BorderThickness" Value="0"/>
@@ -99,7 +100,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="2" Width="240">
+                    <Grid Margin="{DynamicResource ControlPaddingMargin}" Width="310">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
@@ -108,19 +109,21 @@
                             <RowDefinition Height="100*"/>
                         </Grid.RowDefinitions>
 
-
                         <Grid VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" Opacity="0.8"
-                          Grid.RowSpan="2">
+                            Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" Opacity="0.8"
+                            Grid.RowSpan="2">
                             <Grid.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                             </Grid.OpacityMask>
-                            <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
-                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            <Border x:Name="ImgBorder" CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity=".7" ShadowDepth="5" />
+                                </Border.Effect>
+                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
+                            </Border>
 
                         </Grid>
-
 
                         <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="10 3 0 0">
                             <Grid.ColumnDefinitions>
@@ -158,12 +161,8 @@
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel  
-                                Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth, Converter={StaticResource convAdd}, ConverterParameter=-24}"
-									Orientation="Horizontal" Margin="0"
-                        HorizontalAlignment="Left"
-                                />
-                    
+                    <WrapPanel  Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth, Converter={StaticResource convAdd}, ConverterParameter=-24}"
+								Orientation="Horizontal" Margin="0" HorizontalAlignment="Left"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
 

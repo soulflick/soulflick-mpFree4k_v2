@@ -302,7 +302,6 @@
                                     Loaded="ListAlbums_Loaded">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListViewItem}">
-                                        <!--<EventSetter Event="PreviewMouseDown" Handler="ListViewItem_MouseDown"/>-->
                                         <Setter Property="ContextMenu" Value="{StaticResource LVIContextMenu}"/>
                                         <Setter Property="Background" Value="{DynamicResource ListViewItemBackground}"/>
                                         <Setter Property="Foreground" Value="{DynamicResource ListViewItemForeground}"/>
@@ -339,14 +338,17 @@
                                                 <Grid.OpacityMask>
                                                     <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                                                 </Grid.OpacityMask>
-                                                
+
                                                 <Border x:Name="ImgBorder"
                                                     Margin="0,0,0,0"
-                                                    CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}" />
-                                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    CornerRadius="5" Background="{DynamicResource ImageBackgroundBrush}">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="5" Opacity=".7" ShadowDepth="5" />
+                                                    </Border.Effect>
+                                                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AlbumImage}" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                     Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"
                                                     Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}"/>
-
+                                                </Border>
                                             </Grid>
 
 
