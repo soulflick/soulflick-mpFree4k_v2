@@ -78,4 +78,4 @@ Overall Features
 
 Feel free to contribute and contact me.
 
-mail@soulflick.com
+cib@post.com
