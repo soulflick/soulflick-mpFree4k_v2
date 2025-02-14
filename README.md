@@ -7,7 +7,6 @@ mpFree4k v2.5.2 (2025)
 Free Scalable Offline Windows MP3 Player for all Screens
 Version: 2.5.2 / 2025
 Author : soulflick
-Website: www.soulflick.com
 
 # Download
 
