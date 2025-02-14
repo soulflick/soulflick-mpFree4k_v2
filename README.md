@@ -33,6 +33,11 @@ Download zipped binaries. Just extract it. No installation necessary.
 
 -----------------------------------------------------------------------------
 
+![alt text](https://github.com/soulflick/soulflick-mpFree4k_v2/blob/main/Screenshots/white_favourites.png?raw=true)
+
+-----------------------------------------------------------------------------
+
+
 Version 2.5.2
 
 - Edit Tags from Playlist
