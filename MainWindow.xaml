@@ -616,8 +616,8 @@
                      Text="type to search for tracks"
                      HorizontalAlignment="Stretch"
                      VerticalContentAlignment="Center"
-                     Padding="8"
-                     Margin="8"
+                     Padding="9"
+                     Margin="9"
                      Background="{DynamicResource ListViewItemBackground}"
                      Foreground="{DynamicResource ListViewItemForeground}"
                      BorderBrush="#cccccc" FontSize="{DynamicResource FontSizeLarge}">
