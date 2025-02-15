@@ -28,6 +28,7 @@
 
     <Color x:Key="ImageBackgroundColor">Black</Color>
     <Color x:Key="MenuColor">#030303</Color>
+    <Color x:Key="MainMenuColor">#202020</Color>
     <Color x:Key="MenuTextColor">LightGray</Color>
     <Color x:Key="GridAlternateColor">#101010</Color>
     <Color x:Key="GridSelectionColor">#092634</Color>

@@ -30,6 +30,7 @@
     
     <Color x:Key="ImageBackgroundColor">White</Color>
     <Color x:Key="MenuColor">WhiteSmoke</Color>
+    <Color x:Key="MainMenuColor">WhiteSmoke</Color>
     <Color x:Key="MenuTextColor">Gray</Color>
     <Color x:Key="GridAlternateColor">WhiteSmoke</Color>
     <Color x:Key="GridSelectionColor">#CBE8F6</Color>

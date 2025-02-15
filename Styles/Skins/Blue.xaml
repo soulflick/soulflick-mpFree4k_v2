@@ -28,6 +28,7 @@
 
     <Color x:Key="ImageBackgroundColor">Gray</Color>
     <Color x:Key="MenuColor">#1A263D</Color>
+    <Color x:Key="MainMenuColor">#1A263D</Color>
     <Color x:Key="MenuTextColor">LightGray</Color>
     <Color x:Key="GridAlternateColor">#2A3E62</Color>
     <Color x:Key="GridSelectionColor">#5A6F94</Color>
@@ -39,7 +40,7 @@
     <Color x:Key="PlayerInactiveColor">Gray</Color>
     <Color x:Key="PlayerActiveColor">White</Color>
 
-    <Color x:Key="InactiveSelectionColor">#666666</Color>
+    <Color x:Key="InactiveSelectionColor">#5A6F94</Color>
 
     <Color x:Key="MenuHighlightColor">White</Color>
 

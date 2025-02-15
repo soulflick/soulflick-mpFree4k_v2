@@ -454,9 +454,9 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.Background>
+        <!--<Grid.Background>
             <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
-        </Grid.Background>
+        </Grid.Background>-->
         
         <!--
         <Rectangle VerticalAlignment="Stretch">

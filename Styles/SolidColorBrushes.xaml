@@ -26,6 +26,7 @@
 
     <SolidColorBrush x:Key="ImageBackgroundBrush" Color="{DynamicResource ImageBackgroundColor}"/>
     <SolidColorBrush x:Key="MenuBrush" Color="{DynamicResource MenuColor}"/>
+    <SolidColorBrush x:Key="MainMenuBrush" Color="{DynamicResource MainMenuColor}"/>
     <!--<SolidColorBrush x:Key="MenuTextBrush" Color="{DynamicResource MenuTextColor}"/>-->
     <SolidColorBrush x:Key="GridAlternateBrush" Color="{DynamicResource GridAlternateColor}"/>
     <SolidColorBrush x:Key="GridSelectionBrush" Color="{DynamicResource GridSelectionColor}"/>

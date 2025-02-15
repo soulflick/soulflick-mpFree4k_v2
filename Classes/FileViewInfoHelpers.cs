@@ -11,11 +11,7 @@ namespace Classes
         {
             info.Mp3Fields.FileName = info.Path;
             info.Mp3Fields.Album = (!string.IsNullOrEmpty(info._Handle.Tag.Album)) ? info._Handle.Tag.Album.Trim() : string.Empty;
-
-            string track_artists = info._Handle.Tag.AlbumArtists.Length > 0 ? string.Join("\n", info._Handle.Tag.AlbumArtists) :
-                info._Handle.Tag.Artists.Length > 0 ? string.Join("\n", info._Handle.Tag.Artists) : "unknown artist";
-
-            info.Mp3Fields.Artists = track_artists;
+            info.Mp3Fields.Artists = info._Handle.Tag.Artists.Length > 0 ? string.Join("\n", info._Handle.Tag.Artists) : "";
             info.Mp3Fields.AlbumArtists = (info._Handle.Tag.AlbumArtists.Length > 0) ? String.Join("\n", info._Handle.Tag.AlbumArtists).Trim() : string.Empty;
             info.Mp3Fields.Comment = (!String.IsNullOrEmpty(info._Handle.Tag.Comment)) ? info._Handle.Tag.Comment.Trim() : string.Empty;
             info.Mp3Fields.Composers = (info._Handle.Tag.Composers.Length > 0) ? String.Join("\n", info._Handle.Tag.Composers).Trim() : string.Empty;

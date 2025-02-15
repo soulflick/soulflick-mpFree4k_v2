@@ -523,7 +523,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource MenuBrush}">
+    <Grid Background="{DynamicResource MainMenuBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="0"/>

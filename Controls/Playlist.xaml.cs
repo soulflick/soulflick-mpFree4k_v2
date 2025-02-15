@@ -478,13 +478,19 @@ namespace Controls
             var selected = new List<PlaylistInfo>();
 
             foreach (PlaylistInfo pli in PlaylistView.SelectedItems) selected.Add(pli);
-            FileViewInfo[] infos = TracksViewModel.Instance.Tracks.Where(t => selected.Any(s => s.Path.Equals(t.Path))).ToArray();
+            List<FileViewInfo> infos = TracksViewModel.Instance.Tracks.Where(t => selected.Any(s => s.Path.Equals(t.Path))).ToList();
 
-            if (infos.Length != selected.Count)
-                MessageBox.Show("Some of the selected Tracks could not be found in the Library");
+            var playlistItems = selected.Where(s => !infos.Any(i => i.Path == s.Path));
+            foreach (var pli in playlistItems)
+            {
+                infos.Add(new FileViewInfo(pli.Path));
+            }
 
-            if (infos.Length == 0) return;
-            Dialogs.TracksEditor editor = new Dialogs.TracksEditor(infos);
+            if (infos.Count != selected.Count)
+                MessageBox.Show("Some of the selected Tracks could not be read.");
+
+            if (infos.Count == 0) return;
+            Dialogs.TracksEditor editor = new Dialogs.TracksEditor(infos.ToArray());
             editor.ShowDialog();
         }
     }

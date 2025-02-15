@@ -141,19 +141,28 @@
 
                             <TextBlock Text="{Binding AlbumLabel}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"  FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource ListItemForeground}" 
                                FontFamily="Verdana" VerticalAlignment="Bottom"
+                               ToolTip="{Binding AlbumLabel}"
                                HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
 
                             <TextBlock Text="Artist:" Grid.Column="0" Grid.Row="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding Artist}" Grid.Row="1" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                            <TextBlock Text="{Binding Artist}" Grid.Row="1" Grid.Column="1" 
+                                       ToolTip="{Binding Artist}"
+                                       FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
                             <TextBlock Text="Genre:" Grid.Column="0" Grid.Row="2" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding Genre}" Grid.Row="2" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                            <TextBlock Text="{Binding Genre}" Grid.Row="2" Grid.Column="1" 
+                                       ToolTip="{Binding Genre}"
+                                       FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
                             <TextBlock Text="Year:" Grid.Column="0" Grid.Row="3" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding Year}" Grid.Row="3" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                            <TextBlock Text="{Binding Year}" Grid.Row="3" Grid.Column="1"
+                                       ToolTip="{Binding Year}"
+                                       FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
                             <TextBlock Text="Tracks:" Grid.Column="0" Grid.Row="4" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource MenuTextBrush}" Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding TrackCount}" Grid.Row="4" Grid.Column="1" FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
+                            <TextBlock Text="{Binding TrackCount}" Grid.Row="4" Grid.Column="1" 
+                                       ToolTip="{Binding TrackCount}"
+                                       FontSize="{DynamicResource FontSizeSmaller}" HorizontalAlignment="Left" Foreground="{DynamicResource ListItemForeground}" />
 
                         </Grid>
                     </Grid>
