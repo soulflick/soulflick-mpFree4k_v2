@@ -55,8 +55,7 @@
         </ResourceDictionary>
     </Control.Resources>
     <Grid Margin="-20,0,0,0">
-        <TextBlock FontSize="{DynamicResource FontSizeBigger}" Foreground="LightGray" Text="Details" Margin="60,-4,0,0"/>
-        
+
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="0,0,0,0">
             <GroupBox Header="File Header" Height="155" HorizontalAlignment="Left" Margin="20,2,0,0" Name="gbTag" VerticalAlignment="Top" Width="535">
                 <Grid Background="White"/>

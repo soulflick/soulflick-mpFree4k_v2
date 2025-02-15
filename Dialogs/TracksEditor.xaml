@@ -25,17 +25,19 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="ColumnList" Width="100*"/>
-            <ColumnDefinition x:Name="ColumnDetails" Width="630"/>
+            <ColumnDefinition x:Name="ColumnDetails" Width="620"/>
         </Grid.ColumnDefinitions>
 
         <ListView x:Name="FileInfoList"
                 ItemsSource="{Binding FileInfos}"
                 SelectionChanged="ListView_SelectionChanged"
-                SelectedIndex="0">
+                SelectedIndex="0"
+                Margin="15 15 0 15"
+                Grid.RowSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderThickness="0" BorderBrush="LightSteelBlue">
-                        <Grid>
+                        <Grid Margin="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -50,8 +52,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <ScrollViewer Grid.Column="1">
-            <controls:TagView x:Name="Editor" VerticalAlignment="Top" Background="WhiteSmoke"/>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <controls:TagView x:Name="Editor" VerticalAlignment="Top" Background="WhiteSmoke" Margin="15"/>
         </ScrollViewer>
 
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,2,8,8">

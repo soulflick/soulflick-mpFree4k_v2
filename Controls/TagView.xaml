@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Width="620"
-             Padding="5"
+             Width="Auto"
+             Padding="0"
              Background="Transparent"
-             Height="602">
+             HorizontalContentAlignment="Stretch"
+             HorizontalAlignment="Stretch"
+             Height="570">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -88,8 +90,7 @@
                         <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock FontSize="{DynamicResource FontSizeBigger}" Foreground="LightGray" Text="Details" Margin="25,0,0,0"/>
-                <GroupBox Header="Audio File Header" Padding="4" Margin="20,4,20,15">
+                <GroupBox Header="Audio File Header" Padding="4" Margin="0 0 0 15">
                     <Grid Background="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80"/>
@@ -143,7 +144,7 @@
                         </Grid>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Tag Fields" Padding="4" Margin="20,0,20,7">
+                <GroupBox Header="Tag Fields" Padding="4" Margin="0,0,0,7">
                     <Grid Background="White">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -181,17 +182,19 @@
                         <TextBox Text="{Binding Title, Mode=TwoWay}" Name="tbTitle" Grid.Row="2" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="1" />
 
                         <Label Content="Artists:" Grid.Row="3" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
-                        <TextBox Text="{Binding Artists, Mode=TwoWay}" Name="tbArtists" Grid.Row="3" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="2" />
+                        <TextBox Text="{Binding Artists, Mode=TwoWay}" Name="tbArtists" Grid.Row="3" Grid.Column="1" IsEnabled="False" Opacity="0.9" TabIndex="2"/>
 
                         <Label Content="Album Artists:" Grid.Row="4" HorizontalContentAlignment="Right"    Foreground="{DynamicResource FieldTextBrush}"/>
-                        <TextBox Text="{Binding AlbumArtists, Mode=TwoWay}" Name="tbAlbumArtist" Grid.Row="4" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="3" />
+                        <TextBox Text="{Binding AlbumArtists, Mode=TwoWay}" Name="tbAlbumArtist" Grid.Row="4" Grid.Column="1" IsEnabled="False" Opacity="0.9" TabIndex="3"
+                                 TextChanged="tbAlbumArtist_TextChanged"/>
 
                         <Label Content="Album Name:" Grid.Row="5" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
-                        <TextBox Text="{Binding Album, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Name="tbAlbum" IsEnabled="False" Opacity="0.9"   TabIndex="4" />
+                        <TextBox Text="{Binding Album, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Name="tbAlbum" IsEnabled="False" Opacity="0.9"   TabIndex="4"
+                                 TextChanged="tbAlbum_TextChanged"/>
 
-                        <Label Content="Year:" Grid.Row="6" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <Label Content="Year:" Grid.Row="6" HorizontalContentAlignment="Right" Foreground="{DynamicResource FieldTextBrush}"/>
 
-                        <Label Content="Track:" Grid.Row="7" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
+                        <Label Content="Track:" Grid.Row="7" HorizontalContentAlignment="Right" Foreground="{DynamicResource FieldTextBrush}"/>
 
 
                         <Grid Grid.Row="6" Grid.Column="1" Grid.RowSpan="2">
@@ -209,11 +212,11 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBox Text="{Binding Year, Mode=TwoWay}" Name="tbYear" Grid.Row="0" Grid.Column="0" IsEnabled="False" Opacity="0.9"   TabIndex="5" />
+                            <TextBox Text="{Binding Year, Mode=TwoWay, UpdateSourceTrigger=Default}" Name="tbYear" Grid.Row="0" Grid.Column="0" IsEnabled="False" Opacity="0.9"   TabIndex="5"
+                                     TextChanged="tbYear_TextChanged"/>
 
                             <Label Content="Genres:" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"   Foreground="{DynamicResource FieldTextBrush}"/>
                             <TextBox Text="{Binding Genres, Mode=TwoWay}" Name="tbGenres"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" IsEnabled="False" Opacity="0.9"   TabIndex="6" />
-
 
                             <TextBox Text="{Binding Track, Mode=TwoWay}" Name="tbTrack" Grid.Row="1" IsEnabled="False" Opacity="0.9" TabIndex="7" />
 
@@ -246,7 +249,7 @@
                     </Grid>
                 </GroupBox>
 
-                <Button x:Name="btnSaveMp3View" Content="Save Tag" Click="btnSaveMp3View_Click" Width="80" Height="26" Margin="0,0,20,8" IsEnabled="False" HorizontalAlignment="Right" OverridesDefaultStyle="False" TabIndex="15" />
+                <Button x:Name="btnSaveMp3View" Content="Save Tag" Click="btnSaveMp3View_Click" Width="100" Height="26" Margin="0 0" IsEnabled="False" HorizontalAlignment="Right" OverridesDefaultStyle="False" TabIndex="15" />
 
             </StackPanel>
         </ScrollViewer>

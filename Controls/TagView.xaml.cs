@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -30,6 +32,8 @@ namespace Controls
                 enableControls(true);
             }
         }
+
+        public List<FileViewInfo> AllFiles { get; set; }
 
         public void enableControls(bool _enable)
         {
@@ -153,6 +157,31 @@ namespace Controls
                 MessageBox.Show("Cannot open storage location.");
             }
 
+        }
+
+        public void CancelEvents()
+        {
+            tbAlbumArtist.TextChanged -= tbAlbumArtist_TextChanged;
+            tbAlbum.TextChanged -= tbAlbum_TextChanged;
+            tbYear.TextChanged -= tbYear_TextChanged;
+        }
+
+        private void tbAlbumArtist_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string artist = (sender as TextBox).Text;
+            AllFiles.Where(a => a.Path != CurrentTag.Path).ToList().ForEach(x => x.Mp3Fields.AlbumArtists = artist);
+        }
+
+        private void tbAlbum_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string album = (sender as TextBox).Text;
+            AllFiles.Where(a => a.Path != CurrentTag.Path).ToList().ForEach(x => x.Mp3Fields.Album = album);
+        }
+
+        private void tbYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            uint year = uint.Parse((sender as TextBox).Text);
+            AllFiles.Where(a => a.Path != CurrentTag.Path).ToList().ForEach(x => x.Mp3Fields.Year = year);
         }
     }
 }
