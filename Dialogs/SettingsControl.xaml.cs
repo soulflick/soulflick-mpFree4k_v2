@@ -291,7 +291,7 @@ namespace Dialogs
             UserConfig.Skin = selected_Color;
         }
 
-        private void _This_Closing(object sender, CancelEventArgs e)
+        private void Okay()
         {
             UserConfig.ShowFullAlbum = showAlbumArtists.IsChecked == true;
             UserConfig.AutoSavePlaylist = autoSavePlaylist.IsChecked == true;
@@ -303,6 +303,8 @@ namespace Dialogs
 
             PlaylistViewModel.Instance.ShowPathInPlaylist = UserConfig.ShowPathInPlaylist;
             TrackTableViewModel.Instance.ShowPathInLibrary = UserConfig.ShowPathInLibrary;
+
+            Close();
         }
 
         public static void WriteUserConfig()
@@ -316,11 +318,11 @@ namespace Dialogs
             doc += "\t\t<setting name=\"artistviewtype\" value=\"" + (int)UserConfig.ArtistViewType + "\"/>\n";
             doc += "\t\t<setting name=\"albumviewtype\" value=\"" + (int)UserConfig.AlbumViewType + "\"/>\n";
             doc += "\t\t<setting name=\"trackviewtype\" value=\"" + (int)UserConfig.TrackViewType + "\"/>\n";
-            doc += "\t\t<setting name=\"autosaveplaylist\" value=\"" + (bool)UserConfig.AutoSavePlaylist + "\"/>\n";
-            doc += "\t\t<setting name=\"showfullalbum\" value=\"" + (bool)UserConfig.ShowFullAlbum + "\"/>\n";
-            doc += "\t\t<setting name=\"rememberalbums\" value=\"" + (bool)UserConfig.RememberSelectedAlbums + "\"/>\n";
-            doc += "\t\t<setting name=\"showpathinplaylist\" value=\"" + (bool)UserConfig.ShowPathInPlaylist + "\"/>\n";
-            doc += "\t\t<setting name=\"showpathinlibrary\" value=\"" + (bool)UserConfig.ShowPathInLibrary + "\"/>\n";
+            doc += "\t\t<setting name=\"autosaveplaylist\" value=\"" + UserConfig.AutoSavePlaylist + "\"/>\n";
+            doc += "\t\t<setting name=\"showfullalbum\" value=\"" + UserConfig.ShowFullAlbum + "\"/>\n";
+            doc += "\t\t<setting name=\"rememberalbums\" value=\"" + UserConfig.RememberSelectedAlbums + "\"/>\n";
+            doc += "\t\t<setting name=\"showpathinplaylist\" value=\"" + UserConfig.ShowPathInPlaylist + "\"/>\n";
+            doc += "\t\t<setting name=\"showpathinlibrary\" value=\"" + UserConfig.ShowPathInLibrary + "\"/>\n";
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
             doc += "\t</settings>\n</xml>";
@@ -412,6 +414,6 @@ namespace Dialogs
             MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e) => Close();
+        private void btnOK_Click(object sender, RoutedEventArgs e) => Okay();
     }
 }

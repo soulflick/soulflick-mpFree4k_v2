@@ -41,7 +41,8 @@ namespace ViewModels
                 Raise(nameof(ShowPathInLibrary));
 
                 if (DataGrid != null)
-                    _dataGrid.Columns[1].Visibility = ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    _dataGrid.Columns.FirstOrDefault(c => (string)c.Header == "File").Visibility =
+                        ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
 
             }
         }
@@ -53,8 +54,9 @@ namespace ViewModels
             set
             {
                 _dataGrid = value;
-                _dataGrid.Columns.FirstOrDefault(c => (string)c.Header == "File").Visibility = 
-                    ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                if (DataGrid != null)
+                    _dataGrid.Columns.FirstOrDefault(c => (string)c.Header == "File").Visibility = 
+                        ShowPathInLibrary ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 

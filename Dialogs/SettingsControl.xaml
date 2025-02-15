@@ -19,7 +19,6 @@
              x:Name="_This"
              Title="Player Settings- soulflick"
              Topmost="False"
-             Closing="_This_Closing"
              WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
