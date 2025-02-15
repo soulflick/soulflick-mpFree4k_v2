@@ -111,15 +111,16 @@ namespace Controls
 
         private void btnSaveMp3View_Click(object sender, RoutedEventArgs e)
         {
-            this.CurrentTag.Mp3Fields.HasChanged = true;
-            bool success = this.CurrentTag.save();
-            if (success)
+            CurrentTag.Mp3Fields.HasChanged = true;
+
+            if (CurrentTag.save())
             {
-                MessageBox.Show("Tag for: " + CurrentTag.Path + " saved.");
+                CurrentTag.CreateFileHandle();
+                ViewModels.PlaylistViewModel.Instance.UpdateFile(CurrentTag);
             }
             else
             {
-                MessageBox.Show("Could not save tag for: " + CurrentTag.Path);
+                MessageBox.Show("Could not save tag for file: " + CurrentTag.Path);
             }
         }
 

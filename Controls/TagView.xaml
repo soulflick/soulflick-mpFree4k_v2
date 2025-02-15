@@ -251,7 +251,7 @@
                     </Grid>
                 </GroupBox>
 
-                <Button x:Name="btnSaveMp3View" Content="Save Tag" Click="btnSaveMp3View_Click" Width="100" Height="26" Margin="0 0" IsEnabled="False" HorizontalAlignment="Right" OverridesDefaultStyle="False" TabIndex="15" />
+                <Button x:Name="btnSaveMp3View" Content="Save Tag" Click="btnSaveMp3View_Click" Width="100" Height="Auto" FontSize="15" Margin="0 0" IsEnabled="False" HorizontalAlignment="Right" OverridesDefaultStyle="False" TabIndex="15" />
 
             </StackPanel>
         </ScrollViewer>

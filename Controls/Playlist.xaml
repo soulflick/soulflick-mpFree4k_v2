@@ -226,7 +226,7 @@
                     <MenuItem x:Name="mnuCtxSelectAll" Header="select all" Click="mnuCtxSelectAll_Click"/>
                     <MenuItem x:Name="mnuCtxUnSelectAll" Header="unselect all" Click="mnuCtxUnSelectAll_Click"/>
                     <Separator/>
-                    <MenuItem x:Name="mnuCtxEditItem" Header="edit selected" Click="mnuCtxEditItem_Click"/>
+                    <MenuItem x:Name="mnuCtxEditItem" Header="edit tags" Click="mnuCtxEditItem_Click"/>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.ItemContainerStyle>
