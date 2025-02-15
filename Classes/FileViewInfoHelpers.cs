@@ -165,6 +165,7 @@ namespace Classes
 
         public static void RemoveImage(this FileViewInfo info)
         {
+            if (info._Handle == null) return;
             info._Handle.Tag.Pictures = null;
             save(info);
 

@@ -159,6 +159,7 @@ namespace Classes
 
         public static BitmapImage GetImageFromFile(string Path)
         {
+            if (!File.Exists(Path)) return null;
             try
             {
                 TagLib.File FileTag = TagLib.File.Create(Path);

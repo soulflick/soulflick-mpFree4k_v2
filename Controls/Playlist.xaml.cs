@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MpFree4k;
+using System.IO;
 
 namespace Controls
 {
@@ -478,7 +479,7 @@ namespace Controls
             var selected = new List<PlaylistInfo>();
 
             foreach (PlaylistInfo pli in PlaylistView.SelectedItems) selected.Add(pli);
-            selected = selected.DistinctBy(s => s.Path).ToList();
+            selected = selected.DistinctBy(s => s.Path).Where(f => File.Exists(f.Path)).ToList();
 
             List<FileViewInfo> infos = TracksViewModel.Instance.Tracks.Where(t => selected.Any(s => s.Path.Equals(t.Path))).ToList();
 
