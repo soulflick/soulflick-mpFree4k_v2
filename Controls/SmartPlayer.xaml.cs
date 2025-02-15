@@ -108,9 +108,8 @@ namespace Controls
             {
                 MediaPlayer.Init(fileInfo.Path);
             }
-            catch
+            catch 
             {
-                return;
             }
 
             if (MediaPlayer.Duration == 0)
@@ -147,7 +146,6 @@ namespace Controls
                 }
                 else
                 {
-                    //Unplay(fileInfo);
                     return;
                 }
 
@@ -163,7 +161,6 @@ namespace Controls
                 catch
                 {
                     TrackImage.Source = null;
-                    //TrackImageBig.Source = null;
                 }
 
                 duration = MediaPlayer.Duration;
@@ -495,6 +492,18 @@ namespace Controls
         public void Next()
         {
             ViewModel.current_track = PlayListVM.GetNext();
+
+            if (ViewModel.current_track == null)
+            {
+                return;
+            }
+
+            if (!File.Exists(ViewModel.current_track.Path))
+            {
+                Next();
+                return;
+            }
+
             dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Send, (Action)(() =>
             {
                 Play(ViewModel.current_track);
