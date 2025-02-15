@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Mpfree4k.Converters"
-             xmlns:viewmodel="clr-namespace:ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="_This"
@@ -281,10 +280,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Artist" Width="20*" SortMemberPath="Mp3Fields.Artists">
+                <DataGridTemplateColumn Header="Artist" Width="20*" SortMemberPath="Mp3Fields.AlbumArtists">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Mp3Fields.Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
+                            <TextBlock Text="{Binding Mp3Fields.AlbumArtists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Mp3Fields.Artists}" Margin="5,0,5,0" FontSize="{DynamicResource FontSizeNormal}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

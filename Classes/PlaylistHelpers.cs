@@ -107,7 +107,7 @@ namespace Classes
 
             itm.Track = infoItm.Mp3Fields.Track;
             itm.Title = infoItm.Mp3Fields.Title;
-            itm.Artists = infoItm.Mp3Fields.Artists;
+            itm.Artists = infoItm.Mp3Fields.AlbumArtists;
             itm.Album = infoItm.Mp3Fields.Album;
             itm.Year = infoItm.Mp3Fields.Year.ToString();
             itm.TrackLabel = itm.TrackName;
