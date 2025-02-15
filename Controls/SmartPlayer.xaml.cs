@@ -704,7 +704,7 @@ namespace Controls
 
         private IEnumerable<SimpleTrackItem> _albumTracks = new List<SimpleTrackItem>() { 
             new SimpleTrackItem() { 
-                Length = "0:00.0", 
+                Length = "00:00", 
                 Name = "not started ..." 
             }
         };

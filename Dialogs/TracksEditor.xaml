@@ -57,8 +57,8 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,2,8,8">
-            <Button x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Width="80" Height="26" Margin="4" Padding="7 0 7 0"/>
-            <Button x:Name="btnOkay" Content="Save All And Close" Click="btnOkay_Click" Width="Auto" Height="26" Margin="4" Padding="7 0 7 0"/>
+            <Button x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Width="80" Height="Auto" Margin="4" FontSize="18" Padding="8 0 8 0"/>
+            <Button x:Name="btnOkay" Content="Save All And Close" Click="btnOkay_Click" Width="Auto" Height="Auto" FontSize="18" Margin="4" Padding="8 0 8 0"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -26,6 +26,7 @@ namespace Controls
             get => _currentTag;
             set
             {
+                if (value == null) return;
                 _currentTag = value;
                 SetCurrentTag();
                 Raise(nameof(CurrentTag));
