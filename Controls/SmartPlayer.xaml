@@ -750,7 +750,7 @@
                             </Run.Style>
                         </Run>
                         <Run Text=" - " FontSize="{DynamicResource FontSizeBig}"/>
-                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album, TargetNullValue=started}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunAlbum_MouseDown"
+                        <Run Text="{Binding ElementName=_This, Path=Info.Mp3Fields.Album, TargetNullValue=not started}" FontSize="{DynamicResource FontSizeBig}" MouseDown="RunAlbum_MouseDown"
                              ToolTip="{Binding ElementName=_This, Path=SearchAlbumToolTip}">
                             <Run.Style>
                                 <Style TargetType="Run" BasedOn="{StaticResource {x:Type Run}}">

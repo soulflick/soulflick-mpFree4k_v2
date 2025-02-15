@@ -345,22 +345,6 @@ namespace Controls
             CurrentAlbum = "not started";
             CurrentArtist = "not started";
             lblYear.Text = "not started";
-
-            Info = new FileViewInfo
-            {
-                FileName = "-",
-                Title = "-"
-            };
-
-            Info.Mp3Fields = new Mp3Fields
-            {
-                Artists = "-",
-                Album = "-",
-                Year = 0,
-                Title = "-"
-            };
-
-            //Height = (85 - 34) + ButtonSize - 34;
             Raise("ButtonSize");
         }
 
@@ -696,7 +680,16 @@ namespace Controls
             info.ShowDialog();
         }
 
-        FileViewInfo _info = null;
+        FileViewInfo _info = new FileViewInfo() { 
+            Mp3Fields = new Mp3Fields() { 
+                Album = "not started", 
+                AlbumArtists = "not started", 
+                Disc = 0, 
+                DiscCount = 0, 
+                Year = 0
+            } 
+        };
+
         public FileViewInfo Info
         {
             get => _info;
@@ -709,7 +702,13 @@ namespace Controls
 
         private IEnumerable<FileViewInfo> collection => Library.Instance.Current.Files;
 
-        private IEnumerable<SimpleTrackItem> _albumTracks = null;
+        private IEnumerable<SimpleTrackItem> _albumTracks = new List<SimpleTrackItem>() { 
+            new SimpleTrackItem() { 
+                Length = "0:00.0", 
+                Name = "not started ..." 
+            }
+        };
+
         public IEnumerable<SimpleTrackItem> AlbumTracks
         {
             get => _albumTracks;
@@ -725,7 +724,7 @@ namespace Controls
             get
             {
                 if (AlbumTracks == null || !AlbumTracks.Any())
-                    return string.Empty;
+                    return "0:00.00";
 
                 double len = 0;
                 foreach (var track in AlbumTracks)
