@@ -10,6 +10,8 @@ namespace Classes
         public static void ReadMp3Fields(this FileViewInfo info)
         {
             info.Mp3Fields.FileName = info.Path;
+            if (info._Handle == null) return;
+
             info.Mp3Fields.Album = (!string.IsNullOrEmpty(info._Handle.Tag.Album)) ? info._Handle.Tag.Album.Trim() : string.Empty;
             info.Mp3Fields.Artists = info._Handle.Tag.Artists.Length > 0 ? string.Join("\n", info._Handle.Tag.Artists) : "";
             info.Mp3Fields.AlbumArtists = (info._Handle.Tag.AlbumArtists.Length > 0) ? String.Join("\n", info._Handle.Tag.AlbumArtists).Trim() : info.Mp3Fields.Artists;
@@ -40,11 +42,16 @@ namespace Classes
                 }
                 catch (Exception exc)
                 {
+                    info.HandleError = true;
                     return;
                 }
             }
 
-            if (info._Handle == null) return;
+            if (info._Handle == null)
+            {
+                info.HandleError = true;
+                return;
+            }
 
             info._Handle.Tag.Album = info.Mp3Fields.Album.Trim();
             info._Handle.Tag.Artists = info.Mp3Fields.Artists.Trim().Split('\n');
@@ -60,12 +67,22 @@ namespace Classes
             info._Handle.Tag.TrackCount = info.Mp3Fields.TrackCount;
             info._Handle.Tag.Year = info.Mp3Fields.Year;
             info._Handle.Tag.Genres = info.Mp3Fields.Genres.Trim().Split('\n');
+
+            info.HandleError = false;
+            info.SetFlag(Mpfree4k.Enums.FlagType.OK);
         }
 
         public static bool save(this FileViewInfo info, bool _explicit = false)
         {
             bool success = false;
             SetMp3FieldsToHandle(info);
+
+            if (info._Handle == null)
+            {
+                info.SetFlag(Mpfree4k.Enums.FlagType.Failures);
+                return false;
+            }
+
             try
             {
                 File.SetAttributes(info.Path, FileAttributes.Normal);
