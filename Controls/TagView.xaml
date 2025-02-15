@@ -233,7 +233,9 @@
 
 
                         <Label Content="Performers:" Grid.Row="8" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
-                        <TextBox Text="{Binding Performers, Mode=TwoWay}" Name="tbPerformers" Grid.Row="8" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="11" />
+                        <TextBox Text="{Binding Performers, Mode=TwoWay}" Name="tbPerformers" Grid.Row="8" Grid.Column="1" IsEnabled="False" Opacity="0.9"
+                                 TextChanged="tbPerformers_TextChanged"
+                                 TabIndex="11" />
 
                         <Label Content="Composers:" Grid.Row="9" HorizontalContentAlignment="Right"   Foreground="{DynamicResource FieldTextBrush}"/>
                         <TextBox Text="{Binding Composers, Mode=TwoWay}" Name="tbComposers" Grid.Row="9" Grid.Column="1" IsEnabled="False" Opacity="0.9"   TabIndex="12" />

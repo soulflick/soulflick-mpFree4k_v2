@@ -87,8 +87,8 @@ namespace Controls
                 tbDescription.Text = info._Handle.Properties.Description;
                 tbDuration.Text = info._Handle.Properties.Duration.ToString(@"hh\:mm\:ss");
                 tbSampleRate.Text = info._Handle.Properties.AudioSampleRate.ToString();
-
                 tbCodecs.Text = string.Empty;
+
                 foreach (var entry in info._Handle.Properties.Codecs)
                 {
                     if (entry == null) continue;
@@ -99,7 +99,7 @@ namespace Controls
 
         public void SetCurrentTag()
         {
-            this.DataContext = CurrentTag.Mp3Fields;
+            DataContext = CurrentTag.Mp3Fields;
 
             BitmapImage img = ImageConnector.GetImageFromFile(CurrentTag.Path);
             CurrentTag.Image = img;
@@ -182,6 +182,12 @@ namespace Controls
         {
             uint year = uint.Parse((sender as TextBox).Text);
             AllFiles.Where(a => a.Path != CurrentTag.Path).ToList().ForEach(x => x.Mp3Fields.Year = year);
+        }
+
+        private void tbPerformers_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string performers = (sender as TextBox).Text;
+            AllFiles.Where(a => a.Path != CurrentTag.Path).ToList().ForEach(x => x.Mp3Fields.Performers = performers);
         }
     }
 }

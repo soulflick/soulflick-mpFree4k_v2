@@ -19,8 +19,8 @@ namespace Classes
             info.Mp3Fields.Disc = info._Handle.Tag.Disc; ;
             info.Mp3Fields.DiscCount = info._Handle.Tag.DiscCount;
             info.Mp3Fields.Performers = (info._Handle.Tag.Performers.Length > 0) ? String.Join("\n", info._Handle.Tag.Performers).Trim() : string.Empty;
-            info.Mp3Fields.Title = (!String.IsNullOrEmpty(info._Handle.Tag.Title)) ? info._Handle.Tag.Title.Trim() : string.Empty;
-            info.Title = (!string.IsNullOrWhiteSpace(info.Mp3Fields.Title)) ? info.Mp3Fields.Title : Path.GetFileNameWithoutExtension(info.Path);
+            info.Mp3Fields.Title = (!String.IsNullOrEmpty(info._Handle.Tag.Title)) ? info._Handle.Tag.Title.Trim() : Path.GetFileNameWithoutExtension(info.Path);
+            info.Title = info.Mp3Fields.Title;
             info.Mp3Fields.Track = info._Handle.Tag.Track;
             info.Mp3Fields.TrackCount = info._Handle.Tag.TrackCount;
             info.Mp3Fields.Year = info._Handle.Tag.Year;

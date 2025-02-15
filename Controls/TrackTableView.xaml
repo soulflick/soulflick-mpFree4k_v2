@@ -232,8 +232,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn x:Name="dgColLocation" Header="File" Width="20*" SortMemberPath="Path"
-                                    Visibility="{Binding ElementName=_This, Path=DataContext.ShowPathInLibrary, Converter={StaticResource bool2visconv}}">
+                <DataGridTemplateColumn x:Name="dgColLocation" Header="File" Width="20*" SortMemberPath="Path">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Path, Converter={StaticResource path2filenameconv}}" FontSize="{DynamicResource FontSizeSmaller}"
