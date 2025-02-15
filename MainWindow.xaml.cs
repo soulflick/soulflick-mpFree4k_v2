@@ -217,11 +217,6 @@ namespace MpFree4k
             _query = (sender as TextBox).Text;
             query_timer.Stop();
             query_timer.Start();
-            if (string.IsNullOrEmpty(_query))
-            {
-                FilterBox.Text = FilterHint;
-            }
-
         }
 
         private void _This_KeyDown(object sender, KeyEventArgs e)
