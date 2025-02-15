@@ -641,7 +641,7 @@
                 <controls:LinearSpectrum x:Name="Spectrum"
                                          ToolTip="click to switch appearance"
                                      MouseDown="Spectrum_MouseDown"
-                                     BorderBrush="#3A3A3A" BorderThickness="0.5" Margin="13,10,8,0"
+                                     BorderBrush="#3A3A3A" BorderThickness="0.5" Margin="7 10 8 0"
                                      ControlBackground="{DynamicResource SpectrumBackground}"
                                      BarStartBrush="{DynamicResource SpectrumStartBrush}"
                                      BarEndBrush="{DynamicResource SpectrumEndBrush}"
