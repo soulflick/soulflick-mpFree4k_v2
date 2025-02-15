@@ -454,20 +454,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <!--<Grid.Background>
-            <ImageBrush Opacity="0.1" ImageSource="/MpFree4k;component/Images/stripes1_high_light_gray.jpg"/>
-        </Grid.Background>-->
-        
-        <!--
-        <Rectangle VerticalAlignment="Stretch">
-            <Rectangle.Fill>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
-                    <GradientStop Color="{DynamicResource PlayerStartColor}" Offset="0.5" />
-                    <GradientStop Color="{DynamicResource PlayerEndColor}" Offset="1" />
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        -->
+
         <Grid VerticalAlignment="Stretch" ZIndex="1">
             
             <Grid.RowDefinitions>
