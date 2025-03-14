@@ -543,7 +543,7 @@
         <controls:Player x:Name="Player" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>
 
         <controls:SmartPlayer x:Name="SmartPlayer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"
-                              BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 0.8 0"/>
+                              BorderBrush="{DynamicResource PlayerButtonBorderBrush}" BorderThickness="0 0 0 0"/>
 
         <GridSplitter Grid.Column="1" Grid.RowSpan="4" Grid.Row="0" Width="5" Background="Transparent" 
                       HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"
@@ -585,7 +585,7 @@
             </TabItem>
         </TabControl>
 
-        <GridSplitter Name="grdSpltPlaylist" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Width="5"  Background="Transparent" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" DragDelta="grdSpltPlaylist_DragDelta"/>
+        <GridSplitter Name="grdSpltPlaylist" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2" Width="5"  Background="{DynamicResource PlaylistBackground}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" DragDelta="grdSpltPlaylist_DragDelta"/>
 
         <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="4" Background="{DynamicResource PlaylistBackground}" Margin="0">
 
@@ -709,12 +709,12 @@
 
 
                 <ComboBoxItem>
-                    <Grid Background="{DynamicResource PlaylistBackground}">
+                    <Grid Background="{DynamicResource PlaylistBackground}" Margin="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,16">
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,30">
                             <StackPanel.Resources>
                                 <Style TargetType="Label">
                                     <Setter Property="Foreground" Value="{DynamicResource MenuHighlightBrush}"/>
@@ -778,13 +778,13 @@
                                 </Label.Style>
                             </Label>
 
-                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Manage" Margin="6,0,0,0"/>
+                            <Label FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource PlayerInactiveBrush}" Content="Manage" Margin="6,0,20,0"/>
 
-                            <Label Content="Load or Store playlist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackViewType.List}" MouseDown="PlaylistManagement_MouseDown"/>
+                            <Label Content="Load or Store playlist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,0" Tag="{x:Static enums:TrackViewType.List}" MouseDown="PlaylistManagement_MouseDown"/>
 
-                            <Label Content="Create Playlist Summary" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" MouseDown="CreateSummyary_MouseDown"/>
+                            <Label Content="Create Playlist Summary" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,0" MouseDown="CreateSummyary_MouseDown"/>
                             
-                            <Label Content="Copy playlist files to folder" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" MouseDown="ExportPlaylist_MouseDown"/>
+                            <Label Content="Copy playlist files to folder" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,20" MouseDown="ExportPlaylist_MouseDown"/>
 
                         </StackPanel>
                     </Grid>

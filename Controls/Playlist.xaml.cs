@@ -240,30 +240,15 @@ namespace Controls
                     return;
 
                 var albums = data.Cast<AlbumItem>();
+                var items = new List<PlaylistInfo>();
 
-                t_addFiles = new Thread(() =>
-                {
-                    int firstpos = pos;
-                    double step = 100.0 / (double)albums.Sum(a => a.Tracks.Count);
-                    double progress = 0;
+                foreach (AlbumItem album in albums)
+                    foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
+                        items.Add(pli);
+                        
+                vm.Add(items, pos);
+                vm.StatusVM.Update();
 
-                    MainWindow.SetProgress(3);
-
-                    foreach (AlbumItem album in albums)
-                        foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
-                        {
-                            progress += step;
-                            MainWindow.SetProgress(progress);
-
-                            vm.Add(pli, pos++);
-                        }
-
-                    dragItems.Clear();
-
-                });
-
-                t_addFiles.Start();
-                addCompleteTimer.Start();
             }
             else if (e.Data.GetDataPresent("MediaLibraryFileInfos"))
             {
@@ -292,26 +277,14 @@ namespace Controls
                     return;
 
                 SimpleAlbumItem album = data[0] as SimpleAlbumItem;
+                var items = new List<PlaylistInfo>();
 
-                t_addFiles = new Thread(() =>
-                {
-                    int firstpos = pos;
-                    double step = 100.0 / (double)album.TrackCount;
-                    double progress = 0;
+                foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
+                    items.Add(pli);
 
-                    MainWindow.SetProgress(3);
-
-                    foreach (PlaylistInfo pli in LibraryUtils.GetItems(album.Tracks.ToArray()))
-                    {
-                        progress += step;
-                        MainWindow.SetProgress(progress);
-
-                        vm.Add(pli, pos++);
-                    }
-
-                    dragItems.Clear();
-
-                });
+                vm.Add(items, pos);
+                dragItems.Clear();
+                vm.StatusVM.Update();
             }
             else
             {
@@ -331,8 +304,6 @@ namespace Controls
                 return;
             }
 
-            t_addFiles.Start();
-            addCompleteTimer.Start();
         }
 
         private void PlaylistView_PreviewMouseDown(object sender, MouseButtonEventArgs e)

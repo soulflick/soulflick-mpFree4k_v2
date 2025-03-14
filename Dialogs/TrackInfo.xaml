@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
-        Background="{DynamicResource MenuBrush}"
+        Background="{DynamicResource PlaylistItemBackground}"
         Height="800"
         Width="720"
         Title=" Album Info - mpFree4k - soulflick"
@@ -54,7 +54,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource  MenuBrush}" Margin="0 5 0 0">
+    <Grid Background="{DynamicResource  PlaylistItemBackground}" Margin="0 5 0 0">
         <Border Margin="4" Background="{DynamicResource PlaylistItemBackground}" BorderBrush="#333333" BorderThickness="0">
             <Grid>
                 <Grid.ColumnDefinitions>
