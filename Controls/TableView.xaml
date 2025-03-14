@@ -138,7 +138,7 @@
             <controls:ArtistView x:Name="ArtistView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
         </Grid>
 
-        <GridSplitter Grid.Column="1" Width="5" Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" BorderThickness="0" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Column="1" Width="5" Background="Transparent" HorizontalAlignment="Stretch" BorderThickness="0" ResizeBehavior="PreviousAndNext"/>
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
@@ -276,7 +276,7 @@
             <controls:AlbumView x:Name="AlbumView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"/>
         </Grid>
 
-        <GridSplitter Grid.Column="3" Width="5" Background="{DynamicResource PlayerStartGradient}" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Column="3" Width="5" Background="Transparent" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
 
         <Grid Grid.Column="4">
             <Grid.RowDefinitions>

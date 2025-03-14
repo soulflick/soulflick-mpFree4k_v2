@@ -659,7 +659,7 @@
                 </Border.Resources>
             </Border>
 
-            <GridSplitter Grid.Row="4" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Height="5" HorizontalAlignment="Stretch" Background="{DynamicResource ListViewItemBackground}"/>
+            <GridSplitter Grid.Row="4" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Height="5" HorizontalAlignment="Stretch" Background="Transparent"/>
 
             <Grid Grid.Row="5">
                 <Grid.RowDefinitions>
@@ -671,7 +671,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Margin="10,10,0,0" Grid.Row="0" Grid.ColumnSpan="2" 
-                           Text="{Binding ElementName=_This, Path=Info.Path}"
+                           Text="{Binding ElementName=_This, Path=Info.Path, TargetNullValue=no loaded ...}"
                                FontSize="{DynamicResource FontSizeSmaller}"
                                Foreground="{DynamicResource MenuDisabledTextBrush}"
                                HorizontalAlignment="Stretch"

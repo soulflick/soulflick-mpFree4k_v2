@@ -300,9 +300,8 @@ namespace Dialogs
 
             SkinColors selected_Color = (SkinColors)ci.Tag;
 
-            if (MainWindow.Instance.TableView.ArtistView != null)
-                SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
-
+            SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
+            SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
             UserConfig.Skin = selected_Color;
 
             MpFree4k.Classes.StandardImage.Reload();
