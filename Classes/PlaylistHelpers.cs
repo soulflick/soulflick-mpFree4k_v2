@@ -32,6 +32,7 @@ namespace Classes
 
             plItm.Path = infoItm.Path;
             plItm.Duration = solveDuration(infoItm.Mp3Fields.Duration);
+            plItm.DurationValue = infoItm.Mp3Fields.DurationValue;
             plItm.TrackName = string.Empty;
 
             if (!string.IsNullOrEmpty(infoItm.Mp3Fields.Title) && !string.IsNullOrEmpty(infoItm.Mp3Fields.AlbumArtists))
@@ -53,6 +54,7 @@ namespace Classes
         {
             plItm.Path = infoItm.Path;
             plItm.Duration = solveDuration(infoItm.Mp3Fields.Duration);
+            plItm.DurationValue = infoItm.Mp3Fields.DurationValue;
             plItm.TrackName = string.Empty;
 
             if (!string.IsNullOrEmpty(infoItm.Mp3Fields.Title) && !string.IsNullOrEmpty(infoItm.Mp3Fields.AlbumArtists))
@@ -97,6 +99,7 @@ namespace Classes
                 return;
 
             itm.Duration = solveDuration(infoItm.Mp3Fields.Duration);
+            itm.DurationValue = infoItm.Mp3Fields.DurationValue;
             itm.TrackName = string.Empty;
 
             itm.Path = infoItm.Path;

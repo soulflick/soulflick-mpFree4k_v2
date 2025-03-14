@@ -409,7 +409,20 @@ namespace Controls
             CurrentArtist = itm.Artists;
             CurrentYear = itm.Year;
             lblAlbum.Text = itm.Album;
-            lblYear.Text = itm.Year;
+
+            if (itm.Year == "0")
+            {
+                lblYear.Text = string.Empty;
+                lblYearOpenBracket.Text = string.Empty;
+                lblYearClosingBracket.Text = string.Empty;
+            }
+            else
+            {
+                lblYearOpenBracket.Text = "(";
+                lblYear.Text = itm.Year;
+                lblYearClosingBracket.Text = ")";
+            }
+
 
             ViewModel.trackLength = Utilities.LibraryUtils.DurationStringToSeconds(itm.Duration);
         }

@@ -1,0 +1,166 @@
+﻿<Window x:Class="Dialogs.PlaylistCover"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Mpfree4k.Converters"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        Background="{DynamicResource MenuBrush}"
+        Height="800"
+        Width="720"
+        Title=" Album Info - mpFree4k - soulflick"
+        Name="_This">
+
+    <Window.Resources>
+
+        <converters:FontWeightConverter x:Key="fontWeightConverter"/>
+        <converters:PathNameConverter x:Key="convPathname"/>
+        <converters:TextToEmptyTextConverter x:Key="text12emptytxtconv"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="TextBlockHeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Padding" Value="0,8,8,0"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeBigger}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="TextBlockKeyStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Foreground" Value="{DynamicResource FieldTextBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="Run">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        </Style>
+
+        <Style TargetType="Run" x:Key="RunKeyStyle" BasedOn="{StaticResource {x:Type Run}}">
+            <Setter Property="Foreground" Value="{DynamicResource FieldTextBrush}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource  MenuBrush}" Margin="0 5 0 0">
+        <Border Margin="4" Background="{DynamicResource PlaylistItemBackground}" BorderBrush="#333333" BorderThickness="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="80"/>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Width="Auto" Height="Auto" Margin="12,12,8,0" VerticalAlignment="Top"
+                        BorderBrush="#FF3B5998" BorderThickness="0" CornerRadius="0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="6" Opacity=".6" ShadowDepth="6" />
+                    </Border.Effect>
+                    <Border Name="ReceiverColor" BorderBrush="Transparent" BorderThickness="4.5" CornerRadius="0">
+                        <Grid>
+                            <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness=".5" CornerRadius="9">
+                            </Border>
+                            <StackPanel>
+                                <Image x:Name="AlbumImage" Width="Auto" Height="Auto" MaxHeight="130" MaxWidth="130"/>
+                                <StackPanel.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=Mask}" />
+                                </StackPanel.OpacityMask>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Border>
+
+                <Grid Grid.Column="1" Margin="16 12 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" Margin="5 0 0 0">
+
+                            <TextBlock Margin="5 0 0 0">
+                            <Run Text="Tracks: " Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CompilationCount, TargetNullValue=0, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            </TextBlock>
+                            
+                            <TextBlock>
+                            <Run Text="Length: " Style="{StaticResource RunKeyStyle}"/>
+                            <Run Text="{Binding ElementName=_This, Path=CompilationLength, TargetNullValue=0:00:00, Mode=OneWay}" Foreground="{DynamicResource FirstColorNormal}"/>
+                            </TextBlock>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="6" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" VerticalAlignment="Stretch">
+
+                        <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                            <ItemsControl Grid.ColumnSpan="3" ItemsSource="{Binding Collection}" Margin="24,2,2,2" 
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Stretch">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" SharedSizeGroup="TrackImageGroup"/>
+                                                <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupTrack"/>
+                                                <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupDuration"/>
+                                                <ColumnDefinition Width="100*" SharedSizeGroup="Title" MinWidth="250"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--<Image x:Name="AlbumImage" Source="{Binding Image}" Width="Auto" Height="Auto" Opacity="0.4" MaxHeight="230" MaxWidth="230"/>-->
+
+                                            <TextBlock Text="{Binding TrackNumber}" Grid.Column="1" HorizontalAlignment="Right" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
+                                                   Margin="6,3,6,0">
+                                            </TextBlock>
+
+                                            <TextBlock Text="{Binding Duration}" Grid.Column="2" HorizontalAlignment="Right" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
+                                                   Margin="6,3,6,0">
+                                            </TextBlock>
+                                            
+                                            <TextBlock Grid.Column="3" FontSize="{DynamicResource FontSizeNormal}" Foreground="{DynamicResource MenuTextBrush}"
+                                                   Margin="6,3,4,0" HorizontalAlignment="Left">
+                                                <Run Text="{Binding Artists}"/>
+                                                <Run Text=" - "/>
+                                                <Run Text="{Binding Title}" FontWeight="Bold"/>
+                                                <Run Text=" "/>
+                                                <Run FontStyle="Italic" Text="{Binding Album}"/>
+                                                <Run Text="{Binding Year, Converter={StaticResource text12emptytxtconv},ConverterParameter='('}"/><Run Text="{Binding Year, Converter={StaticResource text12emptytxtconv}}"/><Run Text="{Binding Year, Converter={StaticResource text12emptytxtconv},ConverterParameter=')'}"/>
+                                            </TextBlock>
+
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+
+</Window>

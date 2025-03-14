@@ -147,9 +147,13 @@
     <Compile Include="Controls\SmartPlayer.xaml.cs">
       <DependentUpon>SmartPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\TextToEmptyTextConverter.cs" />
     <Compile Include="Converter\PathToFilenameConverter.cs" />
     <Compile Include="Converter\PathNameConverter.cs" />
     <Compile Include="Converter\SizeToMarginConverter.cs" />
+    <Compile Include="Dialogs\PlaylistCover.xaml.cs">
+      <DependentUpon>PlaylistCover.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Enums\Enumerations.cs" />
     <Compile Include="Models\LabelLocation.cs" />
@@ -344,6 +348,10 @@
     <Page Include="Dialogs\LibrarySelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\PlaylistCover.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\TrackInfo.xaml">
       <Generator>MSBuild:Compile</Generator>

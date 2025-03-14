@@ -782,6 +782,8 @@
 
                             <Label Content="Load or Store playlist" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" Tag="{x:Static enums:TrackViewType.List}" MouseDown="PlaylistManagement_MouseDown"/>
 
+                            <Label Content="Create Playlist Summary" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" MouseDown="CreateSummyary_MouseDown"/>
+                            
                             <Label Content="Copy playlist files to folder" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,0,0" MouseDown="ExportPlaylist_MouseDown"/>
 
                         </StackPanel>

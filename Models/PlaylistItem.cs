@@ -57,9 +57,15 @@ namespace Models
             get => _trackNumber;
             set
             {
-                if (Convert.ToInt32(value) < 10) _trackNumber = "  " + value;
-                else _trackNumber = value;
-                _trackNumber += '.';
+                int parsed;
+                if (!int.TryParse(value, out parsed))
+                    _trackNumber = value;
+                else
+                {
+                    if (Convert.ToInt32(value) < 10) _trackNumber = "  " + value;
+                    else _trackNumber = value;
+                    _trackNumber += '.';
+                }
                 Raise(nameof(TrackNumber));
             }
         }
@@ -134,6 +140,16 @@ namespace Models
         {
             get => _duration;
             set { _duration = value; Raise(nameof(Duration)); }
+        }
+
+        private double _durationValue = 0;
+        public double DurationValue
+        {
+            get => _durationValue;
+            set
+            {
+                _durationValue = value; Raise(nameof(DurationValue));
+            }
         }
 
         private string _toolTip = string.Empty;

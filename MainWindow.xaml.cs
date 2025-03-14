@@ -320,6 +320,12 @@ namespace MpFree4k
             return cnt;
         }
 
+        private void CreateSummyary_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var dialog = new PlaylistCover(PlaylistViewModel.Instance.Tracks);
+            dialog.Show();
+        }
+
         private void ExportPlaylist_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var dialog = new CommonOpenFileDialog();

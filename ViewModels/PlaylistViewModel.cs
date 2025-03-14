@@ -213,6 +213,7 @@ namespace ViewModels
                     Album = item.Album,
                     Title = item.Title,
                     Duration = item.Duration,
+                    DurationValue = item.DurationValue,
                     Artists = item.Artists,
                     Path = item.Path,
                     Year = item.Year,

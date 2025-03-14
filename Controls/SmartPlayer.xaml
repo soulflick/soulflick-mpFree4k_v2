@@ -26,6 +26,7 @@
 
             <converters:FontWeightConverter x:Key="fontWeightConverter"/>
             <converters:TrackColorConverter x:Key="trackColorConverter"/>
+            <converters:TextToEmptyTextConverter x:Key="text12emptytxtconv"/>
             
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -632,7 +633,8 @@
                             </Style>
                         </TextBlock.Style>
                         <Run Style="{StaticResource RunStyleHeader}" Name="lblAlbum" Text="{Binding ElementName=_This, Path=CurrentAlbum}" 
-                             ToolTip="{Binding ElementName=_This, Path=SearchAlbumToolTip}"/><Run Style="{StaticResource RunStyleHeader}" Text=" ("/><Run Style="{StaticResource RunStyleHeader}" Name="lblYear"/><Run Style="{StaticResource RunStyleHeader}" Text=")"/>
+                             ToolTip="{Binding ElementName=_This, Path=SearchAlbumToolTip}"/>
+                        <Run Name="lblYearOpenBracket" Style="{StaticResource RunStyleHeader}" Text="("/><Run Style="{StaticResource RunStyleHeader}" Name="lblYear"/><Run Name="lblYearClosingBracket" Style="{StaticResource RunStyleHeader}" Text=")"/>
                     </TextBlock>
                 </Grid>
             </Grid>
