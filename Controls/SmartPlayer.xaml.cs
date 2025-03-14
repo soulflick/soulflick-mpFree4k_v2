@@ -56,6 +56,13 @@ namespace Controls
             Loaded += Player_Loaded;
 
             DefaultImage = StandardImage.DefaultAlbumImage;
+            IsDefaultImage = true;
+        }
+
+        public void OnSkinChanged()
+        {
+            DefaultImage = StandardImage.DefaultAlbumImage;
+            if (IsDefaultImage) TrackImage.Source = DefaultImage;
         }
 
         public PlaylistViewModel PlayListVM
@@ -235,6 +242,8 @@ namespace Controls
                 }
             }
         }
+
+        public bool IsDefaultImage { get; set; }
 
         public uint TrackCount
         {
@@ -422,6 +431,8 @@ namespace Controls
 
         void DisplayTrackImage(PlaylistInfo itm)
         {
+            IsDefaultImage = false;
+
             if (itm.Image != null)
             {
                 TrackImage.Source = itm.Image;
@@ -442,6 +453,7 @@ namespace Controls
             {
                 try
                 {
+                    IsDefaultImage = true;
                     MainWindow.mainDispatcher.Invoke(() => TrackImage.Source = DefaultImage);
                 }
                 catch (Exception exc)
@@ -530,7 +542,7 @@ namespace Controls
             Play(ViewModel.current_track);
         }
 
-        public BitmapImage DefaultImage { get; set; }
+        public BitmapImage DefaultImage { get; set; } = StandardImage.DefaultAlbumImage;
 
         public int Volume => (int)sldVolume.Value;
 

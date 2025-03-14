@@ -324,7 +324,7 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource TrackList}"/>
                     <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Padding" Value="7"/>
+                    <Setter Property="Padding" Value="{DynamicResource ControlPaddingMargin}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

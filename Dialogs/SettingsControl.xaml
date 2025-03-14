@@ -10,11 +10,11 @@
              BorderThickness="1"
 
              Width="420"
-             Height="740"
+             Height="785"
              MinWidth="310"
              MaxWidth="420"
-             MinHeight="740"
-             MaxHeight="740"
+             MinHeight="785"
+             MaxHeight="785"
         
              x:Name="_This"
              Title="Player Settings- soulflick"
@@ -107,11 +107,11 @@
 
                 <TextBlock Text="Control Padding:" Grid.Row="4" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 
-                <Slider Name="sldPadding" Grid.Row="5" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldPadding_ValueChanged" Value="5"/>
+                <Slider Name="sldPadding" Grid.Row="5" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="1" Value="5"/>
 
                 <TextBlock Text="Control Sizes:" Grid.Row="6" FontSize="{DynamicResource FontSizeBig}" VerticalAlignment="Stretch" Margin="3,7,3,0"/>
 
-                <Slider Name="sldControlSizes" Grid.Row="7" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="0" Maximum="4" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="sldControlSizes_ValueChanged"/>
+                <Slider Name="sldControlSizes" Grid.Row="7" HorizontalAlignment="Stretch" Margin="3,7,3,3" Minimum="0" Maximum="4" IsSnapToTickEnabled="True" TickFrequency="1"/>
 
                 <!--
                 <ComboBox x:Name="comboControlSize" Grid.Column="1" Grid.Row="7" FontSize="{DynamicResource FontSizeBig}"
@@ -139,10 +139,11 @@
                 <StackPanel Grid.Row="10" Grid.RowSpan="3" Orientation="Vertical">
 
                     <CheckBox x:Name="autoSavePlaylist" Content="Autosave Current Playlist" Margin="3,24,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="excludeBrokenFiles" Content="Exclude broken files from Library" Margin="3 6 0 0" FontSize="{DynamicResource FontSizeBig}"/>
                     <CheckBox x:Name="showAlbumArtists" Content="Show all album tracks on 'Various Artists'" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
-                    <CheckBox x:Name="rememberSelected" Content="Keep album selection on filter" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="rememberSelected" Content="Show selected albums when filter artist" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
                     <CheckBox x:Name="showPathInPlaylist" Content="Show Path in Playlist" Margin="3,6,0,0" FontSize="{DynamicResource FontSizeBig}"/>
-                    <CheckBox x:Name="showPathInLibrary" Content="Show Path in Track View" Margin="3 6 0 10" FontSize="{DynamicResource FontSizeBig}"/>
+                    <CheckBox x:Name="showPathInLibrary" Content="Show Path in Track View" Margin="3 6 0 20" FontSize="{DynamicResource FontSizeBig}"/>
 
                 </StackPanel>
                 

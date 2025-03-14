@@ -555,7 +555,7 @@
                             <Border Name="Mask" Background="{DynamicResource  MenuBrush}" BorderBrush="Transparent" BorderThickness="0.5" CornerRadius="4">
                             </Border>
                             <StackPanel>
-                                <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                <Image x:Name="TrackImage" Source="{Binding ElementName=_This, Path=DefaultImage, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                     Width="{DynamicResource AlbumSize}" Height="{DynamicResource AlbumSize}" MouseDown="TrackImage_MouseDown">
                                     <Image.Style>
                                         <Style TargetType="Image">

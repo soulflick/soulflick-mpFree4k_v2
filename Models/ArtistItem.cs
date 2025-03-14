@@ -72,10 +72,10 @@ namespace Models
                 Raise(nameof(Albums));
             }
         }
-        
-        public bool HasAlbumImage => _firstAlbum != null;
 
-        private ImageSource _firstAlbum = null;
+        public bool HasAlbumImage = false;
+
+        private ImageSource _firstAlbum = MpFree4k.Classes.StandardImage.DefaultAlbumImage;
         public ImageSource FirstAlbum
         {
             get => _firstAlbum;

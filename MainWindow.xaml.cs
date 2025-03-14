@@ -159,7 +159,7 @@ namespace MpFree4k
                 setctrl.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 setctrl.ShowDialog();
             }
-
+            Classes.StandardImage.Reload();
             SkinAdaptor.ApplySkin(this, UserConfig.Skin, UserConfig.FontSize);
             SkinAdaptor.ApplyPadding(this, UserConfig.PaddingType);
             PlaylistViewModel.Instance.ShowPathInPlaylist = UserConfig.ShowPathInPlaylist;
@@ -424,7 +424,11 @@ namespace MpFree4k
             Top = (SystemParameters.PrimaryScreenHeight / 2) - (ActualHeight / 2);
         }
 
-        bool paused = false;
+        private void btnClearFavorites_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Library.Instance.connector.ClearFavorites();
+        }
+
         private void GridSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             

@@ -250,7 +250,7 @@
                     <Setter Property="ContentTemplate" Value="{StaticResource AlbumItemList}"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Padding" Value="7"/>
+                    <Setter Property="Padding" Value="{DynamicResource ControlPaddingMargin}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

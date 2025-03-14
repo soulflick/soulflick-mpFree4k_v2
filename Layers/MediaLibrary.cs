@@ -20,7 +20,16 @@ namespace Layers
 {
     public class MediaLibrary : INotifyPropertyChanged
     {
-        public static BitmapImage DefaultAlbumImage => StandardImage.DefaultAlbumImage;
+        private static BitmapImage _defaultAlbumImage = StandardImage.DefaultAlbumImage;
+        public static BitmapImage DefaultAlbumImage
+        {
+            get => _defaultAlbumImage;
+            set
+            {
+                _defaultAlbumImage = value;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { return; };
         public string Name = "[not set]";
         public string LibPath = "[not set]";
@@ -654,7 +663,7 @@ namespace Layers
                     MainWindow.SetProgress(percent);
                 }
 
-                t_load = new Task(() => tagImages());
+                t_load = new Task(() => TagImages());
                 t_load.Start();
 
                 while (!t_load.IsCompleted)
@@ -731,6 +740,15 @@ namespace Layers
             return count;
         }
 
+
+        public void OnSkinChanged()
+        {
+            DefaultAlbumImage = StandardImage.DefaultAlbumImage;
+            Albums.Where(a => !a.HasAlbumImage).ToList().ForEach(al => al.AlbumImage = DefaultAlbumImage);
+            Artists.Where(a => !a.HasAlbumImage).ToList().ForEach(ar => ar.FirstAlbum = DefaultAlbumImage);
+            TagImages();
+        }
+
         public static BitmapImage GetImageFromTag(TagLib.IPicture[] Pictures)
         {
             if (Pictures.Length == 0 || Pictures[0] == null)
@@ -763,7 +781,7 @@ namespace Layers
             }
         }
 
-        private void tagImages()
+        public void TagImages()
         {
             string msg = "loading image {0} from {1}";
             int max = Files.Count;
@@ -790,10 +808,10 @@ namespace Layers
 
                 }
 
-                ArtistItem artist = Artists.FirstOrDefault(x => x.Artists == i.Mp3Fields.Artists && x.FirstAlbum == null);
+                ArtistItem artist = Artists.FirstOrDefault(x => x.Artists == i.Mp3Fields.Artists);
                 if (artist != null)
                 {
-                    artist.FirstAlbum = img;
+                    if (img != null) artist.FirstAlbum = img;
                     if (a != null)
                     {
                         SimpleAlbumItem sai = artist.Albums.FirstOrDefault(x => (string.IsNullOrEmpty(x.AlbumLabel) || x.AlbumLabel == a.Album) && x.Year == a.Year);
@@ -822,17 +840,21 @@ namespace Layers
                 if (Config.media_extensions.Any(x => x == Path.GetExtension(file)))
                 {
                     FileViewInfo fin = new FileViewInfo(file);
-                    fin.CreateFileHandle();
-
-                    if (string.IsNullOrEmpty(fin.Title))
+                    if (!fin.CreateFileHandle() && UserConfig.ExcludeBrokenFiles)
                     {
-                        string filename = Path.GetFileNameWithoutExtension(fin.Path);
-                        fin.Title = filename;
-                        fin.Mp3Fields.Title = filename;
+                        int debug = 1;
+                        //continue;
                     }
-
-
-                    addFile(fin);
+                    else
+                    {
+                        if (string.IsNullOrEmpty(fin.Title))
+                        {
+                            string filename = Path.GetFileNameWithoutExtension(fin.Path);
+                            fin.Title = filename;
+                            fin.Mp3Fields.Title = filename;
+                        }
+                        addFile(fin);
+                    }
                 };
             });
             Parallel.ForEach(Directory.GetDirectories(path), (dir) =>

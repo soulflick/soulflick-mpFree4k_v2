@@ -39,6 +39,13 @@ namespace Configuration
             set => _showPathInLibrary = value;
         }
 
+        private static bool _excludeBrokenFiles = false;
+        public static bool ExcludeBrokenFiles
+        {
+            get => _excludeBrokenFiles;
+            set => _excludeBrokenFiles = value;
+        }
+
         public static PluginTypes PluginType = PluginTypes.CSCore;
         public static SkinColors Skin { get; set; } = SkinColors.Black_Smooth;
         public static FontSize FontSize = FontSize.Normal;

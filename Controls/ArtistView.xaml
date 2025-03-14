@@ -78,7 +78,7 @@
                             <VisualBrush Visual="{Binding ElementName=ImgBorder}" />
                         </Grid.OpacityMask>
                         <Border x:Name="ImgBorder" CornerRadius="3" Background="{DynamicResource ImageBackgroundBrush}" BorderThickness="0"/>
-                        <Image Source="{Binding FirstAlbum, Converter={StaticResource noimgtodefconv}}"
+                        <Image Source="{Binding FirstAlbum, UpdateSourceTrigger=PropertyChanged}"
                                Opacity="{Binding HasAlbumImage, Converter={StaticResource bool2opacconv}}"/>
                     </Grid>
 
@@ -246,6 +246,7 @@
                     <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="{DynamicResource ControlPaddingMargin}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsVisible}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>

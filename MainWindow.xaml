@@ -686,6 +686,8 @@
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Playlist View" MouseDown="btnSmallView_MouseDown" Margin="6,16,6,0"/>
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library View" MouseDown="btFullView_MouseDown" Margin="6,0,6,2"/>
 
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Clear Favorites" MouseDown="btnClearFavorites_MouseDown" Margin="6,16,6,0"/>
+
                         </StackPanel>
 
                         <Grid Grid.Row="1" Background="{DynamicResource PlayerButtonBorderDarkBrush}">

@@ -17,7 +17,7 @@ namespace MpFree4k.Classes
         {
             string uri = @"pack://application:,,,/MpFree4k;component/Images/no_album_cover.jpg";
 
-            if (UserConfig.Skin == Mpfree4k.Enums.SkinColors.Black_Smooth)
+            if (UserConfig.Skin != Mpfree4k.Enums.SkinColors.White && UserConfig.Skin != Mpfree4k.Enums.SkinColors.Gray)
                 uri = @"pack://application:,,,/MpFree4k;component/Images/no_album_cover_black.png";
 
             _defaultAlbumImage = new BitmapImage(new System.Uri(uri, System.UriKind.Absolute));

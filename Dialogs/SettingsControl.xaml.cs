@@ -38,10 +38,17 @@ namespace Dialogs
             rememberSelected.IsChecked = UserConfig.RememberSelectedAlbums;
             showPathInPlaylist.IsChecked = UserConfig.ShowPathInPlaylist;
             showPathInLibrary.IsChecked = UserConfig.ShowPathInLibrary;
+            excludeBrokenFiles.IsChecked = UserConfig.ExcludeBrokenFiles;
         }
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
         {
+            comboSkins.SelectionChanged -= ComboBoxSkin_SelectionChanged;
+            sldFontSize.ValueChanged -= SldFontSize_ValueChanged;
+            comboPluginType.SelectionChanged -= comboPluginType_SelectionChanged;
+            sldPadding.ValueChanged -= sldPadding_ValueChanged;
+            sldControlSizes.ValueChanged -= sldControlSizes_ValueChanged;
+
             sldFontSize.Value = (int)UserConfig.FontSize;
             comboSkins.SelectedIndex = (int)UserConfig.Skin;
             comboPluginType.SelectedIndex = (int)UserConfig.PluginType;
@@ -63,6 +70,8 @@ namespace Dialogs
             comboSkins.SelectionChanged += ComboBoxSkin_SelectionChanged;
             sldFontSize.ValueChanged += SldFontSize_ValueChanged;
             comboPluginType.SelectionChanged += comboPluginType_SelectionChanged;
+            sldPadding.ValueChanged += sldPadding_ValueChanged;
+            sldControlSizes.ValueChanged += sldControlSizes_ValueChanged;
         }
 
         private void SldFontSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -263,6 +272,12 @@ namespace Dialogs
                         }
                     }
                 }
+                else if (key_str == "excludebrokenfiles")
+                {
+                    bool _true = false;
+                    if (bool.TryParse(key_val, out _true))
+                        UserConfig.ExcludeBrokenFiles = _true;
+                }
             }
         }
 
@@ -289,6 +304,10 @@ namespace Dialogs
                 SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
 
             UserConfig.Skin = selected_Color;
+
+            MpFree4k.Classes.StandardImage.Reload();
+            Controls.SmartPlayer.Instance.OnSkinChanged();
+            Layers.Library.Instance.Current.OnSkinChanged();
         }
 
         private void Okay()
@@ -298,6 +317,7 @@ namespace Dialogs
             UserConfig.RememberSelectedAlbums = rememberSelected.IsChecked == true;
             UserConfig.ShowPathInPlaylist = showPathInPlaylist.IsChecked == true;
             UserConfig.ShowPathInLibrary = showPathInLibrary.IsChecked == true;
+            UserConfig.ExcludeBrokenFiles = excludeBrokenFiles.IsChecked == true;
 
             WriteUserConfig();
 
@@ -325,6 +345,7 @@ namespace Dialogs
             doc += "\t\t<setting name=\"showpathinlibrary\" value=\"" + UserConfig.ShowPathInLibrary + "\"/>\n";
             doc += "\t\t<setting name=\"numbertracks\" value=\"" + UserConfig.NumberRecentTracks + "\"/>\n";
             doc += "\t\t<setting name=\"numberalbums\" value=\"" + UserConfig.NumberRecentAlbums + "\"/>\n";
+            doc += "\t\t<setting name=\"excludebrokenfiles\" value=\"" + UserConfig.ExcludeBrokenFiles + "\"/>\n";
             doc += "\t</settings>\n</xml>";
 
             File.WriteAllText(settingsFile, doc);

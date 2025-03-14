@@ -65,7 +65,7 @@ namespace Classes
 
         private const string sql_get_album = "SELECT COUNT(id) as count, id FROM RecentAlbums where name = '{0}' and year = '{1}'";
         private const string sql_insert_album = "INSERT INTO RecentAlbums (name, year, playcount, playdate) VALUES ('{0}', '{1}', 1, '{2}')";
-        private const string sql_update_album = "Update RecentAlbums SET playdate = '{1}', playcount = playcount + 1 WHERE id = {0}";
+        private const string sql_update_album = "UPDATE RecentAlbums SET playdate = '{1}', playcount = playcount + 1 WHERE id = {0}";
 
         private const string sql_insert_album_track = "INSERT INTO AlbumTracks (albumid, path) VALUES ({0}, '{1}')";
         private const string sql_get_album_track = "SELECT id FROM AlbumTracks WHERE albumid = '{0}' AND path = '{1}' LIMIT 1";
@@ -73,13 +73,16 @@ namespace Classes
 
         private const string sql_get_tables = "SELECT name FROM sqlite_master WHERE type = 'table'";
 
-        private const string sql_get_recent_albums = "SELECT * FROM (SELECT id, name, year, playcount FROM  RecentAlbums WHERE name <> '' ORDER BY playdate DESC LIMIT 400) ORDER BY playcount DESC LIMIT {0}";
+        private const string sql_get_recent_albums = "SELECT * FROM (SELECT id, name, year, playcount FROM RecentAlbums WHERE name <> '' ORDER BY playdate DESC LIMIT 400) ORDER BY playcount DESC LIMIT {0}";
         private const string sql_get_recent_tracks = "SELECT * FROM (SELECT path, playcount from RecentTracks ORDER BY playdate DESC LIMIT 10000) ORDER BY playcount DESC LIMIT {0}";
         private const string sql_get_recent_tracks_detail = "SELECT * FROM (SELECT path, playcount, playdate from RecentTracks ORDER BY playdate DESC LIMIT 10000) ORDER BY playcount DESC LIMIT {0}";
         private const string sql_get_album_tracks = "SELECT path from AlbumTracks WHERE albumid = '{0}'";
 
         private const string sql_remove_album = "DELETE FROM RecentALbums WHERE id = '{0}'";
         private const string sql_remove_albumtracks = "DELETE FROM AlbumTracks WHERE albumid = '{0}'";
+
+        private const string sql_clear_albums = "DELETE FROM RecentAlbums";
+        private const string sql_clear_tracks = "DELETE FROM RecentTracks";
 
         private string get_sql_date(DateTime dt) => dt.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -283,10 +286,21 @@ namespace Classes
             return tracks;
         }
 
+        public void ClearFavorites()
+        {
+            string sql = sql_clear_albums;
+            SQLiteCommand command = new SQLiteCommand(sql, sqlcon);
+            command.ExecuteNonQuery();
+
+            sql = sql_clear_tracks;
+            command = new SQLiteCommand(sql, sqlcon);
+            command.ExecuteNonQuery();
+        }
+
         public List<Tuple<string, string, int>> GetRecentAlbums(int num)
         {
 
-            string sql = String.Format(sql_get_recent_albums, num);
+            string sql = string.Format(sql_get_recent_albums, num);
             List<Tuple<string, string, int>> albums = new List<Tuple<string, string, int>>();
             SQLiteCommand command = new SQLiteCommand(sql, sqlcon);
 
