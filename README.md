@@ -36,6 +36,10 @@ Download zipped binaries. Just extract it. No installation necessary.
 
 -----------------------------------------------------------------------------
 
+Version 2.5.3
+
+- Playlist Information Screen
+- Explort Playlist Information
 
 Version 2.5.2
 
