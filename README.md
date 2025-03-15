@@ -1,11 +1,11 @@
 # soulflick/mpFree4k_v2
  New Version 2 repository of MpFree4k
 
-mpFree4k v2.5.2 (2025)
+mpFree4k v2.5.3 (March 2025)
 =============================================================================
 
 Free Scalable Offline Windows MP3 Player for all Screens
-Version: 2.5.2 / 2025
+Version: 2.5.3 / 2025
 Author : soulflick
 
 # Download
