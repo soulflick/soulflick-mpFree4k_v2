@@ -53,6 +53,7 @@ namespace Layers
 
         public void Load()
         {
+
             MpFree4k.MainWindow.Instance.Cursor = Cursors.Wait;
             if (!string.IsNullOrEmpty(Current.LibPath))
                 Current.Load();

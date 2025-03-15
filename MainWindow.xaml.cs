@@ -130,11 +130,16 @@ namespace MpFree4k
             {
                 if (Library != null && Library.Current != null)
                 {
-                    int num_tracks = Library.Current.GetVisibleTracks();
-                    TimeSpan length = Library.Current.GetVisibleLength();
-                    SetAmounts(num_tracks, length);
+                    SetAmounts();
                 }
             }
+        }
+
+        public void SetAmounts()
+        {
+            int num_tracks = Library.Current.GetVisibleTracks();
+            TimeSpan length = Library.Current.GetVisibleLength();
+            SetAmounts(num_tracks, length);
         }
 
         public void SetAmounts(int count, TimeSpan duration)

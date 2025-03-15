@@ -200,7 +200,7 @@
                   Grid.Row="1"
                   PresentationTraceSources.TraceLevel="High"
                   ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                  BorderThickness="0"
+                  BorderThickness="1"
                   Margin="0"
                   Padding="0"
                   BorderBrush="{DynamicResource PlaylistBackground}"

@@ -635,6 +635,9 @@ namespace Layers
 
         public void Load()
         {
+            Files.Clear();
+            Albums.Clear();
+            Artists.Clear();
 
             int numfiles = GetFilesCount(LibPath);
             if (numfiles <= 0)
@@ -683,7 +686,7 @@ namespace Layers
                         lock (Artists)
                         {
                             Artists = Artists.OrderBy(a => a.Artists).ToList();
-                            Raise("Artists");
+                            Raise(nameof(Artists));
                         }
                     }));
 
@@ -693,7 +696,7 @@ namespace Layers
                        lock (Albums)
                        {
                            Albums = Albums.OrderBy(a => a.Album).ThenBy(a => a.Album).ToList();
-                           Raise("Albums");
+                           Raise(nameof(Albums));
                        }
                    }));
 
@@ -703,7 +706,7 @@ namespace Layers
                        lock (Files)
                        {
                            Files = Files.OrderBy(a => a.Mp3Fields.Album).ThenBy(b => b.Mp3Fields.Track).ThenBy(c => c.Mp3Fields.Artists).ToList();
-                           Raise("Tracks");
+                           Raise(nameof(Files));
                        }
                    }));
 
@@ -719,6 +722,8 @@ namespace Layers
                          MainWindow.SetProgress(0);
                          MainWindow.Instance.Cursor = Cursors.Arrow;
                      }));
+
+                MainWindow.Instance.SetAmounts();
             });
             t_load.Start();
             t.Start();
@@ -741,44 +746,64 @@ namespace Layers
         }
 
 
-        public void OnSkinChanged()
+        public async void OnSkinChanged()
         {
             DefaultAlbumImage = StandardImage.DefaultAlbumImage;
             long numItems = Albums.Count(a => !a.HasAlbumImage) + Artists.Count(a => !a.HasAlbumImage) + Files.Count(a => a.HasDefaultImage);
-            long i = 0;
-            var bar = MainWindow.Instance.ProgressBar;
-            bar.Value = 0;
-            bar.Maximum = numItems;
-            bar.Visibility = System.Windows.Visibility.Visible;
+            _filesCount = 0;
 
-            Thread t = new Thread(() =>
-            {
-                MainWindow.mainDispatcher.BeginInvoke(
-                     DispatcherPriority.Render, (Action)(() =>
-                     {
-                         MainWindow.Instance.Cursor = Cursors.Wait;
-                     }));
+            MainWindow.Instance.Cursor = Cursors.Wait;
 
+            t_load = new Task(() =>
+            { 
                 foreach (var al in Albums.Where(a => !a.HasAlbumImage))
                 {
                     al.AlbumImage = DefaultAlbumImage;
-                    MainWindow.SetProgress(++i);
+                    _filesCount++;
                 }
+                Thread.Sleep(10);
 
                 foreach (var ar in Artists.Where(a => !a.HasAlbumImage))
                 {
                     ar.FirstAlbum = DefaultAlbumImage;
-                    MainWindow.SetProgress(++i);
+                    _filesCount++;
                 }
+                Thread.Sleep(10);
 
                 foreach (var fi in Files.Where(a => a.HasDefaultImage))
                 {
                     fi.Image = DefaultAlbumImage;
-                    MainWindow.SetProgress(++i);
+                    _filesCount++;
                 }
             });
+            t_load.Start();
 
-            MainWindow.SetProgress(0);
+            Thread t_progress = new Thread(() =>
+            {
+                MainWindow.mainDispatcher.BeginInvoke(
+                     DispatcherPriority.Render, (Action)(() =>
+                     {
+                         var bar = MainWindow.Instance.ProgressBar;
+                         bar.Maximum = numItems;
+                         MainWindow.SetProgress(1);
+                         MainWindow.Instance.Cursor = Cursors.Wait;
+                     }));
+
+                while (!t_load.IsCompleted)
+                {
+                    Thread.Sleep(Config.update_timeout);
+                    MainWindow.SetProgress(_filesCount);
+                }
+
+                MainWindow.mainDispatcher.BeginInvoke(
+                     DispatcherPriority.Render, (Action)(() =>
+                     {
+                         MainWindow.SetProgress(0);
+                         MainWindow.Instance.Cursor = Cursors.Arrow;
+                     }));
+            });
+
+            t_progress.Start();
         }
 
         public static BitmapImage GetImageFromTag(TagLib.IPicture[] Pictures)
@@ -872,8 +897,9 @@ namespace Layers
             }
         }
 
-        public void Load(string path)
+        public async void Load(string path)
         {
+
             Parallel.ForEach(Directory.GetFiles(path), (file) =>
             {
                 if (Config.media_extensions.Any(x => x == Path.GetExtension(file)))
