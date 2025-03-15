@@ -611,8 +611,12 @@
                        Foreground="{DynamicResource MenuTextBrush}"
                        VerticalAlignment="Center" Margin="12,0,12,0"/>
 
-            <TextBox Grid.Column="1" x:Name="FilterBox" TextChanged="FilterBox_TextChanged" VerticalAlignment="Stretch" Height="Auto"
-                     GotFocus="FilterBox_GotFocus" LostFocus="FilterBox_LostFocus"
+            <TextBox Grid.Column="1" x:Name="FilterBox" VerticalAlignment="Stretch" Height="Auto"
+                     TextChanged="FilterBox_TextChanged" 
+                     GotFocus="FilterBox_GotFocus" 
+                     LostFocus="FilterBox_LostFocus"
+                     KeyDown="FilterBox_KeyDown"
+                     PreviewMouseDown="FilterBox_PreviewMouseDown"
                      Text="type to search for tracks"
                      HorizontalAlignment="Stretch"
                      VerticalContentAlignment="Center"

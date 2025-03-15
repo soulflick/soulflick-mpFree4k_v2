@@ -484,6 +484,12 @@ namespace MpFree4k
                 FilterBox.Text = "";
                 FilterBox.TextChanged += FilterBox_TextChanged;
             }
+            else
+            {
+                e.Handled = true;
+                FilterBox.Focus();
+                FilterBox.SelectAll();
+            }
         }
 
         private void FilterBox_LostFocus(object sender, RoutedEventArgs e)
@@ -494,6 +500,36 @@ namespace MpFree4k
                 FilterBox.Text = FilterHint;
                 FilterBox.TextChanged += FilterBox_TextChanged;
             }
+        }
+
+        void ClearFocus()
+        {
+            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+            if (elementWithFocus is System.Windows.Controls.TextBox tb)
+            {
+                if (Keyboard.FocusedElement != null)
+                {
+                    Keyboard.FocusedElement.RaiseEvent(new RoutedEventArgs(UIElement.LostFocusEvent));
+                    Keyboard.ClearFocus();
+                }
+            }
+        }
+
+        private void FilterBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearFocus();
+                query_timer.Stop();
+                query_timer.Start();
+            }
+        }
+
+        private void FilterBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            FilterBox.Focus();
+            FilterBox.SelectAll();
         }
     }
 }
