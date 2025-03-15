@@ -723,11 +723,12 @@ namespace Layers
                          MainWindow.Instance.Cursor = Cursors.Arrow;
                      }));
 
+                MainWindow.Instance.ResetFilter();
                 MainWindow.Instance.SetAmounts();
             });
+
             t_load.Start();
             t.Start();
-
         }
 
         public int GetFilesCount(string path, int numfiles = 0)

@@ -216,6 +216,11 @@ namespace MpFree4k
             query_timer.Stop();
         }
 
+        public void ResetFilter()
+        {
+            query_timer.Start();
+        }
+
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (FilterBox.Text == FilterHint) return;
@@ -330,6 +335,7 @@ namespace MpFree4k
         {
             var dialog = new PlaylistCover(PlaylistViewModel.Instance.Tracks);
             dialog.Show();
+            dialog.Focus();
         }
 
         private void ExportPlaylistInformation_MouseDown(object sender, MouseButtonEventArgs e)

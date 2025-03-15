@@ -118,14 +118,14 @@
                     <Grid Grid.Row="6" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" VerticalAlignment="Stretch">
 
                         <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                            <ItemsControl Grid.ColumnSpan="3" ItemsSource="{Binding Collection}" Margin="24,2,2,2" 
+                            <ItemsControl Grid.ColumnSpan="3" ItemsSource="{Binding Collection}" Margin="0,12,2,2" 
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Stretch">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="3">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" SharedSizeGroup="TrackImageGroup"/>
+                                                <ColumnDefinition Width="0" SharedSizeGroup="TrackImageGroup"/>
                                                 <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupTrack"/>
                                                 <ColumnDefinition Width="Auto" SharedSizeGroup="SizeGroupDuration"/>
                                                 <ColumnDefinition Width="100*" SharedSizeGroup="Title" MinWidth="250"/>
