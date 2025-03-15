@@ -40,10 +40,13 @@ Version 2.5.3
 
 - Playlist Information Screen
 - Export Playlist Information
+- Option to exclude broken files
+- Improved drag'n'drop
 
 Version 2.5.2
 
 - Edit Tags from Playlist
+- Allow to edit multiple Files at once
 - Dynamic Reload of Tracks when edited.
 - Added Path information in Playlist and TrackView
 - Highlight of broken files
@@ -57,6 +60,7 @@ Version 2.5
 
 - Extended Search
 - Drop Files from Windows Explorer into Playlist
+- Library View and Playlist View
 
 Overall Features
 
