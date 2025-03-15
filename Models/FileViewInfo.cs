@@ -117,6 +117,8 @@ namespace Models
         public string FileName { get; set; }
         public string Label { get; set; }
 
+        public bool HasDefaultImage = false;
+
         public TagLib.File _Handle { get; set; }
 
         private System.Windows.Media.Imaging.BitmapImage _image = null;

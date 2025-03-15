@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Linq;
 using Models;
 using Configuration;
+using System.Text;
 
 namespace MpFree4k
 {
@@ -324,6 +325,21 @@ namespace MpFree4k
         {
             var dialog = new PlaylistCover(PlaylistViewModel.Instance.Tracks);
             dialog.Show();
+        }
+
+        private void ExportPlaylistInformation_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (PlaylistInfo pi in (Playlist.DataContext as PlaylistViewModel).Tracks)
+            {
+                sb.Append(pi.TrackNumber.Trim() + " " + pi.Duration + " " + pi.Artists + " - " + pi.Title + " - " + pi.Album);
+                long year = 0;
+                if (long.TryParse(pi.Year, out year) && year != 0)
+                    sb.Append(" (" + pi.Year.ToString() + ")");
+                sb.Append(Environment.NewLine);
+            }
+            Clipboard.SetText(sb.ToString());
+            MessageBox.Show("Information has been copied to the clipboard.");
         }
 
         private void ExportPlaylist_MouseDown(object sender, MouseButtonEventArgs e)

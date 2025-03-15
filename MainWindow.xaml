@@ -784,7 +784,9 @@
 
                             <Label Content="Create Playlist Summary" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,0" MouseDown="CreateSummyary_MouseDown"/>
                             
-                            <Label Content="Copy playlist files to folder" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,20" MouseDown="ExportPlaylist_MouseDown"/>
+                            <Label Content="Copy playlist files to folder" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,0" MouseDown="ExportPlaylist_MouseDown"/>
+
+                            <Label Content="Export playlist information" Cursor="Hand" FontSize="{DynamicResource FontSizeNormal}" Margin="20,0,20,20" MouseDown="ExportPlaylistInformation_MouseDown"/>
 
                         </StackPanel>
                     </Grid>

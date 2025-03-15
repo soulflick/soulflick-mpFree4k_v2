@@ -744,9 +744,41 @@ namespace Layers
         public void OnSkinChanged()
         {
             DefaultAlbumImage = StandardImage.DefaultAlbumImage;
-            Albums.Where(a => !a.HasAlbumImage).ToList().ForEach(al => al.AlbumImage = DefaultAlbumImage);
-            Artists.Where(a => !a.HasAlbumImage).ToList().ForEach(ar => ar.FirstAlbum = DefaultAlbumImage);
-            TagImages();
+            long numItems = Albums.Count(a => !a.HasAlbumImage) + Artists.Count(a => !a.HasAlbumImage) + Files.Count(a => a.HasDefaultImage);
+            long i = 0;
+            var bar = MainWindow.Instance.ProgressBar;
+            bar.Value = 0;
+            bar.Maximum = numItems;
+            bar.Visibility = System.Windows.Visibility.Visible;
+
+            Thread t = new Thread(() =>
+            {
+                MainWindow.mainDispatcher.BeginInvoke(
+                     DispatcherPriority.Render, (Action)(() =>
+                     {
+                         MainWindow.Instance.Cursor = Cursors.Wait;
+                     }));
+
+                foreach (var al in Albums.Where(a => !a.HasAlbumImage))
+                {
+                    al.AlbumImage = DefaultAlbumImage;
+                    MainWindow.SetProgress(++i);
+                }
+
+                foreach (var ar in Artists.Where(a => !a.HasAlbumImage))
+                {
+                    ar.FirstAlbum = DefaultAlbumImage;
+                    MainWindow.SetProgress(++i);
+                }
+
+                foreach (var fi in Files.Where(a => a.HasDefaultImage))
+                {
+                    fi.Image = DefaultAlbumImage;
+                    MainWindow.SetProgress(++i);
+                }
+            });
+
+            MainWindow.SetProgress(0);
         }
 
         public static BitmapImage GetImageFromTag(TagLib.IPicture[] Pictures)
@@ -807,7 +839,6 @@ namespace Layers
                     }
 
                 }
-
                 ArtistItem artist = Artists.FirstOrDefault(x => x.Artists == i.Mp3Fields.Artists);
                 if (artist != null)
                 {
@@ -823,7 +854,15 @@ namespace Layers
                     }
 
                 }
-                i.TrackImage = img;
+
+                if (img == null)
+                {
+                    i.HasDefaultImage = true;
+                } else
+                {
+                    i.HasDefaultImage = false;
+                    i.TrackImage = img;
+                }
             }
 
             foreach (AlbumItem a in Albums)
