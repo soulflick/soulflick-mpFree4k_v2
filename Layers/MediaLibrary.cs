@@ -635,6 +635,9 @@ namespace Layers
 
         public void Load()
         {
+            if (Controls.SmartPlayer.Instance.IsEnabled == false)
+                return;
+
             Files.Clear();
             Albums.Clear();
             Artists.Clear();
@@ -643,7 +646,7 @@ namespace Layers
             if (numfiles <= 0)
                 return;
 
-            MainWindow.Instance.IsEnabled = false;
+            Controls.SmartPlayer.Instance.SetEnabled(false);
 
             _filesCount = 0;
             double percent = 0;

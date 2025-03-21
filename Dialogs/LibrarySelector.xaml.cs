@@ -67,8 +67,15 @@ namespace Dialogs
         {
             DataContext = this;
             InitializeComponent();
-
             ReadLibraries();
+            Loaded += LibrarySelector_Loaded;
+            
+                
+        }
+
+        private void LibrarySelector_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = Controls.SmartPlayer.Instance.IsEnabled;
         }
 
         private MediaLibraryDefinition _currentDefinition = new MediaLibraryDefinition();

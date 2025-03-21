@@ -76,6 +76,8 @@ namespace Controls
             }
         }
 
+        private bool _isEnabled = true;
+
         public double ButtonSize => (double)UserConfig.ControlSize;
 
         public bool SongEnded => MediaPlayer.SongEnded;
@@ -86,8 +88,16 @@ namespace Controls
             UpdatePositionMarker(progress);
         }
 
+        public void SetEnabled(bool enable)
+        {
+            IsEnabled = enable;
+            _isEnabled = enable;
+        }
+
         public void Play(PlaylistInfo fileInfo, bool from_start = false)
         {
+            if (!_isEnabled) return;
+
             if (fileInfo == null)
             {
                 Stop();

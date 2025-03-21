@@ -116,11 +116,11 @@ namespace MpFree4k
 
         public void updateProgressFunc(double percent)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
+            Dispatcher.BeginInvoke(new Action(() =>
             {
                 ProgressBar.Value = percent;
                 ProgressBar.UpdateLayout();
-                IsEnabled = percent == 0;
+                Controls.SmartPlayer.Instance.SetEnabled(percent == 0);
             }));
         }
 

@@ -43,6 +43,8 @@ namespace Dialogs
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
         {
+            IsEnabled = Controls.SmartPlayer.Instance.IsEnabled;
+
             comboSkins.SelectionChanged -= ComboBoxSkin_SelectionChanged;
             sldFontSize.ValueChanged -= SldFontSize_ValueChanged;
             comboPluginType.SelectionChanged -= comboPluginType_SelectionChanged;

@@ -200,10 +200,6 @@
                   Grid.Row="1"
                   PresentationTraceSources.TraceLevel="High"
                   ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                  BorderThickness="0"
-                  Margin="0"
-                  Padding="0"
-                  BorderBrush="Transparent"
                   Background="{DynamicResource PlaylistBackground}"
                   PreviewMouseMove="PlaylistView_PreviewMouseMove"
                   SelectionChanged="PlaylistView_SelectionChanged"
@@ -219,6 +215,26 @@
                   ScrollViewer.ScrollChanged="PlaylistView_ScrollChanged"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   >
+            <ListView.Style>
+                <Style TargetType="ListView">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Padding" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="mnuCtxPlay" Header="play" Click="mnuCtxPlay_Click"/>

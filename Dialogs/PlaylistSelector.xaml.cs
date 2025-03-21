@@ -66,9 +66,15 @@ namespace Dialogs
         {
             this.viewModel = viewModel;
             this.DataContext = this;
-            InitializeComponent();
 
+            InitializeComponent();
             readPlaylistXML();
+            Loaded += PlaylistSelector_Loaded;
+        }
+
+        private void PlaylistSelector_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = Controls.SmartPlayer.Instance.IsEnabled;
         }
 
         void readPlaylistXML()

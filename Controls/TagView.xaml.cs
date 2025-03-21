@@ -39,7 +39,7 @@ namespace Controls
         public void enableControls(bool _enable)
         {
             tbAlbum.IsEnabled = _enable;
-            tbArtists.IsEnabled = false;
+            tbArtists.IsEnabled = _enable;
             tbAlbumArtist.IsEnabled = _enable;
             tbComment.IsEnabled = _enable;
             tbComposers.IsEnabled = _enable;
