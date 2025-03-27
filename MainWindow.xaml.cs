@@ -531,5 +531,15 @@ namespace MpFree4k
             FilterBox.Focus();
             FilterBox.SelectAll();
         }
+
+        private void btnMiniview_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var pt = SmartPlayer.btnForward.TransformToAncestor(MainWindow.Instance).Transform(new Point(0, 0));
+
+            MainWindow.Instance.Width = SmartPlayer.ActualWidth + 20;
+            MainWindow.Instance.Height = pt.Y + SmartPlayer.btnForward.Height + 45;
+            MainWindow.Instance.Top = SystemParameters.WorkArea.Height - MainWindow.Instance.Height;
+            MainWindow.Instance.Left = SystemParameters.WorkArea.Width - MainWindow.Instance.Width - 10;
+        }
     }
 }

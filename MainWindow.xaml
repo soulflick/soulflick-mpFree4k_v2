@@ -688,6 +688,7 @@
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library" MouseDown="btnLibraries_MouseDown"/>
 
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Playlist View" MouseDown="btnSmallView_MouseDown" Margin="6,16,6,0"/>
+                            <Label Style="{StaticResource standardControlLabelStyle}" Content="Mini View" MouseDown="btnMiniview_MouseDown" Margin="6,0,6,0"/>
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Media Library View" MouseDown="btFullView_MouseDown" Margin="6,0,6,2"/>
 
                             <Label Style="{StaticResource standardControlLabelStyle}" Content="Clear Favorites" MouseDown="btnClearFavorites_MouseDown" Margin="6,16,6,0"/>
