@@ -441,14 +441,16 @@ namespace MpFree4k
         {
             WindowState = WindowState.Normal;
             Width = 700;
+            Height = 850;
             cdLibrary.Width = new GridLength(1);
 
-            Left = (SystemParameters.PrimaryScreenWidth / 2) - (ActualWidth / 2);
+            Left = SystemParameters.PrimaryScreenWidth - ActualWidth - 20;
             Top = (SystemParameters.PrimaryScreenHeight / 2) - (ActualHeight / 2);
         }
 
         private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            WindowState = WindowState.Normal;
             Width = System.Windows.SystemParameters.PrimaryScreenWidth * 0.75;
             cdLibrary.Width = new GridLength(60, GridUnitType.Star);
             cdPlaylist.Width = new GridLength(25, GridUnitType.Star);
@@ -460,20 +462,6 @@ namespace MpFree4k
         private void btnClearFavorites_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Library.Instance.connector.ClearFavorites();
-        }
-
-        private void GridSplitter_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            
-        }
-
-        private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-        {
-           
-        }
-
-        private void grdSpltPlaylist_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
         }
 
         private void FilterBox_GotFocus(object sender, RoutedEventArgs e)
@@ -535,11 +523,11 @@ namespace MpFree4k
         private void btnMiniview_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var pt = SmartPlayer.btnForward.TransformToAncestor(MainWindow.Instance).Transform(new Point(0, 0));
-
-            MainWindow.Instance.Width = SmartPlayer.ActualWidth + 20;
-            MainWindow.Instance.Height = pt.Y + SmartPlayer.btnForward.Height + 45;
-            MainWindow.Instance.Top = SystemParameters.WorkArea.Height - MainWindow.Instance.Height;
-            MainWindow.Instance.Left = SystemParameters.WorkArea.Width - MainWindow.Instance.Width - 10;
+            WindowState = WindowState.Normal;
+            Width = SmartPlayer.ActualWidth + 20;
+            Height = pt.Y + SmartPlayer.btnForward.Height + 45;
+            Top = SystemParameters.WorkArea.Height - Height;
+            Left = SystemParameters.WorkArea.Width - Width - 10;
         }
     }
 }
