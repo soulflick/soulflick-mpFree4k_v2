@@ -452,6 +452,7 @@ namespace MpFree4k
         {
             WindowState = WindowState.Normal;
             Width = System.Windows.SystemParameters.PrimaryScreenWidth * 0.75;
+            Height = 850;
             cdLibrary.Width = new GridLength(60, GridUnitType.Star);
             cdPlaylist.Width = new GridLength(25, GridUnitType.Star);
 
