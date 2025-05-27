@@ -334,8 +334,8 @@ namespace MpFree4k
         private void CreateSummyary_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var dialog = new PlaylistCover(PlaylistViewModel.Instance.Tracks);
-            dialog.Show();
-            dialog.Focus();
+            dialog.Topmost = true;
+            dialog.ShowDialog();
         }
 
         private void ExportPlaylistInformation_MouseDown(object sender, MouseButtonEventArgs e)
@@ -439,13 +439,16 @@ namespace MpFree4k
 
         private void btnSmallView_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            double windowHeight = SystemParameters.PrimaryScreenHeight;
+            windowHeight /= 1.5;
+
             WindowState = WindowState.Normal;
             Width = 700;
-            Height = 850;
+            Height = windowHeight;
             cdLibrary.Width = new GridLength(1);
 
             Left = SystemParameters.PrimaryScreenWidth - ActualWidth - 20;
-            Top = (SystemParameters.PrimaryScreenHeight / 2) - (ActualHeight / 2);
+            Top = 100;
         }
 
         private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)

@@ -28,6 +28,7 @@ namespace Dialogs
             DataContext = this;
 
             Loaded += SettingControl_Loaded;
+            Closing += SettingControl_Closing;
 
             InitializeComponent();
 
@@ -40,6 +41,8 @@ namespace Dialogs
             showPathInLibrary.IsChecked = UserConfig.ShowPathInLibrary;
             excludeBrokenFiles.IsChecked = UserConfig.ExcludeBrokenFiles;
         }
+
+        private void SettingControl_Closing(object sender, CancelEventArgs e) => Okay();
 
         private void SettingControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -320,12 +323,19 @@ namespace Dialogs
             UserConfig.ShowPathInLibrary = showPathInLibrary.IsChecked == true;
             UserConfig.ExcludeBrokenFiles = excludeBrokenFiles.IsChecked == true;
 
+            ComboBoxItem ci = comboSkins?.SelectedItem as ComboBoxItem;
+            if (ci != null)
+            {
+                SkinColors selectedSkin = (SkinColors)ci.Tag;
+                UserConfig.Skin = selectedSkin;
+            }
+
             WriteUserConfig();
 
             PlaylistViewModel.Instance.ShowPathInPlaylist = UserConfig.ShowPathInPlaylist;
             TrackTableViewModel.Instance.ShowPathInLibrary = UserConfig.ShowPathInLibrary;
 
-            Close();
+            // Close();
         }
 
         public static void WriteUserConfig()
@@ -408,6 +418,7 @@ namespace Dialogs
 
             SkinColors selected_Color = (SkinColors)ci.Tag;
 
+            UserConfig.Skin = selected_Color;
             SkinAdaptor.ApplySkin(MainWindow.Instance, selected_Color, UserConfig.FontSize);
             SkinAdaptor.ApplyPadding(MainWindow.Instance, UserConfig.PaddingType);
         }
@@ -436,6 +447,10 @@ namespace Dialogs
             MainWindow.Instance.SmartPlayer.Raise("ButtonSize");
         }
 
-        private void btnOK_Click(object sender, RoutedEventArgs e) => Okay();
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            Okay();
+            Close();
+        }
     }
 }
