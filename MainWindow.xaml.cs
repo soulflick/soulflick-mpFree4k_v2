@@ -111,7 +111,7 @@ namespace MpFree4k
         {
             if (Instance == null) return;
 
-            mainDispatcher.BeginInvoke(Instance.delegateUpdateProgress, new object[] { percent });
+            mainDispatcher?.BeginInvoke(Instance.delegateUpdateProgress, new object[] { percent });
         }
 
         public void updateProgressFunc(double percent)
@@ -388,7 +388,11 @@ namespace MpFree4k
             BringIntoView();
         }
 
-        private void _This_Loaded(object sender, RoutedEventArgs e) => Width += 1;
+        private void _This_Loaded(object sender, RoutedEventArgs e)
+        {
+            mainDispatcher = TableView.AlbumView.Dispatcher;
+            Width += 1;
+        }
 
         private void MainViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

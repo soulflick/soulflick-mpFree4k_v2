@@ -75,7 +75,7 @@ namespace Dialogs
 
         private void LibrarySelector_Loaded(object sender, RoutedEventArgs e)
         {
-            IsEnabled = Controls.SmartPlayer.Instance.IsEnabled;
+            IsEnabled = Controls.SmartPlayer.Instance == null ? true : Controls.SmartPlayer.Instance.IsEnabled;
         }
 
         private MediaLibraryDefinition _currentDefinition = new MediaLibraryDefinition();

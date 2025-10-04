@@ -784,7 +784,7 @@ namespace Layers
 
             Thread t_progress = new Thread(() =>
             {
-                MainWindow.mainDispatcher.BeginInvoke(
+                MainWindow.mainDispatcher?.BeginInvoke(
                      DispatcherPriority.Render, (Action)(() =>
                      {
                          var bar = MainWindow.Instance.ProgressBar;
@@ -799,7 +799,7 @@ namespace Layers
                     MainWindow.SetProgress(_filesCount);
                 }
 
-                MainWindow.mainDispatcher.BeginInvoke(
+                MainWindow.mainDispatcher?.BeginInvoke(
                      DispatcherPriority.Render, (Action)(() =>
                      {
                          MainWindow.SetProgress(0);
