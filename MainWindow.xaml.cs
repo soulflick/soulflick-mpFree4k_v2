@@ -444,15 +444,18 @@ namespace MpFree4k
         private void btnSmallView_MouseDown(object sender, MouseButtonEventArgs e)
         {
             double windowHeight = SystemParameters.PrimaryScreenHeight;
-            windowHeight /= 1.5;
+            double windowWidth = SystemParameters.PrimaryScreenWidth;
+
+            windowHeight *= 0.85;
+            windowWidth *= 0.305;
 
             WindowState = WindowState.Normal;
-            Width = 700;
+            Width = windowWidth;
             Height = windowHeight;
             cdLibrary.Width = new GridLength(1);
 
-            Left = SystemParameters.PrimaryScreenWidth - ActualWidth - 20;
-            Top = 100;
+            Left = SystemParameters.PrimaryScreenWidth - windowWidth - 20;
+            Top = (SystemParameters.PrimaryScreenHeight - windowHeight) / 2;
         }
 
         private void btFullView_MouseDown(object sender, MouseButtonEventArgs e)
