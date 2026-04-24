@@ -307,7 +307,7 @@ namespace ViewModels
                 ResetPlayCount();
                 notPlayedItems = Tracks;
             }
-
+            if (notPlayedItems.Count == 0) return null;
             Random rnd = new Random();
             int playIdx = rnd.Next(0, notPlayedItems.Count);
             CurrentPlayPosition = Tracks.IndexOf(notPlayedItems[playIdx]);
