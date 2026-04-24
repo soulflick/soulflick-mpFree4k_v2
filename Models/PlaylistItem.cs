@@ -158,5 +158,12 @@ namespace Models
             get =>_toolTip;
             set => _toolTip = value;
         }
+
+        private uint _playCount = 0;
+        public uint PlayCount
+        {
+            get => _playCount;
+            set => _playCount = value;
+        }
     }
 }

@@ -131,6 +131,8 @@ namespace ViewModels
             }
             playmode = Playmode.Play;
             current_track = IPlayer.PlayListVM.GetCurrent();
+            current_track.PlayCount++;
+
             IPlayer.Play(current_track);
         }
     }

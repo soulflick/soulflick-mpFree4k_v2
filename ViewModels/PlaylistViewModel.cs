@@ -30,7 +30,17 @@ namespace ViewModels
             Instance = this;
         }
 
-        public RepeatMode RepeatMode = RepeatMode.GoThrough;
+        private RepeatMode _repeatMode = RepeatMode.GoThrough;
+        public RepeatMode RepeatMode
+        {
+            get => _repeatMode;
+            set
+            {
+                _repeatMode = value;
+                ResetPlayCount();
+            }
+        }
+
         public PlaylistInfo CurrentSong = null;
 
         private int _currentPlayPosition = 0;
@@ -116,7 +126,7 @@ namespace ViewModels
 
         public static void Play(FileViewInfo[] items)
         {
-            PlaylistViewModel VM = (MainWindow.Instance).Playlist.DataContext as PlaylistViewModel;
+            PlaylistViewModel VM = MainWindow.Instance.Playlist.DataContext as PlaylistViewModel;
             var pItems = Utilities.LibraryUtils.GetItems(items.Select(s => s.Path).ToArray()).ToArray();
             Play(pItems);
         }
@@ -185,6 +195,11 @@ namespace ViewModels
 
                 Tracks.Insert(position, item);
             });
+        }
+
+        public void ResetPlayCount()
+        {
+            Tracks.ForEach(t => t.PlayCount = 0);
         }
 
         public void UpdateFile(FileViewInfo info)
@@ -286,9 +301,16 @@ namespace ViewModels
 
         public PlaylistInfo GetShuffle()
         {
+            var notPlayedItems = Tracks.Where(t => t.PlayCount == 0).ToList();
+            if (notPlayedItems.Count == 0)
+            {
+                ResetPlayCount();
+                notPlayedItems = Tracks;
+            }
+
             Random rnd = new Random();
-            int idx = rnd.Next(0, Tracks.Count);
-            CurrentPlayPosition = idx;
+            int playIdx = rnd.Next(0, notPlayedItems.Count);
+            CurrentPlayPosition = Tracks.IndexOf(notPlayedItems[playIdx]);
             return GetCurrent();
         }
 
